@@ -1,13 +1,9 @@
 {
   "mcpServers": {
-    "apify-b2b-ecom-kit": {
-      "command": "npx",
+    "apify-b2b-ecom-mcp": {
+      "command": "node",
       "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.apify.com?tools=maitreya_buddha/shopify-competitor-delta-monitor,maitreya_buddha/saas-trust-center-soc2-monitor,maitreya_buddha/b2b-company-domain-linkedin-enricher,maitreya_buddha/korea-mfds-cosmetic-recalls,maitreya_buddha/korea-mfds-functional-cosmetics-oem",
-        "--header",
-        "Authorization: Bearer ${APIFY_TOKEN}"
+        "/ABSOLUTE/PATH/TO/apify-b2b-ecom-automation-kit/src/mcp-server.mjs"
       ],
       "env": {
         "APIFY_TOKEN": "YOUR_APIFY_API_TOKEN"
