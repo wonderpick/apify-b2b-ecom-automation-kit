@@ -1,57 +1,74 @@
-# Apify B2B & E-Commerce Automation Kit (n8n Workflows + MCP + Node/Python)
+# Apify B2B & E-Commerce MCP Server (Stdio + Docker)
 
-Ready-to-import **n8n workflow templates**, **Claude Desktop / Cursor MCP configuration**, and **Node.js / Python scripts** powered by ultra-lightweight, **zero-proxy, 128 MB RAM** Apify Actors with transparent **Pay-Per-Event (PPE)** billing (`$0` on unchanged baselines, misses, or errors).
+[![glama](https://glama.ai/mcp/badges/server)](https://glama.ai/mcp/servers)
 
----
+An open-source **Node.js `stdio` Model Context Protocol (MCP) server** implemented in [`src/mcp-server.mjs`](./src/mcp-server.mjs) (with [`Dockerfile`](./Dockerfile) and [`glama.json`](./glama.json)) using `@modelcontextprotocol/sdk` and `StdioServerTransport`.
 
-## Included Apify Actors
+It exposes **5 structured MCP tools** backed by zero-proxy, `128 MB RAM` Apify Actors for **Shopify competitor price & restock monitoring**, **SaaS Trust Center (Vanta / Drata / SafeBase) SOC 2 & AI subprocessor auditing**, **3-in-1 B2B lead enrichment**, and **South Korea MFDS K-Beauty regulatory/OEM data**.
 
-| # | Actor | What It Does | Footprint | Pricing (PPE) |
-| :-: | :--- | :--- | :--- | :--- |
-| **1** | **[Shopify Competitor Price, Stock & New Product Monitor](https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor)** | Tracks Shopify competitor stores with persistent KV snapshots and emits **only real deltas** (`price_drop`, `price_increase`, `restocked`, `out_of_stock`, `new_product`, `discount_started`, MAP violations) + Slack/Discord/n8n webhooks. | 128 MB RAM · `$0` proxy · No browser | **`$2.00 / 1K` deltas** (`$0` on baseline & unchanged runs) |
-| **2** | **[SaaS Trust Center, SOC 2 & AI Subprocessor Monitor](https://apify.com/maitreya_buddha/saas-trust-center-soc2-monitor)** | Audits & monitors Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe & OneTrust Trust Centers for SOC 2, ISO 27001, HIPAA, DNS IAM/SSO, and **75+ subprocessors including AI vendors** (OpenAI, Anthropic, Bedrock, Vertex AI). | 128 MB RAM · `$0` proxy · No browser | **`$5.00 / 1K` audits or changes** (`$0` when unchanged) |
-| **3** | **[B2B Company to Domain, LinkedIn, Email & WhatsApp API](https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher)** | 3-in-1 lead resolver: turns company names, domains, work emails, or upstream Apify `datasetId` into official website, verified LinkedIn company URL, prioritized role emails, WhatsApp, phones, and 6 social links. | 128 MB RAM · `$0` proxy · No browser | **`$2.50 / 1K` enriched** (`$0` for misses/parked domains) |
-| **4** | **[Korea MFDS Cosmetic Recalls & Safety Alerts API](https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls)** | Official South Korea MFDS (식약처) cosmetic recall notices, administrative violations, product names, manufacturers, and recall reasons in clean JSON/CSV. | 128 MB RAM · `$0` proxy · Pure API | **`$3.00 / 1K` records** |
-| **5** | **[Korea MFDS Functional Cosmetics & OEM Ingredient API](https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem)** | Official South Korea MFDS functional cosmetics (기능성화장품) approvals, OEM/ODM manufacturers, SPF/PA ratings, efficacy claims, and active ingredients. | 128 MB RAM · `$0` proxy · Pure API | **`$2.00 / 1K` records** |
-
-### Why Zero-Proxy 128 MB RAM Actors Matter
-- **Zero residential proxy bills**: Pure Node.js HTTP + DNS + structured HTML/JSON parsing instead of bloated Playwright/Puppeteer containers.
-- **No wasted compute**: All Actors run smoothly at `128 MB–256 MB` RAM.
-- **Zero-waste billing**: You never pay for baseline snapshots, unchanged checks, 404 misses, parked domains, or blocked inputs.
+> **Zero-Token Discovery:** `initialize` and `tools/list` run cleanly with **no `APIFY_TOKEN` required**, allowing MCP clients and automated Glama / Docker health inspectors to discover all 5 tool schemas out of the box. `APIFY_TOKEN` is only read from the environment when a client invokes `tools/call`.
 
 ---
 
-## 1-Click n8n Workflow Templates (`n8n-workflows/`)
+## Exposed MCP Tools (`src/mcp-server.mjs`)
 
-All JSON templates in [`n8n-workflows/`](./n8n-workflows) follow the standard n8n schema and include embedded Sticky Note setup instructions:
-
-1. **[`01-shopify-price-stock-alert-slack.json`](./n8n-workflows/01-shopify-price-stock-alert-slack.json)** — Scheduled 6-hour Shopify competitor monitor -> filters out zero-cost baseline summaries -> sends rich Slack alerts on price drops, restocks, stockouts, new launches, and MAP violations.
-2. **[`02-saas-soc2-ai-subprocessor-alert-slack.json`](./n8n-workflows/02-saas-soc2-ai-subprocessor-alert-slack.json)** — Daily 9 AM vendor Trust Center monitor (`mode: "monitor"`) -> detects newly added AI subprocessors or SOC 2 / ISO 27001 regressions -> posts alerts to `#security-alerts`.
-3. **[`03-b2b-company-linkedin-email-enricher-sheets.json`](./n8n-workflows/03-b2b-company-linkedin-email-enricher-sheets.json)** — Reads raw company names/domains from Google Sheets -> enriches in one batched API call -> appends official domain, LinkedIn URL, role email, WhatsApp, and phone back into Google Sheets.
-
-### How to Import into n8n
-1. Open your n8n workspace and create a new workflow.
-2. Click the top-right `...` menu -> **Import from File** (or copy/paste any JSON from `n8n-workflows/`).
-3. Replace `YOUR_APIFY_API_TOKEN` in the HTTP Request node's `Authorization` header with your [Apify API token](https://console.apify.com/settings/integrations).
-4. Connect your Slack or Google Sheets credentials and click **Test workflow**.
+| MCP Tool Name | Key Inputs | What It Returns | Backing Actor |
+| :--- | :--- | :--- | :--- |
+| **`shopify_competitor_delta_monitor`** | `storeUrls`, `stateStoreName`, `minPriceChangePercent`, `eventTypes`, `mapThresholds` | Real catalog & pricing deltas (`price_drop`, `price_increase`, `restocked`, `out_of_stock`, `new_product`, `discount_started`, MAP violations) — `$0` on baseline or unchanged runs | [Shopify Competitor Delta Monitor](https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor) |
+| **`saas_trust_center_soc2_monitor`** | `domains`, `mode` (`audit` / `monitor`), `checkSubprocessors`, `checkDnsIam` | Trust Center platform (Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust), SOC 2 / ISO 27001 / HIPAA certs, DNS IAM/SSO, and 75+ subprocessors including AI vendors | [SaaS Trust Center & SOC 2 Monitor](https://apify.com/maitreya_buddha/saas-trust-center-soc2-monitor) |
+| **`b2b_company_domain_linkedin_enricher`** | `inputs`, `datasetId`, `enrichContactPages`, `minConfidence` | Official domain, verified LinkedIn company/school URL, prioritized role emails, WhatsApp links, international phones, and 6 social profiles | [B2B Company Domain & LinkedIn Enricher](https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher) |
+| **`korea_mfds_cosmetic_recalls`** | `companyName`, `productName`, `businessNumber`, `recallOrderDateFrom`, `maxItems` | Official South Korea MFDS (식약처) cosmetic recall & administrative violation records | [Korea MFDS Cosmetic Recalls API](https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls) |
+| **`korea_mfds_functional_cosmetics_oem`** | `datasetType`, `productName`, `brandOrDistributor`, `oemManufacturer`, `efficacyKeyword` | 219,000+ MFDS functional cosmetics (기능성화장품) filings, OEM/ODM manufacturers, SPF/PA ratings, and active ingredients | [Korea MFDS Functional Cosmetics & OEM API](https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem) |
 
 ---
 
-## Connect to Claude Desktop, Cursor & AI Agents via MCP
+## Installation & Running the Stdio MCP Server
 
-Use the hosted **Apify MCP Server** to give Claude Desktop, Cursor, Windsurf, or any MCP-compatible AI agent direct access to all 5 Actors in a single config block (see [`mcp/claude-desktop-config.json`](./mcp/claude-desktop-config.json)):
+### Option 1: Run Locally with Node.js (v20+)
+```bash
+git clone https://github.com/wonderpick/apify-b2b-ecom-automation-kit.git
+cd apify-b2b-ecom-automation-kit
+npm install
 
+# Run the stdio MCP server (get APIFY_TOKEN at https://console.apify.com/settings/integrations)
+APIFY_TOKEN="apify_api_your_token" node src/mcp-server.mjs
+```
+
+### Option 2: Run via Docker (`Dockerfile`)
+```bash
+docker build -t apify-b2b-ecom-mcp .
+docker run -i --rm -e APIFY_TOKEN="apify_api_your_token" apify-b2b-ecom-mcp
+```
+
+### Option 3: Claude Desktop / Cursor Configuration ([`mcp/claude-desktop-config.json`](./mcp/claude-desktop-config.json))
 ```json
 {
   "mcpServers": {
-    "apify-b2b-ecom-kit": {
-      "command": "npx",
+    "apify-b2b-ecom-mcp": {
+      "command": "node",
       "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.apify.com?tools=maitreya_buddha/shopify-competitor-delta-monitor,maitreya_buddha/saas-trust-center-soc2-monitor,maitreya_buddha/b2b-company-domain-linkedin-enricher,maitreya_buddha/korea-mfds-cosmetic-recalls,maitreya_buddha/korea-mfds-functional-cosmetics-oem",
-        "--header",
-        "Authorization: Bearer ${APIFY_TOKEN}"
+        "/ABSOLUTE/PATH/TO/apify-b2b-ecom-automation-kit/src/mcp-server.mjs"
+      ],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_API_TOKEN"
+      }
+    }
+  }
+}
+```
+Or run containerized via Docker in Claude Desktop / Cursor:
+```json
+{
+  "mcpServers": {
+    "apify-b2b-ecom-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "APIFY_TOKEN",
+        "apify-b2b-ecom-mcp"
       ],
       "env": {
         "APIFY_TOKEN": "YOUR_APIFY_API_TOKEN"
@@ -61,30 +78,32 @@ Use the hosted **Apify MCP Server** to give Claude Desktop, Cursor, Windsurf, or
 }
 ```
 
-**Hosted Remote MCP URL:**
-```text
-https://mcp.apify.com?tools=maitreya_buddha/shopify-competitor-delta-monitor,maitreya_buddha/saas-trust-center-soc2-monitor,maitreya_buddha/b2b-company-domain-linkedin-enricher
-```
+---
+
+## Architecture & Implementation Notes (`src/mcp-server.mjs`)
+
+- **Transport:** `StdioServerTransport` from `@modelcontextprotocol/sdk/server/stdio.js`
+- **Handlers:**
+  - `ListToolsRequestSchema`: Returns static JSON Schema definitions for all 5 tools synchronously without external network calls or authentication.
+  - `CallToolRequestSchema`: Validates the requested tool name, checks `process.env.APIFY_TOKEN`, and executes the backing Apify Actor (`run-sync-get-dataset-items?memory=256`) with a 180-second `AbortController` timeout.
+- **Zero-Proxy Lean Compute:** All 5 backing Actors run cleanly on `128 MB–256 MB` RAM with pure Node.js HTTP / HTTP/2 / DNS (zero Puppeteer/Playwright and `$0` proxy fees).
 
 ---
 
-## Quick Code Examples (`examples/`)
+## Bonus: Ready-to-Import n8n Workflow Templates (`n8n-workflows/`)
 
-### Node.js (v20+, zero dependencies)
-```bash
-export APIFY_TOKEN="apify_api_your_token"
-node examples/node/run-actors.mjs
-```
+This repository also ships ready-to-import n8n workflows and Node.js / Python scripts for teams automating the same pipelines outside MCP:
 
-### Python
-```bash
-pip install requests
-export APIFY_TOKEN="apify_api_your_token"
-python examples/python/run_actors.py
-```
+1. **[`n8n-workflows/01-shopify-price-stock-alert-slack.json`](./n8n-workflows/01-shopify-price-stock-alert-slack.json)** — Scheduled 6-hour Shopify competitor delta monitor -> Slack alerts on real price drops, restocks, stockouts & MAP violations.
+2. **[`n8n-workflows/02-saas-soc2-ai-subprocessor-alert-slack.json`](./n8n-workflows/02-saas-soc2-ai-subprocessor-alert-slack.json)** — Daily 9 AM vendor Trust Center monitor -> Slack alerts on SOC 2 regressions or newly added AI subprocessors.
+3. **[`n8n-workflows/03-b2b-company-linkedin-email-enricher-sheets.json`](./n8n-workflows/03-b2b-company-linkedin-email-enricher-sheets.json)** — Google Sheets raw company batch -> 3-in-1 enrichment -> enriched domain, LinkedIn, email & WhatsApp back to Google Sheets.
+
+### Direct Node.js / Python Examples (`examples/`)
+- Node.js (v20+, zero dependencies): `APIFY_TOKEN="..." node examples/node/run-actors.mjs`
+- Python: `APIFY_TOKEN="..." python examples/python/run_actors.py`
 
 ---
 
 ## License
 
-MIT © 2026 [maitreya_buddha](https://apify.com/maitreya_buddha)
+MIT © 2026 BoGeun Kim ([wonderpick](https://github.com/wonderpick) / [maitreya_buddha](https://apify.com/maitreya_buddha))
