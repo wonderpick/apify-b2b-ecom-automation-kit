@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## SaaS Trust Center, SOC 2 & AI Subprocessor Monitor (TPRM)\n\nMonitors your SaaS vendors' Trust Centers (**Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust**) daily for compliance regressions or newly added **AI subprocessors** (OpenAI, Anthropic, AWS Bedrock, Google Vertex AI, etc.).\n\n### Setup Steps\n1. Get your Apify API token (`https://console.apify.com/settings/integrations`).\n2. Open **Run Trust Center Monitor** and replace `YOUR_APIFY_API_TOKEN` in the `Authorization` header.\n3. Replace `domains` in the JSON body with your actual SaaS vendors.\n4. Connect your **Slack** credential and pick your `#security-alerts` channel.\n\n**Actor URL:** https://apify.com/maitreya_buddha/saas-trust-center-soc2-monitor\n**Cost:** $5.00 / 1,000 compliance changes · **$0 on baseline or unchanged vendors** · 128 MB RAM · pure HTTP.",
+        "content": "## SaaS Trust Center, SOC 2 & AI Subprocessor Monitor (TPRM)\n\nMonitors your SaaS vendors' Trust Centers (**Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust**) daily for compliance regressions or newly added **AI subprocessors** (OpenAI, Anthropic, AWS Bedrock, Google Vertex AI, etc.).\n\n### Setup Steps\n1. Create a **Header Auth** credential in n8n (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>` from https://console.apify.com/settings/integrations) and attach it to **Run Trust Center Monitor**.\n2. Edit `domains` in the JSON body to match your actual SaaS vendors.\n3. Connect your **Slack** credential to **Send Security Alert to Slack** and choose your `#security-alerts` channel.\n\n**Actor URL:** https://apify.com/maitreya_buddha/saas-trust-center-soc2-monitor\n**Cost:** $5.00 / 1,000 compliance changes · **$0 on baseline or unchanged vendors** · 128 MB RAM · pure HTTP.",
         "height": 340,
         "width": 440,
         "color": 5
@@ -42,21 +42,14 @@
       "parameters": {
         "method": "POST",
         "url": "https://api.apify.com/v2/acts/maitreya_buddha~saas-trust-center-soc2-monitor/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
               "name": "memory",
               "value": "256"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer YOUR_APIFY_API_TOKEN"
             }
           ]
         },
@@ -122,8 +115,8 @@
         "select": "channel",
         "channelId": {
           "__rl": true,
-          "value": "C00000000",
-          "mode": "id"
+          "value": "security-alerts",
+          "mode": "name"
         },
         "text": "=:shield: *Vendor TPRM Alert* (`{{ $json.eventType }}`)\n*Vendor Domain:* {{ $json.domain }}\n*Trust Center:* {{ $json.trustCenterUrl || 'N/A' }} ({{ $json.trustCenterPlatform || 'Unknown' }})\n*Previous -> New:* {{ $json.previousValue || 'None' }} -> *{{ $json.newValue || 'N/A' }}*\n*AI Subprocessors:* {{ ($json.aiSubprocessors && $json.aiSubprocessors.length) ? $json.aiSubprocessors.join(', ') : 'None' }}\n*Detected At:* {{ $json.detectedAt }}",
         "otherOptions": {}
