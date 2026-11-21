@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## B2B Lead Enrichment Pipeline (3-in-1 Pure HTTP)\n\nReads raw company names, domains, or work emails from **Google Sheets**, enriches each lead in one Apify call (**official domain, verified LinkedIn company URL, prioritized role emails, WhatsApp, phones, and 6 social links**), and writes enriched rows back to Google Sheets.\n\n### Setup Steps\n1. Create a Google Sheet with an `Input` tab containing a `company` column (e.g. `Stripe`, `Linear`, `canva.com`) and an `Enriched` tab.\n2. Connect your **Google Sheets** OAuth credential to both Google Sheets nodes.\n3. Open **Enrich Companies via Apify** and replace `YOUR_APIFY_API_TOKEN` in the `Authorization` header.\n4. Click **Test workflow**!\n\n**Actor URL:** https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher\n**Cost:** $2.50 / 1,000 enriched companies · **$0 for unresolved/parked domains** · 128 MB RAM · $0 proxy.",
+        "content": "## B2B Lead Enrichment Pipeline (3-in-1 Pure HTTP)\n\nReads raw company names, domains, or work emails from **Google Sheets**, enriches each lead in one Apify call (**official domain, verified LinkedIn company URL, prioritized role emails, WhatsApp, phones, and 6 social links**), and writes enriched rows back to Google Sheets.\n\n### Setup Steps\n1. Create a Google Sheet with an `Input` tab containing a `company` column (e.g. `Stripe`, `Linear`, `canva.com`) and an `Enriched` tab.\n2. Connect your **Google Sheets** OAuth credential to both Google Sheets nodes and set your spreadsheet document ID.\n3. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>`) and select it on **Enrich Companies via Apify**.\n4. Click **Test workflow**!\n\n**Actor URL:** https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher\n**Cost:** $2.50 / 1,000 enriched companies · **$0 for unresolved/parked domains** · 128 MB RAM · $0 proxy.",
         "height": 360,
         "width": 460,
         "color": 6
@@ -32,7 +32,7 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "YOUR_GOOGLE_SHEET_ID",
+          "value": "",
           "mode": "id"
         },
         "sheetName": {
@@ -68,21 +68,14 @@
       "parameters": {
         "method": "POST",
         "url": "https://api.apify.com/v2/acts/maitreya_buddha~b2b-company-domain-linkedin-enricher/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
             {
               "name": "memory",
               "value": "256"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer YOUR_APIFY_API_TOKEN"
             }
           ]
         },
@@ -139,7 +132,7 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "YOUR_GOOGLE_SHEET_ID",
+          "value": "",
           "mode": "id"
         },
         "sheetName": {
