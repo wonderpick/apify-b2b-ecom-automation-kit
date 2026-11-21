@@ -1,7 +1,5 @@
 # Apify B2B & E-Commerce MCP Server (Stdio + Docker)
 
-[![glama](https://glama.ai/mcp/badges/server)](https://glama.ai/mcp/servers)
-
 An open-source **Node.js `stdio` Model Context Protocol (MCP) server** implemented in [`src/mcp-server.mjs`](./src/mcp-server.mjs) (with [`Dockerfile`](./Dockerfile) and [`glama.json`](./glama.json)) using `@modelcontextprotocol/sdk` and `StdioServerTransport`.
 
 It exposes **5 structured MCP tools** backed by zero-proxy, `128 MB RAM` Apify Actors for **Shopify competitor price & restock monitoring**, **SaaS Trust Center (Vanta / Drata / SafeBase) SOC 2 & AI subprocessor auditing**, **3-in-1 B2B lead enrichment**, and **South Korea MFDS K-Beauty regulatory/OEM data**.
