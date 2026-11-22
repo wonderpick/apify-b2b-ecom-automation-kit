@@ -3,7 +3,7 @@
   "name": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
   "title": "Apify B2B, E-Commerce, Stockist, TPRM & K-Beauty Intelligence MCP Server",
   "description": "Zero-subscription stdio/Docker MCP server exposing 7 live external-intelligence tools: competitor retail stockists & buyer emails, Shopify price/restock/MAP delta monitoring, SaaS Trust Center & AI subprocessor TPRM, 3-in-1 B2B lead enrichment, creator Link-in-Bio email enrichment, and South Korea MFDS K-Beauty OEM & recall registries.",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "repository": {
     "url": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit",
     "source": "github"
