@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
- * Apify External Business Intelligence MCP Server (stdio, v2.0.0)
- * Exposes 7 zero-proxy 128MB-256MB Apify Actors + 5 one-click workflow Prompts.
- * Note: initialize, tools/list, prompts/list, and prompts/get work with NO APIFY_TOKEN
- * so MCP clients and automated indexers (e.g. Glama.ai) inspect schemas cleanly.
+ * Apify External Business Intelligence MCP Server (stdio, v2.1.1)
+ * Exposes 8 zero-proxy 128MB-256MB Apify Actors + 6 one-click workflow Prompts.
+ * Note: initialize, tools/list, prompts/list, prompts/get, and resources/list work with NO APIFY_TOKEN
+ * so MCP clients and automated indexers (e.g. Glama.ai, mcptry.com) inspect schemas cleanly.
  */
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -12,6 +12,8 @@ import {
   CallToolRequestSchema,
   GetPromptRequestSchema,
   ListPromptsRequestSchema,
+  ListResourceTemplatesRequestSchema,
+  ListResourcesRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 import {
@@ -33,6 +35,7 @@ const server = new Server(
     capabilities: {
       tools: {},
       prompts: {},
+      resources: {},
     },
     instructions: SERVER_INSTRUCTIONS,
   },
@@ -41,6 +44,10 @@ const server = new Server(
 server.setRequestHandler(ListToolsRequestSchema, async () => listToolsResponse());
 
 server.setRequestHandler(ListPromptsRequestSchema, async () => listPromptsResponse());
+
+server.setRequestHandler(ListResourcesRequestSchema, async () => ({ resources: [] }));
+
+server.setRequestHandler(ListResourceTemplatesRequestSchema, async () => ({ resourceTemplates: [] }));
 
 server.setRequestHandler(GetPromptRequestSchema, async (request) => {
   const { name, arguments: args = {} } = request.params;
