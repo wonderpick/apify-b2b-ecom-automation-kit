@@ -42,7 +42,10 @@
     "b2b-lead-generation",
     "stockist-scraper",
     "k-beauty",
-    "creator-emails"
+    "creator-emails",
+    "meta-ads",
+    "ad-library",
+    "ecommerce-audit"
   ],
   "author": "BoGeun Kim (wonderpick / maitreya_buddha)",
   "license": "MIT",

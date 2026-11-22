@@ -58,3 +58,19 @@ if __name__ == "__main__":
     )
     print("\nSaaS Trust Center Audits:")
     print(json.dumps(audits, indent=2))
+
+    # 3. Meta Ads Advertiser Leak Audit & Email Enricher ($4.50 / 1K unique brands)
+    meta_ads = run_actor_sync(
+        "maitreya_buddha~meta-ads-advertiser-leak-audit-email-enricher",
+        {
+            "landingPageUrls": [
+                "https://www.chomps.com/",
+                "https://www.brooklinen.com/products/discontinued-summer-promo-demo-404",
+            ],
+            "agencyPreset": "auto_best_fit",
+            "crmExportPreset": "default",
+            "maxBrands": 10,
+        },
+    )
+    print("\nMeta Ads Advertiser Audits:")
+    print(json.dumps(meta_ads, indent=2))

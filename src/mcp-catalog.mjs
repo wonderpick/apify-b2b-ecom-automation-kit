@@ -698,6 +698,10 @@ export const TOOLS = [
           description: 'Agency service vertical used to score leaks and tailor coldEmailSubject, coldEmailOpener, and linkedInDm.',
           default: 'auto_best_fit',
         },
+        customAgencyOffer: {
+          type: 'string',
+          description: 'Optional 1-line agency value proposition deterministically woven into outreach copy ($0 AI).',
+        },
         crmExportPreset: {
           type: 'string',
           enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
@@ -714,6 +718,11 @@ export const TOOLS = [
           enum: ['skip_seen', 'watch_diff'],
           description: 'When dedupStoreName is set: skip_seen skips previously audited brands at $0; watch_diff detects ad/ESP/pixel/404/DMARC changes.',
           default: 'skip_seen',
+        },
+        dnsFallbackOnBlocked: {
+          type: 'boolean',
+          description: 'Default false skips WAF-blocked (403/429) brands at $0. Set true to run out-of-band DNS-only audit on live blocked domains.',
+          default: false,
         },
         onlyWithEmail: {
           type: 'boolean',
@@ -746,12 +755,12 @@ export const TOOLS = [
       brandDomain: { type: 'string', description: 'Canonical deduplicated brand domain.' },
       leadPriority: { type: 'string', description: 'Deterministic priority tier: VIP_HOT, WARM, or NURTURE.' },
       buyerFitTier: { type: 'string', description: 'Evidence-based maturity tier: Enterprise, Scaling DTC, Growing SMB, Early Stage, or Unknown.' },
-      siteStatus: { type: 'string', description: 'Landing page status (ok, landing_404, out_of_stock, headless_ssr_hydrated, bot_protected, etc.).' },
+      siteStatus: { type: 'string', description: 'Landing page status (ok, slow, landing_404, landing_5xx, parked_or_locked, headless_spa, headless_ssr_hydrated, bot_protected, bot_protected_dns_audited, or unreachable).' },
       leakScore: { type: 'integer', description: '0-100 ad-spend and deliverability leak score.' },
       expansionScore: { type: 'integer', description: '0-100 Tier-2 growth expansion score for healthy brands.' },
-      primaryEmail: { type: 'string', description: 'Highest-priority verified brand email.' },
+      primaryEmail: { type: 'string', description: 'Highest-priority verified brand email (null when none or quarantined).' },
       inboxType: { type: 'string', description: 'Inbox risk classification: b2b_direct, general, cs_ticket_queue, or none.' },
-      outreachStatus: { type: 'string', description: 'Safety gate: ready, manual_review_required, no_email, or unsafe_email_quarantined.' },
+      outreachStatus: { type: 'string', description: 'Copy safety gate: ready or manual_review_required (pair with primaryEmail, inboxType, and zeroBounceUnsafe before sending).' },
       deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC/BIMI deliverability grade (A-F).' },
       detectedLeaksSummary: { type: 'string', description: 'Plain-English summary of verified ad-spend or deliverability leaks.' },
       coldEmailSubject: { type: 'string', description: 'Zero-hallucination evidence-based subject line.' },
@@ -1073,10 +1082,15 @@ export function buildPromptResult(name, args = {}) {
       const preset = clean(args.agencyPreset, 'auto_best_fit');
       const dedupStore = clean(args.dedupStoreName);
       const list = rawTargets.split(',').map((t) => t.trim()).filter(Boolean);
-      const isSingleId = list.length === 1 && !list[0].includes('.') && !list[0].includes('/');
-      const argHint = isSingleId
-        ? `\`sourceDatasetId: "${list[0]}"\``
-        : `\`landingPageUrls: ${JSON.stringify(list)}\``;
+      const single = list.length === 1 ? list[0] : '';
+      const isApifyRunUrl = Boolean(single && /apify\.com\/.*\/runs\/[A-Za-z0-9]+/i.test(single));
+      const isApifyDatasetUrl = Boolean(single && /apify\.com\/.*\/datasets\/[A-Za-z0-9]+/i.test(single));
+      const isSingleId = Boolean(single && !single.includes('.') && !single.includes('/'));
+      const argHint = isApifyRunUrl
+        ? `\`sourceRunId: "${single}"\``
+        : isApifyDatasetUrl || isSingleId
+          ? `\`sourceDatasetId: "${single}"\``
+          : `\`landingPageUrls: ${JSON.stringify(list)}\``;
       return {
         description: prompt.description,
         messages: [
@@ -1087,8 +1101,8 @@ export function buildPromptResult(name, args = {}) {
               text: [
                 `Call \`audit_meta_ads_advertisers\` with ${argHint}, \`agencyPreset: "${preset}"\`, and \`maxBrands: 25\`${dedupStore ? `, \`dedupStoreName: "${dedupStore}"\`, \`dedupMode: "watch_diff"\`` : ''}.`,
                 'Produce two sections:',
-                '1. **Outreach-Ready DTC Prospects** (`outreachStatus === "ready"` and `inboxType !== "cs_ticket_queue"`): sorted by `leadPriority` and `leakScore`/`expansionScore`, showing Brand, Buyer Fit, Leak/Expansion Score, Deliverability Grade, Primary Email, Verified Signal, Cold Email Subject, and Evidence Opener.',
-                '2. **CS-Queue / Manual-Review Pivot List** (`inboxType === "cs_ticket_queue"` or `outreachStatus !== "ready"`): do NOT recommend automated email blasts; output the `linkedinDecisionMakerSearchUrl` and `linkedInDm` instead.',
+                '1. **Outreach-Ready DTC Prospects** (`outreachStatus === "ready"`, non-empty `primaryEmail`, `inboxType !== "cs_ticket_queue"`, `inboxType !== "none"`, and `zeroBounceUnsafe !== true`): sorted by `leadPriority` and `leakScore`/`expansionScore`, showing Brand, Buyer Fit, Leak/Expansion Score, Deliverability Grade, Primary Email, Verified Signal, Cold Email Subject, and Evidence Opener.',
+                '2. **CS-Queue / No-Email / Manual-Review Pivot List** (`inboxType === "cs_ticket_queue"`, `inboxType === "none"`, `!primaryEmail`, `zeroBounceUnsafe === true`, or `outreachStatus !== "ready"`): do NOT recommend automated email blasts; output the `linkedinDecisionMakerSearchUrl` and `linkedInDm` instead.',
               ].join('\n'),
             },
           },
@@ -1113,7 +1127,7 @@ export const SERVER_INSTRUCTIONS = [
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
   'Built-in Prompts: audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
-  'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails when outreachStatus !== "ready" or inboxType === "cs_ticket_queue".',
+  'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails unless outreachStatus === "ready", primaryEmail is non-empty (inboxType !== "cs_ticket_queue" and inboxType !== "none"), and zeroBounceUnsafe !== true.',
 ].join('\n');
 
 export function listToolsResponse() {

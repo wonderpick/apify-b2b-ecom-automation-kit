@@ -29,7 +29,7 @@
     },
     {
       "parameters": {
-        "content": "### 2. 4-Layer 110+ Stack X-Ray & Inbox Safety Gate\n\n1. Create a free [Apify account](https://apify.com) and generate an API token (`Settings -> API & Integrations`).\n2. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <token>`) and attach it to **Audit Meta Ads Advertisers via Apify**.\n3. The **Safe for Email Outreach?** IF node checks `outreachStatus === 'ready'` AND `inboxType !== 'cs_ticket_queue'` so customer-support queues and quarantined emails go to `ManualReviewOrCS` with a 1-click LinkedIn decision-maker link.",
+        "content": "### 2. 4-Layer 110+ Stack X-Ray & Inbox Safety Gate\n\n1. Create a free [Apify account](https://apify.com) and generate an API token (`Settings -> API & Integrations`).\n2. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <token>`) and attach it to **Audit Meta Ads Advertisers via Apify**.\n3. The **Safe for Email Outreach?** IF node checks `outreachStatus === 'ready'` AND non-empty `primaryEmail` AND `inboxType !== 'cs_ticket_queue'` AND `inboxType !== 'none'` AND `zeroBounceUnsafe !== true`, routing customer-support queues, no-email rows, quarantined emails, and manual-review rows safely to `ManualReviewOrCS` with a 1-click LinkedIn decision-maker link.",
         "height": 580,
         "width": 760,
         "color": 6
@@ -137,10 +137,28 @@
               "operator": { "type": "string", "operation": "equals" }
             },
             {
+              "id": "cond-has-primary-email",
+              "leftValue": "={{ $json.primaryEmail || '' }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty", "singleValue": true }
+            },
+            {
               "id": "cond-not-cs-queue",
-              "leftValue": "={{ $json.inboxType }}",
+              "leftValue": "={{ $json.inboxType || 'none' }}",
               "rightValue": "cs_ticket_queue",
               "operator": { "type": "string", "operation": "notEquals" }
+            },
+            {
+              "id": "cond-not-inbox-none",
+              "leftValue": "={{ $json.inboxType || 'none' }}",
+              "rightValue": "none",
+              "operator": { "type": "string", "operation": "notEquals" }
+            },
+            {
+              "id": "cond-not-zb-unsafe",
+              "leftValue": "={{ Boolean($json.zeroBounceUnsafe) }}",
+              "rightValue": false,
+              "operator": { "type": "boolean", "operation": "false", "singleValue": true }
             }
           ],
           "combinator": "and"
