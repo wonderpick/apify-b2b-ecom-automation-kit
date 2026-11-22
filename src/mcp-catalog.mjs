@@ -4,7 +4,7 @@
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.0.0';
+export const SERVER_VERSION = '2.1.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -537,6 +537,113 @@ export const TOOLS = [
       functionalClaims: { type: 'array', items: { type: 'string' }, description: 'Normalized English functional claims.' },
     }),
   },
+  {
+    name: 'audit_local_b2b_websites',
+    actorSlug: 'maitreya_buddha~local-b2b-website-audit-email-pitch-finder',
+    annotations: {
+      title: 'Audit Local B2B Websites, Owner Emails & Cold Pitches',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
+    description:
+      'Read-only all-in-one agency lead auditor: accept Google Maps Apify datasetId, up to 2,000 company website URLs, or 13 live-verified US Chamber of Commerce presets, and run an 8-point website weakness X-ray (HTTPS/SSL, mobile viewport, load speed, outdated copyright year, SEO/LocalBusiness schema, GA4/GTM/Meta/TikTok pixels, booking/chat widgets, CMS), Cloudflare-decoded owner email recovery, 0-100 pitchPriorityScore, and factual cold-email subject & icebreaker ($4.50/1K leads; $0 on optional filtered misses). Use for web design, local SEO, paid ads, and AI chatbot agency prospecting; do not use for SaaS SOC 2 Trust Center security audits (use audit_saas_trust_center instead).',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        websiteUrls: {
+          type: 'array',
+          minItems: 1,
+          maxItems: 2000,
+          items: { type: 'string' },
+          description: 'Optional list of up to 2,000 local business website URLs to audit, e.g. ["https://ddofoods.com"].',
+        },
+        datasetId: {
+          type: 'string',
+          description: 'Optional upstream Apify Dataset ID (e.g. from Google Maps Scraper) to chain leads directly, preserving no_website VIP leads.',
+        },
+        presetChambers: {
+          type: 'array',
+          items: {
+            type: 'string',
+            enum: [
+              'phoenix_az',
+              'scottsdale_az',
+              'chandler_az',
+              'gilbert_az',
+              'fort_worth_tx',
+              'denton_tx',
+              'lubbock_tx',
+              'beverly_hills_ca',
+              'anaheim_ca',
+              'fresno_ca',
+              'tacoma_wa',
+              'salem_or',
+              'anchorage_ak',
+            ],
+          },
+          description: 'Optional verified US Chamber of Commerce city presets to auto-collect paying local businesses.',
+        },
+        chamberDirectoryUrls: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Optional custom ChamberMaster / GrowthZone directory URLs.',
+        },
+        chamberCategoryKeyword: {
+          type: 'string',
+          description: 'Optional category keyword filter for Chamber directories (e.g. "dental", "plumbing", "restaurant", "roofing").',
+        },
+        agencyPreset: {
+          type: 'string',
+          enum: ['all', 'web_design', 'local_seo', 'paid_ads', 'ai_chatbot_booking'],
+          description: 'Agency service vertical used to weight pitchPriorityScore and tailor coldEmailSubject & coldEmailIcebreaker.',
+          default: 'all',
+        },
+        enableContactPageFollow: {
+          type: 'boolean',
+          description: 'Follow up to 1 internal /contact or /about page when the homepage lacks an email.',
+          default: true,
+        },
+        onlyWithEmail: {
+          type: 'boolean',
+          description: 'When true, save and bill only leads where an email is found ($0 otherwise).',
+          default: false,
+        },
+        onlyWithWeakness: {
+          type: 'boolean',
+          description: 'When true, skip polished websites with 0 detected weaknesses at $0.',
+          default: false,
+        },
+        minPitchScore: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 100,
+          description: 'Minimum 0-100 pitchPriorityScore required to save and bill ($0 below threshold).',
+          default: 0,
+        },
+        maxItems: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 2000,
+          description: 'Maximum total leads to audit and save (1-2,000).',
+          default: 100,
+        },
+      },
+    },
+    outputSchema: makeOutputSchema('Audited local B2B business leads with 8-point website weaknesses, owner emails, and custom cold pitches.', {
+      companyName: { type: 'string', description: 'Business or company name.' },
+      websiteUrl: { type: 'string', description: 'Audited website URL (or null if no_website).' },
+      siteStatus: { type: 'string', description: 'ok, slow, no_website, unreachable, http_error, or bot_protected.' },
+      primaryEmail: { type: 'string', description: 'Prioritized owner or business email.' },
+      cmsPlatform: { type: 'string', description: 'Detected CMS (WordPress, Wix, Squarespace, Shopify, etc.).' },
+      detectedPainPoints: { type: 'array', items: { type: 'string' }, description: 'Factual detected website weaknesses.' },
+      pitchPriorityScore: { type: 'integer', description: '0-100 agency pitch priority score.' },
+      coldEmailSubject: { type: 'string', description: 'Factual personalized cold-email subject line.' },
+      coldEmailIcebreaker: { type: 'string', description: 'Zero-hallucination personalized opening sentence.' },
+    }),
+  },
 ];
 
 // Backward-compatible internal alias map for v1.x tool names (never advertised in tools/list)
@@ -644,6 +751,29 @@ export const PROMPTS = [
       {
         name: 'minReadinessScore',
         description: 'Optional minimum 0-100 Brand-Deal Readiness Score filter (default: 40).',
+        required: false,
+      },
+    ],
+  },
+  {
+    name: 'audit_local_leads_and_draft_pitches',
+    title: 'Audit Local Business Websites & Draft Factual Cold Pitches',
+    description:
+      'Audit local business URLs, a Google Maps Apify datasetId, or US Chamber of Commerce cities for 8 website weaknesses, recover owner emails, and generate a ready-to-send agency outreach CSV.',
+    arguments: [
+      {
+        name: 'targets',
+        description: 'Comma-separated website URLs OR US Chamber preset codes (e.g. "phoenix_az, fort_worth_tx" or "https://ddofoods.com").',
+        required: true,
+      },
+      {
+        name: 'agencyPreset',
+        description: 'Agency focus: all, web_design, local_seo, paid_ads, or ai_chatbot_booking (default: all).',
+        required: false,
+      },
+      {
+        name: 'categoryKeyword',
+        description: 'Optional Chamber industry filter such as dental, plumbing, restaurant, or roofing.',
         required: false,
       },
     ],
@@ -772,14 +902,42 @@ export function buildPromptResult(name, args = {}) {
         ],
       };
     }
+    case 'audit_local_leads_and_draft_pitches': {
+      const rawTargets = clean(args.targets, 'phoenix_az')
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean);
+      const preset = clean(args.agencyPreset, 'all');
+      const catKw = clean(args.categoryKeyword);
+      const looksLikeUrl = rawTargets.some((t) => t.includes('.'));
+      const argHint = looksLikeUrl
+        ? `\`websiteUrls: ${JSON.stringify(rawTargets)}\``
+        : `\`presetChambers: ${JSON.stringify(rawTargets)}\`${catKw ? `, \`chamberCategoryKeyword: "${catKw}"\`` : ''}`;
+      return {
+        description: prompt.description,
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Call \`audit_local_b2b_websites\` with ${argHint}, \`agencyPreset: "${preset}"\`, and \`maxItems: 25\`.`,
+                'Return a prioritized agency outreach table sorted by `pitchPriorityScore` (Company, Website, Site Status, Primary Email, Detected Pain Points, Recommended Service, Cold Email Subject, Custom Icebreaker) and skip any `bot_protected` rows from automated outreach.',
+              ].join('\n'),
+            },
+          },
+        ],
+      };
+    }
     default:
       return null;
   }
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.0.0 — 7 zero-proxy tools + 5 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.1.0 — 8 zero-proxy tools + 6 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
+  '- Local business / Google Maps / US Chamber 8-point website weakness audit + owner emails + cold-email openers -> audit_local_b2b_websites.',
   '- Competitor wholesale retail stockists + buyer emails -> extract_brand_store_stockists.',
   '- External Shopify competitor price drops, restocks, stockouts, or MAP violations -> monitor_shopify_competitor_deltas.',
   '- External SaaS vendor Trust Centers, SOC 2/ISO certs, DNS IAM/SSO, or AI subprocessors -> audit_saas_trust_center.',
@@ -787,8 +945,8 @@ export const SERVER_INSTRUCTIONS = [
   '- Creator/influencer Link-in-Bio agency emails, monetization links, and Readiness Score -> enrich_creator_bio_leads.',
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
-  'Built-in Prompts: prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
-  'Safety: All lookup/enrichment tools are read-only and idempotent; monitor tools only persist non-destructive Apify Key-Value Store snapshots.',
+  'Built-in Prompts: audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
+  'Safety: All lookup/enrichment/audit tools are read-only and idempotent; monitor tools only persist non-destructive Apify Key-Value Store snapshots.',
 ].join('\n');
 
 export function listToolsResponse() {
