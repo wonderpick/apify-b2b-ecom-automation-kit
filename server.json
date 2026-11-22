@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
-  "title": "Apify External Business Intelligence MCP Server (B2B, E-Commerce, Stockists, TPRM & K-Beauty)",
-  "description": "Zero-subscription MCP server (remote Streamable HTTP + local stdio/Docker) with 7 external-intelligence tools and 5 one-click workflow prompts: retail stockist buyer emails, Shopify price/restock/MAP deltas, SaaS SOC 2 & AI subprocessor audits, B2B & creator email enrichment, and South Korea MFDS K-Beauty OEM & recalls.",
+  "title": "Apify External Business Intelligence MCP Server",
+  "description": "7 external-intel tools & 5 prompts: retail stockists, Shopify deltas, SOC 2, B2B & K-Beauty.",
   "version": "2.0.0",
   "repository": {
     "url": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit",
@@ -16,7 +16,7 @@
       "headers": [
         {
           "name": "Authorization",
-          "description": "Bearer <APIFY_TOKEN> (required only for tools/call; initialize, tools/list, and prompts/list work without authentication).",
+          "description": "Bearer <APIFY_TOKEN> (required only for tools/call; discovery works without a token).",
           "isRequired": false,
           "isSecret": true
         }
