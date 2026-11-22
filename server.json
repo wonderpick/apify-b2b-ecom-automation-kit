@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
   "title": "Apify External Business Intelligence MCP Server",
-  "description": "7 external-intel tools & 5 prompts: retail stockists, Shopify deltas, SOC 2, B2B & K-Beauty.",
-  "version": "2.0.0",
+  "description": "8 external-intel tools & 6 prompts: B2B site audits, stockists, Shopify, SOC 2 & K-Beauty.",
+  "version": "2.1.0",
   "repository": {
     "url": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit",
     "source": "github"
