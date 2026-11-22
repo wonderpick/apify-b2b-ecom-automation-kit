@@ -1,9 +1,10 @@
 {
   "mcpServers": {
     "apify-b2b-ecom-mcp": {
-      "command": "node",
+      "command": "npx",
       "args": [
-        "/ABSOLUTE/PATH/TO/apify-b2b-ecom-automation-kit/src/mcp-server.mjs"
+        "-y",
+        "github:wonderpick/apify-b2b-ecom-automation-kit"
       ],
       "env": {
         "APIFY_TOKEN": "YOUR_APIFY_API_TOKEN"
