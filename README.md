@@ -1,10 +1,18 @@
 # Apify External Business Intelligence MCP Server (Remote HTTP + Stdio + Docker)
 
-> **Give your AI assistant eyes on the outside world — with zero monthly SaaS subscriptions, zero-install Remote MCP URL or 1-line `npx` setup, 5 one-click workflow Prompts, and `$0` billing whenever nothing changed or nothing matched.**
+[![Glama MCP Score](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit/badges/score.svg)](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit)
+[![mcptry 100/100 #1 Sales & CRM](https://img.shields.io/badge/mcptry-100%2F100%20(%231%20Sales%20%26%20CRM%20%C2%B7%20Security%20A%20%C2%B7%2023ms)-10B981?style=flat-square)](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit)
+[![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.1.1%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
+[![License: MIT](https://img.shields.io/badge/License-MIT-slate?style=flat-square)](./LICENSE)
 
-Think about the moment every founder, wholesale director, e-commerce operator, and security lead hits with AI today:
+> **Give your AI assistant eyes on the outside world — with zero monthly SaaS subscriptions, zero-install Remote MCP URL or 1-line `npx` setup, 6 one-click workflow Prompts, and `$0` billing whenever nothing changed or nothing matched.**
+
+> **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **8/8 Tools Grade A (`5/5` Disambiguation & Naming Consistency)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.1.1`)**, and backed by 3 live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
+
+Think about the moment every founder, agency owner, wholesale director, e-commerce operator, and security lead hits with AI today:
 
 You open Claude, Cursor, or Windsurf and ask a real business question:
+- *"Audit these 100 local businesses from Google Maps for 8 website weaknesses, grab their owner emails, and draft a factual cold-email opener for each."*
 - *"Which independent boutiques carry our top competitor right now — and what are their wholesale buyer emails?"*
 - *"Did any of our 15 Shopify competitors slash prices or sell out of their hero SKU overnight?"*
 - *"Did any of our 200 SaaS vendors quietly add OpenAI or Anthropic to their Trust Center subprocessors this week?"*
@@ -30,8 +38,9 @@ An open-source **Node.js `stdio` Model Context Protocol (MCP) server** implement
 
 ## How This MCP Suite Compares to Existing MCP Categories
 
-| Real Operator Job-to-Be-Done | **This Open-Source MCP Suite (v2.0)** | Typical Official / Platform MCPs | Commercial Data / Scraper MCPs |
+| Real Operator Job-to-Be-Done | **This Open-Source MCP Suite (v2.1.1)** | Typical Official / Platform MCPs | Commercial Data / Scraper MCPs |
 |---|---|---|---|
+| **Local B2B / Google Maps 8-Point Audit + Email + Cold Pitch** | **Audits SSL/mobile/speed/©/SEO/pixels/chat/CMS + owner emails + factual openers (`$4.50/1K` · `$0` filtered)** | Not available | Split across 3 tools (`$10–$32/1K` + `$99/mo` AI tools) |
 | **Competitor Retail Stockists + Buyer Emails** | **Extracts 250–1,200+ doors + buyer emails + skips national chains at `$0`** | Only edits *your own* store map | Addresses only ($6/1K), no buyer emails |
 | **Competitor Shopify Price, Stock & MAP Deltas** | **Tracks up to 50 external stores (125K SKUs) · `$0` when unchanged · `CRITICAL`/`INVENTORY`/`CATALOG` severity** | Only manages *your own* storefront | Re-scrapes & bills full catalog every run |
 | **External SaaS Trust Center & AI Subprocessor Audit** | **Audits up to 500 external vendors + `complianceScore` + `missingSoc2Lead` · `$0` unchanged** | Only reads *your own* paid GRC account | $15K–$50K/yr TPRM enterprise contracts |
