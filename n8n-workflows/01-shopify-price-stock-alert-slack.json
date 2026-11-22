@@ -1,20 +1,68 @@
 {
-  "name": "Shopify Competitor Price Drop & Restock Alerts to Slack",
+  "name": "Shopify Competitor Price Drop, MAP & Restock Alerts to Slack, Gmail & Sheets",
   "nodes": [
     {
       "parameters": {
-        "content": "## Shopify Competitor Price & Restock Monitor (Zero-Proxy)\n\nMonitors Shopify stores on a schedule and sends Slack alerts **only when a real change occurs** (`price_drop`, `price_increase`, `restocked`, `out_of_stock`, `new_product`, `discount_started`, or `mapViolation`).\n\n### Setup Steps\n1. Create a free [Apify account](https://apify.com) and copy your API token (`Settings -> Integrations`).\n2. Open **Run Shopify Delta Monitor** and replace `YOUR_APIFY_API_TOKEN` in the `Authorization` header.\n3. Edit `storeUrls` in the JSON body to your competitor Shopify store URLs.\n4. Connect your **Slack** credential and choose your alert channel.\n\n**Actor URL:** https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor\n**Cost:** $2.00 / 1,000 real deltas · **$0 on baseline or unchanged runs** · 128 MB RAM · $0 proxy.",
-        "height": 340,
-        "width": 440,
+        "content": "## Shopify Competitor Price, MAP & Restock Monitor (Zero-Proxy)\n\nMonitors competitor Shopify catalogs on a 6-hour schedule, filters out unchanged/baseline runs, scores alert severity (`CRITICAL`, `INVENTORY`, `CATALOG`), logs every real change to Google Sheets, and routes urgent MAP violations or >=15% price drops to `#pricing-alerts` + Gmail while sending stock/catalog alerts to `#ecom-ops`.\n\n**Actor URL:** https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $2.00 / 1,000 real deltas · **$0 on baseline or unchanged runs** · 128–256 MB RAM · $0 proxy.",
+        "height": 290,
+        "width": 780,
         "color": 4
       },
-      "id": "b1a2c3d4-0001-4000-8000-000000000001",
-      "name": "Sticky Note - Setup Guide",
+      "id": "b1a2c3d4-0001-4000-8000-000000000101",
+      "name": "Sticky Note - Overview & Cost",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        180,
-        120
+        120,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Dynamic Config (Google Sheets -> Batch Payload)\n\nCreate a spreadsheet with two tabs:\n- **`Config`**: columns `storeUrl`, optional `sku` (or `handle`), optional `mapPrice`, optional `minPriceChangePercent`, optional `maxProductsPerStore`.\n- **`DeltaHistory`**: columns `detectedAt`, `severity`, `eventType`, `store`, `title`, `variantTitle`, `sku`, `oldPrice`, `newPrice`, `priceChangePercent`, `available`, `mapViolation`, `productUrl`.\n\nSelect your Google Sheets OAuth credential on both Google Sheets nodes.",
+        "height": 470,
+        "width": 780,
+        "color": 5
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000102",
+      "name": "Sticky Note - 1. Dynamic Config",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. Zero-Proxy Delta Engine & Severity Scoring\n\n1. Create a free [Apify account](https://apify.com) and generate an API token (`Settings -> API & Integrations`).\n2. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>`) and attach it to **Run Shopify Competitor Delta Monitor**.\n3. Unchanged catalogs and initial baselines are filtered out automatically before alerting.",
+        "height": 470,
+        "width": 760,
+        "color": 6
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000103",
+      "name": "Sticky Note - 2. Zero-Proxy Delta Engine",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Multi-Channel Routing & Audit Log\n\n- **All real deltas** are appended to `DeltaHistory` in Google Sheets.\n- **CRITICAL** (`mapViolation === true` or `priceChangePercent <= -15`) -> Slack `#pricing-alerts` + Gmail escalation.\n- **INVENTORY** (`restocked`, `out_of_stock`) & **CATALOG** (`new_product`, `discount_started`, minor price updates) -> Slack `#ecom-ops`.",
+        "height": 680,
+        "width": 860,
+        "color": 2
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000104",
+      "name": "Sticky Note - 3. Multi-Channel Routing & Audit Log",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        260
       ]
     },
     {
@@ -28,19 +76,68 @@
           ]
         }
       },
-      "id": "b1a2c3d4-0001-4000-8000-000000000002",
+      "id": "b1a2c3d4-0001-4000-8000-000000000001",
       "name": "Every 6 Hours",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        240,
+        180,
         520
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b1a2c3d4-0001-4000-8000-000000000002",
+      "name": "Manual Test Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Config",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000003",
+      "name": "Read Competitor Stores & MAP Rules",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        420,
+        610
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst storeSet = new Set();\nconst mapThresholds = {};\nlet minPriceChangePercent = 3;\nlet maxProductsPerStore = 500;\n\nfor (const row of rows) {\n  const rawUrl = row.storeUrl || row.store_url || row.url || '';\n  if (typeof rawUrl === 'string' && rawUrl.trim().length > 0) {\n    storeSet.add(rawUrl.trim());\n  }\n  const key = String(row.sku || row.handle || '').trim();\n  const mapVal = Number(row.mapPrice ?? row.map_price);\n  if (key && Number.isFinite(mapVal) && mapVal > 0) {\n    mapThresholds[key] = mapVal;\n  }\n  const pct = Number(row.minPriceChangePercent ?? row.min_price_change_percent);\n  if (Number.isFinite(pct) && pct >= 0 && pct <= 100) {\n    minPriceChangePercent = pct;\n  }\n  const maxP = Number(row.maxProductsPerStore ?? row.max_products_per_store);\n  if (Number.isFinite(maxP) && maxP >= 50 && maxP <= 2500) {\n    maxProductsPerStore = Math.round(maxP);\n  }\n}\n\nconst storeUrls = storeSet.size > 0 ? Array.from(storeSet) : ['https://www.allbirds.com'];\n\nreturn [\n  {\n    json: {\n      storeUrls,\n      stateStoreName: 'shopify-delta-monitor-state',\n      maxProductsPerStore,\n      minPriceChangePercent,\n      mapThresholds,\n      eventTypes: [\n        'price_drop',\n        'price_increase',\n        'restocked',\n        'out_of_stock',\n        'new_product',\n        'discount_started',\n        'discount_ended',\n        'map_violation'\n      ],\n      emitBaselineSummary: true\n    }\n  }\n];"
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000004",
+      "name": "Build Monitor Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        610
       ]
     },
     {
       "parameters": {
         "method": "POST",
         "url": "https://api.apify.com/v2/acts/maitreya_buddha~shopify-competitor-delta-monitor/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -50,29 +147,20 @@
             }
           ]
         },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "Bearer YOUR_APIFY_API_TOKEN"
-            }
-          ]
-        },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"storeUrls\": [\n    \"https://www.allbirds.com\"\n  ],\n  \"stateStoreName\": \"shopify-delta-monitor-state\",\n  \"maxProductsPerStore\": 500,\n  \"minPriceChangePercent\": 3,\n  \"eventTypes\": [\n    \"price_drop\",\n    \"restocked\",\n    \"out_of_stock\",\n    \"new_product\",\n    \"discount_started\"\n  ],\n  \"emitBaselineSummary\": true\n}",
+        "jsonBody": "={{ JSON.stringify({ storeUrls: $json.storeUrls, stateStoreName: $json.stateStoreName, maxProductsPerStore: $json.maxProductsPerStore, minPriceChangePercent: $json.minPriceChangePercent, mapThresholds: $json.mapThresholds, eventTypes: $json.eventTypes, emitBaselineSummary: $json.emitBaselineSummary }) }}",
         "options": {
-          "timeout": 120000
+          "timeout": 180000
         }
       },
-      "id": "b1a2c3d4-0001-4000-8000-000000000003",
-      "name": "Run Shopify Delta Monitor",
+      "id": "b1a2c3d4-0001-4000-8000-000000000005",
+      "name": "Run Shopify Competitor Delta Monitor",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        500,
-        520
+        1000,
+        610
       ]
     },
     {
@@ -107,13 +195,153 @@
         },
         "options": {}
       },
-      "id": "b1a2c3d4-0001-4000-8000-000000000004",
-      "name": "Only Real Delta Events",
+      "id": "b1a2c3d4-0001-4000-8000-000000000006",
+      "name": "Filter Real Deltas Only",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        760,
-        520
+        1250,
+        610
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const pct = typeof d.priceChangePercent === 'number' ? d.priceChangePercent : Number(d.priceChangePercent || 0);\n  const isMapViolation = d.mapViolation === true;\n  const eventType = String(d.eventType || 'unknown');\n\n  let severity = 'CATALOG';\n  if (isMapViolation || (eventType === 'price_drop' && pct <= -15)) {\n    severity = 'CRITICAL';\n  } else if (eventType === 'restocked' || eventType === 'out_of_stock') {\n    severity = 'INVENTORY';\n  }\n\n  const variantLabel = d.variantTitle ? ` (${d.variantTitle})` : '';\n  const priceLine =\n    d.oldPrice != null && d.newPrice != null\n      ? `${d.oldPrice} -> ${d.newPrice} (${pct > 0 ? '+' : ''}${pct}%)`\n      : d.newPrice != null\n        ? `${d.newPrice}`\n        : 'N/A';\n  const mapLine = isMapViolation\n    ? `YES (MAP: ${d.mapPrice ?? 'N/A'})`\n    : 'No';\n\n  const emoji =\n    severity === 'CRITICAL' ? ':rotating_light:' : severity === 'INVENTORY' ? ':package:' : ':label:';\n\n  const slackSummary = [\n    `${emoji} *[${severity}] Shopify Competitor Delta* (\\`${eventType}\\`)`,\n    `*Store:* ${d.store || d.storeKey || 'Unknown'}`,\n    `*Product:* ${d.title || 'Untitled'}${variantLabel}`,\n    `*SKU:* ${d.sku || d.handle || 'N/A'}`,\n    `*Price:* ${priceLine}`,\n    `*In Stock:* ${d.available === true ? 'Yes' : d.available === false ? 'No' : 'Unknown'} | *MAP Violation:* ${mapLine}`,\n    `*Detected:* ${d.detectedAt || new Date().toISOString()}`,\n    `*Link:* ${d.productUrl || ''}`,\n  ].join('\\n');\n\n  const emailSubject = `[${severity}] ${d.store || 'Shopify Competitor'}: ${d.title || eventType} (${eventType})`;\n  const emailBody = [\n    `Severity: ${severity}`,\n    `Event: ${eventType}`,\n    `Store: ${d.store || d.storeKey || 'Unknown'}`,\n    `Product: ${d.title || 'Untitled'}${variantLabel}`,\n    `SKU: ${d.sku || d.handle || 'N/A'}`,\n    `Price Change: ${priceLine}`,\n    `MAP Price: ${d.mapPrice ?? 'N/A'} | MAP Violation: ${mapLine}`,\n    `In Stock: ${d.available}`,\n    `Detected At: ${d.detectedAt || 'N/A'}`,\n    `Product URL: ${d.productUrl || 'N/A'}`,\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      severity,\n      slackSummary,\n      emailSubject,\n      emailBody,\n    },\n  });\n}\n\nreturn results;"
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000007",
+      "name": "Classify Severity & Format Alert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        590
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "DeltaHistory",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "detectedAt": "={{ $json.detectedAt }}",
+            "severity": "={{ $json.severity }}",
+            "eventType": "={{ $json.eventType }}",
+            "store": "={{ $json.store }}",
+            "title": "={{ $json.title }}",
+            "variantTitle": "={{ $json.variantTitle || '' }}",
+            "sku": "={{ $json.sku || $json.handle || '' }}",
+            "oldPrice": "={{ $json.oldPrice ?? '' }}",
+            "newPrice": "={{ $json.newPrice ?? '' }}",
+            "priceChangePercent": "={{ $json.priceChangePercent ?? 0 }}",
+            "available": "={{ $json.available }}",
+            "mapViolation": "={{ $json.mapViolation === true }}",
+            "productUrl": "={{ $json.productUrl }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000008",
+      "name": "Log All Deltas to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1820,
+        450
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.severity }}",
+                    "rightValue": "CRITICAL",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Critical (MAP / Deep Drop)"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.severity }}",
+                    "rightValue": "INVENTORY",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Inventory (Restock / OOS)"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.severity }}",
+                    "rightValue": "CATALOG",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Catalog & Minor Changes"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000009",
+      "name": "Route by Alert Priority",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1820,
+        690
       ]
     },
     {
@@ -121,19 +349,58 @@
         "select": "channel",
         "channelId": {
           "__rl": true,
-          "value": "C00000000",
-          "mode": "id"
+          "value": "pricing-alerts",
+          "mode": "name"
         },
-        "text": "=:rotating_light: *Shopify Competitor Change* (`{{ $json.eventType }}`)\n*Store:* {{ $json.store }}\n*Product:* {{ $json.title }} ({{ $json.variantTitle || 'Default' }})\n*Price:* {{ $json.oldPrice ?? 'N/A' }} -> *{{ $json.newPrice ?? 'N/A' }}* ({{ $json.priceChangePercent ?? 0 }}%)\n*In Stock:* {{ $json.available }}\n*MAP Violation:* {{ $json.mapViolation ? 'YES' : 'No' }}\n*Detected:* {{ $json.detectedAt }}\n*Link:* {{ $json.productUrl }}",
+        "text": "={{ $json.slackSummary }}",
         "otherOptions": {}
       },
-      "id": "b1a2c3d4-0001-4000-8000-000000000005",
-      "name": "Send Slack Alert",
+      "id": "b1a2c3d4-0001-4000-8000-000000000010",
+      "name": "Urgent Slack Alert (MAP / Deep Drop)",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.2,
       "position": [
-        1040,
-        460
+        2120,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "",
+        "subject": "={{ $json.emailSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.emailBody }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000011",
+      "name": "Escalate MAP Violation via Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2380,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "ecom-ops",
+          "mode": "name"
+        },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "b1a2c3d4-0001-4000-8000-000000000012",
+      "name": "Ops Slack Alert (Inventory & Launches)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        770
       ]
     }
   ],
@@ -143,29 +410,114 @@
       "main": [
         [
           {
-            "node": "Run Shopify Delta Monitor",
+            "node": "Read Competitor Stores & MAP Rules",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Run Shopify Delta Monitor": {
+    "Manual Test Trigger": {
       "main": [
         [
           {
-            "node": "Only Real Delta Events",
+            "node": "Read Competitor Stores & MAP Rules",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Only Real Delta Events": {
+    "Read Competitor Stores & MAP Rules": {
       "main": [
         [
           {
-            "node": "Send Slack Alert",
+            "node": "Build Monitor Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Monitor Payload": {
+      "main": [
+        [
+          {
+            "node": "Run Shopify Competitor Delta Monitor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Shopify Competitor Delta Monitor": {
+      "main": [
+        [
+          {
+            "node": "Filter Real Deltas Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Real Deltas Only": {
+      "main": [
+        [
+          {
+            "node": "Classify Severity & Format Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Severity & Format Alert": {
+      "main": [
+        [
+          {
+            "node": "Log All Deltas to Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Route by Alert Priority",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Alert Priority": {
+      "main": [
+        [
+          {
+            "node": "Urgent Slack Alert (MAP / Deep Drop)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ops Slack Alert (Inventory & Launches)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ops Slack Alert (Inventory & Launches)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Urgent Slack Alert (MAP / Deep Drop)": {
+      "main": [
+        [
+          {
+            "node": "Escalate MAP Violation via Email",
             "type": "main",
             "index": 0
           }
@@ -177,7 +529,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "10000000-0000-4000-8000-000000000001",
+  "versionId": "10000000-0000-4000-8000-000000000002",
   "meta": {
     "templateCredsSetupCompleted": false
   },
