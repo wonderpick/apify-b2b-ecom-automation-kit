@@ -1,0 +1,579 @@
+{
+  "name": "Competitor Retail Stockists & Buyer Email Wholesale Outreach Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Retail Stockist & Buyer Email Discovery Pipeline (All-in-One)\n\nReads competitor brand websites from **Google Sheets**, discovers every physical boutique & retailer carrying those brands, enriches each unique store website with prioritized **wholesale/buyer emails, Instagram, LinkedIn, and Contact Form URLs**, filters out giant national chains, logs every store to Google Sheets, and routes top-scoring boutique buyers to Slack `#wholesale-leads` + Gmail while sending social-only boutiques to `#retail-ops`.\n\n**Actor URL:** https://apify.com/maitreya_buddha/brand-store-locator-stockist-email-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $5.00 / 1,000 retail stores · **$0 for filtered chains or empty results** · 128–256 MB RAM · $0 proxy.",
+        "height": 290,
+        "width": 780,
+        "color": 4
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000101",
+      "name": "Sticky Note - Overview & Cost",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Competitor Brand List (Google Sheets -> Batch Payload)\n\nCreate a spreadsheet with three tabs:\n- **`Brands`**: columns `brandUrl` (e.g. `https://fellowproducts.com`, `https://brooklynhotdogcompany.com`), optional `countryFilter` (e.g. `US`), optional `maxStoresPerBrand` (default `100`).\n- **`StockistLeads`**: columns `brandUrl`, `storeName`, `outreachTier`, `outreachReadinessScore`, `retailerType`, `city`, `state`, `country`, `primaryEmail`, `emailType`, `phone`, `website`, `instagram`, `contactPageUrl`, `scrapedAt`.\n- **`SocialOnlyBoutiques`**: columns `brandUrl`, `storeName`, `city`, `country`, `website`, `instagram`, `contactPageUrl`, `phone`, `scrapedAt`.",
+        "height": 470,
+        "width": 780,
+        "color": 5
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000102",
+      "name": "Sticky Note - 1. Competitor Brand List",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. All-in-One Stockist + Buyer Email Engine\n\n1. Create a free [Apify account](https://apify.com) and generate an API token (`Settings -> API & Integrations`).\n2. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>`) and attach it to **Extract Stockists & Buyer Emails via Apify**.\n3. Boutiques without a direct email still keep 100% of their address/Instagram/contact form info and route to `SocialOnlyBoutiques`.",
+        "height": 580,
+        "width": 760,
+        "color": 6
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000103",
+      "name": "Sticky Note - 2. Stockist & Buyer Email Engine",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Readiness Tiering, Sheet Sync & Sales Routing\n\n- **All email-ready stockists** are logged to `StockistLeads` in Google Sheets.\n- **VIP_BUYER** (`outreachReadinessScore >= 85` or `emailType === 'wholesale_buyer'`) -> Slack `#wholesale-leads` + Gmail pitch brief.\n- **DIRECT_BOUTIQUE** & **NURTURE** -> Slack `#retail-ops`.",
+        "height": 680,
+        "width": 880,
+        "color": 2
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000104",
+      "name": "Sticky Note - 3. Readiness Tiering & Sales Routing",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": 1,
+              "triggerAtDay": [
+                3
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000001",
+      "name": "Weekly Stockist Discovery Run",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        520
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "b1a2c3d4-0005-4000-8000-000000000002",
+      "name": "Manual Stockist Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        180,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Brands",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000003",
+      "name": "Read Competitor Brands from Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        420,
+        610
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst urlSet = new Set();\nlet countryFilter = '';\nlet maxStoresPerBrand = 100;\n\nfor (const row of rows) {\n  const raw = row.brandUrl || row.brand_url || row.url || '';\n  if (typeof raw === 'string' && raw.trim().length > 0) {\n    urlSet.add(raw.trim());\n  }\n  if (!countryFilter && typeof row.countryFilter === 'string' && row.countryFilter.trim()) {\n    countryFilter = row.countryFilter.trim();\n  }\n  const maxS = Number(row.maxStoresPerBrand ?? row.max_stores_per_brand);\n  if (Number.isFinite(maxS) && maxS >= 1 && maxS <= 5000) {\n    maxStoresPerBrand = Math.round(maxS);\n  }\n}\n\nconst urls = urlSet.size > 0\n  ? Array.from(urlSet)\n  : ['https://fellowproducts.com', 'https://brooklynhotdogcompany.com'];\n\nreturn [\n  {\n    json: {\n      urls,\n      enrichEmails: true,\n      onlyIndependentStores: true,\n      onlyWithEmail: false,\n      maxStoresPerBrand,\n      countryFilter,\n      maxConcurrency: 3\n    }\n  }\n];"
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000004",
+      "name": "Build Stockist Batch Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        610
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~brand-store-locator-stockist-email-enricher/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "memory",
+              "value": "256"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ urls: $json.urls, enrichEmails: $json.enrichEmails, onlyIndependentStores: $json.onlyIndependentStores, onlyWithEmail: $json.onlyWithEmail, maxStoresPerBrand: $json.maxStoresPerBrand, countryFilter: $json.countryFilter, maxConcurrency: $json.maxConcurrency }) }}",
+        "options": {
+          "timeout": 240000
+        }
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000005",
+      "name": "Extract Stockists & Buyer Emails via Apify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        610
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-1",
+              "leftValue": "={{ $json.primaryEmail }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000006",
+      "name": "Has Buyer Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1240,
+        610
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "SocialOnlyBoutiques",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "brandUrl": "={{ $json.brandUrl }}",
+            "storeName": "={{ $json.storeName }}",
+            "city": "={{ $json.city || '' }}",
+            "country": "={{ $json.country || '' }}",
+            "website": "={{ $json.website || '' }}",
+            "instagram": "={{ $json.instagram || '' }}",
+            "contactPageUrl": "={{ $json.contactPageUrl || '' }}",
+            "phone": "={{ $json.phone || '' }}",
+            "scrapedAt": "={{ $json.scrapedAt }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000007",
+      "name": "Log Social & Form Boutiques",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1500,
+        790
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const score = Number(d.outreachReadinessScore || 0);\n  const emailType = String(d.emailType || '');\n\n  let outreachTier = 'NURTURE';\n  if (score >= 85 || emailType === 'wholesale_buyer') {\n    outreachTier = 'VIP_BUYER';\n  } else if (score >= 60 || d.retailerType === 'independent_boutique') {\n    outreachTier = 'DIRECT_BOUTIQUE';\n  }\n\n  const locLabel = [d.city, d.state, d.country].filter(Boolean).join(', ') || d.address || 'Location N/A';\n  const emoji = outreachTier === 'VIP_BUYER' ? ':dart:' : outreachTier === 'DIRECT_BOUTIQUE' ? ':convenience_store:' : ':bookmark:';\n\n  const slackSummary = [\n    `${emoji} *[${outreachTier}] Retail Stockist Lead:* ${d.storeName} (Score: *${score}/100*)`,\n    `*Carries Competitor:* ${d.brandUrl}`,\n    `*Retailer Type:* ${d.retailerType} | *Location:* ${locLabel}`,\n    `*Buyer Email:* ${d.primaryEmail} (\\`${emailType || 'general'}\\`)`,\n    `*Website:* ${d.website || 'N/A'} | *Instagram:* ${d.instagram || 'N/A'}`,\n    `*Contact Page:* ${d.contactPageUrl || 'N/A'} | *Phone:* ${d.phone || 'N/A'}`\n  ].join('\\n');\n\n  const pitchSubject = `[VIP Retail Buyer] ${d.storeName} (${locLabel}) — Score ${score}/100`;\n  const pitchBody = [\n    `Outreach Tier: ${outreachTier}`,\n    `Store Name: ${d.storeName}`,\n    `Retailer Type: ${d.retailerType}`,\n    `Location: ${locLabel}`,\n    `Competitor Brand Carried: ${d.brandUrl}`,\n    `Buyer Email: ${d.primaryEmail} (${emailType || 'general'}, confidence: ${d.emailConfidence})`,\n    `Phone: ${d.phone || 'N/A'}`,\n    `Website: ${d.website || 'N/A'}`,\n    `Instagram: ${d.instagram || 'N/A'}`,\n    `Contact / Wholesale Page: ${d.contactPageUrl || 'N/A'}`,\n    `Outreach Readiness Score: ${score}/100`\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      outreachTier,\n      slackSummary,\n      pitchSubject,\n      pitchBody\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000008",
+      "name": "Segment Stockist Tier & Format Pitch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "StockistLeads",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "brandUrl": "={{ $json.brandUrl }}",
+            "storeName": "={{ $json.storeName }}",
+            "outreachTier": "={{ $json.outreachTier }}",
+            "outreachReadinessScore": "={{ $json.outreachReadinessScore }}",
+            "retailerType": "={{ $json.retailerType }}",
+            "city": "={{ $json.city || '' }}",
+            "state": "={{ $json.state || '' }}",
+            "country": "={{ $json.country || '' }}",
+            "primaryEmail": "={{ $json.primaryEmail }}",
+            "emailType": "={{ $json.emailType || '' }}",
+            "phone": "={{ $json.phone || '' }}",
+            "website": "={{ $json.website || '' }}",
+            "instagram": "={{ $json.instagram || '' }}",
+            "contactPageUrl": "={{ $json.contactPageUrl || '' }}",
+            "scrapedAt": "={{ $json.scrapedAt }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000009",
+      "name": "Save Stockist Leads to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1820,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.outreachTier }}",
+                    "rightValue": "VIP_BUYER",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "VIP Wholesale Buyer"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.outreachTier }}",
+                    "rightValue": "DIRECT_BOUTIQUE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Direct Boutique"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.outreachTier }}",
+                    "rightValue": "NURTURE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Nurture Queue"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000010",
+      "name": "Route by Stockist Readiness Tier",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1820,
+        690
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "wholesale-leads",
+          "mode": "name"
+        },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000011",
+      "name": "Alert Wholesale Slack (VIP Buyers)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "",
+        "subject": "={{ $json.pitchSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.pitchBody }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000012",
+      "name": "Send VIP Buyer Brief via Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2380,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "retail-ops",
+          "mode": "name"
+        },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "b1a2c3d4-0005-4000-8000-000000000013",
+      "name": "Post Boutique Lead to Ops Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        770
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Weekly Stockist Discovery Run": {
+      "main": [
+        [
+          {
+            "node": "Read Competitor Brands from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Stockist Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Competitor Brands from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Competitor Brands from Sheet": {
+      "main": [
+        [
+          {
+            "node": "Build Stockist Batch Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Stockist Batch Payload": {
+      "main": [
+        [
+          {
+            "node": "Extract Stockists & Buyer Emails via Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Stockists & Buyer Emails via Apify": {
+      "main": [
+        [
+          {
+            "node": "Has Buyer Email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Buyer Email?": {
+      "main": [
+        [
+          {
+            "node": "Segment Stockist Tier & Format Pitch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Social & Form Boutiques",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segment Stockist Tier & Format Pitch": {
+      "main": [
+        [
+          {
+            "node": "Save Stockist Leads to Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Route by Stockist Readiness Tier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Stockist Readiness Tier": {
+      "main": [
+        [
+          {
+            "node": "Alert Wholesale Slack (VIP Buyers)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Boutique Lead to Ops Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Boutique Lead to Ops Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert Wholesale Slack (VIP Buyers)": {
+      "main": [
+        [
+          {
+            "node": "Send VIP Buyer Brief via Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "10000000-0000-4000-8000-000000000001",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}
