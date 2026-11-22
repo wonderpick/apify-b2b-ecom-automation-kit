@@ -392,15 +392,29 @@ const TOOLS = [
 
 const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
 
+const SERVER_INSTRUCTIONS = [
+  'Apify B2B, E-Commerce, Retail Stockist, TPRM & K-Beauty Intelligence MCP Server (7 zero-proxy tools; $0 billed on empty, unchanged, or filtered misses).',
+  'Tool Routing Guide:',
+  '- Wholesale retail stockists + buyer emails from competitor brands -> brand_store_locator_stockist_email_enricher.',
+  '- Ongoing Shopify competitor price drops, restocks, stockouts, or MAP violations -> shopify_competitor_delta_monitor.',
+  '- External SaaS vendor Trust Centers, SOC 2/ISO certs, IAM/SSO, or AI subprocessors -> saas_trust_center_soc2_monitor.',
+  '- Corporate B2B company domain, LinkedIn /company/ URL, role emails, WhatsApp, and phones -> b2b_company_domain_linkedin_enricher.',
+  '- Influencer/creator Link-in-Bio emails, agency contacts, monetization links, and Readiness Score -> creator_link_in_bio_email_enricher.',
+  '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> korea_mfds_cosmetic_recalls.',
+  '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> korea_mfds_functional_cosmetics_oem.',
+  'Safety: All lookup/enrichment tools are read-only and idempotent; monitor tools only write non-destructive Apify Key-Value Store snapshots.',
+].join('\n');
+
 const server = new Server(
   {
     name: 'apify-b2b-ecom-mcp-server',
-    version: '1.4.0',
+    version: '1.5.0',
   },
   {
     capabilities: {
       tools: {},
     },
+    instructions: SERVER_INSTRUCTIONS,
   },
 );
 
