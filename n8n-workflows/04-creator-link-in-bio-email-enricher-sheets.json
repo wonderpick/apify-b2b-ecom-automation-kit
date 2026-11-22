@@ -1,31 +1,103 @@
 {
-  "name": "Creator Link-in-Bio Email, Social & Brand-Deal Enricher to Google Sheets",
+  "name": "Creator Link-in-Bio Email, Readiness Score & Brand-Deal Outreach Pipeline",
   "nodes": [
     {
       "parameters": {
-        "content": "## Creator Link-in-Bio Email & Brand-Deal Enricher\n\nReads creator Link-in-Bio URLs (`linktr.ee`, `stan.store`, `bio.site`, `beacons.ai`, `carrd.co`, etc.) from **Google Sheets**, enriches each creator with **business/agency email, WhatsApp, normalized socials (14 platforms), affiliate/brand-deal links, discount codes, and Brand-Deal Readiness Score (0-100)**, and writes qualified outreach leads back to Google Sheets.\n\n### Setup Steps\n1. Create a Google Sheet with an `Input` tab containing a `bioUrl` column (e.g. `https://linktr.ee/halleykmcg`) and an `CreatorsOutreach` tab.\n2. Connect your **Google Sheets** OAuth credential to both Google Sheets nodes and set your spreadsheet document ID.\n3. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>`) and select it on **Enrich Creators via Apify**.\n4. Click **Test workflow**!\n\n**Actor URL:** https://apify.com/maitreya_buddha/creator-link-in-bio-email-enricher\n**Cost:** $2.50 / 1,000 enriched creators · **$0 for 404/WAF/filtered misses** · 128 MB RAM · $0 proxy.",
-        "height": 380,
-        "width": 460,
-        "color": 3
+        "content": "## Creator Link-in-Bio Email & Brand-Deal Outreach Pipeline (Zero-Proxy)\n\nReads creator Link-in-Bio URLs (Linktree, Beacons, Stan.store, Komi, Hoo.be, Bio.site, Carrd) from **Google Sheets**, extracts business/agency emails (including 1-hop deep contact & Media Kit follow), scores **Brand-Deal Readiness (0–100)**, separates no-email profiles into a manual follow-up tab, logs enriched creators to Google Sheets, and routes `VIP_AGENCY` creators to `#creator-partnerships` + Gmail pitch briefing while posting `DIRECT_READY` / `NURTURE` creators to `#influencer-ops`.\n\n**Actor URL:** https://apify.com/maitreya_buddha/creator-link-in-bio-email-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $2.50 / 1,000 creators · **$0 for filtered-out/no-email profiles** · 128–256 MB RAM · $0 proxy.",
+        "height": 290,
+        "width": 780,
+        "color": 4
       },
-      "id": "b1a2c3d4-0004-4000-8000-000000000001",
-      "name": "Sticky Note - Setup Guide",
+      "id": "b1a2c3d4-0004-4000-8000-000000000101",
+      "name": "Sticky Note - Overview & Cost",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        160,
-        60
+        120,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Creator Bio List Input (Google Sheets -> Deduplicated Batch)\n\nCreate a Google Sheet with three tabs:\n- **`CreatorsInput`**: column `url` (e.g. `https://linktr.ee/averagefashionblogger`, `https://stan.store/stan`), optional `minReadinessScore` (default `40`).\n- **`EnrichedCreators`**: columns `handle`, `displayName`, `outreachTier`, `creatorReadinessScore`, `platform`, `primaryEmail`, `emailType`, `emailSource`, `hasBrandDeals`, `hasAffiliateStorefront`, `hasMediaKit`, `socialCount`, `sourceUrl`, `enrichedAt`.\n- **`NeedsManualFollowup`**: columns `handle`, `displayName`, `platform`, `sourceUrl`, `creatorReadinessScore`, `socialCount`, `enrichedAt`.",
+        "height": 470,
+        "width": 780,
+        "color": 5
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000102",
+      "name": "Sticky Note - 1. Creator Bio List Input",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. Zero-Proxy Link-in-Bio Enricher & Email Gate\n\n1. Create a free [Apify account](https://apify.com) and generate an API token (`Settings -> API & Integrations`).\n2. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>`) and select it on **Enrich Creator Link-in-Bio via Apify**.\n3. Profiles without a contact email route cleanly to `NeedsManualFollowup` so partnerships teams can DM them manually.",
+        "height": 580,
+        "width": 760,
+        "color": 6
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000103",
+      "name": "Sticky Note - 2. Link-in-Bio Enricher & Email Gate",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Readiness Tiering, Sheet Sync & Partnerships Routing\n\n- **All contactable creators** are saved to `EnrichedCreators` in Google Sheets.\n- **VIP_AGENCY** (`creatorReadinessScore >= 75`, agency email, or Media Kit) -> Slack `#creator-partnerships` + Gmail pitch briefing for team review.\n- **DIRECT_READY** & **NURTURE** -> Slack `#influencer-ops`.",
+        "height": 680,
+        "width": 880,
+        "color": 2
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000104",
+      "name": "Sticky Note - 3. Readiness Tiering & Partnerships Routing",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": 1,
+              "triggerAtDay": [
+                2
+              ],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000001",
+      "name": "Weekly Creator Discovery Run",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        520
       ]
     },
     {
       "parameters": {},
       "id": "b1a2c3d4-0004-4000-8000-000000000002",
-      "name": "Manual Trigger",
+      "name": "Manual Creator Enrich Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
         180,
-        520
+        700
       ]
     },
     {
@@ -37,31 +109,31 @@
         },
         "sheetName": {
           "__rl": true,
-          "value": "Input",
+          "value": "CreatorsInput",
           "mode": "name"
         },
         "options": {}
       },
       "id": "b1a2c3d4-0004-4000-8000-000000000003",
-      "name": "Read Creator Bio URLs",
+      "name": "Read Creator Bio URLs from Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        400,
-        520
+        420,
+        610
       ]
     },
     {
       "parameters": {
-        "jsCode": "const urls = $input.all()\n  .map((item) => item.json.bioUrl || item.json.url || item.json.externalUrl)\n  .filter((v) => typeof v === 'string' && v.trim().length > 0);\n\nreturn [{ json: { urls } }];"
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst urlSet = new Set();\nlet minReadinessScore = 40;\n\nfor (const row of rows) {\n  const raw = row.url || row.bioUrl || row.sourceUrl || row.link || '';\n  if (typeof raw === 'string' && raw.trim().length > 0) {\n    urlSet.add(raw.trim());\n  }\n  const score = Number(row.minReadinessScore ?? row.min_readiness_score);\n  if (Number.isFinite(score) && score >= 0 && score <= 100) {\n    minReadinessScore = Math.round(score);\n  }\n}\n\nconst urls = urlSet.size > 0\n  ? Array.from(urlSet)\n  : [\n      'https://linktr.ee/averagefashionblogger',\n      'https://linktr.ee/halleykmcg',\n      'https://stan.store/stan'\n    ];\n\nreturn [\n  {\n    json: {\n      urls,\n      enableDeepContactFollow: true,\n      onlyWithEmail: false,\n      minReadinessScore,\n      maxProfiles: 500,\n      maxConcurrency: 3\n    }\n  }\n];"
       },
       "id": "b1a2c3d4-0004-4000-8000-000000000004",
-      "name": "Batch Bio URLs",
+      "name": "Build Creator Enricher Payload",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        620,
-        520
+        680,
+        610
       ]
     },
     {
@@ -81,18 +153,18 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ urls: $json.urls, enableDeepContactFollow: true, onlyWithEmail: false, minReadinessScore: 0, maxProfiles: 200 }) }}",
+        "jsonBody": "={{ JSON.stringify({ urls: $json.urls, enableDeepContactFollow: $json.enableDeepContactFollow, onlyWithEmail: $json.onlyWithEmail, minReadinessScore: $json.minReadinessScore, maxProfiles: $json.maxProfiles, maxConcurrency: $json.maxConcurrency }) }}",
         "options": {
           "timeout": 180000
         }
       },
       "id": "b1a2c3d4-0004-4000-8000-000000000005",
-      "name": "Enrich Creators via Apify",
+      "name": "Enrich Creator Link-in-Bio via Apify",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        840,
-        520
+        1000,
+        610
       ]
     },
     {
@@ -119,12 +191,12 @@
         "options": {}
       },
       "id": "b1a2c3d4-0004-4000-8000-000000000006",
-      "name": "Only Creators With Email",
+      "name": "Has Valid Contact Email?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1060,
-        520
+        1240,
+        610
       ]
     },
     {
@@ -137,89 +209,354 @@
         },
         "sheetName": {
           "__rl": true,
-          "value": "CreatorsOutreach",
+          "value": "NeedsManualFollowup",
           "mode": "name"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "handle": "={{ $json.handle }}",
-            "displayName": "={{ $json.displayName }}",
+            "handle": "={{ $json.handle || '' }}",
+            "displayName": "={{ $json.displayName || '' }}",
             "platform": "={{ $json.platform }}",
-            "primaryEmail": "={{ $json.primaryEmail }}",
-            "emailType": "={{ $json.emailType }}",
-            "emailSource": "={{ $json.emailSource }}",
+            "sourceUrl": "={{ $json.sourceUrl }}",
             "creatorReadinessScore": "={{ $json.creatorReadinessScore }}",
-            "hasBrandDeals": "={{ $json.hasBrandDeals }}",
-            "hasAffiliateStorefront": "={{ $json.hasAffiliateStorefront }}",
-            "discountCodes": "={{ ($json.discountCodes && $json.discountCodes.join(', ')) || '' }}",
-            "socialCount": "={{ $json.socialCount }}",
-            "sourceUrl": "={{ $json.sourceUrl }}"
+            "socialCount": "={{ $json.socialCount || 0 }}",
+            "enrichedAt": "={{ $json.enrichedAt }}"
           }
         },
         "options": {}
       },
       "id": "b1a2c3d4-0004-4000-8000-000000000007",
-      "name": "Save Creators to Sheet",
+      "name": "Log No-Email Creators to Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        1300,
-        460
+        1500,
+        790
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const score = Number(d.creatorReadinessScore || 0);\n  const emailType = String(d.emailType || '').toLowerCase();\n  const reasons = Array.isArray(d.scoreReasons) ? d.scoreReasons : [];\n  const codes = Array.isArray(d.discountCodes) ? d.discountCodes : [];\n\n  let outreachTier = 'NURTURE';\n  if (score >= 75 || emailType === 'agency' || d.hasMediaKit === true) {\n    outreachTier = 'VIP_AGENCY';\n  } else if (score >= 50 || d.hasBrandDeals === true || d.hasAffiliateStorefront === true) {\n    outreachTier = 'DIRECT_READY';\n  }\n\n  const nameLabel = d.displayName || d.handle || d.sourceUrl;\n  const emoji = outreachTier === 'VIP_AGENCY' ? ':star2:' : outreachTier === 'DIRECT_READY' ? ':handshake:' : ':seedling:';\n  const scoreReasonsText = reasons.join(', ');\n\n  const slackSummary = [\n    `${emoji} *[${outreachTier}] Creator Partner Lead:* ${nameLabel} (Score: *${score}/100*)`,\n    `*Platform:* ${d.platform || 'Unknown'} | *Bio:* ${d.sourceUrl || 'N/A'}`,\n    `*Email:* ${d.primaryEmail} (\\`${d.emailType || 'business'}\\` via ${d.emailSource || 'bio'})`,\n    `*Monetization:* Brand Deals=${d.hasBrandDeals ? 'Yes' : 'No'} | Affiliate=${d.hasAffiliateStorefront ? 'Yes' : 'No'} | Media Kit=${d.hasMediaKit ? 'Yes' : 'No'}`,\n    `*Socials:* ${d.socialCount || 0} linked${codes.length > 0 ? ` | *Codes:* ${codes.join(', ')}` : ''}`\n  ].join('\\n');\n\n  const pitchSubject = `[VIP Creator Brief] ${nameLabel} — Readiness ${score}/100 (${d.emailType || 'business'})`;\n  const pitchBody = [\n    `Outreach Tier: ${outreachTier}`,\n    `Creator: ${nameLabel} (@${d.handle || 'unknown'})`,\n    `Readiness Score: ${score}/100 (${scoreReasonsText || 'N/A'})`,\n    `Contact Email: ${d.primaryEmail} (${d.emailType || 'N/A'}, source: ${d.emailSource || 'N/A'})`,\n    `Bio URL: ${d.sourceUrl || 'N/A'}`,\n    `Signals: Brand Deals=${d.hasBrandDeals}, Affiliate Storefront=${d.hasAffiliateStorefront}, Digital Products=${d.hasDigitalProducts}, Media Kit=${d.hasMediaKit}`,\n    `Linked Social Profiles: ${d.socialCount || 0}`,\n    `Enriched At: ${d.enrichedAt || 'N/A'}`\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      outreachTier,\n      scoreReasonsText,\n      slackSummary,\n      pitchSubject,\n      pitchBody\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000008",
+      "name": "Segment Creator Tier & Draft Pitch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "EnrichedCreators",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "handle": "={{ $json.handle || '' }}",
+            "displayName": "={{ $json.displayName || '' }}",
+            "outreachTier": "={{ $json.outreachTier }}",
+            "creatorReadinessScore": "={{ $json.creatorReadinessScore }}",
+            "platform": "={{ $json.platform }}",
+            "primaryEmail": "={{ $json.primaryEmail }}",
+            "emailType": "={{ $json.emailType || '' }}",
+            "emailSource": "={{ $json.emailSource || '' }}",
+            "hasBrandDeals": "={{ $json.hasBrandDeals === true }}",
+            "hasAffiliateStorefront": "={{ $json.hasAffiliateStorefront === true }}",
+            "hasMediaKit": "={{ $json.hasMediaKit === true }}",
+            "socialCount": "={{ $json.socialCount || 0 }}",
+            "sourceUrl": "={{ $json.sourceUrl }}",
+            "enrichedAt": "={{ $json.enrichedAt }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000009",
+      "name": "Save Enriched Creators to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1820,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.outreachTier }}",
+                    "rightValue": "VIP_AGENCY",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "VIP / Agency Ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.outreachTier }}",
+                    "rightValue": "DIRECT_READY",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Direct Brand-Deal Ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.outreachTier }}",
+                    "rightValue": "NURTURE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Nurture / Emerging"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000010",
+      "name": "Route by Creator Readiness Tier",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1820,
+        690
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "creator-partnerships",
+          "mode": "name"
+        },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000011",
+      "name": "Alert Partnerships Slack (VIP Creators)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "",
+        "subject": "={{ $json.pitchSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.pitchBody }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000012",
+      "name": "Escalate VIP Creator Pitch via Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2380,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "influencer-ops",
+          "mode": "name"
+        },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "b1a2c3d4-0004-4000-8000-000000000013",
+      "name": "Post Ready Creators to Ops Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        770
       ]
     }
   ],
   "pinData": {},
   "connections": {
-    "Manual Trigger": {
+    "Weekly Creator Discovery Run": {
       "main": [
         [
           {
-            "node": "Read Creator Bio URLs",
+            "node": "Read Creator Bio URLs from Sheet",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Read Creator Bio URLs": {
+    "Manual Creator Enrich Trigger": {
       "main": [
         [
           {
-            "node": "Batch Bio URLs",
+            "node": "Read Creator Bio URLs from Sheet",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Batch Bio URLs": {
+    "Read Creator Bio URLs from Sheet": {
       "main": [
         [
           {
-            "node": "Enrich Creators via Apify",
+            "node": "Build Creator Enricher Payload",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Enrich Creators via Apify": {
+    "Build Creator Enricher Payload": {
       "main": [
         [
           {
-            "node": "Only Creators With Email",
+            "node": "Enrich Creator Link-in-Bio via Apify",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Only Creators With Email": {
+    "Enrich Creator Link-in-Bio via Apify": {
       "main": [
         [
           {
-            "node": "Save Creators to Sheet",
+            "node": "Has Valid Contact Email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Valid Contact Email?": {
+      "main": [
+        [
+          {
+            "node": "Segment Creator Tier & Draft Pitch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log No-Email Creators to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segment Creator Tier & Draft Pitch": {
+      "main": [
+        [
+          {
+            "node": "Save Enriched Creators to Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Route by Creator Readiness Tier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Creator Readiness Tier": {
+      "main": [
+        [
+          {
+            "node": "Alert Partnerships Slack (VIP Creators)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Ready Creators to Ops Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Ready Creators to Ops Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert Partnerships Slack (VIP Creators)": {
+      "main": [
+        [
+          {
+            "node": "Escalate VIP Creator Pitch via Gmail",
             "type": "main",
             "index": 0
           }
@@ -231,7 +568,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "10000000-0000-4000-8000-000000000004",
+  "versionId": "10000000-0000-4000-8000-000000000002",
   "meta": {
     "templateCredsSetupCompleted": false
   },
