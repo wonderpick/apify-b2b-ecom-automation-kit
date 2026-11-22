@@ -1,23 +1,48 @@
 {
   "name": "apify-b2b-ecom-mcp-server",
-  "version": "1.0.0",
-  "description": "Zero-proxy Apify B2B, E-Commerce, TPRM SOC 2 & K-Beauty MCP Server (wraps 5 lightweight 128MB Apify Actors)",
+  "version": "2.0.0",
+  "mcpName": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
+  "description": "Zero-subscription external business intelligence MCP server (7 verb_noun tools + 5 one-click workflow prompts): competitor retail stockists & buyer emails, Shopify price/restock/MAP deltas, SaaS Trust Center SOC 2 & AI subprocessors, B2B lead enrichment, creator Link-in-Bio emails, and South Korea MFDS K-Beauty OEM & recall registries.",
   "type": "module",
   "main": "src/mcp-server.mjs",
   "bin": {
+    "apify-b2b-ecom-mcp-server": "./src/mcp-server.mjs",
     "apify-b2b-ecom-mcp": "./src/mcp-server.mjs"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE",
+    "server.json",
+    "llms.txt",
+    "glama.json"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
   },
   "scripts": {
     "start": "node src/mcp-server.mjs"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit.git"
+  },
+  "homepage": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit#readme",
+  "bugs": {
+    "url": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit/issues"
+  },
   "keywords": [
     "mcp",
+    "mcp-server",
     "model-context-protocol",
     "apify",
     "shopify",
     "soc2",
-    "b2b",
-    "lead-enrichment"
+    "tprm",
+    "b2b-lead-generation",
+    "stockist-scraper",
+    "k-beauty",
+    "creator-emails"
   ],
   "author": "BoGeun Kim (wonderpick / maitreya_buddha)",
   "license": "MIT",
