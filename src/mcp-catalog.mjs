@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.0.0) — 7 verb_noun External-Intelligence Tools + 5 One-Click Prompts
- * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`).
+ * Shared MCP Catalog (v2.2.0) — 9 verb_noun External-Intelligence Tools + 7 One-Click Prompts
+ * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.1.1';
+export const SERVER_VERSION = '2.2.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -644,6 +644,120 @@ export const TOOLS = [
       coldEmailIcebreaker: { type: 'string', description: 'Zero-hallucination personalized opening sentence.' },
     }),
   },
+  {
+    name: 'audit_meta_ads_advertisers',
+    actorSlug: 'maitreya_buddha~meta-ads-advertiser-leak-audit-email-enricher',
+    annotations: {
+      title: 'Audit Meta Ads Advertisers for Leaks, Stack & Emails',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
+    description:
+      'Deduplicate Meta Ad Library datasets, Apify Run IDs, pasted CSV/Sheets, or DTC ad landing URLs into audited advertiser brands with 4-layer 110+ tech stack X-Ray (34 Shopify Web Pixel IDs, 30+ OS 2.0 app blocks, CSP/Header/Cookie signals), live HTTP 404/OOS/DMARC/SPF deliverability grading (A-F), honest buyerFitTier, inboxType CS-queue safety guard, Tier-2 expansionOpportunities, 16-shard weekly watch_diff triggers, verified store/brand emails, and zero-hallucination agency outreach copy ($4.50/1K unique brands; $0 on marketplaces, WAF skips, weekly repeats, or filtered misses). Use when auditing Meta Ad Library advertisers or DTC e-commerce ad landing pages; do not use for local brick-and-mortar / Google Maps SMB websites (use audit_local_b2b_websites instead) or tracking Shopify SKU price deltas (use monitor_shopify_competitor_deltas instead).',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        landingPageUrls: {
+          type: 'array',
+          minItems: 1,
+          maxItems: 2000,
+          items: { type: 'string' },
+          description:
+            'Up to 2,000 ad landing URLs, bare DTC domains, l.facebook.com links, or shorteners/bio links (bit.ly, linktr.ee). Optional when sourceDatasetId, sourceRunId, or rawCsvOrUrls is provided.',
+        },
+        sourceDatasetId: {
+          type: 'string',
+          description:
+            'Optional upstream Apify Dataset ID or URL from any Meta/Social Ad Library scraper (streams in 250-item pages and aggregates active ads per brand).',
+        },
+        sourceRunId: {
+          type: 'string',
+          description:
+            'Optional upstream Apify Run ID or Console URL; automatically resolves defaultDatasetId and streams records.',
+        },
+        rawCsvOrUrls: {
+          type: 'string',
+          description:
+            'Optional pasted CSV, TSV/Google Sheets rows, or newline-separated URLs/domains.',
+        },
+        agencyPreset: {
+          type: 'string',
+          enum: [
+            'auto_best_fit',
+            'tiktok_google_ads',
+            'tiktok_ads_agency',
+            'google_ads_agency',
+            'email_sms_retention',
+            'cro_landing_page',
+            'ugc_creative',
+            'deliverability_agency',
+          ],
+          description: 'Agency service vertical used to score leaks and tailor coldEmailSubject, coldEmailOpener, and linkedInDm.',
+          default: 'auto_best_fit',
+        },
+        crmExportPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional CRM flat column mapping preset (default keeps standard structured schema).',
+          default: 'default',
+        },
+        dedupStoreName: {
+          type: 'string',
+          description:
+            'Optional Apify Named Key-Value Store (16-shard compact snapshots) for weekly skip_seen ($0 repeats) or watch_diff buying-trigger tracking.',
+        },
+        dedupMode: {
+          type: 'string',
+          enum: ['skip_seen', 'watch_diff'],
+          description: 'When dedupStoreName is set: skip_seen skips previously audited brands at $0; watch_diff detects ad/ESP/pixel/404/DMARC changes.',
+          default: 'skip_seen',
+        },
+        onlyWithEmail: {
+          type: 'boolean',
+          description: 'When true, save and bill only advertisers where at least 1 brand email is recovered ($0 otherwise).',
+          default: false,
+        },
+        onlyWithActiveLeaks: {
+          type: 'boolean',
+          description: 'When true, skip leak-free advertisers at $0.',
+          default: false,
+        },
+        minLeakScore: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 100,
+          description: 'Optional minimum 0-100 leakScore threshold ($0 below threshold).',
+          default: 0,
+        },
+        maxBrands: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 2000,
+          description: 'Maximum unique deduplicated brand domains to audit (1-2,000).',
+          default: 100,
+        },
+      },
+    },
+    outputSchema: makeOutputSchema('Audited DTC advertiser leads with 4-layer tech stack, live 404/OOS/DMARC leaks, buyer fit, inbox safety, and outreach copy.', {
+      brandName: { type: 'string', description: 'Resolved brand name.' },
+      brandDomain: { type: 'string', description: 'Canonical deduplicated brand domain.' },
+      leadPriority: { type: 'string', description: 'Deterministic priority tier: VIP_HOT, WARM, or NURTURE.' },
+      buyerFitTier: { type: 'string', description: 'Evidence-based maturity tier: Enterprise, Scaling DTC, Growing SMB, Early Stage, or Unknown.' },
+      siteStatus: { type: 'string', description: 'Landing page status (ok, landing_404, out_of_stock, headless_ssr_hydrated, bot_protected, etc.).' },
+      leakScore: { type: 'integer', description: '0-100 ad-spend and deliverability leak score.' },
+      expansionScore: { type: 'integer', description: '0-100 Tier-2 growth expansion score for healthy brands.' },
+      primaryEmail: { type: 'string', description: 'Highest-priority verified brand email.' },
+      inboxType: { type: 'string', description: 'Inbox risk classification: b2b_direct, general, cs_ticket_queue, or none.' },
+      outreachStatus: { type: 'string', description: 'Safety gate: ready, manual_review_required, no_email, or unsafe_email_quarantined.' },
+      deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC/BIMI deliverability grade (A-F).' },
+      detectedLeaksSummary: { type: 'string', description: 'Plain-English summary of verified ad-spend or deliverability leaks.' },
+      coldEmailSubject: { type: 'string', description: 'Zero-hallucination evidence-based subject line.' },
+      coldEmailOpener: { type: 'string', description: 'Zero-hallucination personalized opening sentence.' },
+    }),
+  },
 ];
 
 // Backward-compatible internal alias map for v1.x tool names (never advertised in tools/list)
@@ -655,6 +769,8 @@ export const LEGACY_TOOL_ALIASES = {
   creator_link_in_bio_email_enricher: 'enrich_creator_bio_leads',
   korea_mfds_cosmetic_recalls: 'search_korea_mfds_recalls',
   korea_mfds_functional_cosmetics_oem: 'search_korea_mfds_oem_filings',
+  local_b2b_website_audit_email_pitch_finder: 'audit_local_b2b_websites',
+  meta_ads_advertiser_leak_audit_email_enricher: 'audit_meta_ads_advertisers',
 };
 
 export const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
@@ -774,6 +890,29 @@ export const PROMPTS = [
       {
         name: 'categoryKeyword',
         description: 'Optional Chamber industry filter such as dental, plumbing, restaurant, or roofing.',
+        required: false,
+      },
+    ],
+  },
+  {
+    name: 'audit_meta_ads_leaks_and_draft_pitches',
+    title: 'Audit Meta Ads Advertisers for Leaks & Draft DTC Pitches',
+    description:
+      'Deduplicate Meta Ad Library datasets, Apify Run IDs, or DTC landing URLs, run 4-layer 110+ stack + 404/OOS/DMARC audit, flag CS ticket queues safely, and draft evidence-backed agency pitches.',
+    arguments: [
+      {
+        name: 'targets',
+        description: 'Apify Dataset ID/Run ID OR comma-separated DTC landing URLs (e.g. "https://www.chomps.com/, https://www.brooklinen.com/products/discontinued-summer-promo-demo-404").',
+        required: true,
+      },
+      {
+        name: 'agencyPreset',
+        description: 'Agency vertical: auto_best_fit, tiktok_google_ads, email_sms_retention, cro_landing_page, ugc_creative, or deliverability_agency (default: auto_best_fit).',
+        required: false,
+      },
+      {
+        name: 'dedupStoreName',
+        description: 'Optional Named Key-Value Store for weekly skip_seen ($0 repeats) or watch_diff change triggers.',
         required: false,
       },
     ],
@@ -929,14 +1068,42 @@ export function buildPromptResult(name, args = {}) {
         ],
       };
     }
+    case 'audit_meta_ads_leaks_and_draft_pitches': {
+      const rawTargets = clean(args.targets, 'https://www.chomps.com/, https://www.brooklinen.com/products/discontinued-summer-promo-demo-404');
+      const preset = clean(args.agencyPreset, 'auto_best_fit');
+      const dedupStore = clean(args.dedupStoreName);
+      const list = rawTargets.split(',').map((t) => t.trim()).filter(Boolean);
+      const isSingleId = list.length === 1 && !list[0].includes('.') && !list[0].includes('/');
+      const argHint = isSingleId
+        ? `\`sourceDatasetId: "${list[0]}"\``
+        : `\`landingPageUrls: ${JSON.stringify(list)}\``;
+      return {
+        description: prompt.description,
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Call \`audit_meta_ads_advertisers\` with ${argHint}, \`agencyPreset: "${preset}"\`, and \`maxBrands: 25\`${dedupStore ? `, \`dedupStoreName: "${dedupStore}"\`, \`dedupMode: "watch_diff"\`` : ''}.`,
+                'Produce two sections:',
+                '1. **Outreach-Ready DTC Prospects** (`outreachStatus === "ready"` and `inboxType !== "cs_ticket_queue"`): sorted by `leadPriority` and `leakScore`/`expansionScore`, showing Brand, Buyer Fit, Leak/Expansion Score, Deliverability Grade, Primary Email, Verified Signal, Cold Email Subject, and Evidence Opener.',
+                '2. **CS-Queue / Manual-Review Pivot List** (`inboxType === "cs_ticket_queue"` or `outreachStatus !== "ready"`): do NOT recommend automated email blasts; output the `linkedinDecisionMakerSearchUrl` and `linkedInDm` instead.',
+              ].join('\n'),
+            },
+          },
+        ],
+      };
+    }
     default:
       return null;
   }
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.1.0 — 8 zero-proxy tools + 6 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.2.0 — 9 zero-proxy tools + 7 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
+  '- Meta Ad Library datasets, Apify Run IDs, or DTC ad landing pages -> 4-layer 110+ tech stack, 404/OOS/DMARC leaks, buyer fit, CS-queue guard, Tier-2 expansion pitches & weekly watch_diff -> audit_meta_ads_advertisers.',
   '- Local business / Google Maps / US Chamber 8-point website weakness audit + owner emails + cold-email openers -> audit_local_b2b_websites.',
   '- Competitor wholesale retail stockists + buyer emails -> extract_brand_store_stockists.',
   '- External Shopify competitor price drops, restocks, stockouts, or MAP violations -> monitor_shopify_competitor_deltas.',
@@ -945,8 +1112,8 @@ export const SERVER_INSTRUCTIONS = [
   '- Creator/influencer Link-in-Bio agency emails, monetization links, and Readiness Score -> enrich_creator_bio_leads.',
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
-  'Built-in Prompts: audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
-  'Safety: All lookup/enrichment/audit tools are read-only and idempotent; monitor tools only persist non-destructive Apify Key-Value Store snapshots.',
+  'Built-in Prompts: audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
+  'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails when outreachStatus !== "ready" or inboxType === "cs_ticket_queue".',
 ].join('\n');
 
 export function listToolsResponse() {

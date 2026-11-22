@@ -1,16 +1,16 @@
-# Apify External Business Intelligence MCP Server (v2.1.0)
+# Apify External Business Intelligence MCP Server (v2.2.0)
 
-> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.1.0) exposing 8 zero-proxy Apify Store Actors and 6 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Make workflows, and non-developer agency, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
+> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.2.0) exposing 9 zero-proxy Apify Store Actors and 7 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Make workflows, and non-developer agency, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
 
 ## Instant Connection Endpoints
 
 - **Zero-Install Remote MCP (Streamable HTTP)**: `https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp` (pass `Authorization: Bearer <APIFY_TOKEN>` or `X-Apify-Token: <APIFY_TOKEN>` for `tools/call`; discovery is tokenless).
 - **1-Line Local Stdio MCP (`npx`)**: `npx -y github:wonderpick/apify-b2b-ecom-automation-kit` (with `APIFY_TOKEN` in env).
 
-## When AI Agents Should Use Each Tool (8 verb_noun Tools)
+## When AI Agents Should Use Each Tool (9 verb_noun Tools)
 
+- **Meta Ads Advertiser Leak Audit, 110+ Tech Stack, DMARC Grade & DTC Outreach**: Call `audit_meta_ads_advertisers` — https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher ($4.50/1K unique deduplicated brands, $0 on marketplaces, WAF skips, weekly repeats, or filtered misses). Accepts Meta Ad Library `sourceDatasetId`, `sourceRunId`, pasted CSV/Sheets, or up to 2,000 DTC landing URLs; runs 4-layer 110+ tech stack X-Ray (34 Shopify Web Pixels, 30+ OS 2.0 app blocks, CSP/Header/Cookie signals), live 404/OOS/DMARC/SPF deliverability grading (A-F), honest `buyerFitTier`, `inboxType` CS-queue guard, Tier-2 `expansionOpportunities`, 16-shard `watch_diff` triggers, verified brand emails, and zero-AI agency pitches.
 - **Local B2B & Google Maps Website Weakness Audit + Owner Email + Cold Pitch**: Call `audit_local_b2b_websites` — https://apify.com/maitreya_buddha/local-b2b-website-audit-email-pitch-finder ($4.50/1K leads, $0 on optional filtered misses). Accepts Google Maps datasetId, up to 2,000 URLs, or 13 live-verified US Chamber presets; runs an 8-point website X-ray (SSL, mobile, speed, copyright year, SEO/LocalBusiness schema, GA4/Meta/TikTok pixels, booking/chat widgets, CMS), decodes Cloudflare owner emails, scores 0-100, and writes factual cold-email openers.
-
 - **Wholesale Retail Prospecting (Boutiques + Buyer Emails)**: Call `extract_brand_store_stockists` — https://apify.com/maitreya_buddha/brand-store-locator-stockist-email-enricher ($5/1K stores, $0 when empty/filtered). Extracts physical stockists carrying competitor brands plus buyer/wholesale emails, Instagram/LinkedIn, independent-boutique tags, and 0-100 outreachReadinessScore.
 - **Shopify Competitor Price, Restock & MAP Monitoring**: Call `monitor_shopify_competitor_deltas` — https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor ($2/1K real changes, $0 on baseline or unchanged stores). Tracks up to 50 Shopify stores x 2,500 products with CRITICAL/INVENTORY/CATALOG severity and MAP violation detection.
 - **Third-Party SaaS Security (SOC 2 / AI Subprocessors / TPRM)**: Call `audit_saas_trust_center` — https://apify.com/maitreya_buddha/saas-trust-center-soc2-monitor ($5/1K audits or real changes, $0 unchanged). Audits Vanta/Drata/SafeBase/Conveyor Trust Centers, 12 certs, DNS IAM/SSO, 75+ AI & third-party subprocessors, complianceScore (0-100), and missingSoc2Lead.
@@ -19,10 +19,10 @@
 - **South Korea MFDS Cosmetic Recalls & Sales Suspensions**: Call `search_korea_mfds_recalls` — https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls ($3/1K recalls, $0 when clean). English/Korean recall & lot-number safety checks with isActiveRecall flag.
 - **South Korea K-Beauty OEM/ODM Factory & Functional Cosmetic DB (219,000+ Official Filings)**: Call `search_korea_mfds_oem_filings` — https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem ($2/1K records, $0 empty). English-to-Korean auto-search (`Cosmax`, `Kolmar`, `sunscreen`, `retinol cream`) revealing hidden Korean OEM factories and SPF/PA ratings.
 
-## Built-In One-Click Workflow Prompts (6 Prompts)
+## Built-In One-Click Workflow Prompts (7 Prompts)
 
+- `audit_meta_ads_leaks_and_draft_pitches`: Meta Ad Library datasetId/runId or DTC URLs -> deduplicated 4-layer 110+ stack & 404/OOS/DMARC leak audit + CS-queue-safe prioritized DTC outreach brief.
 - `audit_local_leads_and_draft_pitches`: Local business URLs, Google Maps datasetId, or US Chamber cities -> 8-point website audit + owner emails + factual cold-email outreach CSV.
-
 - `prospect_competitor_retail_stockists`: Competitor brand URL -> independent boutiques + prioritized wholesale buyer email pitch table.
 - `kbeauty_supplier_due_diligence`: Product/OEM keyword -> chains `search_korea_mfds_oem_filings` + `search_korea_mfds_recalls` for full OEM + recall safety report.
 - `audit_vendor_security_and_ai_risk`: Vendor domains -> chains `audit_saas_trust_center` + `enrich_b2b_company_leads` for TPRM risk & contact matrix.
@@ -34,4 +34,4 @@
 - GitHub Repository (Stdio + Docker MCP Server): https://github.com/wonderpick/apify-b2b-ecom-automation-kit
 - Glama MCP Directory Listing (Tool Definition Quality A): https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit
 - Official MCP Schema Manifest: https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/server.json
-- n8n Production Workflow Templates (5 Multi-Branch Workflows): https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/n8n-workflows
+- n8n Production Workflow Templates (7 Multi-Branch Workflows): https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/n8n-workflows

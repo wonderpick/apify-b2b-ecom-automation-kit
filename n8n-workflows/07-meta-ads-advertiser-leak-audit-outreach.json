@@ -1,0 +1,341 @@
+{
+  "name": "Meta Ads Advertiser Leak Audit, Tech Stack X-Ray & Agency Outreach Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Meta Ads Advertiser Leak Audit, Tech Stack X-Ray & Weekly Watch-Diff Pipeline\n\nReads Meta Ad Library Dataset IDs, Run IDs, or DTC landing URLs from **Google Sheets**, runs **4-layer 110+ tech stack detection + live 404/OOS/DMARC (Grade A–F) leak X-Ray + buyer-fit grading + 16-shard `watch_diff` triggers + zero-AI outreach copy**, protects your sender reputation by routing `cs_ticket_queue` / `manual_review_required` rows safely to a review tab, logs clean leads to Google Sheets, and alerts Slack `#agency-leads` + Gmail on `VIP_HOT` or fresh buying triggers.\n\n**Actor URL:** https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $4.50 / 1,000 unique deduplicated brands · **$0 on marketplaces, WAF skips, weekly repeats (`skip_seen`) & filtered misses** · 128–256 MB RAM · $0 proxy.",
+        "height": 300,
+        "width": 820,
+        "color": 4
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000101",
+      "name": "Sticky Note - Overview & Cost",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [120, 40]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Advertiser Source (Google Sheets -> Audit Payload)\n\nCreate a spreadsheet with three tabs:\n- **`AdvertiserTargets`**: columns `sourceDatasetId` (optional), `sourceRunId` (optional), `landingPageUrl` (optional), `agencyPreset` (`auto_best_fit`, `tiktok_google_ads`, `email_sms_retention`, `cro_landing_page`, `ugc_creative`, `deliverability_agency`), `dedupStoreName` (e.g. `meta-ads-watch-store`), `dedupMode` (`skip_seen` or `watch_diff`).\n- **`AuditedAdvertisers`**: stores ready-to-send leads with `brandName`, `brandDomain`, `leadPriority`, `buyerFitTier`, `leakScore`, `expansionScore`, `primaryEmail`, `inboxType`, `deliverabilityGrade`, `detectedLeaksSummary`, `expansionOpportunitiesCsv`, `linkedinDecisionMakerSearchUrl`, `coldEmailSubject`, `coldEmailOpener`, `auditedAt`.\n- **`ManualReviewOrCS`**: isolates `cs_ticket_queue` (Gorgias/Zendesk) and non-`ready` rows so you pivot to LinkedIn DM instead of hurting sender reputation.",
+        "height": 470,
+        "width": 780,
+        "color": 5
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000102",
+      "name": "Sticky Note - 1. Advertiser Source",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [120, 370]
+    },
+    {
+      "parameters": {
+        "content": "### 2. 4-Layer 110+ Stack X-Ray & Inbox Safety Gate\n\n1. Create a free [Apify account](https://apify.com) and generate an API token (`Settings -> API & Integrations`).\n2. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <token>`) and attach it to **Audit Meta Ads Advertisers via Apify**.\n3. The **Safe for Email Outreach?** IF node checks `outreachStatus === 'ready'` AND `inboxType !== 'cs_ticket_queue'` so customer-support queues and quarantined emails go to `ManualReviewOrCS` with a 1-click LinkedIn decision-maker link.",
+        "height": 580,
+        "width": 760,
+        "color": 6
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000103",
+      "name": "Sticky Note - 2. Audit & Inbox Guard",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [940, 370]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Priority Tiering, Sheet Sync & Multi-Channel Alerts\n\n- **All outreach-ready DTC leads** are appended to `AuditedAdvertisers` in Google Sheets (CRM-ready).\n- **VIP_HOT** (or `hasNewBuyingTrigger === true`) -> Slack `#agency-leads` + Gmail ready-to-send pitch brief.\n- **WARM** & **NURTURE** (including Tier-2 expansion pitches) -> Slack `#agency-ops`.",
+        "height": 680,
+        "width": 880,
+        "color": 2
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000104",
+      "name": "Sticky Note - 3. Tiering & Routing",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1740, 270]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": 1,
+              "triggerAtDay": [1],
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000001",
+      "name": "Weekly Monday Audit Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [180, 530]
+    },
+    {
+      "parameters": {},
+      "id": "c1a2b3d4-0007-4000-8000-000000000002",
+      "name": "Manual Audit Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [180, 710]
+    },
+    {
+      "parameters": {
+        "documentId": { "__rl": true, "value": "", "mode": "id" },
+        "sheetName": { "__rl": true, "value": "AdvertiserTargets", "mode": "name" },
+        "options": {}
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000003",
+      "name": "Read Advertiser Targets from Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [420, 620]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst urlSet = new Set();\nlet sourceDatasetId = '';\nlet sourceRunId = '';\nlet agencyPreset = 'auto_best_fit';\nlet dedupStoreName = '';\nlet dedupMode = 'watch_diff';\n\nfor (const row of rows) {\n  const u = row.landingPageUrl || row.websiteUrl || row.url || row.domain || '';\n  if (typeof u === 'string' && u.trim()) urlSet.add(u.trim());\n  if (!sourceDatasetId && typeof row.sourceDatasetId === 'string' && row.sourceDatasetId.trim()) {\n    sourceDatasetId = row.sourceDatasetId.trim();\n  }\n  if (!sourceRunId && typeof row.sourceRunId === 'string' && row.sourceRunId.trim()) {\n    sourceRunId = row.sourceRunId.trim();\n  }\n  if (typeof row.agencyPreset === 'string' && row.agencyPreset.trim()) {\n    agencyPreset = row.agencyPreset.trim();\n  }\n  if (!dedupStoreName && typeof row.dedupStoreName === 'string' && row.dedupStoreName.trim()) {\n    dedupStoreName = row.dedupStoreName.trim();\n  }\n  if (typeof row.dedupMode === 'string' && (row.dedupMode === 'skip_seen' || row.dedupMode === 'watch_diff')) {\n    dedupMode = row.dedupMode;\n  }\n}\n\nconst landingPageUrls = Array.from(urlSet);\nconst payload = {\n  agencyPreset,\n  crmExportPreset: 'default',\n  enableContactPageFollow: true,\n  enableDnsEmailCheck: true,\n  enableStorefrontCatalogAudit: true,\n  onlyWithEmail: false,\n  onlyWithActiveLeaks: false,\n  maxBrands: 50,\n  maxConcurrency: 3\n};\nif (sourceDatasetId) payload.sourceDatasetId = sourceDatasetId;\nif (sourceRunId) payload.sourceRunId = sourceRunId;\nif (landingPageUrls.length > 0) payload.landingPageUrls = landingPageUrls;\nif (dedupStoreName) {\n  payload.dedupStoreName = dedupStoreName;\n  payload.dedupMode = dedupMode;\n}\n\nreturn [{ json: payload }];"
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000004",
+      "name": "Build Meta Ads Audit Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 620]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~meta-ads-advertiser-leak-audit-email-enricher/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "memory", "value": "256" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": { "timeout": 240000 }
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000005",
+      "name": "Audit Meta Ads Advertisers via Apify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1000, 620]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "cond-outreach-ready",
+              "leftValue": "={{ $json.outreachStatus }}",
+              "rightValue": "ready",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "cond-not-cs-queue",
+              "leftValue": "={{ $json.inboxType }}",
+              "rightValue": "cs_ticket_queue",
+              "operator": { "type": "string", "operation": "notEquals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000006",
+      "name": "Safe for Email Outreach?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [1240, 620]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "", "mode": "id" },
+        "sheetName": { "__rl": true, "value": "ManualReviewOrCS", "mode": "name" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "brandName": "={{ $json.brandName }}",
+            "brandDomain": "={{ $json.brandDomain }}",
+            "buyerFitTier": "={{ $json.buyerFitTier || '' }}",
+            "outreachStatus": "={{ $json.outreachStatus }}",
+            "inboxType": "={{ $json.inboxType || '' }}",
+            "primaryEmail": "={{ $json.primaryEmail || '' }}",
+            "outreachChannelRecommendation": "={{ $json.outreachChannelRecommendation || '' }}",
+            "linkedinDecisionMakerSearchUrl": "={{ $json.linkedinDecisionMakerSearchUrl || '' }}",
+            "linkedInDm": "={{ $json.linkedInDm || '' }}",
+            "auditedAt": "={{ $json.auditedAt }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000007",
+      "name": "Log CS-Queue & Manual Review Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1500, 800]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const priority = d.hasNewBuyingTrigger ? 'VIP_HOT' : (d.leadPriority || 'NURTURE');\n  const triggers = Array.isArray(d.changeTriggers) && d.changeTriggers.length > 0 ? d.changeTriggers.join(', ') : 'None';\n  const angle = d.detectedLeaksSummary || d.expansionOpportunitiesCsv || d.recommendedAgencyAngle || 'General Audit';\n\n  const slackSummary = [\n    `:dart: *[${priority}] DTC Advertiser Lead:* ${d.brandName} (${d.brandDomain}) — *${d.buyerFitTier || 'Unknown'}*`,\n    `*Scores:* Leak ${d.leakScore ?? 0}/100 | Expansion ${d.expansionScore ?? 0}/100 | Deliverability: *${d.deliverabilityGrade || 'N/A'}* | Stack: ${d.techStackCount ?? 0} tools`,\n    `*Contact:* ${d.primaryEmail || 'No email'} (${d.inboxType || 'unknown'}) | *Exec:* ${d.executiveName || 'DM Search'} ${d.linkedinDecisionMakerSearchUrl || ''}`,\n    `*Signal / Angle:* ${angle}`,\n    `*Watch-Diff Triggers:* ${triggers}`,\n    `*Subject:* ${d.coldEmailSubject || d.subjectLine || ''}`,\n    `*Opener:* ${d.coldEmailOpener || ''}`\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      effectivePriority: priority,\n      triggersText: triggers,\n      slackSummary\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000008",
+      "name": "Format DTC Brief & Effective Priority",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 550]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "", "mode": "id" },
+        "sheetName": { "__rl": true, "value": "AuditedAdvertisers", "mode": "name" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "brandName": "={{ $json.brandName }}",
+            "brandDomain": "={{ $json.brandDomain }}",
+            "leadPriority": "={{ $json.effectivePriority }}",
+            "buyerFitTier": "={{ $json.buyerFitTier || '' }}",
+            "leakScore": "={{ $json.leakScore }}",
+            "expansionScore": "={{ $json.expansionScore }}",
+            "primaryEmail": "={{ $json.primaryEmail || '' }}",
+            "inboxType": "={{ $json.inboxType || '' }}",
+            "deliverabilityGrade": "={{ $json.deliverabilityGrade || '' }}",
+            "detectedLeaksSummary": "={{ $json.detectedLeaksSummary || '' }}",
+            "expansionOpportunitiesCsv": "={{ $json.expansionOpportunitiesCsv || '' }}",
+            "linkedinDecisionMakerSearchUrl": "={{ $json.linkedinDecisionMakerSearchUrl || '' }}",
+            "coldEmailSubject": "={{ $json.coldEmailSubject || '' }}",
+            "coldEmailOpener": "={{ $json.coldEmailOpener || '' }}",
+            "auditedAt": "={{ $json.auditedAt }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000009",
+      "name": "Save Audited Advertisers to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1820, 450]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+                "conditions": [{ "leftValue": "={{ $json.effectivePriority }}", "rightValue": "VIP_HOT", "operator": { "type": "string", "operation": "equals" } }],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "VIP Hot or Trigger"
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+                "conditions": [{ "leftValue": "={{ $json.effectivePriority }}", "rightValue": "WARM", "operator": { "type": "string", "operation": "equals" } }],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Warm Lead"
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+                "conditions": [{ "leftValue": "={{ $json.effectivePriority }}", "rightValue": "NURTURE", "operator": { "type": "string", "operation": "equals" } }],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Nurture Watchlist"
+            }
+          ]
+        },
+        "options": { "fallbackOutput": "none" }
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000010",
+      "name": "Route by Lead Priority Tier",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [1820, 700]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": { "__rl": true, "value": "agency-leads", "mode": "name" },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000011",
+      "name": "Alert Agency Slack (VIP Hot Leads)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [2120, 570]
+    },
+    {
+      "parameters": {
+        "sendTo": "",
+        "subject": "={{ $json.coldEmailSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.coldEmailBody + '\\n\\nBrand: ' + $json.brandName + ' (' + $json.brandDomain + ')\\nBuyer Fit: ' + ($json.buyerFitTier || 'Unknown') + '\\nEmail: ' + ($json.primaryEmail || 'N/A') + '\\nLinkedIn DM Search: ' + ($json.linkedinDecisionMakerSearchUrl || '') }}",
+        "options": { "appendAttribution": false }
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000012",
+      "name": "Send VIP Cold-Pitch Brief via Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [2380, 570]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": { "__rl": true, "value": "agency-ops", "mode": "name" },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "c1a2b3d4-0007-4000-8000-000000000013",
+      "name": "Post Warm & Nurture Leads to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [2120, 790]
+    }
+  ],
+  "connections": {
+    "Weekly Monday Audit Schedule": { "main": [[{ "node": "Read Advertiser Targets from Sheet", "type": "main", "index": 0 }]] },
+    "Manual Audit Trigger": { "main": [[{ "node": "Read Advertiser Targets from Sheet", "type": "main", "index": 0 }]] },
+    "Read Advertiser Targets from Sheet": { "main": [[{ "node": "Build Meta Ads Audit Payload", "type": "main", "index": 0 }]] },
+    "Build Meta Ads Audit Payload": { "main": [[{ "node": "Audit Meta Ads Advertisers via Apify", "type": "main", "index": 0 }]] },
+    "Audit Meta Ads Advertisers via Apify": { "main": [[{ "node": "Safe for Email Outreach?", "type": "main", "index": 0 }]] },
+    "Safe for Email Outreach?": {
+      "main": [
+        [{ "node": "Format DTC Brief & Effective Priority", "type": "main", "index": 0 }],
+        [{ "node": "Log CS-Queue & Manual Review Leads", "type": "main", "index": 0 }]
+      ]
+    },
+    "Format DTC Brief & Effective Priority": {
+      "main": [[
+        { "node": "Save Audited Advertisers to Sheet", "type": "main", "index": 0 },
+        { "node": "Route by Lead Priority Tier", "type": "main", "index": 0 }
+      ]]
+    },
+    "Route by Lead Priority Tier": {
+      "main": [
+        [{ "node": "Alert Agency Slack (VIP Hot Leads)", "type": "main", "index": 0 }],
+        [{ "node": "Post Warm & Nurture Leads to Slack", "type": "main", "index": 0 }],
+        [{ "node": "Post Warm & Nurture Leads to Slack", "type": "main", "index": 0 }]
+      ]
+    },
+    "Alert Agency Slack (VIP Hot Leads)": {
+      "main": [[{ "node": "Send VIP Cold-Pitch Brief via Gmail", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "templateCredsSetupCompleted": true }
+}

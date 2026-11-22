@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Apify External Business Intelligence MCP Server (stdio, v2.1.1)
- * Exposes 8 zero-proxy 128MB-256MB Apify Actors + 6 one-click workflow Prompts.
+ * Apify External Business Intelligence MCP Server (stdio, v2.2.0)
+ * Exposes 9 zero-proxy 128MB-256MB Apify Actors + 7 one-click workflow Prompts.
  * Note: initialize, tools/list, prompts/list, prompts/get, and resources/list work with NO APIFY_TOKEN
  * so MCP clients and automated indexers (e.g. Glama.ai, mcptry.com) inspect schemas cleanly.
  */

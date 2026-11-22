@@ -50,3 +50,15 @@ const shopifyDeltas = await runActorSync('maitreya_buddha~shopify-competitor-del
   emitBaselineSummary: true,
 });
 console.log('Shopify Delta Monitor:', JSON.stringify(shopifyDeltas, null, 2));
+
+// 4. Meta Ads Advertiser Leak Audit & Email Enricher ($4.50 / 1K unique brands, 128MB RAM)
+const metaAdsAudits = await runActorSync('maitreya_buddha~meta-ads-advertiser-leak-audit-email-enricher', {
+  landingPageUrls: [
+    'https://www.chomps.com/',
+    'https://www.brooklinen.com/products/discontinued-summer-promo-demo-404',
+  ],
+  agencyPreset: 'auto_best_fit',
+  crmExportPreset: 'default',
+  maxBrands: 10,
+});
+console.log('Meta Ads Advertiser Audits:', JSON.stringify(metaAdsAudits, null, 2));
