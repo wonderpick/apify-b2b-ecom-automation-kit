@@ -1,8 +1,8 @@
 {
   "name": "apify-b2b-ecom-mcp-server",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "mcpName": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
-  "description": "Zero-subscription external business intelligence MCP server (7 verb_noun tools + 5 one-click workflow prompts): competitor retail stockists & buyer emails, Shopify price/restock/MAP deltas, SaaS Trust Center SOC 2 & AI subprocessors, B2B lead enrichment, creator Link-in-Bio emails, and South Korea MFDS K-Beauty OEM & recall registries.",
+  "description": "Zero-subscription external business intelligence MCP server (8 verb_noun tools + 6 one-click workflow prompts): local B2B website weakness audit & cold pitches, competitor retail stockists, Shopify deltas, SaaS SOC 2 & AI subprocessors, B2B & creator email enrichment, and South Korea MFDS K-Beauty OEM & recalls.",
   "type": "module",
   "main": "src/mcp-server.mjs",
   "bin": {
