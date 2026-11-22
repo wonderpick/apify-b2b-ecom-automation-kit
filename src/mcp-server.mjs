@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Apify B2B, E-Commerce, TPRM & Creator MCP Server (stdio)
- * Exposes 6 lightweight, zero-proxy 128MB Apify Actors as standard MCP tools.
+ * Apify B2B, E-Commerce, Retail Stockist, TPRM & Creator MCP Server (stdio)
+ * Exposes 7 lightweight, zero-proxy 128MB Apify Actors as standard MCP tools.
  * Note: tool discovery (tools/list) works with NO APIFY_TOKEN so automated MCP
  * indexers (e.g. Glama.ai) inspect all schemas cleanly without HTTP 401 errors.
  */
@@ -280,6 +280,55 @@ const TOOLS = [
       },
     },
   },
+  {
+    name: 'brand_store_locator_stockist_email_enricher',
+    actorSlug: 'maitreya_buddha~brand-store-locator-stockist-email-enricher',
+    description:
+      'Find every boutique, specialty shop, and retail stockist carrying a competitor brand AND enrich each unique retailer website with prioritized buyer/wholesale emails (wholesale@, buyers@, sales@, info@), Instagram, LinkedIn, Contact Form URLs, independent-boutique vs national-chain classification, and a 0-100 Outreach Readiness Score in one zero-proxy run ($5/1K stores; $0 for filtered national chains, no-email skips, or empty sites). Paste brand homepages or store locator URLs.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        urls: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Brand homepages or store locator URLs, e.g. ["https://fellowproducts.com", "https://brooklynhotdogcompany.com"]. Optional when datasetId is provided.',
+        },
+        datasetId: {
+          type: 'string',
+          description: 'Optional upstream Apify Dataset ID containing brand or store locator URLs.',
+        },
+        enrichEmails: {
+          type: 'boolean',
+          description: 'Visit each unique retailer website (plus /wholesale and /contact) to extract buyer emails and social links.',
+          default: true,
+        },
+        onlyWithEmail: {
+          type: 'boolean',
+          description: 'Only save and bill stores where a valid email address is found ($0 otherwise).',
+          default: false,
+        },
+        onlyIndependentStores: {
+          type: 'boolean',
+          description: 'Skip giant national chains (Target, Walmart, Sephora, Whole Foods, etc.) at $0 and return independent boutiques & regional shops.',
+          default: false,
+        },
+        maxStoresPerBrand: {
+          type: 'integer',
+          description: 'Maximum stockist locations to return per brand (1-5,000).',
+          default: 100,
+        },
+        countryFilter: {
+          type: 'string',
+          description: 'Optional country code or name filter (e.g. "US", "GB", "CA", "AU", "DE", "KR").',
+        },
+        minReadinessScore: {
+          type: 'integer',
+          description: 'Minimum Outreach Readiness Score (0-100) required to save and bill ($0 for filtered stores).',
+          default: 0,
+        },
+      },
+    },
+  },
 ];
 
 const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
@@ -287,7 +336,7 @@ const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
 const server = new Server(
   {
     name: 'apify-b2b-ecom-mcp-server',
-    version: '1.1.0',
+    version: '1.2.0',
   },
   {
     capabilities: {
