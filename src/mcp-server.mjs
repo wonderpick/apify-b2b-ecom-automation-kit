@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Apify B2B, E-Commerce, Retail Stockist, TPRM & Creator MCP Server (stdio)
- * Exposes 7 lightweight, zero-proxy 128MB Apify Actors as standard MCP tools.
+ * Exposes 7 lightweight, zero-proxy 128MB-256MB Apify Actors as standard MCP tools.
  * Note: tool discovery (tools/list) works with NO APIFY_TOKEN so automated MCP
  * indexers (e.g. Glama.ai) inspect all schemas cleanly without HTTP 401 errors.
  */
@@ -18,7 +18,7 @@ const TOOLS = [
     name: 'shopify_competitor_delta_monitor',
     actorSlug: 'maitreya_buddha~shopify-competitor-delta-monitor',
     description:
-      'Monitor Shopify competitor stores for price drops, price hikes, restocks, out-of-stock alerts, new product launches, and MAP violations using persistent Key-Value Store snapshots ($2/1K real deltas; $0 on baseline or unchanged runs). Returns delta records with eventType, store, title, variantTitle, sku, oldPrice, newPrice, priceChangePercent, available, mapViolation, and productUrl. Use whenever you need change-only e-commerce price or inventory tracking without paying for unchanged pages.',
+      'Monitor up to 50 Shopify competitor stores (up to 2,500 products each = 125K SKUs) for price drops, price hikes, restocks, out-of-stock alerts, new product launches, and MAP violations using persistent Key-Value Store snapshots ($2/1K real deltas; $0 on baseline or unchanged runs). Every delta includes deterministic alert severity (CRITICAL, INVENTORY, or CATALOG), oldPrice, newPrice, priceChangePercent, available, mapViolation, and productUrl. Unlike native storefront MCPs that only manage your own shop, this watches external competitors at $0 when nothing changed.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -49,7 +49,7 @@ const TOOLS = [
         },
         mapThresholds: {
           type: 'object',
-          description: 'Optional JSON map of SKU or product handle to Minimum Advertised Price (flags mapViolation: true if below threshold).',
+          description: 'Optional JSON map of SKU or product handle to Minimum Advertised Price (flags mapViolation: true and severity: CRITICAL if below threshold).',
         },
         emitBaselineSummary: {
           type: 'boolean',
@@ -68,19 +68,19 @@ const TOOLS = [
     name: 'saas_trust_center_soc2_monitor',
     actorSlug: 'maitreya_buddha~saas-trust-center-soc2-monitor',
     description:
-      'Audit or continuously monitor B2B SaaS vendor Trust Centers (Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust) for SOC 2 Type I/II, ISO 27001, HIPAA, PCI-DSS, DNS IAM/SSO providers, and 75+ subprocessors including AI vendors (OpenAI, Anthropic, AWS Bedrock, Vertex AI). Returns compliance posture in audit mode or change deltas in monitor mode ($5/1K audits or changes; $0 unchanged). Ideal for Third-Party Risk Management (TPRM) and vendor security questionnaires.',
+      'Audit or continuously monitor up to 500 external SaaS vendor Trust Centers (Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust, or self-hosted) for SOC 2 Type I/II, ISO 27001, HIPAA, PCI-DSS, DNS IAM/SSO providers, and 75+ subprocessors including AI vendors (OpenAI, Anthropic, AWS Bedrock, Vertex AI). Returns complianceScore (0-100) and missingSoc2Lead boolean for both TPRM vendor risk monitoring and SOC 2 gap lead generation ($5/1K audits or changes; $0 unchanged). Unlike internal GRC MCPs that only read your own account, this audits external vendors with zero browser.',
     inputSchema: {
       type: 'object',
       properties: {
         domains: {
           type: 'array',
           items: { type: 'string' },
-          description: 'List of 1 to 500 SaaS vendor domains or URLs to inspect, e.g. ["apify.com", "linear.app", "canva.com"].',
+          description: 'List of 1 to 500 SaaS vendor or prospect domains to inspect, e.g. ["apify.com", "linear.app", "canva.com"].',
         },
         mode: {
           type: 'string',
           enum: ['audit', 'monitor'],
-          description: 'Execution mode: "audit" returns complete Trust Center, cert, IAM, and AI subprocessor posture; "monitor" emits only real changes against snapshots.',
+          description: 'Execution mode: "audit" returns complete Trust Center, complianceScore (0-100), missingSoc2Lead, certs, IAM, and AI subprocessor posture; "monitor" emits only real changes against snapshots.',
           default: 'audit',
         },
         stateStoreName: {
@@ -111,14 +111,14 @@ const TOOLS = [
     name: 'b2b_company_domain_linkedin_enricher',
     actorSlug: 'maitreya_buddha~b2b-company-domain-linkedin-enricher',
     description:
-      '3-in-1 B2B lead enrichment resolver: pass company names, domains, work emails, or an upstream Apify datasetId and get verified official domain, websiteUrl, LinkedIn company/school URL (rejects personal /in/ noise), prioritized corporate role emails (sales@, contact@, hello@), WhatsApp links, phones, and 6 social links ($2.50/1K enriched; $0 for misses, parked domains, or SSRF inputs).',
+      '3-in-1 zero-subscription B2B lead enrichment resolver: pass company names, domains, work emails, or an upstream Apify datasetId and get verified official domain, LinkedIn /company/ URL (rejecting /in/ noise), Cloudflare-decoded role emails (sales@, contact@, hello@), WhatsApp links, phones, 6 social profiles, and a 0-100 leadQualityScore ($2.50/1K enriched; $0 for misses, parked domains, SSRF inputs, or no-email skips when onlyWithEmail is enabled).',
     inputSchema: {
       type: 'object',
       properties: {
         inputs: {
           type: 'array',
           items: { type: 'string' },
-          description: 'Up to 2,000 company names, domains, URLs, or work emails, e.g. ["Stripe", "Linear", "canva.com"]. Optional when datasetId is provided.',
+          description: 'Up to 2,000 company names, domains, URLs, or work emails, e.g. ["Stripe", "Linear", "apify.com"]. Optional when datasetId is provided.',
         },
         datasetId: {
           type: 'string',
@@ -132,6 +132,11 @@ const TOOLS = [
           type: 'boolean',
           description: 'Follow up to 2 internal /contact or /about pages when the homepage lacks emails, WhatsApp, or LinkedIn URLs.',
           default: true,
+        },
+        onlyWithEmail: {
+          type: 'boolean',
+          description: 'When true, save and bill ONLY companies where at least 1 verified email is found ($0 otherwise).',
+          default: false,
         },
         includeUnresolved: {
           type: 'boolean',
@@ -156,21 +161,26 @@ const TOOLS = [
     name: 'korea_mfds_cosmetic_recalls',
     actorSlug: 'maitreya_buddha~korea-mfds-cosmetic-recalls',
     description:
-      'Query official South Korea MFDS (Ministry of Food and Drug Safety / 식약처) cosmetic recall notices and administrative suspension records. Filter by companyName, productName, Korean business registration number (businessNumber), or recallOrderDate range. Returns structured JSON with product name, manufacturer, business registration number, violation details, recall order date, and disposal status ($3/1K records). Built for K-beauty importers, retail marketplaces, and regulatory compliance checks.',
+      'Query official South Korea MFDS (Ministry of Food and Drug Safety / 식약처) cosmetic recall and sales suspension notices in plain English or Korean (50+ K-Beauty terms like "sunscreen", "soap", "lip balm", "Cosmax", "Kolmar" auto-bridge to Korean records). Returns structured JSON with productName, companyName, isActiveRecall boolean, lotNumber, recallReason, recallOrderDate, and businessNumber ($3/1K saved matches; $0 when no recalls match).',
     inputSchema: {
       type: 'object',
       properties: {
         companyName: {
           type: 'string',
-          description: 'Optional partial-match filter for the manufacturer or responsible company name (Korean or English), e.g. "코스맥스".',
+          description: 'Optional filter for brand or manufacturer name in English or Korean, e.g. "Cosmax", "Cowell", or "코스맥스".',
         },
         productName: {
           type: 'string',
-          description: 'Optional partial-match filter for the cosmetic product name, e.g. "선크림".',
+          description: 'Optional filter for cosmetic product keyword in English or Korean, e.g. "sunscreen", "soap", "lip balm", or "선크림".',
+        },
+        onlyActiveRecalls: {
+          type: 'boolean',
+          description: 'When true, return and bill ONLY currently active recall orders (hiding expired notices at $0).',
+          default: false,
         },
         businessNumber: {
           type: 'string',
-          description: 'Optional Korean 10-digit business registration number (hyphens ignored), e.g. "1234567890".',
+          description: 'Optional Korean 10-digit business registration number (hyphens ignored), e.g. "2158733119".',
         },
         recallOrderDateFrom: {
           type: 'string',
@@ -192,31 +202,31 @@ const TOOLS = [
     name: 'korea_mfds_functional_cosmetics_oem',
     actorSlug: 'maitreya_buddha~korea-mfds-functional-cosmetics-oem',
     description:
-      'Search 219,000+ official South Korea MFDS functional cosmetics (기능성화장품) reported and reviewed filings. Filter by Korean product keywords, brand or responsible distributor, OEM/ODM manufacturer (such as Cosmax or Kolmar), efficacy claims (whitening, anti-wrinkle, SPF/PA UV protection, hair-loss), or exact itemCode. Automatically cross-references reviewed base formulas via resolveOemFromReviewed to reveal hidden OEM/ODM makers and active ingredients ($2/1K records).',
+      'Search 219,000+ official South Korea MFDS functional cosmetics (기능성화장품) reported and reviewed filings in plain English or Korean ("sunscreen", "serum", "Cosmax", "Kolmar", "Cosmecca", "Amorepacific" auto-bridge to Korean records). Automatically cross-references reviewed base formulas via resolveOemFromReviewed to reveal hidden OEM/ODM factories, SPF/PA specs, and English functionalClaims ($2/1K records; $0 when empty).',
     inputSchema: {
       type: 'object',
       properties: {
         datasetType: {
           type: 'string',
           enum: ['both', 'reported', 'reviewed'],
-          description: 'Which MFDS functional cosmetic registry to query: "reported" (198k+ market filings), "reviewed" (20k+ base formulas), or "both".',
+          description: 'Which MFDS functional cosmetic registry to query: "reported" (198k+ brand filings), "reviewed" (20k+ OEM base formulas), or "both".',
           default: 'reported',
         },
         productName: {
           type: 'string',
-          description: 'Server-side partial-match product name filter; Korean keywords (e.g. "선크림", "세럼", "앰플") run fastest.',
+          description: 'Product keyword in English or Korean (e.g. "sunscreen", "serum", "ampoule", "선크림", "세럼") — English auto-translates for instant server-side search.',
         },
         brandOrDistributor: {
           type: 'string',
-          description: 'Partial-match filter for brand owner or responsible distributor company, e.g. "아모레퍼시픽" or "올리브영".',
+          description: 'Brand or responsible seller in English or Korean, e.g. "Amorepacific", "Olive Young", "Medicube", or "아모레퍼시픽".',
         },
         oemManufacturer: {
           type: 'string',
-          description: 'Partial-match filter for OEM/ODM factory or base-formula owner, e.g. "코스맥스" or "한국콜마".',
+          description: 'OEM/ODM factory in English or Korean, e.g. "Cosmax", "Kolmar", "Cosmecca", "코스맥스", or "한국콜마".',
         },
         efficacyKeyword: {
           type: 'string',
-          description: 'Filter by efficacy claim or English tag: "미백", "주름", "자외선", "탈모", "SPF", "whitening", "anti-wrinkle", "uv-protection", or "hair-loss".',
+          description: 'Filter by efficacy claim in English or Korean: "whitening", "anti-wrinkle", "uv-protection", "SPF", "hair-loss", "미백", "주름", "자외선".',
         },
         itemCode: {
           type: 'string',
@@ -239,14 +249,14 @@ const TOOLS = [
     name: 'creator_link_in_bio_email_enricher',
     actorSlug: 'maitreya_buddha~creator-link-in-bio-email-enricher',
     description:
-      'Enrich Instagram, TikTok, and YouTube creator Link-in-Bio pages (Linktree, Stan.store, Bio.site, Beacons, Komi, Hoo.be, Bento, Lnk.bio, Carrd, etc.) into outreach-ready leads. Extracts prioritized business & talent agency emails, phones/WhatsApp, normalized social links across 14 networks, monetization link classification (affiliate storefronts, brand deals, digital products, newsletters, media kits), promo codes, and a deterministic 0-100 Creator Readiness Score. Supports 1-hop SSRF-safe deep contact following and Instagram/TikTok/YouTube datasetId chaining ($2.50/1K enriched; $0 for 404/WAF/filtered misses).',
+      'Enrich Instagram, TikTok, and YouTube creator Link-in-Bio pages across 15+ platforms (Linktree, Stan.store, Bio.site, Beacons, Komi, Hoo.be, Bento, Lnk.bio, Carrd, etc.) into outreach-ready leads. Extracts prioritized talent agency & business emails (including 1-hop personal site following + Cloudflare data-cfemail decoding), phones/WhatsApp, 14 normalized social links, monetization classification (affiliate storefronts, brand deals, digital products, newsletters, media kits), promo codes, and a 0-100 Creator Readiness Score ($2.50/1K enriched; $0 for 404/WAF/no-email skips).',
     inputSchema: {
       type: 'object',
       properties: {
         urls: {
           type: 'array',
           items: { type: 'string' },
-          description: 'List of creator Link-in-Bio URLs or handles, e.g. ["https://linktr.ee/halleykmcg", "https://stan.store/stan"]. Optional when datasetId is provided.',
+          description: 'List of creator Link-in-Bio URLs or handles, e.g. ["https://linktr.ee/heathertraska", "https://stan.store/stan"]. Optional when datasetId is provided.',
         },
         datasetId: {
           type: 'string',
@@ -254,7 +264,7 @@ const TOOLS = [
         },
         enableDeepContactFollow: {
           type: 'boolean',
-          description: 'When no agency/business email is on the bio page, follow up to 2 creator personal website, Contact, or Media Kit links (1-hop, SSRF-safe).',
+          description: 'When no agency/business email is on the bio page, follow up to 2 creator personal website, Contact, or Media Kit links (1-hop, SSRF-safe, Cloudflare email decoding included).',
           default: true,
         },
         onlyWithEmail: {
@@ -284,7 +294,7 @@ const TOOLS = [
     name: 'brand_store_locator_stockist_email_enricher',
     actorSlug: 'maitreya_buddha~brand-store-locator-stockist-email-enricher',
     description:
-      'Find every boutique, specialty shop, and retail stockist carrying a competitor brand AND enrich each unique retailer website with prioritized buyer/wholesale emails (wholesale@, buyers@, sales@, info@), Instagram, LinkedIn, Contact Form URLs, independent-boutique vs national-chain classification, and a 0-100 Outreach Readiness Score in one zero-proxy run ($5/1K stores; $0 for filtered national chains, no-email skips, or empty sites). Paste brand homepages or store locator URLs.',
+      'Find every boutique, specialty shop, and retail stockist carrying a competitor brand AND enrich each unique retailer website with prioritized buyer/wholesale emails (wholesale@, buyers@, sales@, info@, including Cloudflare data-cfemail decoding), Instagram, LinkedIn, Contact Form URLs, independent-boutique vs national-chain classification, and a 0-100 Outreach Readiness Score in one zero-proxy run ($5/1K stores; $0 for filtered national chains, no-email skips, or empty sites). Paste brand homepages or store locator URLs.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -336,7 +346,7 @@ const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
 const server = new Server(
   {
     name: 'apify-b2b-ecom-mcp-server',
-    version: '1.2.0',
+    version: '1.3.0',
   },
   {
     capabilities: {
@@ -381,13 +391,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
   try {
     const endpoint = `https://api.apify.com/v2/acts/${tool.actorSlug}/run-sync-get-dataset-items?memory=256`;
+    const payload =
+      tool.name === 'b2b_company_domain_linkedin_enricher'
+        ? { includeUnresolved: false, ...(args ?? {}) }
+        : (args ?? {});
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(args ?? {}),
+      body: JSON.stringify(payload),
       signal: controller.signal,
     });
 
