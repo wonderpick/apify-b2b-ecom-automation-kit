@@ -3,7 +3,23 @@
   "name": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
   "title": "Apify External Business Intelligence MCP Server",
   "description": "8 external-intel tools & 6 prompts: B2B site audits, stockists, Shopify, SOC 2 & K-Beauty.",
-  "version": "2.1.0",
+  "version": "2.1.1",
+  "icons": [
+    {
+      "src": "https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "256x256"
+      ]
+    },
+    {
+      "src": "https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/icon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
   "repository": {
     "url": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit",
     "source": "github"
