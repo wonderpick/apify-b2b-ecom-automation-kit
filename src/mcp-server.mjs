@@ -17,8 +17,15 @@ const TOOLS = [
   {
     name: 'shopify_competitor_delta_monitor',
     actorSlug: 'maitreya_buddha~shopify-competitor-delta-monitor',
+    annotations: {
+      title: 'Shopify Competitor Price & Restock Delta Monitor',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description:
-      'Monitor up to 50 Shopify competitor stores (up to 2,500 products each = 125K SKUs) for price drops, price hikes, restocks, out-of-stock alerts, new product launches, and MAP violations using persistent Key-Value Store snapshots ($2/1K real deltas; $0 on baseline or unchanged runs). Every delta includes deterministic alert severity (CRITICAL, INVENTORY, or CATALOG), oldPrice, newPrice, priceChangePercent, available, mapViolation, and productUrl. Unlike native storefront MCPs that only manage your own shop, this watches external competitors at $0 when nothing changed.',
+      'Monitor up to 50 external Shopify competitor stores (up to 2,500 products each = 125K SKUs) for price drops, price hikes, restocks, stockouts, new launches, and MAP violations using persistent Key-Value Store snapshots ($2/1K real deltas; $0 on baseline or unchanged runs). Returns severity (CRITICAL, INVENTORY, CATALOG), oldPrice, newPrice, priceChangePercent, mapViolation, and productUrl. Use when watching external Shopify competitors for catalog changes; do not use for editing your own Shopify admin or non-Shopify sites.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -67,8 +74,15 @@ const TOOLS = [
   {
     name: 'saas_trust_center_soc2_monitor',
     actorSlug: 'maitreya_buddha~saas-trust-center-soc2-monitor',
+    annotations: {
+      title: 'SaaS Trust Center, SOC 2 & AI Subprocessor Monitor',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description:
-      'Audit or continuously monitor up to 500 external SaaS vendor Trust Centers (Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust, or self-hosted) for SOC 2 Type I/II, ISO 27001, HIPAA, PCI-DSS, DNS IAM/SSO providers, and 75+ subprocessors including AI vendors (OpenAI, Anthropic, AWS Bedrock, Vertex AI). Returns complianceScore (0-100) and missingSoc2Lead boolean for both TPRM vendor risk monitoring and SOC 2 gap lead generation ($5/1K audits or changes; $0 unchanged). Unlike internal GRC MCPs that only read your own account, this audits external vendors with zero browser.',
+      'Audit or monitor up to 500 external SaaS vendor Trust Centers (Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust) for SOC 2/ISO 27001/HIPAA/PCI-DSS certs, DNS IAM/SSO, 75+ third-party & AI subprocessors (OpenAI, Anthropic, AWS Bedrock, Vertex AI), complianceScore (0-100), and missingSoc2Lead ($5/1K audits or changes; $0 unchanged). Use for third-party vendor risk (TPRM) or finding SaaS companies missing SOC 2; do not use for editing your own internal GRC workspace.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -110,8 +124,15 @@ const TOOLS = [
   {
     name: 'b2b_company_domain_linkedin_enricher',
     actorSlug: 'maitreya_buddha~b2b-company-domain-linkedin-enricher',
+    annotations: {
+      title: 'B2B Company Domain, LinkedIn & Email Enricher',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description:
-      '3-in-1 zero-subscription B2B lead enrichment resolver: pass company names, domains, work emails, or an upstream Apify datasetId and get verified official domain, LinkedIn /company/ URL (rejecting /in/ noise), Cloudflare-decoded role emails (sales@, contact@, hello@), WhatsApp links, phones, 6 social profiles, and a 0-100 leadQualityScore ($2.50/1K enriched; $0 for misses, parked domains, SSRF inputs, or no-email skips when onlyWithEmail is enabled).',
+      'Read-only 3-in-1 B2B lead enricher: resolve company names, domains, work emails, or an Apify datasetId into verified official domain, LinkedIn /company/ URL (rejecting /in/ noise), Cloudflare-decoded corporate emails (sales@, contact@, hello@), WhatsApp links, phones, 6 socials, and 0-100 leadQualityScore ($2.50/1K enriched; $0 for misses, parked domains, or onlyWithEmail skips). Use for B2B company enrichment; do not use for creator/influencer bios (use creator_link_in_bio_email_enricher instead).',
     inputSchema: {
       type: 'object',
       properties: {
@@ -160,8 +181,15 @@ const TOOLS = [
   {
     name: 'korea_mfds_cosmetic_recalls',
     actorSlug: 'maitreya_buddha~korea-mfds-cosmetic-recalls',
+    annotations: {
+      title: 'Korea MFDS Cosmetic Recalls & Safety Lookup',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description:
-      'Query official South Korea MFDS (Ministry of Food and Drug Safety / 식약처) cosmetic recall and sales suspension notices in plain English or Korean (50+ K-Beauty terms like "sunscreen", "soap", "lip balm", "Cosmax", "Kolmar" auto-bridge to Korean records). Returns structured JSON with productName, companyName, isActiveRecall boolean, lotNumber, recallReason, recallOrderDate, and businessNumber ($3/1K saved matches; $0 when no recalls match).',
+      'Read-only lookup of official South Korea MFDS (식약처) cosmetic recall and sales suspension notices in plain English or Korean (auto-bridges 50+ K-Beauty terms like "sunscreen", "soap", "Cosmax"). Returns productName, companyName, isActiveRecall, lotNumber, recallReason, recallOrderDate, and businessNumber ($3/1K matches; $0 if none). Use for K-Beauty import safety & compliance screening; do not use for US FDA/EU recalls or functional OEM formula discovery (use korea_mfds_functional_cosmetics_oem instead).',
     inputSchema: {
       type: 'object',
       properties: {
@@ -201,8 +229,15 @@ const TOOLS = [
   {
     name: 'korea_mfds_functional_cosmetics_oem',
     actorSlug: 'maitreya_buddha~korea-mfds-functional-cosmetics-oem',
+    annotations: {
+      title: 'Korea MFDS Functional Cosmetics & OEM Factory DB',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description:
-      'Search 219,000+ official South Korea MFDS functional cosmetics (기능성화장품) reported and reviewed filings in plain English or Korean ("sunscreen", "serum", "Cosmax", "Kolmar", "Cosmecca", "Amorepacific" auto-bridge to Korean records). Automatically cross-references reviewed base formulas via resolveOemFromReviewed to reveal hidden OEM/ODM factories, SPF/PA specs, and English functionalClaims ($2/1K records; $0 when empty).',
+      'Read-only search across 219,000+ official South Korea MFDS functional cosmetic filings in plain English or Korean ("sunscreen", "retinol cream", "Cosmax", "Kolmar" auto-bridge to Korean queries). Auto-joins reviewed base formulas to uncover hidden Korean OEM/ODM factories, SPF/PA specs, and English functionalClaims ($2/1K records; $0 if empty). Use for K-Beauty OEM sourcing & regulatory R&D; do not use for cosmetic recall checks (use korea_mfds_cosmetic_recalls instead).',
     inputSchema: {
       type: 'object',
       properties: {
@@ -248,8 +283,15 @@ const TOOLS = [
   {
     name: 'creator_link_in_bio_email_enricher',
     actorSlug: 'maitreya_buddha~creator-link-in-bio-email-enricher',
+    annotations: {
+      title: 'Creator Link-in-Bio Email & Brand-Deal Enricher',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description:
-      'Enrich Instagram, TikTok, and YouTube creator Link-in-Bio pages across 15+ platforms (Linktree, Stan.store, Bio.site, Beacons, Komi, Hoo.be, Bento, Lnk.bio, Carrd, etc.) into outreach-ready leads. Extracts prioritized talent agency & business emails (including 1-hop personal site following + Cloudflare data-cfemail decoding), phones/WhatsApp, 14 normalized social links, monetization classification (affiliate storefronts, brand deals, digital products, newsletters, media kits), promo codes, and a 0-100 Creator Readiness Score ($2.50/1K enriched; $0 for 404/WAF/no-email skips).',
+      'Read-only creator enricher across 15+ Link-in-Bio platforms (Linktree, Stan.store, Bio.site, Beacons, Komi, Hoo.be, Carrd, etc.). Extracts talent agency & business emails (including 1-hop personal site following + Cloudflare email decoding), phones/WhatsApp, 14 social networks, monetization links, promo codes, and a 0-100 Creator Readiness Score ($2.50/1K enriched; $0 for 404/WAF/no-email skips). Use for influencer outreach; do not use for corporate B2B company lookup (use b2b_company_domain_linkedin_enricher instead).',
     inputSchema: {
       type: 'object',
       properties: {
@@ -293,8 +335,15 @@ const TOOLS = [
   {
     name: 'brand_store_locator_stockist_email_enricher',
     actorSlug: 'maitreya_buddha~brand-store-locator-stockist-email-enricher',
+    annotations: {
+      title: 'Brand Store Locator & Stockist Buyer Email Scraper',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
     description:
-      'Find every boutique, specialty shop, and retail stockist carrying a competitor brand AND enrich each unique retailer website with prioritized buyer/wholesale emails (wholesale@, buyers@, sales@, info@, including Cloudflare data-cfemail decoding), Instagram, LinkedIn, Contact Form URLs, independent-boutique vs national-chain classification, and a 0-100 Outreach Readiness Score in one zero-proxy run ($5/1K stores; $0 for filtered national chains, no-email skips, or empty sites). Paste brand homepages or store locator URLs.',
+      'Read-only extractor that discovers physical retail stockists carrying competitor brands (Stockist, Storepoint, StoreRocket, Storemapper, WP Store Locator, JSON-LD, HTML) AND enriches each unique retailer website with buyer/wholesale emails (including Cloudflare email decoding), Instagram, LinkedIn, independent-boutique vs national-chain tags, and 0-100 Outreach Readiness Score ($5/1K stores; $0 for filtered chains or empty sites). Use for wholesale retail prospecting; do not use for editing your own store locator map.',
     inputSchema: {
       type: 'object',
       properties: {
@@ -346,7 +395,7 @@ const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
 const server = new Server(
   {
     name: 'apify-b2b-ecom-mcp-server',
-    version: '1.3.0',
+    version: '1.4.0',
   },
   {
     capabilities: {
@@ -356,10 +405,11 @@ const server = new Server(
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: TOOLS.map(({ name, description, inputSchema }) => ({
+  tools: TOOLS.map(({ name, description, inputSchema, annotations }) => ({
     name,
     description,
     inputSchema,
+    annotations,
   })),
 }));
 
