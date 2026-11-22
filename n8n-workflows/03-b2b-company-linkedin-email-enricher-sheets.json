@@ -1,31 +1,100 @@
 {
-  "name": "B2B Company to Domain, LinkedIn, Email & WhatsApp Enricher for Google Sheets",
+  "name": "B2B Company to Domain, LinkedIn, Email & WhatsApp Lead Enrichment Pipeline",
   "nodes": [
     {
       "parameters": {
-        "content": "## B2B Lead Enrichment Pipeline (3-in-1 Pure HTTP)\n\nReads raw company names, domains, or work emails from **Google Sheets**, enriches each lead in one Apify call (**official domain, verified LinkedIn company URL, prioritized role emails, WhatsApp, phones, and 6 social links**), and writes enriched rows back to Google Sheets.\n\n### Setup Steps\n1. Create a Google Sheet with an `Input` tab containing a `company` column (e.g. `Stripe`, `Linear`, `canva.com`) and an `Enriched` tab.\n2. Connect your **Google Sheets** OAuth credential to both Google Sheets nodes and set your spreadsheet document ID.\n3. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>`) and select it on **Enrich Companies via Apify**.\n4. Click **Test workflow**!\n\n**Actor URL:** https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher\n**Cost:** $2.50 / 1,000 enriched companies · **$0 for unresolved/parked domains** · 128 MB RAM · $0 proxy.",
-        "height": 360,
-        "width": 460,
-        "color": 6
+        "content": "## B2B Lead Enrichment & Tiered Sales Routing Pipeline (3-in-1 Pure HTTP)\n\nReads raw company names, domains, or work emails from **Google Sheets**, resolves verified official domains, LinkedIn company URLs, role emails, WhatsApp links, phones, and social profiles in one Apify call, separates unresolved rows (`$0` cost) into an audit tab, scores enriched leads (`HOT`, `WARM`, `RESEARCH`), writes enriched rows to Google Sheets, and routes `HOT` leads to Slack `#sales-hot-leads` + Gmail while sending `WARM`/`RESEARCH` leads to `#sales-pipeline`.\n\n**Actor URL:** https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $2.50 / 1,000 enriched companies · **$0 for unresolved/parked domains** · 128–256 MB RAM · $0 proxy.",
+        "height": 290,
+        "width": 780,
+        "color": 4
       },
-      "id": "b1a2c3d4-0003-4000-8000-000000000001",
-      "name": "Sticky Note - Setup Guide",
+      "id": "b1a2c3d4-0003-4000-8000-000000000101",
+      "name": "Sticky Note - Overview & Cost",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        160,
-        80
+        120,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 1. Lead List Input (Google Sheets -> Deduplicated Batch)\n\nCreate a Google Sheet with three tabs:\n- **`Input`**: column `company` (or `domain` / `email`, e.g. `Stripe`, `Linear`, `canva.com`).\n- **`Enriched`**: columns `input`, `leadTier`, `confidence`, `domain`, `websiteUrl`, `pageTitle`, `linkedinUrl`, `primaryEmail`, `primaryWhatsapp`, `primaryPhone`, `xUrl`, `githubUrl`, `enrichedAt`.\n- **`Unresolved`**: columns `input`, `inputType`, `status`, `enrichedAt`.\n\nAttach your Google Sheets OAuth credential to all three Google Sheets nodes.",
+        "height": 470,
+        "width": 780,
+        "color": 5
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000102",
+      "name": "Sticky Note - 1. Lead List Input",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 2. 3-in-1 Enricher & Enriched vs Unresolved Split\n\n1. Create a free [Apify account](https://apify.com) and copy your API token (`Settings -> API & Integrations`).\n2. Create an n8n **Header Auth** credential (`Name`: `Authorization`, `Value`: `Bearer <your_apify_token>`) and select it on **Enrich Companies via Apify**.\n3. Unresolved rows (`not_found`, `invalid_input`, `$0` billed) route cleanly to the `Unresolved` audit tab.",
+        "height": 580,
+        "width": 760,
+        "color": 6
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000103",
+      "name": "Sticky Note - 2. 3-in-1 Enricher & Split",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 3. Lead Tiering, Sheet Sync & Sales Routing\n\n- **All enriched leads** are appended to the `Enriched` tab in Google Sheets.\n- **HOT** (`confidence === 'high'` + LinkedIn + direct email/WhatsApp) -> Slack `#sales-hot-leads` + Gmail AE notification.\n- **WARM** & **RESEARCH** -> Slack `#sales-pipeline`.",
+        "height": 680,
+        "width": 880,
+        "color": 2
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000104",
+      "name": "Sticky Note - 3. Lead Tiering & Sales Routing",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000001",
+      "name": "Daily Morning Enrichment",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        520
       ]
     },
     {
       "parameters": {},
       "id": "b1a2c3d4-0003-4000-8000-000000000002",
-      "name": "Manual Trigger",
+      "name": "Manual Enrichment Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
         180,
-        520
+        700
       ]
     },
     {
@@ -43,25 +112,25 @@
         "options": {}
       },
       "id": "b1a2c3d4-0003-4000-8000-000000000003",
-      "name": "Read Companies from Sheet",
+      "name": "Read Raw Companies from Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        400,
-        520
+        420,
+        610
       ]
     },
     {
       "parameters": {
-        "jsCode": "const inputs = $input.all()\n  .map((item) => item.json.company || item.json.domain || item.json.email || item.json.name)\n  .filter((v) => typeof v === 'string' && v.trim().length > 0);\n\nreturn [{ json: { inputs } }];"
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst unique = new Set();\n\nfor (const row of rows) {\n  const val = row.company || row.domain || row.email || row.name || '';\n  if (typeof val === 'string' && val.trim().length > 0) {\n    unique.add(val.trim());\n  }\n}\n\nconst inputs = unique.size > 0 ? Array.from(unique) : ['Stripe', 'Linear', 'canva.com'];\n\nreturn [\n  {\n    json: {\n      inputs,\n      enrichContactPages: true,\n      includeUnresolved: true,\n      minConfidence: 'medium',\n      concurrency: 6\n    }\n  }\n];"
       },
       "id": "b1a2c3d4-0003-4000-8000-000000000004",
-      "name": "Batch Inputs Array",
+      "name": "Deduplicate & Batch Company Inputs",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        620,
-        520
+        680,
+        610
       ]
     },
     {
@@ -81,7 +150,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ inputs: $json.inputs, enrichContactPages: true, includeUnresolved: false, minConfidence: 'medium', concurrency: 6 }) }}",
+        "jsonBody": "={{ JSON.stringify({ inputs: $json.inputs, enrichContactPages: $json.enrichContactPages, includeUnresolved: $json.includeUnresolved, minConfidence: $json.minConfidence, concurrency: $json.concurrency }) }}",
         "options": {
           "timeout": 180000
         }
@@ -91,8 +160,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        840,
-        520
+        1000,
+        610
       ]
     },
     {
@@ -119,12 +188,58 @@
         "options": {}
       },
       "id": "b1a2c3d4-0003-4000-8000-000000000006",
-      "name": "Only Enriched Leads",
+      "name": "Split Enriched vs Unresolved",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1060,
-        520
+        1240,
+        610
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Unresolved",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "input": "={{ $json.input }}",
+            "inputType": "={{ $json.inputType }}",
+            "status": "={{ $json.status }}",
+            "enrichedAt": "={{ $json.enrichedAt }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000007",
+      "name": "Log Unresolved Leads ($0)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1500,
+        790
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const emails = Array.isArray(d.emails) ? d.emails : [];\n  const whatsappLinks = Array.isArray(d.whatsappLinks) ? d.whatsappLinks : [];\n  const phones = Array.isArray(d.phones) ? d.phones : [];\n  const socials = d.socials && typeof d.socials === 'object' ? d.socials : {};\n\n  const primaryEmail = emails[0] || '';\n  const primaryWhatsapp = whatsappLinks[0] || '';\n  const primaryPhone = phones[0] || '';\n  const hasDirectContact = Boolean(primaryEmail || primaryWhatsapp);\n  const isHighConf = String(d.confidence || '').toLowerCase() === 'high';\n\n  let leadTier = 'RESEARCH';\n  if (isHighConf && hasDirectContact && d.linkedinUrl) {\n    leadTier = 'HOT';\n  } else if (hasDirectContact || primaryPhone) {\n    leadTier = 'WARM';\n  }\n\n  const emoji = leadTier === 'HOT' ? ':fire:' : leadTier === 'WARM' ? ':white_check_mark:' : ':mag:';\n\n  const slackSummary = [\n    `${emoji} *[${leadTier}] Enriched B2B Lead:* ${d.pageTitle || d.input}`,\n    `*Domain:* ${d.domain || 'N/A'} (${d.websiteUrl || 'N/A'})`,\n    `*LinkedIn:* ${d.linkedinUrl || 'Not found'}`,\n    `*Email:* ${primaryEmail || 'None'} | *WhatsApp:* ${primaryWhatsapp || 'None'} | *Phone:* ${primaryPhone || 'None'}`,\n    `*Confidence:* ${d.confidence || 'N/A'} (matched by: ${d.matchedBy || 'N/A'})`\n  ].join('\\n');\n\n  const emailSubject = `[HOT B2B Lead] ${d.pageTitle || d.input} (${d.domain || 'N/A'})`;\n  const emailBody = [\n    `Lead Tier: ${leadTier}`,\n    `Input: ${d.input}`,\n    `Company / Title: ${d.pageTitle || 'N/A'}`,\n    `Official Domain: ${d.domain || 'N/A'}`,\n    `Website: ${d.websiteUrl || 'N/A'}`,\n    `LinkedIn: ${d.linkedinUrl || 'N/A'}`,\n    `Primary Email: ${primaryEmail || 'N/A'}`,\n    `WhatsApp: ${primaryWhatsapp || 'N/A'}`,\n    `Phone: ${primaryPhone || 'N/A'}`,\n    `Confidence: ${d.confidence || 'N/A'} (${d.matchedBy || 'N/A'})`,\n    `Enriched At: ${d.enrichedAt || 'N/A'}`\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      leadTier,\n      primaryEmail,\n      primaryWhatsapp,\n      primaryPhone,\n      xUrl: socials.x || '',\n      githubUrl: socials.github || '',\n      slackSummary,\n      emailSubject,\n      emailBody\n    }\n  });\n}\n\nreturn results;"
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000008",
+      "name": "Score Lead Quality & Format",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        540
       ]
     },
     {
@@ -144,53 +259,212 @@
           "mappingMode": "defineBelow",
           "value": {
             "input": "={{ $json.input }}",
-            "pageTitle": "={{ $json.pageTitle }}",
+            "leadTier": "={{ $json.leadTier }}",
+            "confidence": "={{ $json.confidence }}",
             "domain": "={{ $json.domain }}",
             "websiteUrl": "={{ $json.websiteUrl }}",
-            "linkedinUrl": "={{ $json.linkedinUrl }}",
-            "primaryEmail": "={{ ($json.emails && $json.emails[0]) || '' }}",
-            "whatsappUrl": "={{ ($json.whatsappLinks && $json.whatsappLinks[0]) || '' }}",
-            "phone": "={{ ($json.phones && $json.phones[0]) || '' }}",
-            "confidence": "={{ $json.confidence }}"
+            "pageTitle": "={{ $json.pageTitle }}",
+            "linkedinUrl": "={{ $json.linkedinUrl || '' }}",
+            "primaryEmail": "={{ $json.primaryEmail }}",
+            "primaryWhatsapp": "={{ $json.primaryWhatsapp }}",
+            "primaryPhone": "={{ $json.primaryPhone }}",
+            "xUrl": "={{ $json.xUrl }}",
+            "githubUrl": "={{ $json.githubUrl }}",
+            "enrichedAt": "={{ $json.enrichedAt }}"
           }
         },
         "options": {}
       },
-      "id": "b1a2c3d4-0003-4000-8000-000000000007",
+      "id": "b1a2c3d4-0003-4000-8000-000000000009",
       "name": "Save Enriched Leads to Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        1300,
-        460
+        1820,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.leadTier }}",
+                    "rightValue": "HOT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Hot Leads"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.leadTier }}",
+                    "rightValue": "WARM",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Warm Leads"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.leadTier }}",
+                    "rightValue": "RESEARCH",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Research Only"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000010",
+      "name": "Route by Lead Tier",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1820,
+        690
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "sales-hot-leads",
+          "mode": "name"
+        },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000011",
+      "name": "Alert Sales Slack (Hot Leads)",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "",
+        "subject": "={{ $json.emailSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.emailBody }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000012",
+      "name": "Notify Account Exec via Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2380,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "sales-pipeline",
+          "mode": "name"
+        },
+        "text": "={{ $json.slackSummary }}",
+        "otherOptions": {}
+      },
+      "id": "b1a2c3d4-0003-4000-8000-000000000013",
+      "name": "Post Pipeline Lead to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        770
       ]
     }
   ],
   "pinData": {},
   "connections": {
-    "Manual Trigger": {
+    "Daily Morning Enrichment": {
       "main": [
         [
           {
-            "node": "Read Companies from Sheet",
+            "node": "Read Raw Companies from Sheet",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Read Companies from Sheet": {
+    "Manual Enrichment Trigger": {
       "main": [
         [
           {
-            "node": "Batch Inputs Array",
+            "node": "Read Raw Companies from Sheet",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Batch Inputs Array": {
+    "Read Raw Companies from Sheet": {
+      "main": [
+        [
+          {
+            "node": "Deduplicate & Batch Company Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deduplicate & Batch Company Inputs": {
       "main": [
         [
           {
@@ -205,18 +479,77 @@
       "main": [
         [
           {
-            "node": "Only Enriched Leads",
+            "node": "Split Enriched vs Unresolved",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Only Enriched Leads": {
+    "Split Enriched vs Unresolved": {
+      "main": [
+        [
+          {
+            "node": "Score Lead Quality & Format",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Unresolved Leads ($0)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Lead Quality & Format": {
       "main": [
         [
           {
             "node": "Save Enriched Leads to Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Route by Lead Tier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Lead Tier": {
+      "main": [
+        [
+          {
+            "node": "Alert Sales Slack (Hot Leads)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Pipeline Lead to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Pipeline Lead to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alert Sales Slack (Hot Leads)": {
+      "main": [
+        [
+          {
+            "node": "Notify Account Exec via Gmail",
             "type": "main",
             "index": 0
           }
@@ -228,7 +561,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "10000000-0000-4000-8000-000000000003",
+  "versionId": "10000000-0000-4000-8000-000000000002",
   "meta": {
     "templateCredsSetupCompleted": false
   },
