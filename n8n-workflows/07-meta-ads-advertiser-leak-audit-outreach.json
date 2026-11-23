@@ -12,7 +12,10 @@
       "name": "Sticky Note - Overview & Cost",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [120, 40]
+      "position": [
+        120,
+        40
+      ]
     },
     {
       "parameters": {
@@ -25,7 +28,10 @@
       "name": "Sticky Note - 1. Advertiser Source",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [120, 370]
+      "position": [
+        120,
+        370
+      ]
     },
     {
       "parameters": {
@@ -38,7 +44,10 @@
       "name": "Sticky Note - 2. Audit & Inbox Guard",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [940, 370]
+      "position": [
+        940,
+        370
+      ]
     },
     {
       "parameters": {
@@ -51,7 +60,10 @@
       "name": "Sticky Note - 3. Tiering & Routing",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [1740, 270]
+      "position": [
+        1740,
+        270
+      ]
     },
     {
       "parameters": {
@@ -60,7 +72,9 @@
             {
               "field": "weeks",
               "weeksInterval": 1,
-              "triggerAtDay": [1],
+              "triggerAtDay": [
+                1
+              ],
               "triggerAtHour": 8
             }
           ]
@@ -70,7 +84,10 @@
       "name": "Weekly Monday Audit Schedule",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [180, 530]
+      "position": [
+        180,
+        530
+      ]
     },
     {
       "parameters": {},
@@ -78,29 +95,46 @@
       "name": "Manual Audit Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [180, 710]
+      "position": [
+        180,
+        710
+      ]
     },
     {
       "parameters": {
-        "documentId": { "__rl": true, "value": "", "mode": "id" },
-        "sheetName": { "__rl": true, "value": "AdvertiserTargets", "mode": "name" },
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "AdvertiserTargets",
+          "mode": "name"
+        },
         "options": {}
       },
       "id": "c1a2b3d4-0007-4000-8000-000000000003",
       "name": "Read Advertiser Targets from Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
-      "position": [420, 620]
+      "position": [
+        420,
+        620
+      ]
     },
     {
       "parameters": {
-        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst urlSet = new Set();\nlet sourceDatasetId = '';\nlet sourceRunId = '';\nlet agencyPreset = 'auto_best_fit';\nlet dedupStoreName = '';\nlet dedupMode = 'watch_diff';\n\nfor (const row of rows) {\n  const u = row.landingPageUrl || row.websiteUrl || row.url || row.domain || '';\n  if (typeof u === 'string' && u.trim()) urlSet.add(u.trim());\n  if (!sourceDatasetId && typeof row.sourceDatasetId === 'string' && row.sourceDatasetId.trim()) {\n    sourceDatasetId = row.sourceDatasetId.trim();\n  }\n  if (!sourceRunId && typeof row.sourceRunId === 'string' && row.sourceRunId.trim()) {\n    sourceRunId = row.sourceRunId.trim();\n  }\n  if (typeof row.agencyPreset === 'string' && row.agencyPreset.trim()) {\n    agencyPreset = row.agencyPreset.trim();\n  }\n  if (!dedupStoreName && typeof row.dedupStoreName === 'string' && row.dedupStoreName.trim()) {\n    dedupStoreName = row.dedupStoreName.trim();\n  }\n  if (typeof row.dedupMode === 'string' && (row.dedupMode === 'skip_seen' || row.dedupMode === 'watch_diff')) {\n    dedupMode = row.dedupMode;\n  }\n}\n\nconst landingPageUrls = Array.from(urlSet);\nconst payload = {\n  agencyPreset,\n  crmExportPreset: 'default',\n  enableContactPageFollow: true,\n  enableDnsEmailCheck: true,\n  enableStorefrontCatalogAudit: true,\n  onlyWithEmail: false,\n  onlyWithActiveLeaks: false,\n  maxBrands: 50,\n  maxConcurrency: 3\n};\nif (sourceDatasetId) payload.sourceDatasetId = sourceDatasetId;\nif (sourceRunId) payload.sourceRunId = sourceRunId;\nif (landingPageUrls.length > 0) payload.landingPageUrls = landingPageUrls;\nif (dedupStoreName) {\n  payload.dedupStoreName = dedupStoreName;\n  payload.dedupMode = dedupMode;\n}\n\nreturn [{ json: payload }];"
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst urlSet = new Set();\nlet sourceDatasetId = '';\nlet sourceRunId = '';\nlet agencyPreset = 'auto_best_fit';\nlet dedupStoreName = '';\nlet dedupMode = 'watch_diff';\n\nfor (const row of rows) {\n  const u = row.landingPageUrl || row.websiteUrl || row.url || row.domain || '';\n  if (typeof u === 'string' && u.trim()) urlSet.add(u.trim());\n  if (!sourceDatasetId && typeof row.sourceDatasetId === 'string' && row.sourceDatasetId.trim()) {\n    sourceDatasetId = row.sourceDatasetId.trim();\n  }\n  if (!sourceRunId && typeof row.sourceRunId === 'string' && row.sourceRunId.trim()) {\n    sourceRunId = row.sourceRunId.trim();\n  }\n  if (typeof row.agencyPreset === 'string' && row.agencyPreset.trim()) {\n    agencyPreset = row.agencyPreset.trim();\n  }\n  if (!dedupStoreName && typeof row.dedupStoreName === 'string' && row.dedupStoreName.trim()) {\n    dedupStoreName = row.dedupStoreName.trim();\n  }\n  if (typeof row.dedupMode === 'string' && (row.dedupMode === 'skip_seen' || row.dedupMode === 'watch_diff')) {\n    dedupMode = row.dedupMode;\n  }\n}\n\nconst landingPageUrls = Array.from(urlSet);\nconst payload = {\n  agencyPreset,\n  crmExportPreset: 'default',\n  enableContactPageFollow: true,\n  enableDnsEmailCheck: true,\n  enableStorefrontCatalogAudit: true,\n  onlyWithEmail: false,\n  onlyWithActiveLeaks: false,\n  maxBrands: 50,\n  maxConcurrency: 3\n};\nif (sourceDatasetId) payload.sourceDatasetId = sourceDatasetId;\nif (sourceRunId) payload.sourceRunId = sourceRunId;\nif (landingPageUrls.length > 0) {\n  payload.landingPageUrls = landingPageUrls;\n} else if (!sourceDatasetId && !sourceRunId) {\n  payload.landingPageUrls = ['https://www.chomps.com/', 'https://www.brooklinen.com/products/discontinued-summer-promo-demo-404'];\n}\nif (dedupStoreName) {\n  payload.dedupStoreName = dedupStoreName;\n  payload.dedupMode = dedupMode;\n}\n\nreturn [{ json: payload }];"
       },
       "id": "c1a2b3d4-0007-4000-8000-000000000004",
       "name": "Build Meta Ads Audit Payload",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [680, 620]
+      "position": [
+        680,
+        620
+      ]
     },
     {
       "parameters": {
@@ -111,54 +145,92 @@
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            { "name": "memory", "value": "256" }
+            {
+              "name": "memory",
+              "value": "256"
+            }
           ]
         },
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify($json) }}",
-        "options": { "timeout": 240000 }
+        "options": {
+          "timeout": 240000
+        }
       },
       "id": "c1a2b3d4-0007-4000-8000-000000000005",
       "name": "Audit Meta Ads Advertisers via Apify",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1000, 620]
+      "position": [
+        1000,
+        620
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
           "conditions": [
             {
               "id": "cond-outreach-ready",
               "leftValue": "={{ $json.outreachStatus }}",
               "rightValue": "ready",
-              "operator": { "type": "string", "operation": "equals" }
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
             },
             {
               "id": "cond-has-primary-email",
               "leftValue": "={{ $json.primaryEmail || '' }}",
               "rightValue": "",
-              "operator": { "type": "string", "operation": "notEmpty", "singleValue": true }
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
             },
             {
               "id": "cond-not-cs-queue",
               "leftValue": "={{ $json.inboxType || 'none' }}",
               "rightValue": "cs_ticket_queue",
-              "operator": { "type": "string", "operation": "notEquals" }
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
             },
             {
               "id": "cond-not-inbox-none",
               "leftValue": "={{ $json.inboxType || 'none' }}",
               "rightValue": "none",
-              "operator": { "type": "string", "operation": "notEquals" }
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
             },
             {
               "id": "cond-not-zb-unsafe",
               "leftValue": "={{ Boolean($json.zeroBounceUnsafe) }}",
               "rightValue": false,
-              "operator": { "type": "boolean", "operation": "false", "singleValue": true }
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "cond-mx-valid",
+              "leftValue": "={{ $json.mxVerified !== false }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
             }
           ],
           "combinator": "and"
@@ -169,13 +241,24 @@
       "name": "Safe for Email Outreach?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1240, 620]
+      "position": [
+        1240,
+        620
+      ]
     },
     {
       "parameters": {
         "operation": "append",
-        "documentId": { "__rl": true, "value": "", "mode": "id" },
-        "sheetName": { "__rl": true, "value": "ManualReviewOrCS", "mode": "name" },
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "ManualReviewOrCS",
+          "mode": "name"
+        },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
@@ -197,7 +280,10 @@
       "name": "Log CS-Queue & Manual Review Leads",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
-      "position": [1500, 800]
+      "position": [
+        1500,
+        800
+      ]
     },
     {
       "parameters": {
@@ -207,13 +293,24 @@
       "name": "Format DTC Brief & Effective Priority",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1500, 550]
+      "position": [
+        1500,
+        550
+      ]
     },
     {
       "parameters": {
         "operation": "append",
-        "documentId": { "__rl": true, "value": "", "mode": "id" },
-        "sheetName": { "__rl": true, "value": "AuditedAdvertisers", "mode": "name" },
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "AuditedAdvertisers",
+          "mode": "name"
+        },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
@@ -240,7 +337,10 @@
       "name": "Save Audited Advertisers to Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
-      "position": [1820, 450]
+      "position": [
+        1820,
+        450
+      ]
     },
     {
       "parameters": {
@@ -248,8 +348,21 @@
           "values": [
             {
               "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
-                "conditions": [{ "leftValue": "={{ $json.effectivePriority }}", "rightValue": "VIP_HOT", "operator": { "type": "string", "operation": "equals" } }],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.effectivePriority }}",
+                    "rightValue": "VIP_HOT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
                 "combinator": "and"
               },
               "renameOutput": true,
@@ -257,8 +370,21 @@
             },
             {
               "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
-                "conditions": [{ "leftValue": "={{ $json.effectivePriority }}", "rightValue": "WARM", "operator": { "type": "string", "operation": "equals" } }],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.effectivePriority }}",
+                    "rightValue": "WARM",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
                 "combinator": "and"
               },
               "renameOutput": true,
@@ -266,8 +392,21 @@
             },
             {
               "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
-                "conditions": [{ "leftValue": "={{ $json.effectivePriority }}", "rightValue": "NURTURE", "operator": { "type": "string", "operation": "equals" } }],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.effectivePriority }}",
+                    "rightValue": "NURTURE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
                 "combinator": "and"
               },
               "renameOutput": true,
@@ -275,18 +414,27 @@
             }
           ]
         },
-        "options": { "fallbackOutput": "none" }
+        "options": {
+          "fallbackOutput": "none"
+        }
       },
       "id": "c1a2b3d4-0007-4000-8000-000000000010",
       "name": "Route by Lead Priority Tier",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
-      "position": [1820, 700]
+      "position": [
+        1820,
+        700
+      ]
     },
     {
       "parameters": {
         "select": "channel",
-        "channelId": { "__rl": true, "value": "agency-leads", "mode": "name" },
+        "channelId": {
+          "__rl": true,
+          "value": "agency-leads",
+          "mode": "name"
+        },
         "text": "={{ $json.slackSummary }}",
         "otherOptions": {}
       },
@@ -294,26 +442,38 @@
       "name": "Alert Agency Slack (VIP Hot Leads)",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.2,
-      "position": [2120, 570]
+      "position": [
+        2120,
+        570
+      ]
     },
     {
       "parameters": {
         "sendTo": "",
-        "subject": "={{ $json.coldEmailSubject }}",
+        "subject": "={{ $json.coldEmailSubject || $json.subjectLine || ('DTC Audit Brief: ' + ($json.brandName || $json.brandDomain || 'Lead')) }}",
         "emailType": "text",
-        "message": "={{ $json.coldEmailBody + '\\n\\nBrand: ' + $json.brandName + ' (' + $json.brandDomain + ')\\nBuyer Fit: ' + ($json.buyerFitTier || 'Unknown') + '\\nEmail: ' + ($json.primaryEmail || 'N/A') + '\\nLinkedIn DM Search: ' + ($json.linkedinDecisionMakerSearchUrl || '') }}",
-        "options": { "appendAttribution": false }
+        "message": "={{ ($json.coldEmailBody || $json.coldEmailOpener || '') + '\\n\\nBrand: ' + ($json.brandName || '') + ' (' + ($json.brandDomain || '') + ')\\nBuyer Fit: ' + ($json.buyerFitTier || 'Unknown') + '\\nEmail: ' + ($json.primaryEmail || 'N/A') + '\\nLinkedIn DM Search: ' + ($json.linkedinDecisionMakerSearchUrl || '') }}",
+        "options": {
+          "appendAttribution": false
+        }
       },
       "id": "c1a2b3d4-0007-4000-8000-000000000012",
       "name": "Send VIP Cold-Pitch Brief via Gmail",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
-      "position": [2380, 570]
+      "position": [
+        2380,
+        570
+      ]
     },
     {
       "parameters": {
         "select": "channel",
-        "channelId": { "__rl": true, "value": "agency-ops", "mode": "name" },
+        "channelId": {
+          "__rl": true,
+          "value": "agency-ops",
+          "mode": "name"
+        },
         "text": "={{ $json.slackSummary }}",
         "otherOptions": {}
       },
@@ -321,39 +481,138 @@
       "name": "Post Warm & Nurture Leads to Slack",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.2,
-      "position": [2120, 790]
+      "position": [
+        2120,
+        790
+      ]
     }
   ],
   "connections": {
-    "Weekly Monday Audit Schedule": { "main": [[{ "node": "Read Advertiser Targets from Sheet", "type": "main", "index": 0 }]] },
-    "Manual Audit Trigger": { "main": [[{ "node": "Read Advertiser Targets from Sheet", "type": "main", "index": 0 }]] },
-    "Read Advertiser Targets from Sheet": { "main": [[{ "node": "Build Meta Ads Audit Payload", "type": "main", "index": 0 }]] },
-    "Build Meta Ads Audit Payload": { "main": [[{ "node": "Audit Meta Ads Advertisers via Apify", "type": "main", "index": 0 }]] },
-    "Audit Meta Ads Advertisers via Apify": { "main": [[{ "node": "Safe for Email Outreach?", "type": "main", "index": 0 }]] },
+    "Weekly Monday Audit Schedule": {
+      "main": [
+        [
+          {
+            "node": "Read Advertiser Targets from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Audit Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Advertiser Targets from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Advertiser Targets from Sheet": {
+      "main": [
+        [
+          {
+            "node": "Build Meta Ads Audit Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Meta Ads Audit Payload": {
+      "main": [
+        [
+          {
+            "node": "Audit Meta Ads Advertisers via Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audit Meta Ads Advertisers via Apify": {
+      "main": [
+        [
+          {
+            "node": "Safe for Email Outreach?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Safe for Email Outreach?": {
       "main": [
-        [{ "node": "Format DTC Brief & Effective Priority", "type": "main", "index": 0 }],
-        [{ "node": "Log CS-Queue & Manual Review Leads", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Format DTC Brief & Effective Priority",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log CS-Queue & Manual Review Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Format DTC Brief & Effective Priority": {
-      "main": [[
-        { "node": "Save Audited Advertisers to Sheet", "type": "main", "index": 0 },
-        { "node": "Route by Lead Priority Tier", "type": "main", "index": 0 }
-      ]]
+      "main": [
+        [
+          {
+            "node": "Save Audited Advertisers to Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Route by Lead Priority Tier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Route by Lead Priority Tier": {
       "main": [
-        [{ "node": "Alert Agency Slack (VIP Hot Leads)", "type": "main", "index": 0 }],
-        [{ "node": "Post Warm & Nurture Leads to Slack", "type": "main", "index": 0 }],
-        [{ "node": "Post Warm & Nurture Leads to Slack", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Alert Agency Slack (VIP Hot Leads)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send VIP Cold-Pitch Brief via Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Warm & Nurture Leads to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Warm & Nurture Leads to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
-    },
-    "Alert Agency Slack (VIP Hot Leads)": {
-      "main": [[{ "node": "Send VIP Cold-Pitch Brief via Gmail", "type": "main", "index": 0 }]]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
-  "meta": { "templateCredsSetupCompleted": true }
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
 }

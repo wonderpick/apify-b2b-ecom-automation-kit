@@ -12,7 +12,10 @@
       "name": "Sticky Note - Overview & Cost",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [120, 40]
+      "position": [
+        120,
+        40
+      ]
     },
     {
       "parameters": {
@@ -25,7 +28,10 @@
       "name": "Sticky Note - 1. Prospect Source",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [120, 360]
+      "position": [
+        120,
+        360
+      ]
     },
     {
       "parameters": {
@@ -38,7 +44,10 @@
       "name": "Sticky Note - 2. Audit & Pitch Engine",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [940, 360]
+      "position": [
+        940,
+        360
+      ]
     },
     {
       "parameters": {
@@ -51,7 +60,10 @@
       "name": "Sticky Note - 3. Pitch Tiering & Routing",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
-      "position": [1740, 260]
+      "position": [
+        1740,
+        260
+      ]
     },
     {
       "parameters": {
@@ -60,7 +72,9 @@
             {
               "field": "weeks",
               "weeksInterval": 1,
-              "triggerAtDay": [1],
+              "triggerAtDay": [
+                1
+              ],
               "triggerAtHour": 9
             }
           ]
@@ -70,7 +84,10 @@
       "name": "Weekly Agency Audit Run",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
-      "position": [180, 520]
+      "position": [
+        180,
+        520
+      ]
     },
     {
       "parameters": {},
@@ -78,19 +95,33 @@
       "name": "Manual Audit Trigger",
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [180, 700]
+      "position": [
+        180,
+        700
+      ]
     },
     {
       "parameters": {
-        "documentId": { "__rl": true, "value": "", "mode": "id" },
-        "sheetName": { "__rl": true, "value": "Prospects", "mode": "name" },
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Prospects",
+          "mode": "name"
+        },
         "options": {}
       },
       "id": "b1a2c3d4-0006-4000-8000-000000000003",
       "name": "Read Prospects from Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
-      "position": [420, 610]
+      "position": [
+        420,
+        610
+      ]
     },
     {
       "parameters": {
@@ -100,7 +131,10 @@
       "name": "Build Audit Batch Payload",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [680, 610]
+      "position": [
+        680,
+        610
+      ]
     },
     {
       "parameters": {
@@ -111,54 +145,117 @@
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            { "name": "memory", "value": "256" }
+            {
+              "name": "memory",
+              "value": "256"
+            }
           ]
         },
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={{ JSON.stringify({ websiteUrls: $json.websiteUrls, presetChambers: $json.presetChambers, chamberCategoryKeyword: $json.chamberCategoryKeyword, agencyPreset: $json.agencyPreset, enableContactPageFollow: $json.enableContactPageFollow, onlyWithEmail: $json.onlyWithEmail, maxItems: $json.maxItems, maxConcurrency: $json.maxConcurrency }) }}",
-        "options": { "timeout": 240000 }
+        "options": {
+          "timeout": 240000
+        }
       },
       "id": "b1a2c3d4-0006-4000-8000-000000000005",
       "name": "Audit Local Websites & Draft Pitches via Apify",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1000, 610]
+      "position": [
+        1000,
+        610
+      ]
     },
     {
       "parameters": {
         "conditions": {
-          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
           "conditions": [
             {
               "id": "cond-live-status",
               "leftValue": "={{ ['ok', 'slow'].includes($json.siteStatus || '') }}",
               "rightValue": true,
-              "operator": { "type": "boolean", "operation": "equals" }
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
             },
             {
               "id": "cond-has-email",
               "leftValue": "={{ $json.primaryEmail || '' }}",
               "rightValue": "",
-              "operator": { "type": "string", "operation": "notEmpty" }
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
             },
             {
               "id": "cond-mx-valid",
               "leftValue": "={{ $json.emailMxValid !== false }}",
               "rightValue": true,
-              "operator": { "type": "boolean", "operation": "equals" }
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
             },
             {
               "id": "cond-has-weakness",
               "leftValue": "={{ Number($json.weaknessCount || 0) }}",
               "rightValue": 1,
-              "operator": { "type": "number", "operation": "gte" }
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
             },
             {
               "id": "cond-has-subject",
               "leftValue": "={{ $json.coldEmailSubject || '' }}",
               "rightValue": "",
-              "operator": { "type": "string", "operation": "notEmpty" }
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "cond-outreach-ready",
+              "leftValue": "={{ $json.outreachStatus || '' }}",
+              "rightValue": "ready",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "cond-not-cs-queue",
+              "leftValue": "={{ $json.inboxType || 'none' }}",
+              "rightValue": "cs_ticket_queue",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "cond-not-zb-unsafe",
+              "leftValue": "={{ Boolean($json.zeroBounceUnsafe) }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "cond-not-inbox-none",
+              "leftValue": "={{ $json.inboxType || 'none' }}",
+              "rightValue": "none",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
             }
           ],
           "combinator": "and"
@@ -169,13 +266,24 @@
       "name": "Not Bot-Protected?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1240, 610]
+      "position": [
+        1240,
+        610
+      ]
     },
     {
       "parameters": {
         "operation": "append",
-        "documentId": { "__rl": true, "value": "", "mode": "id" },
-        "sheetName": { "__rl": true, "value": "ManualReviewWAF", "mode": "name" },
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "ManualReviewWAF",
+          "mode": "name"
+        },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
@@ -193,7 +301,10 @@
       "name": "Log Bot-Protected Sites for Manual Check",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
-      "position": [1500, 790]
+      "position": [
+        1500,
+        790
+      ]
     },
     {
       "parameters": {
@@ -203,13 +314,24 @@
       "name": "Segment Pitch Priority & Format Brief",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1500, 540]
+      "position": [
+        1500,
+        540
+      ]
     },
     {
       "parameters": {
         "operation": "append",
-        "documentId": { "__rl": true, "value": "", "mode": "id" },
-        "sheetName": { "__rl": true, "value": "AuditedLeads", "mode": "name" },
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "AuditedLeads",
+          "mode": "name"
+        },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
@@ -235,7 +357,10 @@
       "name": "Save Audited Leads to Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
-      "position": [1820, 440]
+      "position": [
+        1820,
+        440
+      ]
     },
     {
       "parameters": {
@@ -243,8 +368,21 @@
           "values": [
             {
               "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
-                "conditions": [{ "leftValue": "={{ $json.pitchTier }}", "rightValue": "VIP_HOT", "operator": { "type": "string", "operation": "equals" } }],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.pitchTier }}",
+                    "rightValue": "VIP_HOT",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
                 "combinator": "and"
               },
               "renameOutput": true,
@@ -252,8 +390,21 @@
             },
             {
               "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
-                "conditions": [{ "leftValue": "={{ $json.pitchTier }}", "rightValue": "WARM_PITCH", "operator": { "type": "string", "operation": "equals" } }],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.pitchTier }}",
+                    "rightValue": "WARM_PITCH",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
                 "combinator": "and"
               },
               "renameOutput": true,
@@ -261,8 +412,21 @@
             },
             {
               "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
-                "conditions": [{ "leftValue": "={{ $json.pitchTier }}", "rightValue": "NURTURE", "operator": { "type": "string", "operation": "equals" } }],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.pitchTier }}",
+                    "rightValue": "NURTURE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
                 "combinator": "and"
               },
               "renameOutput": true,
@@ -270,18 +434,27 @@
             }
           ]
         },
-        "options": { "fallbackOutput": "none" }
+        "options": {
+          "fallbackOutput": "none"
+        }
       },
       "id": "b1a2c3d4-0006-4000-8000-000000000010",
       "name": "Route by Pitch Priority Tier",
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
-      "position": [1820, 690]
+      "position": [
+        1820,
+        690
+      ]
     },
     {
       "parameters": {
         "select": "channel",
-        "channelId": { "__rl": true, "value": "agency-leads", "mode": "name" },
+        "channelId": {
+          "__rl": true,
+          "value": "agency-leads",
+          "mode": "name"
+        },
         "text": "={{ $json.slackSummary }}",
         "otherOptions": {}
       },
@@ -289,26 +462,38 @@
       "name": "Alert Agency Slack (VIP Hot Leads)",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.2,
-      "position": [2120, 560]
+      "position": [
+        2120,
+        560
+      ]
     },
     {
       "parameters": {
         "sendTo": "",
-        "subject": "={{ $json.coldEmailSubject }}",
+        "subject": "={{ $json.coldEmailSubject || $json.subjectLine || ('Agency Audit Brief: ' + ($json.companyName || 'Lead')) }}",
         "emailType": "text",
-        "message": "={{ $json.coldEmailIcebreaker + '\\n\\nCompany: ' + $json.companyName + '\\nEmail: ' + ($json.primaryEmail || 'N/A') + '\\nWeaknesses: ' + $json.painPointsText }}",
-        "options": { "appendAttribution": false }
+        "message": "={{ ($json.coldEmailIcebreaker || $json.coldEmailBody || '') + '\\n\\nCompany: ' + ($json.companyName || '') + '\\nEmail: ' + ($json.primaryEmail || 'N/A') + '\\nWeaknesses: ' + ($json.painPointsText || 'None') }}",
+        "options": {
+          "appendAttribution": false
+        }
       },
       "id": "b1a2c3d4-0006-4000-8000-000000000012",
       "name": "Send VIP Cold-Pitch Draft via Gmail",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
-      "position": [2380, 560]
+      "position": [
+        2380,
+        560
+      ]
     },
     {
       "parameters": {
         "select": "channel",
-        "channelId": { "__rl": true, "value": "agency-ops", "mode": "name" },
+        "channelId": {
+          "__rl": true,
+          "value": "agency-ops",
+          "mode": "name"
+        },
         "text": "={{ $json.slackSummary }}",
         "otherOptions": {}
       },
@@ -316,39 +501,138 @@
       "name": "Post Warm & Nurture Leads to Slack",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.2,
-      "position": [2120, 780]
+      "position": [
+        2120,
+        780
+      ]
     }
   ],
   "connections": {
-    "Weekly Agency Audit Run": { "main": [[{ "node": "Read Prospects from Sheet", "type": "main", "index": 0 }]] },
-    "Manual Audit Trigger": { "main": [[{ "node": "Read Prospects from Sheet", "type": "main", "index": 0 }]] },
-    "Read Prospects from Sheet": { "main": [[{ "node": "Build Audit Batch Payload", "type": "main", "index": 0 }]] },
-    "Build Audit Batch Payload": { "main": [[{ "node": "Audit Local Websites & Draft Pitches via Apify", "type": "main", "index": 0 }]] },
-    "Audit Local Websites & Draft Pitches via Apify": { "main": [[{ "node": "Not Bot-Protected?", "type": "main", "index": 0 }]] },
+    "Weekly Agency Audit Run": {
+      "main": [
+        [
+          {
+            "node": "Read Prospects from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Audit Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Prospects from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Prospects from Sheet": {
+      "main": [
+        [
+          {
+            "node": "Build Audit Batch Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Audit Batch Payload": {
+      "main": [
+        [
+          {
+            "node": "Audit Local Websites & Draft Pitches via Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audit Local Websites & Draft Pitches via Apify": {
+      "main": [
+        [
+          {
+            "node": "Not Bot-Protected?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Not Bot-Protected?": {
       "main": [
-        [{ "node": "Segment Pitch Priority & Format Brief", "type": "main", "index": 0 }],
-        [{ "node": "Log Bot-Protected Sites for Manual Check", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Segment Pitch Priority & Format Brief",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Bot-Protected Sites for Manual Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Segment Pitch Priority & Format Brief": {
-      "main": [[
-        { "node": "Save Audited Leads to Sheet", "type": "main", "index": 0 },
-        { "node": "Route by Pitch Priority Tier", "type": "main", "index": 0 }
-      ]]
+      "main": [
+        [
+          {
+            "node": "Save Audited Leads to Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Route by Pitch Priority Tier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     },
     "Route by Pitch Priority Tier": {
       "main": [
-        [{ "node": "Alert Agency Slack (VIP Hot Leads)", "type": "main", "index": 0 }],
-        [{ "node": "Post Warm & Nurture Leads to Slack", "type": "main", "index": 0 }],
-        [{ "node": "Post Warm & Nurture Leads to Slack", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "Alert Agency Slack (VIP Hot Leads)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send VIP Cold-Pitch Draft via Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Warm & Nurture Leads to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Warm & Nurture Leads to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
-    },
-    "Alert Agency Slack (VIP Hot Leads)": {
-      "main": [[{ "node": "Send VIP Cold-Pitch Draft via Gmail", "type": "main", "index": 0 }]]
     }
   },
   "active": false,
-  "settings": { "executionOrder": "v1" },
-  "meta": { "templateCredsSetupCompleted": true }
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
 }

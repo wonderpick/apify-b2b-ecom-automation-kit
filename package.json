@@ -1,6 +1,6 @@
 {
   "name": "apify-b2b-ecom-mcp-server",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "mcpName": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
   "description": "Zero-subscription external business intelligence MCP server (9 verb_noun tools + 7 one-click workflow prompts): Meta Ads advertiser leak audit & email enrichment, local B2B website weakness audit & cold pitches, competitor retail stockists, Shopify deltas, SaaS SOC 2 & AI subprocessors, B2B & creator email enrichment, and South Korea MFDS K-Beauty OEM & recalls.",
   "type": "module",

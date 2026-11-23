@@ -173,7 +173,7 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "loose"
           },
           "conditions": [
             {
@@ -189,6 +189,33 @@
               "id": "cond-mx-valid",
               "leftValue": "={{ $json.emailMxValid !== false }}",
               "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "cond-not-cs-queue",
+              "leftValue": "={{ $json.inboxType || 'general' }}",
+              "rightValue": "cs_ticket_queue",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "cond-not-inbox-none",
+              "leftValue": "={{ $json.inboxType || 'general' }}",
+              "rightValue": "none",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "cond-not-zb-unsafe",
+              "leftValue": "={{ Boolean($json.zeroBounceUnsafe) }}",
+              "rightValue": false,
               "operator": {
                 "type": "boolean",
                 "operation": "equals"
@@ -312,7 +339,7 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict"
+                  "typeValidation": "loose"
                 },
                 "conditions": [
                   {
@@ -334,7 +361,7 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict"
+                  "typeValidation": "loose"
                 },
                 "conditions": [
                   {
@@ -356,7 +383,7 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict"
+                  "typeValidation": "loose"
                 },
                 "conditions": [
                   {
@@ -411,9 +438,9 @@
     {
       "parameters": {
         "sendTo": "",
-        "subject": "={{ $json.pitchSubject }}",
+        "subject": "={{ $json.pitchSubject || '' }}",
         "emailType": "text",
-        "message": "={{ $json.pitchBody }}",
+        "message": "={{ $json.pitchBody || '' }}",
         "options": {
           "appendAttribution": false
         }
@@ -546,29 +573,23 @@
             "node": "Alert Wholesale Slack (VIP Buyers)",
             "type": "main",
             "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Post Boutique Lead to Ops Slack",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Post Boutique Lead to Ops Slack",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Alert Wholesale Slack (VIP Buyers)": {
-      "main": [
-        [
+          },
           {
             "node": "Send VIP Buyer Brief via Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Boutique Lead to Ops Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Boutique Lead to Ops Slack",
             "type": "main",
             "index": 0
           }

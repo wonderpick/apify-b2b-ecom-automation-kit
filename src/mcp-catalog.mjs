@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.2.0) — 9 verb_noun External-Intelligence Tools + 7 One-Click Prompts
+ * Shared MCP Catalog (v2.3.0) — 9 verb_noun External-Intelligence Tools + 7 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.2.0';
+export const SERVER_VERSION = '2.3.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -45,7 +45,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Extract physical retail stockists and independent boutiques carrying external competitor brands (Stockist, Storepoint, StoreRocket, Storemapper, WP Store Locator, JSON-LD, HTML) and enrich each retailer website with buyer/wholesale emails (including Cloudflare decoding), Instagram, LinkedIn, independent-vs-chain classification, and 0-100 outreachReadinessScore ($5/1K stores; $0 when empty or filtered). Use for wholesale retail prospecting; do not use for editing your own store locator map or enriching corporate SaaS companies (use enrich_b2b_company_leads instead).',
+      'Extract physical retail stockists and independent boutiques carrying external competitor brands (Stockist, Storepoint, StoreRocket, Storemapper, WP Store Locator, JSON-LD, HTML) from URLs, pasted CSV, or Apify dataset/run IDs, and enrich each retailer website with buyer/wholesale emails (including Cloudflare decoding), 11-query DNS deliverability grades (A-F), inboxType triage, Instagram, LinkedIn, independent-vs-chain classification, CRM export presets, and 0-100 outreachReadinessScore ($5/1K stores; $0 when empty or filtered). Use for wholesale retail prospecting; do not use for editing your own store locator map or enriching corporate SaaS companies (use enrich_b2b_company_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -56,16 +56,29 @@ export const TOOLS = [
           maxItems: 50,
           items: { type: 'string' },
           description:
-            'Competitor brand homepages or store locator URLs, e.g. ["https://fellowproducts.com", "https://brooklynhotdogcompany.com"]. Optional when datasetId is provided.',
+            'Competitor brand homepages or store locator URLs, e.g. ["https://fellowproducts.com", "https://brooklynhotdogcompany.com"]. Optional when rawCsvOrUrls, datasetId, or sourceRunId is provided.',
+        },
+        rawCsvOrUrls: {
+          type: 'string',
+          description: 'Optional pasted CSV/TSV rows or newline-separated brand/locator URLs.',
         },
         datasetId: {
           type: 'string',
-          description: 'Optional upstream Apify Dataset ID containing brand or store locator URLs.',
+          description: 'Optional upstream Apify Dataset ID or URL containing brand or store locator URLs.',
+        },
+        sourceRunId: {
+          type: 'string',
+          description: 'Optional upstream Apify Run ID or URL; automatically resolves defaultDatasetId.',
         },
         enrichEmails: {
           type: 'boolean',
           description:
             'Visit each unique retailer website (plus /wholesale and /contact) to extract buyer emails and social links.',
+          default: true,
+        },
+        enableDnsEmailCheck: {
+          type: 'boolean',
+          description: 'Run out-of-band 11-query DNS MX/SPF/DMARC/BIMI checks ($0) to output deliverabilityGrade (A-F) and emailProvider.',
           default: true,
         },
         onlyWithEmail: {
@@ -97,16 +110,29 @@ export const TOOLS = [
           description: 'Minimum outreachReadinessScore (0-100) required to save and bill ($0 for filtered stores).',
           default: 0,
         },
+        crmExportPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat CRM column mapping preset while preserving standard fields.',
+          default: 'default',
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTPS webhook URL notified with run metrics and top stockists on completion.',
+        },
       },
     },
     outputSchema: makeOutputSchema('Extracted retail stockist locations enriched with buyer contacts.', {
-      brandDomain: { type: 'string', description: 'Source competitor brand domain.' },
+      brandUrl: { type: 'string', description: 'Source competitor brand URL.' },
       storeName: { type: 'string', description: 'Physical retail store or boutique name.' },
       city: { type: 'string', description: 'Store city.' },
       country: { type: 'string', description: 'Store country code or name.' },
       retailerType: { type: 'string', description: 'Classification such as independent_boutique or national_chain.' },
-      storeWebsite: { type: 'string', description: 'Retailer website URL.' },
+      website: { type: 'string', description: 'Retailer website URL.' },
       primaryEmail: { type: 'string', description: 'Highest-priority buyer or wholesale email.' },
+      inboxType: { type: 'string', description: 'Inbox risk classification (b2b_direct, general, cs_ticket_queue, or none).' },
+      deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC/BIMI deliverability grade (A-F).' },
+      linkedinDecisionMakerSearchUrl: { type: 'string', description: '1-click LinkedIn buyer decision-maker search URL.' },
       outreachReadinessScore: { type: 'integer', description: '0-100 wholesale outreach readiness score.' },
     }),
   },
@@ -169,6 +195,16 @@ export const TOOLS = [
             ],
           },
           description: 'Optional subset of catalog or pricing event types to emit.',
+          default: [
+            'new_product',
+            'removed_product',
+            'price_drop',
+            'price_increase',
+            'discount_started',
+            'discount_ended',
+            'out_of_stock',
+            'restocked',
+          ],
         },
         mapThresholds: {
           type: 'object',
@@ -189,10 +225,10 @@ export const TOOLS = [
       required: ['storeUrls'],
     },
     outputSchema: makeOutputSchema('Detected Shopify competitor pricing, inventory, or catalog delta events.', {
-      storeUrl: { type: 'string', description: 'Monitored Shopify store URL.' },
+      store: { type: 'string', description: 'Monitored Shopify store URL.' },
       eventType: { type: 'string', description: 'Delta type (price_drop, restocked, out_of_stock, etc.).' },
       severity: { type: 'string', description: 'Action priority tier: CRITICAL, INVENTORY, or CATALOG.' },
-      productTitle: { type: 'string', description: 'Product title.' },
+      title: { type: 'string', description: 'Product title.' },
       oldPrice: { type: 'number', description: 'Previous variant price.' },
       newPrice: { type: 'number', description: 'Current variant price.' },
       priceChangePercent: { type: 'number', description: 'Percentage price change.' },
@@ -251,13 +287,22 @@ export const TOOLS = [
           description: 'Concurrent domains to check (1-15).',
           default: 5,
         },
+        emitBaselineSummary: {
+          type: 'boolean',
+          description: 'In monitor mode, emit 1 zero-cost baseline_initialized summary record per domain on its first run.',
+          default: true,
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional Slack, Discord, or n8n webhook URL notified in monitor mode when compliance or AI subprocessor changes occur.',
+        },
       },
       required: ['domains'],
     },
     outputSchema: makeOutputSchema('Audited SaaS vendor Trust Center compliance and AI subprocessor records.', {
       domain: { type: 'string', description: 'Audited SaaS vendor domain.' },
       trustCenterUrl: { type: 'string', description: 'Discovered Trust Center URL.' },
-      trustPlatform: { type: 'string', description: 'Detected platform (Vanta, Drata, SafeBase, etc.).' },
+      trustCenterPlatform: { type: 'string', description: 'Detected platform (Vanta, Drata, SafeBase, etc.).' },
       complianceScore: { type: 'integer', description: '0-100 deterministic security posture score.' },
       missingSoc2Lead: { type: 'boolean', description: 'True when vendor lacks verified SOC 2 certification.' },
       certifications: { type: 'array', items: { type: 'string' }, description: 'Detected compliance certifications.' },
@@ -275,7 +320,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Read-only 3-in-1 B2B company enricher: resolve company names, domains, work emails, or an Apify datasetId into verified official domain, LinkedIn /company/ URL (rejecting /in/ noise), Cloudflare-decoded corporate emails (sales@, contact@, hello@), WhatsApp links, phones, 6 social profiles, and 0-100 leadQualityScore ($2.50/1K enriched; $0 for misses, parked domains, or onlyWithEmail skips). Use for B2B corporate enrichment; do not use for influencer/creator bios (use enrich_creator_bio_leads instead).',
+      'Read-only 3-in-1 B2B company enricher: resolve company names, domains, work emails, pasted CSV/URLs, or an Apify dataset/run ID into verified official domain, LinkedIn /company/ URL (rejecting /in/ noise), Cloudflare-decoded corporate emails (sales@, contact@, hello@), 11-query DNS deliverability grades (A-F), inboxType triage, WhatsApp links, phones, 6 social profiles, CRM presets, and 0-100 leadQualityScore ($2.50/1K enriched; $0 for misses, parked domains, or onlyWithEmail skips). Use for B2B corporate enrichment; do not use for influencer/creator bios (use enrich_creator_bio_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -286,20 +331,33 @@ export const TOOLS = [
           maxItems: 2000,
           items: { type: 'string' },
           description:
-            'Up to 2,000 company names, domains, URLs, or work emails, e.g. ["Stripe", "Linear", "apify.com"]. Optional when datasetId is provided.',
+            'Up to 2,000 company names, domains, URLs, or work emails, e.g. ["Stripe", "Linear", "apify.com"]. Optional when rawCsvOrUrls, datasetId, or sourceRunId is provided.',
+        },
+        rawCsvOrUrls: {
+          type: 'string',
+          description: 'Optional pasted CSV/TSV rows or newline-separated company names, domains, URLs, or work emails.',
         },
         datasetId: {
           type: 'string',
           description:
-            'Optional upstream Apify Dataset ID (auto-detects website, domain, companyName, name, or email fields).',
+            'Optional upstream Apify Dataset ID or URL (auto-detects website, domain, companyName, name, or email fields).',
+        },
+        sourceRunId: {
+          type: 'string',
+          description: 'Optional upstream Apify Run ID or URL; automatically resolves defaultDatasetId.',
         },
         datasetField: {
           type: 'string',
-          description: 'Optional explicit field name to read from datasetId items when chaining.',
+          description: 'Optional explicit field name to read from datasetId/sourceRunId items when chaining.',
         },
         enrichContactPages: {
           type: 'boolean',
           description: 'Follow up to 2 internal /contact or /about pages when the homepage lacks emails or LinkedIn.',
+          default: true,
+        },
+        enableDnsEmailCheck: {
+          type: 'boolean',
+          description: 'Run out-of-band 11-query DNS MX/SPF/DMARC/BIMI checks ($0) to output deliverabilityGrade (A-F) and emailProvider.',
           default: true,
         },
         onlyWithEmail: {
@@ -310,13 +368,19 @@ export const TOOLS = [
         includeUnresolved: {
           type: 'boolean',
           description: 'Include unresolved/not_found rows in the dataset for auditability (always $0 cost).',
-          default: false,
+          default: true,
         },
         minConfidence: {
           type: 'string',
           enum: ['low', 'medium', 'high'],
           description: 'Minimum confidence threshold for accepting company-name-to-domain matches.',
           default: 'medium',
+        },
+        crmExportPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat CRM column mapping preset while preserving standard fields.',
+          default: 'default',
         },
         concurrency: {
           type: 'integer',
@@ -325,14 +389,21 @@ export const TOOLS = [
           description: 'Concurrent domain resolutions (1-15).',
           default: 6,
         },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTPS webhook URL notified with run metrics and top leads on completion.',
+        },
       },
     },
     outputSchema: makeOutputSchema('Enriched B2B company lead records.', {
       input: { type: 'string', description: 'Original company name, domain, or email input.' },
       domain: { type: 'string', description: 'Resolved official company domain.' },
-      linkedinCompanyUrl: { type: 'string', description: 'Verified LinkedIn /company/ URL.' },
+      linkedinUrl: { type: 'string', description: 'Verified LinkedIn /company/ URL.' },
       primaryEmail: { type: 'string', description: 'Top prioritized corporate email.' },
       emails: { type: 'array', items: { type: 'string' }, description: 'All discovered corporate emails.' },
+      inboxType: { type: 'string', description: 'Inbox risk classification (b2b_direct, general, cs_ticket_queue, or none).' },
+      deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC/BIMI deliverability grade (A-F).' },
+      linkedinDecisionMakerSearchUrl: { type: 'string', description: '1-click LinkedIn decision-maker search URL.' },
       leadQualityScore: { type: 'integer', description: '0-100 B2B lead completeness score.' },
     }),
   },
@@ -347,7 +418,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Read-only creator enricher across 15+ Link-in-Bio platforms (Linktree, Stan.store, Bio.site, Beacons, Komi, Hoo.be, Carrd, etc.). Extracts talent agency and business emails (with 1-hop personal site following + Cloudflare email decoding), phones/WhatsApp, 14 social networks, monetization links, promo codes, and 0-100 Creator Readiness Score ($2.50/1K enriched; $0 for 404/WAF/no-email skips). Use for influencer and UGC sponsorship outreach; do not use for corporate B2B companies (use enrich_b2b_company_leads instead).',
+      'Read-only creator enricher across 15+ Link-in-Bio platforms (Linktree, Stan.store, Bio.site, Beacons, Komi, Hoo.be, Carrd, etc.) from URLs, pasted CSV, or Apify dataset/run IDs. Extracts talent agency and business emails (with 1-hop personal site following + Cloudflare email decoding), 11-query DNS deliverability grades (A-F), inboxType triage, phones/WhatsApp, 14 social networks, monetization links, promo codes, CRM presets, and 0-100 creatorReadinessScore ($2.50/1K enriched; $0 for 404/WAF/no-email skips). Use for influencer and UGC sponsorship outreach; do not use for corporate B2B companies (use enrich_b2b_company_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -358,17 +429,30 @@ export const TOOLS = [
           maxItems: 50000,
           items: { type: 'string' },
           description:
-            'List of creator Link-in-Bio URLs or handles, e.g. ["https://linktr.ee/heathertraska", "https://stan.store/stan"]. Optional when datasetId is provided.',
+            'List of creator Link-in-Bio URLs or handles, e.g. ["https://linktr.ee/heathertraska", "https://stan.store/stan"]. Optional when rawCsvOrUrls, datasetId, or sourceRunId is provided.',
+        },
+        rawCsvOrUrls: {
+          type: 'string',
+          description: 'Optional pasted CSV/TSV rows or newline-separated creator Link-in-Bio URLs.',
         },
         datasetId: {
           type: 'string',
           description:
-            'Optional Apify Dataset ID from an upstream Instagram, TikTok, or YouTube scraper (preserves upstreamHandle and upstreamFollowers).',
+            'Optional Apify Dataset ID or URL from an upstream Instagram, TikTok, or YouTube scraper (preserves upstreamHandle and upstreamFollowers).',
+        },
+        sourceRunId: {
+          type: 'string',
+          description: 'Optional upstream Apify Run ID or URL; automatically resolves defaultDatasetId.',
         },
         enableDeepContactFollow: {
           type: 'boolean',
           description:
             'When no email is on the bio page, follow up to 2 personal website, Contact, or Media Kit links (1-hop, SSRF-safe, Cloudflare decoding included).',
+          default: true,
+        },
+        enableDnsEmailCheck: {
+          type: 'boolean',
+          description: 'Run out-of-band 11-query DNS MX/SPF/DMARC/BIMI checks ($0) on custom creator/agency email domains.',
           default: true,
         },
         onlyWithEmail: {
@@ -397,6 +481,16 @@ export const TOOLS = [
           description: 'Concurrent requests (1-20; capped automatically on 128-256 MB containers).',
           default: 5,
         },
+        crmExportPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat CRM column mapping preset while preserving standard fields.',
+          default: 'default',
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTPS webhook URL notified with run metrics and top creators on completion.',
+        },
       },
     },
     outputSchema: makeOutputSchema('Enriched creator outreach profiles from Link-in-Bio pages.', {
@@ -404,8 +498,11 @@ export const TOOLS = [
       platform: { type: 'string', description: 'Detected bio platform (linktree, stan_store, beacons, etc.).' },
       displayName: { type: 'string', description: 'Creator display name.' },
       primaryEmail: { type: 'string', description: 'Prioritized talent agency or business email.' },
-      emails: { type: 'array', items: { type: 'string' }, description: 'All discovered creator contact emails.' },
-      readinessScore: { type: 'integer', description: '0-100 Brand-Deal Readiness Score.' },
+      emails: { type: 'array', items: { type: 'object' }, description: 'All discovered creator contact email entries.' },
+      inboxType: { type: 'string', description: 'Inbox risk classification (management_agency, creator_direct, general, cs_ticket_queue, or none).' },
+      deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC/BIMI deliverability grade (A-F).' },
+      linkedinDecisionMakerSearchUrl: { type: 'string', description: '1-click LinkedIn creator/manager search URL.' },
+      creatorReadinessScore: { type: 'integer', description: '0-100 Brand-Deal Readiness Score.' },
     }),
   },
   {
@@ -542,13 +639,13 @@ export const TOOLS = [
     actorSlug: 'maitreya_buddha~local-b2b-website-audit-email-pitch-finder',
     annotations: {
       title: 'Audit Local B2B Websites, Owner Emails & Cold Pitches',
-      readOnlyHint: true,
+      readOnlyHint: false,
       destructiveHint: false,
       idempotentHint: true,
       openWorldHint: true,
     },
     description:
-      'Read-only all-in-one agency lead auditor: accept Google Maps Apify datasetId, up to 2,000 company website URLs, or 13 live-verified US Chamber of Commerce presets, and run an 8-point website weakness X-ray (HTTPS/SSL, mobile viewport, load speed, outdated copyright year, SEO/LocalBusiness schema, GA4/GTM/Meta/TikTok pixels, booking/chat widgets, CMS), Cloudflare-decoded owner email recovery, 0-100 pitchPriorityScore, and factual cold-email subject & icebreaker ($4.50/1K leads; $0 on optional filtered misses). Use for web design, local SEO, paid ads, and AI chatbot agency prospecting; do not use for SaaS SOC 2 Trust Center security audits (use audit_saas_trust_center instead).',
+      'All-in-one agency lead auditor: accept Google Maps Apify datasetId, sourceRunId, pasted CSV/URLs, up to 2,000 company website URLs, or 13 live-verified US Chamber of Commerce presets, and run an 8-point website weakness X-ray (HTTPS/SSL, mobile viewport, load speed, outdated copyright year, SEO/LocalBusiness schema, GA4/GTM/Meta/TikTok pixels, booking/chat widgets, CMS), 11-query DNS deliverability grading (A-F), Cloudflare-decoded owner email recovery, inboxType & outreachStatus safety triage, 16-shard weekly watch_diff triggers, CRM export presets, 0-100 pitchPriorityScore, and factual cold-email subject & icebreaker ($4.50/1K leads; $0 on optional filtered misses or skip_seen repeats). Use for web design, local SEO, paid ads, AI chatbot, and email deliverability agency prospecting; do not use for SaaS SOC 2 Trust Center security audits (use audit_saas_trust_center instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -558,11 +655,23 @@ export const TOOLS = [
           minItems: 1,
           maxItems: 2000,
           items: { type: 'string' },
-          description: 'Optional list of up to 2,000 local business website URLs to audit, e.g. ["https://ddofoods.com"].',
+          description: 'Optional list of up to 2,000 local business website URLs to audit, e.g. ["https://ddofoods.com"]. Optional when rawCsvOrUrls, datasetId, sourceRunId, or presetChambers is provided.',
+        },
+        rawCsvOrUrls: {
+          type: 'string',
+          description: 'Optional pasted CSV, TSV spreadsheet rows, or newline-separated company website URLs/domains.',
         },
         datasetId: {
           type: 'string',
-          description: 'Optional upstream Apify Dataset ID (e.g. from Google Maps Scraper) to chain leads directly, preserving no_website VIP leads.',
+          description: 'Optional upstream Apify Dataset ID or URL (e.g. from Google Maps Scraper) to chain leads directly, preserving no_website VIP leads.',
+        },
+        sourceRunId: {
+          type: 'string',
+          description: 'Optional upstream Apify Run ID or Console URL; automatically resolves defaultDatasetId and streams leads.',
+        },
+        datasetField: {
+          type: 'string',
+          description: 'Optional explicit field name to read from datasetId/sourceRunId items when chaining non-standard datasets.',
         },
         presetChambers: {
           type: 'array',
@@ -597,14 +706,44 @@ export const TOOLS = [
         },
         agencyPreset: {
           type: 'string',
-          enum: ['all', 'web_design', 'local_seo', 'paid_ads', 'ai_chatbot_booking'],
-          description: 'Agency service vertical used to weight pitchPriorityScore and tailor coldEmailSubject & coldEmailIcebreaker.',
+          enum: ['all', 'web_design', 'local_seo', 'paid_ads', 'ai_chatbot_booking', 'deliverability_agency'],
+          description: 'Agency service vertical used to weight pitchPriorityScore and tailor coldEmailSubject, coldEmailIcebreaker, and linkedInDm.',
           default: 'all',
+        },
+        customAgencyOffer: {
+          type: 'string',
+          description: 'Optional 1-line agency value proposition deterministically woven into coldEmailBody ($0 AI).',
+        },
+        crmExportPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat CRM column mapping preset (default keeps standard structured schema).',
+          default: 'default',
+        },
+        dedupStoreName: {
+          type: 'string',
+          description: 'Optional Apify Named Key-Value Store (16-shard compact snapshots) for weekly skip_seen ($0 repeats) or watch_diff buying-trigger tracking.',
+        },
+        dedupMode: {
+          type: 'string',
+          enum: ['skip_seen', 'watch_diff'],
+          description: 'When dedupStoreName is set: skip_seen skips previously audited leads at $0; watch_diff detects website/DNS buying triggers.',
+          default: 'skip_seen',
         },
         enableContactPageFollow: {
           type: 'boolean',
-          description: 'Follow up to 1 internal /contact or /about page when the homepage lacks an email.',
+          description: 'Follow up to 1 internal /contact, /about, or /team page when the homepage lacks an email.',
           default: true,
+        },
+        enableDnsEmailCheck: {
+          type: 'boolean',
+          description: 'Run out-of-band 11-query DNS MX/SPF/DMARC/BIMI checks ($0) to output deliverabilityGrade (A-F) and emailProvider.',
+          default: true,
+        },
+        dnsFallbackOnBlocked: {
+          type: 'boolean',
+          description: 'Default false skips WAF-blocked (403/429) sites at $0. Set true to run out-of-band DNS-only audit on live blocked domains.',
+          default: false,
         },
         onlyWithEmail: {
           type: 'boolean',
@@ -630,13 +769,22 @@ export const TOOLS = [
           description: 'Maximum total leads to audit and save (1-2,000).',
           default: 100,
         },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTP/HTTPS webhook URL to receive audited leads JSON on completion.',
+        },
       },
     },
-    outputSchema: makeOutputSchema('Audited local B2B business leads with 8-point website weaknesses, owner emails, and custom cold pitches.', {
+    outputSchema: makeOutputSchema('Audited local B2B business leads with 8-point website weaknesses, 11-query DNS deliverability grades, owner emails, and custom cold pitches.', {
       companyName: { type: 'string', description: 'Business or company name.' },
       websiteUrl: { type: 'string', description: 'Audited website URL (or null if no_website).' },
-      siteStatus: { type: 'string', description: 'ok, slow, no_website, unreachable, http_error, or bot_protected.' },
-      primaryEmail: { type: 'string', description: 'Prioritized owner or business email.' },
+      leadPriority: { type: 'string', description: 'Deterministic priority tier: VIP_HOT, WARM, or NURTURE.' },
+      siteStatus: { type: 'string', description: 'ok, slow, no_website, unreachable, http_error, bot_protected, or bot_protected_dns_audited.' },
+      primaryEmail: { type: 'string', description: 'Prioritized owner or business email (null when none or quarantined).' },
+      inboxType: { type: 'string', description: 'Inbox risk classification: b2b_direct, general, cs_ticket_queue, or none.' },
+      outreachStatus: { type: 'string', description: 'Copy safety gate: ready or manual_review_required.' },
+      deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC/BIMI deliverability grade (A-F).' },
+      linkedinDecisionMakerSearchUrl: { type: 'string', description: '1-click LinkedIn owner/decision-maker search URL.' },
       cmsPlatform: { type: 'string', description: 'Detected CMS (WordPress, Wix, Squarespace, Shopify, etc.).' },
       detectedPainPoints: { type: 'array', items: { type: 'string' }, description: 'Factual detected website weaknesses.' },
       pitchPriorityScore: { type: 'integer', description: '0-100 agency pitch priority score.' },
@@ -719,6 +867,11 @@ export const TOOLS = [
           description: 'When dedupStoreName is set: skip_seen skips previously audited brands at $0; watch_diff detects ad/ESP/pixel/404/DMARC changes.',
           default: 'skip_seen',
         },
+        enableDnsEmailCheck: {
+          type: 'boolean',
+          description: 'Run out-of-band 11-query DNS MX/SPF/DMARC/BIMI checks ($0) to output deliverabilityGrade (A-F) and emailProvider.',
+          default: true,
+        },
         dnsFallbackOnBlocked: {
           type: 'boolean',
           description: 'Default false skips WAF-blocked (403/429) brands at $0. Set true to run out-of-band DNS-only audit on live blocked domains.',
@@ -748,6 +901,10 @@ export const TOOLS = [
           description: 'Maximum unique deduplicated brand domains to audit (1-2,000).',
           default: 100,
         },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTP/HTTPS webhook URL to receive audited advertiser JSON on completion.',
+        },
       },
     },
     outputSchema: makeOutputSchema('Audited DTC advertiser leads with 4-layer tech stack, live 404/OOS/DMARC leaks, buyer fit, inbox safety, and outreach copy.', {
@@ -762,6 +919,7 @@ export const TOOLS = [
       inboxType: { type: 'string', description: 'Inbox risk classification: b2b_direct, general, cs_ticket_queue, or none.' },
       outreachStatus: { type: 'string', description: 'Copy safety gate: ready or manual_review_required (pair with primaryEmail, inboxType, and zeroBounceUnsafe before sending).' },
       deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC/BIMI deliverability grade (A-F).' },
+      linkedinDecisionMakerSearchUrl: { type: 'string', description: '1-click LinkedIn decision-maker search URL.' },
       detectedLeaksSummary: { type: 'string', description: 'Plain-English summary of verified ad-spend or deliverability leaks.' },
       coldEmailSubject: { type: 'string', description: 'Zero-hallucination evidence-based subject line.' },
       coldEmailOpener: { type: 'string', description: 'Zero-hallucination personalized opening sentence.' },
@@ -893,7 +1051,7 @@ export const PROMPTS = [
       },
       {
         name: 'agencyPreset',
-        description: 'Agency focus: all, web_design, local_seo, paid_ads, or ai_chatbot_booking (default: all).',
+        description: 'Agency focus: all, web_design, local_seo, paid_ads, ai_chatbot_booking, or deliverability_agency (default: all).',
         required: false,
       },
       {
@@ -1057,10 +1215,33 @@ export function buildPromptResult(name, args = {}) {
         .filter(Boolean);
       const preset = clean(args.agencyPreset, 'all');
       const catKw = clean(args.categoryKeyword);
-      const looksLikeUrl = rawTargets.some((t) => t.includes('.'));
-      const argHint = looksLikeUrl
-        ? `\`websiteUrls: ${JSON.stringify(rawTargets)}\``
-        : `\`presetChambers: ${JSON.stringify(rawTargets)}\`${catKw ? `, \`chamberCategoryKeyword: "${catKw}"\`` : ''}`;
+      const single = rawTargets.length === 1 ? rawTargets[0] : '';
+      const validChambers = new Set([
+        'phoenix_az',
+        'scottsdale_az',
+        'chandler_az',
+        'gilbert_az',
+        'fort_worth_tx',
+        'denton_tx',
+        'lubbock_tx',
+        'beverly_hills_ca',
+        'anaheim_ca',
+        'fresno_ca',
+        'tacoma_wa',
+        'salem_or',
+        'anchorage_ak',
+      ]);
+      const isApifyRunUrl = Boolean(single && /apify\.com\/.*\/runs\/[A-Za-z0-9]+/i.test(single));
+      const isApifyDatasetUrl = Boolean(single && /apify\.com\/.*\/datasets\/[A-Za-z0-9]+/i.test(single));
+      const isAllChambers = rawTargets.length > 0 && rawTargets.every((t) => validChambers.has(t));
+      const isSingleId = Boolean(single && !isAllChambers && !single.includes('.') && !single.includes('/'));
+      const argHint = isApifyRunUrl
+        ? `\`sourceRunId: "${single}"\``
+        : isApifyDatasetUrl || isSingleId
+          ? `\`datasetId: "${single}"\``
+          : isAllChambers
+            ? `\`presetChambers: ${JSON.stringify(rawTargets)}\`${catKw ? `, \`chamberCategoryKeyword: "${catKw}"\`` : ''}`
+            : `\`websiteUrls: ${JSON.stringify(rawTargets)}\``;
       return {
         description: prompt.description,
         messages: [
@@ -1070,7 +1251,7 @@ export function buildPromptResult(name, args = {}) {
               type: 'text',
               text: [
                 `Call \`audit_local_b2b_websites\` with ${argHint}, \`agencyPreset: "${preset}"\`, and \`maxItems: 25\`.`,
-                'Return a prioritized agency outreach table sorted by `pitchPriorityScore` (Company, Website, Site Status, Primary Email, Detected Pain Points, Recommended Service, Cold Email Subject, Custom Icebreaker) and skip any `bot_protected` rows from automated outreach.',
+                'Return a prioritized agency outreach table sorted by `pitchPriorityScore` (Company, Website, Site Status, Primary Email, Deliverability Grade, Detected Pain Points, Recommended Service, Cold Email Subject, Custom Icebreaker) and skip any `bot_protected`, `cs_ticket_queue`, `inboxType === "none"`, `zeroBounceUnsafe === true`, or `manual_review_required` rows from automated outreach.',
               ].join('\n'),
             },
           },
@@ -1115,7 +1296,7 @@ export function buildPromptResult(name, args = {}) {
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.2.0 — 9 zero-proxy tools + 7 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.3.0 — 9 zero-proxy tools + 7 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
   '- Meta Ad Library datasets, Apify Run IDs, or DTC ad landing pages -> 4-layer 110+ tech stack, 404/OOS/DMARC leaks, buyer fit, CS-queue guard, Tier-2 expansion pitches & weekly watch_diff -> audit_meta_ads_advertisers.',
   '- Local business / Google Maps / US Chamber 8-point website weakness audit + owner emails + cold-email openers -> audit_local_b2b_websites.',
@@ -1175,10 +1356,7 @@ export async function executeApifyTool(name, args, token, timeoutMs = 180_000) {
 
   try {
     const endpoint = `https://api.apify.com/v2/acts/${tool.actorSlug}/run-sync-get-dataset-items?memory=256`;
-    const payload =
-      tool.name === 'enrich_b2b_company_leads'
-        ? { includeUnresolved: false, ...(args ?? {}) }
-        : (args ?? {});
+    const payload = args ?? {};
 
     const res = await fetch(endpoint, {
       method: 'POST',
