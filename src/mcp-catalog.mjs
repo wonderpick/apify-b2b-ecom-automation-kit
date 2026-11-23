@@ -45,7 +45,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Extract physical retail stockists and independent boutiques carrying external competitor brands (Stockist, Storepoint, StoreRocket, Storemapper, WP Store Locator, JSON-LD, HTML) from URLs, pasted CSV, or Apify dataset/run IDs, and enrich each retailer website with buyer/wholesale emails (including Cloudflare decoding), 11-query DNS deliverability grades (A-F), inboxType triage, Instagram, LinkedIn, independent-vs-chain classification, CRM export presets, and 0-100 outreachReadinessScore ($5/1K stores; $0 when empty or filtered). Use for wholesale retail prospecting; do not use for editing your own store locator map or enriching corporate SaaS companies (use enrich_b2b_company_leads instead).',
+      'Extract retail stockists carrying external brands and enrich each store domain with verified buyer emails and DNS deliverability checks. Supply at least one source (urls, rawCsvOrUrls, datasetId, or sourceRunId); omitting all sources returns 0 items at $0. Optional filters (onlyIndependentStores, onlyWithEmail, minReadinessScore) gate billing before charge, while maxStoresPerBrand (1-5,000) bounds fan-out per brand. Bills $5/1K stores ($0 when empty or filtered), runs ~15-60s per brand with per-store failure isolation in OUTPUT_SUMMARY, and optionally posts to webhookUrl. Use for wholesale retail prospecting; do not use for editing your own store map or enriching corporate B2B companies (use enrich_b2b_company_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -147,7 +147,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Monitor up to 50 external Shopify competitor stores (up to 2,500 products each = 125K SKUs) for price drops, price hikes, restocks, stockouts, new launches, and MAP violations using persistent Key-Value Store snapshots ($2/1K real deltas; $0 on baseline or unchanged runs). Returns severity (CRITICAL, INVENTORY, CATALOG), oldPrice, newPrice, priceChangePercent, mapViolation, and productUrl. Use for tracking external Shopify competitors; do not use for editing your own Shopify admin or non-Shopify sites.',
+      'Monitor up to 50 external Shopify competitor stores (up to 2,500 products each) for price, stock, catalog, and MAP changes against persisted Key-Value Store snapshots. Requires storeUrls; minPriceChangePercent and mapFloorPrices drive CRITICAL alerts, while stateStoreName isolates snapshots per workflow (avoid concurrent runs on the same stateStoreName to prevent race overwrites). Persists snapshot state and optional webhookUrl alerts (explaining readOnlyHint=false), isolating per-store or webhook failures in OUTPUT_SUMMARY without aborting the run. Bills $2/1K real deltas ($0 on baseline or unchanged runs). Use for recurring Shopify SKU tracking; do not use for editing your Shopify admin, Meta ad audits (use audit_meta_ads_advertisers), or retail stockists (use extract_brand_store_stockists).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -246,7 +246,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Audit or monitor up to 500 external SaaS vendor Trust Centers (Vanta, Drata, SafeBase, Conveyor, Whistic, Secureframe, OneTrust) for SOC 2, ISO 27001, HIPAA, PCI-DSS certifications, DNS IAM/SSO, 75+ third-party and AI subprocessors (OpenAI, Anthropic, AWS Bedrock, Vertex AI), complianceScore (0-100), and missingSoc2Lead ($5/1K audits or real changes; $0 unchanged). Use for third-party vendor risk (TPRM) or finding SaaS prospects missing SOC 2; do not use for editing your own internal GRC workspace.',
+      'Audit or monitor up to 500 external SaaS vendor Trust Centers for security certifications, DNS IAM/SSO, and third-party/AI subprocessors. Requires domains (empty input returns 0 items at $0); mode="audit" runs statelessly, while mode="monitor" diffs against stateStoreName snapshots and emitBaselineSummary controls first-run output. Persists monitor snapshots and optional webhookUrl alerts (explaining readOnlyHint=false), isolating per-domain 403/timeout failures in OUTPUT_SUMMARY. Bills $5/1K audited domains or real changes ($0 when unchanged or WAF-blocked). Use for TPRM vendor risk or finding SaaS vendors lacking SOC 2; do not use for editing internal GRC workspaces or local SMB website audits (use audit_local_b2b_websites instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -320,7 +320,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Read-only 3-in-1 B2B company enricher: resolve company names, domains, work emails, pasted CSV/URLs, or an Apify dataset/run ID into verified official domain, LinkedIn /company/ URL (rejecting /in/ noise), Cloudflare-decoded corporate emails (sales@, contact@, hello@), 11-query DNS deliverability grades (A-F), inboxType triage, WhatsApp links, phones, 6 social profiles, CRM presets, and 0-100 leadQualityScore ($2.50/1K enriched; $0 for misses, parked domains, or onlyWithEmail skips). Use for B2B corporate enrichment; do not use for influencer/creator bios (use enrich_creator_bio_leads instead).',
+      'Resolve company names, domains, or work emails into verified official websites, LinkedIn company pages, business emails, and DNS deliverability grades. Supply at least one source (inputs, rawCsvOrUrls, datasetId, or sourceRunId; omitting all returns 0 items at $0); datasetField selects the upstream column, minConfidence sets name-match strictness, and onlyWithEmail or includeUnresolved=false drops misses before billing. Streams in 50-item chunks (~10-45s per 100 companies) with per-company error isolation in OUTPUT_SUMMARY, optional webhookUrl delivery, and $2.50/1K enriched billing ($0 for parked, unresolved, or filtered skips). Use for B2B corporate enrichment; do not use for creator link-in-bio pages (use enrich_creator_bio_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -418,7 +418,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Read-only creator enricher across 15+ Link-in-Bio platforms (Linktree, Stan.store, Bio.site, Beacons, Komi, Hoo.be, Carrd, etc.) from URLs, pasted CSV, or Apify dataset/run IDs. Extracts talent agency and business emails (with 1-hop personal site following + Cloudflare email decoding), 11-query DNS deliverability grades (A-F), inboxType triage, phones/WhatsApp, 14 social networks, monetization links, promo codes, CRM presets, and 0-100 creatorReadinessScore ($2.50/1K enriched; $0 for 404/WAF/no-email skips). Use for influencer and UGC sponsorship outreach; do not use for corporate B2B companies (use enrich_b2b_company_leads instead).',
+      'Enrich creator Link-in-Bio pages across 15+ bio platforms with agency or business emails, DNS deliverability checks, and sponsorship readiness scores. Supply at least one source (urls, rawCsvOrUrls, datasetId, or sourceRunId; omitting all returns 0 items at $0); enableDeepContactFollow toggles 1-hop personal-site crawling, while onlyWithEmail and minReadinessScore gate billing before charge. Streams up to 50,000 profiles in 50-item chunks at $2.50/1K enriched ($0 on 404, WAF, or filtered skips), isolating per-profile failures in OUTPUT_SUMMARY with optional webhookUrl delivery. Use for influencer and UGC sponsorship outreach; do not use for corporate B2B companies (use enrich_b2b_company_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -516,7 +516,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Read-only search of official South Korea MFDS (식약처) cosmetic recall and sales suspension orders in plain English or Korean (auto-bridges 50+ K-Beauty terms like "sunscreen", "soap", "Cosmax"). Returns productName, companyName, isActiveRecall, lotNumber, recallReason, recallOrderDate, and businessNumber ($3/1K matches; $0 if none). Use for K-Beauty import safety and recall compliance screening; do not use for US FDA/EU recalls or functional OEM factory discovery (use search_korea_mfds_oem_filings instead).',
+      'Search official South Korea MFDS cosmetic recall and sales-suspension orders in English or Korean. Filter inputs accept English or Korean terms (50+ K-Beauty terms like "sunscreen", "soap", and "Cosmax" auto-translate server-side); omitting all filters returns recent orders up to maxItems (default 100), and onlyActiveRecalls excludes lifted orders before billing. Queries the live MFDS public API (~2-10s) with automatic retries on transient gateway errors and bills $3/1K matches ($0 if none). Use for K-Beauty import safety and recall screening; do not use for US FDA/EU recalls or functional OEM factory discovery (use search_korea_mfds_oem_filings instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -575,7 +575,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Read-only search across 219,000+ official South Korea MFDS functional cosmetic filings in plain English or Korean ("sunscreen", "retinol cream", "Cosmax", "Kolmar" auto-bridge to Korean queries). Auto-joins reviewed base formulas to uncover hidden Korean OEM/ODM factories, SPF/PA ratings, and English functionalClaims ($2/1K records; $0 if empty). Use for K-Beauty OEM sourcing and regulatory R&D; do not use for recall checks (use search_korea_mfds_recalls instead).',
+      'Search 219,000+ official South Korea MFDS functional cosmetic filings in English or Korean to uncover Korean OEM/ODM factories and functional claims. Filter inputs accept English or Korean (common terms like "sunscreen", "Cosmax", "Kolmar" auto-bridge; unmapped English falls back to raw substring match), datasetType selects reported/reviewed/both registries, resolveOemFromReviewed joins reviewed base formulas to expose hidden factories, and maxItems/maxPagesToScan cap scan volume. Queries the live MFDS API (~5-20s; slower when resolveOemFromReviewed joins formulas) with transient retries and bills $2/1K records ($0 if empty). Use for K-Beauty OEM sourcing and R&D; do not use for recall checks (use search_korea_mfds_recalls instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -645,7 +645,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'All-in-one agency lead auditor: accept Google Maps Apify datasetId, sourceRunId, pasted CSV/URLs, up to 2,000 company website URLs, or 13 live-verified US Chamber of Commerce presets, and run an 8-point website weakness X-ray (HTTPS/SSL, mobile viewport, load speed, outdated copyright year, SEO/LocalBusiness schema, GA4/GTM/Meta/TikTok pixels, booking/chat widgets, CMS), 11-query DNS deliverability grading (A-F), Cloudflare-decoded owner email recovery, inboxType & outreachStatus safety triage, 16-shard weekly watch_diff triggers, CRM export presets, 0-100 pitchPriorityScore, and factual cold-email subject & icebreaker ($4.50/1K leads; $0 on optional filtered misses or skip_seen repeats). Use for web design, local SEO, paid ads, AI chatbot, and email deliverability agency prospecting; do not use for SaaS SOC 2 Trust Center security audits (use audit_saas_trust_center instead).',
+      'Audit local SMB websites for technical, SEO, pixel, and DNS deliverability weaknesses, then extract owner emails and factual cold-pitch copy. Supply at least one source (websiteUrls, rawCsvOrUrls, datasetId + datasetField, sourceRunId, or presetChambers; omitting all returns 0 items at $0); agencyPreset tailors scoring and copy, dedupStoreName persists 16-shard KV snapshots for skip_seen or watch_diff modes, and onlyWithEmail/onlyWithWeakness/minPitchScore filter before billing. Persists KV dedup shards and optional webhookUrl payloads (explaining readOnlyHint=false), isolates per-site WAF/timeout errors in OUTPUT_SUMMARY, and bills $4.50/1K leads ($0 on WAF, filtered misses, or skip_seen repeats). Use for local agency prospecting; do not use for SaaS SOC 2 audits (use audit_saas_trust_center) or Meta/DTC ad audits (use audit_meta_ads_advertisers).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -803,7 +803,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Deduplicate Meta Ad Library datasets, Apify Run IDs, pasted CSV/Sheets, or DTC ad landing URLs into audited advertiser brands with 4-layer 110+ tech stack X-Ray (34 Shopify Web Pixel IDs, 30+ OS 2.0 app blocks, CSP/Header/Cookie signals), live HTTP 404/OOS/DMARC/SPF deliverability grading (A-F), honest buyerFitTier, inboxType CS-queue safety guard, Tier-2 expansionOpportunities, 16-shard weekly watch_diff triggers, verified store/brand emails, and zero-hallucination agency outreach copy ($4.50/1K unique brands; $0 on marketplaces, WAF skips, weekly repeats, or filtered misses). Use when auditing Meta Ad Library advertisers or DTC e-commerce ad landing pages; do not use for local brick-and-mortar / Google Maps SMB websites (use audit_local_b2b_websites instead) or tracking Shopify SKU price deltas (use monitor_shopify_competitor_deltas instead).',
+      'Deduplicate Meta Ad Library datasets or DTC ad landing URLs into audited advertiser brands with tech-stack detection, DNS deliverability checks, verified emails, and outreach copy. Supply at least one source (landingPageUrls, rawCsvOrUrls, sourceDatasetId, or sourceRunId; omitting all returns 0 items at $0); dedupStoreName persists 16-shard KV snapshots for skip_seen ($0 repeats) or weekly watch_diff triggers, while onlyWithEmail, onlyWithActiveLeaks, and minLeakScore filter before billing. Persists KV dedup snapshots and optional webhookUrl batches (explaining readOnlyHint=false), runs ~15-60s per 20 brands with per-brand WAF/403/timeout isolation in OUTPUT_SUMMARY, and bills $4.50/1K unique brands ($0 on marketplaces, WAF skips, repeats, or filtered misses). Use for Meta Ad Library and DTC advertiser audits; do not use for local SMB audits (use audit_local_b2b_websites) or Shopify SKU price tracking (use monitor_shopify_competitor_deltas).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
