@@ -16,7 +16,7 @@
     },
     {
       "parameters": {
-        "content": "### 1. Prospect Source (Google Sheets -> Audit Payload)\n\nCreate a spreadsheet with three tabs:\n- **`Prospects`**: columns `websiteUrl` (optional), `presetChamber` (optional, e.g. `phoenix_az`), `chamberCategoryKeyword` (optional, e.g. `dental`), `agencyPreset` (`all`, `web_design`, `local_seo`, `paid_ads`, `ai_chatbot_booking`).\n- **`AuditedLeads`**: columns `companyName`, `websiteUrl`, `siteStatus`, `pitchTier`, `pitchPriorityScore`, `primaryEmail`, `recommendedService`, `detectedPainPoints`, `coldEmailSubject`, `coldEmailIcebreaker`, `cmsPlatform`, `phone`, `city`, `scrapedAt`.\n- **`ManualReviewWAF`**: stores `bot_protected` or no-email leads cleanly without triggering false outreach.",
+        "content": "### 1. Prospect Source (Google Sheets -> Audit Payload)\n\nCreate a spreadsheet with three tabs:\n- **`Prospects`**: columns `websiteUrl` (optional), `presetChamber` (optional, e.g. `phoenix_az`), `chamberCategoryKeyword` (optional, e.g. `dental`), `agencyPreset` (`all`, `web_design`, `local_seo`, `paid_ads`, `ai_chatbot_booking`).\n- **`AuditedLeads`**: columns `companyName`, `websiteUrl`, `siteStatus`, `pitchTier`, `pitchPriorityScore`, `primaryEmail`, `recommendedService`, `detectedPainPoints`, `coldEmailSubject`, `coldEmailIcebreaker`, `cmsPlatform`, `phone`, `city`, `scrapedAt`.\n- **`ManualReviewWAF`**: stores `bot_protected`, `unreachable`/`http_error`, no-email, dead-MX, or zero-weakness leads cleanly without triggering false outreach.",
         "height": 470,
         "width": 780,
         "color": 5
@@ -131,10 +131,34 @@
           "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
           "conditions": [
             {
-              "id": "cond-not-waf",
-              "leftValue": "={{ $json.siteStatus }}",
-              "rightValue": "bot_protected",
-              "operator": { "type": "string", "operation": "notEquals" }
+              "id": "cond-live-status",
+              "leftValue": "={{ ['ok', 'slow'].includes($json.siteStatus || '') }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            },
+            {
+              "id": "cond-has-email",
+              "leftValue": "={{ $json.primaryEmail || '' }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty" }
+            },
+            {
+              "id": "cond-mx-valid",
+              "leftValue": "={{ $json.emailMxValid !== false }}",
+              "rightValue": true,
+              "operator": { "type": "boolean", "operation": "equals" }
+            },
+            {
+              "id": "cond-has-weakness",
+              "leftValue": "={{ Number($json.weaknessCount || 0) }}",
+              "rightValue": 1,
+              "operator": { "type": "number", "operation": "gte" }
+            },
+            {
+              "id": "cond-has-subject",
+              "leftValue": "={{ $json.coldEmailSubject || '' }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "notEmpty" }
             }
           ],
           "combinator": "and"

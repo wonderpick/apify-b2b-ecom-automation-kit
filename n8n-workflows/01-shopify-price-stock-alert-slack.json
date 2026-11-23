@@ -51,7 +51,7 @@
     },
     {
       "parameters": {
-        "content": "### 3. Multi-Channel Routing & Audit Log\n\n- **All real deltas** are appended to `DeltaHistory` in Google Sheets.\n- **CRITICAL** (`mapViolation === true` or `priceChangePercent <= -15`) -> Slack `#pricing-alerts` + Gmail escalation.\n- **INVENTORY** (`restocked`, `out_of_stock`) & **CATALOG** (`new_product`, `discount_started`, minor price updates) -> Slack `#ecom-ops`.",
+        "content": "### 3. Multi-Channel Routing & Audit Log\n\n- **All real deltas** are appended to `DeltaHistory` in Google Sheets.\n- **CRITICAL** (`mapViolation === true`, `priceChangePercent <= -15`, or `discount_started` >= 20%) -> Slack `#pricing-alerts` + parallel Gmail escalation.\n- **INVENTORY** (`restocked`, `out_of_stock`) & **CATALOG** (`new_product`, `removed_product`, minor price updates) -> Slack `#ecom-ops`.",
         "height": 680,
         "width": 860,
         "color": 2
@@ -121,7 +121,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst storeSet = new Set();\nconst mapThresholds = {};\nlet minPriceChangePercent = 3;\nlet maxProductsPerStore = 500;\n\nfor (const row of rows) {\n  const rawUrl = row.storeUrl || row.store_url || row.url || '';\n  if (typeof rawUrl === 'string' && rawUrl.trim().length > 0) {\n    storeSet.add(rawUrl.trim());\n  }\n  const key = String(row.sku || row.handle || '').trim();\n  const mapVal = Number(row.mapPrice ?? row.map_price);\n  if (key && Number.isFinite(mapVal) && mapVal > 0) {\n    mapThresholds[key] = mapVal;\n  }\n  const pct = Number(row.minPriceChangePercent ?? row.min_price_change_percent);\n  if (Number.isFinite(pct) && pct >= 0 && pct <= 100) {\n    minPriceChangePercent = pct;\n  }\n  const maxP = Number(row.maxProductsPerStore ?? row.max_products_per_store);\n  if (Number.isFinite(maxP) && maxP >= 50 && maxP <= 2500) {\n    maxProductsPerStore = Math.round(maxP);\n  }\n}\n\nconst storeUrls = storeSet.size > 0 ? Array.from(storeSet) : ['https://www.allbirds.com'];\n\nreturn [\n  {\n    json: {\n      storeUrls,\n      stateStoreName: 'shopify-delta-monitor-state',\n      maxProductsPerStore,\n      minPriceChangePercent,\n      mapThresholds,\n      eventTypes: [\n        'price_drop',\n        'price_increase',\n        'restocked',\n        'out_of_stock',\n        'new_product',\n        'discount_started',\n        'discount_ended',\n        'map_violation'\n      ],\n      emitBaselineSummary: true\n    }\n  }\n];"
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst storeSet = new Set();\nconst mapThresholds = {};\nlet minPriceChangePercent = 3;\nlet maxProductsPerStore = 500;\n\nfor (const row of rows) {\n  const rawUrl = row.storeUrl || row.store_url || row.url || '';\n  if (typeof rawUrl === 'string' && rawUrl.trim().length > 0) {\n    storeSet.add(rawUrl.trim());\n  }\n  const key = String(row.sku || row.handle || '').trim();\n  const mapVal = Number(row.mapPrice ?? row.map_price);\n  if (key && Number.isFinite(mapVal) && mapVal > 0) {\n    mapThresholds[key] = mapVal;\n  }\n  const pct = Number(row.minPriceChangePercent ?? row.min_price_change_percent);\n  if (Number.isFinite(pct) && pct >= 0 && pct <= 100) {\n    minPriceChangePercent = pct;\n  }\n  const maxP = Number(row.maxProductsPerStore ?? row.max_products_per_store);\n  if (Number.isFinite(maxP) && maxP >= 50 && maxP <= 2500) {\n    maxProductsPerStore = Math.round(maxP);\n  }\n}\n\nconst storeUrls = storeSet.size > 0 ? Array.from(storeSet) : ['https://www.allbirds.com'];\n\nreturn [\n  {\n    json: {\n      storeUrls,\n      stateStoreName: 'shopify-delta-monitor-state',\n      maxProductsPerStore,\n      minPriceChangePercent,\n      mapThresholds,\n      eventTypes: [\n        'price_drop',\n        'price_increase',\n        'restocked',\n        'out_of_stock',\n        'new_product',\n        'removed_product',\n        'discount_started',\n        'discount_ended'\n      ],\n      emitBaselineSummary: true\n    }\n  }\n];"
       },
       "id": "b1a2c3d4-0001-4000-8000-000000000004",
       "name": "Build Monitor Payload",
@@ -174,20 +174,20 @@
           "conditions": [
             {
               "id": "cond-1",
-              "leftValue": "={{ $json.eventType }}",
-              "rightValue": "",
+              "leftValue": "={{ $json.recordType }}",
+              "rightValue": "delta",
               "operator": {
                 "type": "string",
-                "operation": "notEmpty"
+                "operation": "equals"
               }
             },
             {
               "id": "cond-2",
-              "leftValue": "={{ $json.recordType }}",
-              "rightValue": "baseline_initialized",
+              "leftValue": "={{ String($json.eventType || '') }}",
+              "rightValue": "",
               "operator": {
                 "type": "string",
-                "operation": "notEquals"
+                "operation": "notEmpty"
               }
             }
           ],
@@ -206,7 +206,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const pct = typeof d.priceChangePercent === 'number' ? d.priceChangePercent : Number(d.priceChangePercent || 0);\n  const isMapViolation = d.mapViolation === true;\n  const eventType = String(d.eventType || 'unknown');\n\n  let severity = 'CATALOG';\n  if (isMapViolation || (eventType === 'price_drop' && pct <= -15)) {\n    severity = 'CRITICAL';\n  } else if (eventType === 'restocked' || eventType === 'out_of_stock') {\n    severity = 'INVENTORY';\n  }\n\n  const variantLabel = d.variantTitle ? ` (${d.variantTitle})` : '';\n  const priceLine =\n    d.oldPrice != null && d.newPrice != null\n      ? `${d.oldPrice} -> ${d.newPrice} (${pct > 0 ? '+' : ''}${pct}%)`\n      : d.newPrice != null\n        ? `${d.newPrice}`\n        : 'N/A';\n  const mapLine = isMapViolation\n    ? `YES (MAP: ${d.mapPrice ?? 'N/A'})`\n    : 'No';\n\n  const emoji =\n    severity === 'CRITICAL' ? ':rotating_light:' : severity === 'INVENTORY' ? ':package:' : ':label:';\n\n  const slackSummary = [\n    `${emoji} *[${severity}] Shopify Competitor Delta* (\\`${eventType}\\`)`,\n    `*Store:* ${d.store || d.storeKey || 'Unknown'}`,\n    `*Product:* ${d.title || 'Untitled'}${variantLabel}`,\n    `*SKU:* ${d.sku || d.handle || 'N/A'}`,\n    `*Price:* ${priceLine}`,\n    `*In Stock:* ${d.available === true ? 'Yes' : d.available === false ? 'No' : 'Unknown'} | *MAP Violation:* ${mapLine}`,\n    `*Detected:* ${d.detectedAt || new Date().toISOString()}`,\n    `*Link:* ${d.productUrl || ''}`,\n  ].join('\\n');\n\n  const emailSubject = `[${severity}] ${d.store || 'Shopify Competitor'}: ${d.title || eventType} (${eventType})`;\n  const emailBody = [\n    `Severity: ${severity}`,\n    `Event: ${eventType}`,\n    `Store: ${d.store || d.storeKey || 'Unknown'}`,\n    `Product: ${d.title || 'Untitled'}${variantLabel}`,\n    `SKU: ${d.sku || d.handle || 'N/A'}`,\n    `Price Change: ${priceLine}`,\n    `MAP Price: ${d.mapPrice ?? 'N/A'} | MAP Violation: ${mapLine}`,\n    `In Stock: ${d.available}`,\n    `Detected At: ${d.detectedAt || 'N/A'}`,\n    `Product URL: ${d.productUrl || 'N/A'}`,\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      severity,\n      slackSummary,\n      emailSubject,\n      emailBody,\n    },\n  });\n}\n\nreturn results;"
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const pct = typeof d.priceChangePercent === 'number' ? d.priceChangePercent : Number(d.priceChangePercent || 0);\n  const discountPct = typeof d.discountPercent === 'number' ? d.discountPercent : Number(d.discountPercent || 0);\n  const isMapViolation = d.mapViolation === true;\n  const eventType = String(d.eventType || 'unknown');\n\n  let severity = ['CRITICAL', 'INVENTORY', 'CATALOG'].includes(d.severity) ? d.severity : null;\n  if (!severity) {\n    if (\n      isMapViolation ||\n      (eventType === 'price_drop' && pct <= -15) ||\n      (eventType === 'discount_started' && discountPct >= 20)\n    ) {\n      severity = 'CRITICAL';\n    } else if (eventType === 'restocked' || eventType === 'out_of_stock') {\n      severity = 'INVENTORY';\n    } else {\n      severity = 'CATALOG';\n    }\n  }\n\n  const variantLabel = d.variantTitle ? ` (${d.variantTitle})` : '';\n  const priceLine =\n    d.oldPrice != null && d.newPrice != null\n      ? `${d.oldPrice} -> ${d.newPrice} (${pct > 0 ? '+' : ''}${pct}%)`\n      : d.newPrice != null\n        ? `${d.newPrice}`\n        : 'N/A';\n  const mapLine = isMapViolation\n    ? `YES (MAP: ${d.mapPrice ?? 'N/A'})`\n    : 'No';\n\n  const emoji =\n    severity === 'CRITICAL' ? ':rotating_light:' : severity === 'INVENTORY' ? ':package:' : ':label:';\n\n  const slackSummary = [\n    `${emoji} *[${severity}] Shopify Competitor Delta* (\\`${eventType}\\`)`,\n    `*Store:* ${d.store || d.storeKey || 'Unknown'}`,\n    `*Product:* ${d.title || 'Untitled'}${variantLabel}`,\n    `*SKU:* ${d.sku || d.handle || 'N/A'}`,\n    `*Price:* ${priceLine}`,\n    `*In Stock:* ${d.available === true ? 'Yes' : d.available === false ? 'No' : 'Unknown'} | *MAP Violation:* ${mapLine}`,\n    `*Detected:* ${d.detectedAt || new Date().toISOString()}`,\n    `*Link:* ${d.productUrl || ''}`,\n  ].join('\\n');\n\n  const emailSubject = `[${severity}] ${d.store || 'Shopify Competitor'}: ${d.title || eventType} (${eventType})`;\n  const emailBody = [\n    `Severity: ${severity}`,\n    `Event: ${eventType}`,\n    `Store: ${d.store || d.storeKey || 'Unknown'}`,\n    `Product: ${d.title || 'Untitled'}${variantLabel}`,\n    `SKU: ${d.sku || d.handle || 'N/A'}`,\n    `Price Change: ${priceLine}`,\n    `MAP Price: ${d.mapPrice ?? 'N/A'} | MAP Violation: ${mapLine}`,\n    `In Stock: ${d.available}`,\n    `Detected At: ${d.detectedAt || 'N/A'}`,\n    `Product URL: ${d.productUrl || 'N/A'}`,\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      severity,\n      slackSummary,\n      emailSubject,\n      emailBody,\n    },\n  });\n}\n\nreturn results;"
       },
       "id": "b1a2c3d4-0001-4000-8000-000000000007",
       "name": "Classify Severity & Format Alert",
@@ -495,29 +495,23 @@
             "node": "Urgent Slack Alert (MAP / Deep Drop)",
             "type": "main",
             "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Ops Slack Alert (Inventory & Launches)",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Ops Slack Alert (Inventory & Launches)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Urgent Slack Alert (MAP / Deep Drop)": {
-      "main": [
-        [
+          },
           {
             "node": "Escalate MAP Violation via Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ops Slack Alert (Inventory & Launches)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ops Slack Alert (Inventory & Launches)",
             "type": "main",
             "index": 0
           }

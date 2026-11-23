@@ -178,11 +178,20 @@
           "conditions": [
             {
               "id": "cond-1",
-              "leftValue": "={{ $json.primaryEmail }}",
+              "leftValue": "={{ $json.primaryEmail || '' }}",
               "rightValue": "",
               "operator": {
                 "type": "string",
                 "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "cond-mx-valid",
+              "leftValue": "={{ $json.emailMxValid !== false }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
               }
             }
           ],

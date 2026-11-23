@@ -125,7 +125,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst urlSet = new Set();\nlet minReadinessScore = 40;\n\nfor (const row of rows) {\n  const raw = row.url || row.bioUrl || row.sourceUrl || row.link || '';\n  if (typeof raw === 'string' && raw.trim().length > 0) {\n    urlSet.add(raw.trim());\n  }\n  const score = Number(row.minReadinessScore ?? row.min_readiness_score);\n  if (Number.isFinite(score) && score >= 0 && score <= 100) {\n    minReadinessScore = Math.round(score);\n  }\n}\n\nconst urls = urlSet.size > 0\n  ? Array.from(urlSet)\n  : [\n      'https://linktr.ee/averagefashionblogger',\n      'https://linktr.ee/halleykmcg',\n      'https://stan.store/stan'\n    ];\n\nreturn [\n  {\n    json: {\n      urls,\n      enableDeepContactFollow: true,\n      onlyWithEmail: false,\n      minReadinessScore,\n      maxProfiles: 500,\n      maxConcurrency: 3\n    }\n  }\n];"
+        "jsCode": "const rows = $input.all().map((item) => item.json || {});\nconst urlSet = new Set();\nlet minReadinessScore = 40;\n\nfor (const row of rows) {\n  const raw = row.url || row.bioUrl || row.sourceUrl || row.link || '';\n  if (typeof raw === 'string' && raw.trim().length > 0) {\n    urlSet.add(raw.trim());\n  }\n  const rawScore = row.minReadinessScore ?? row.min_readiness_score;\n  if (rawScore !== '' && rawScore !== null && rawScore !== undefined && String(rawScore).trim() !== '') {\n    const score = Number(rawScore);\n    if (Number.isFinite(score) && score >= 0 && score <= 100) {\n      minReadinessScore = Math.round(score);\n    }\n  }\n}\n\nconst urls = urlSet.size > 0\n  ? Array.from(urlSet)\n  : [\n      'https://linktr.ee/averagefashionblogger',\n      'https://linktr.ee/halleykmcg',\n      'https://stan.store/stan'\n    ];\n\nreturn [\n  {\n    json: {\n      urls,\n      enableDeepContactFollow: true,\n      onlyWithEmail: false,\n      minReadinessScore,\n      maxProfiles: 500,\n      maxConcurrency: 3\n    }\n  }\n];"
       },
       "id": "b1a2c3d4-0004-4000-8000-000000000004",
       "name": "Build Creator Enricher Payload",
@@ -173,16 +173,25 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "loose"
           },
           "conditions": [
             {
               "id": "cond-1",
-              "leftValue": "={{ $json.primaryEmail }}",
+              "leftValue": "={{ $json.primaryEmail || '' }}",
               "rightValue": "",
               "operator": {
                 "type": "string",
                 "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "cond-2",
+              "leftValue": "={{ $json.emailMxValid ?? true }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "notEquals"
               }
             }
           ],

@@ -210,7 +210,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const eventType = String(d.eventType || '').trim();\n  const recordType = String(d.recordType || 'audit').trim();\n  const aiList = Array.isArray(d.aiSubprocessors) ? d.aiSubprocessors : [];\n  const certs = Array.isArray(d.certifications) ? d.certifications : [];\n  const iam = Array.isArray(d.iamProviders) ? d.iamProviders : [];\n  const hasAi = d.hasAiSubprocessor === true || aiList.length > 0;\n\n  let severity = 'AUDIT_INFO';\n  if (\n    hasAi ||\n    eventType.toLowerCase().includes('ai_subprocessor') ||\n    eventType.toLowerCase().includes('removed')\n  ) {\n    severity = 'HIGH_RISK';\n  } else if (eventType.length > 0) {\n    severity = 'COMPLIANCE_CHANGE';\n  }\n\n  const timestamp = d.detectedAt || d.auditedAt || new Date().toISOString();\n  const certsText = certs.length > 0 ? certs.join(', ') : 'None detected';\n  const aiText = aiList.length > 0 ? aiList.join(', ') : 'None detected';\n  const iamText = iam.length > 0 ? iam.join(', ') : 'None detected';\n  const emoji = severity === 'HIGH_RISK' ? ':rotating_light:' : severity === 'COMPLIANCE_CHANGE' ? ':shield:' : ':clipboard:';\n\n  const slackSummary = [\n    `${emoji} *[${severity}] SaaS Vendor Compliance Alert* (\\`${eventType || recordType}\\`)`,\n    `*Vendor Domain:* ${d.domain || 'Unknown'}`,\n    `*Trust Center:* ${d.trustCenterPlatform || 'Unknown'} — ${d.trustCenterUrl || 'Not found'}`,\n    `*Certifications:* ${certsText}`,\n    `*AI Subprocessors:* ${hasAi ? aiText : 'None'}`,\n    `*IAM / SSO:* ${iamText}`,\n    d.previousValue || d.newValue ? `*Change:* ${d.previousValue || 'N/A'} -> ${d.newValue || 'N/A'}` : null,\n    `*Confidence:* ${d.confidence || 'N/A'} | *Timestamp:* ${timestamp}`\n  ]\n    .filter(Boolean)\n    .join('\\n');\n\n  const emailSubject = `[${severity}] Vendor Security Update: ${d.domain} (${eventType || recordType})`;\n  const emailBody = [\n    `Severity: ${severity}`,\n    `Vendor Domain: ${d.domain || 'Unknown'}`,\n    `Record / Event: ${recordType} / ${eventType || 'N/A'}`,\n    `Trust Center Platform: ${d.trustCenterPlatform || 'N/A'}`,\n    `Trust Center URL: ${d.trustCenterUrl || 'N/A'}`,\n    `Certifications: ${certsText}`,\n    `Uses AI Subprocessor: ${hasAi ? 'YES' : 'No'} (${aiText})`,\n    `IAM / SSO Providers: ${iamText}`,\n    `Previous Value: ${d.previousValue || 'N/A'}`,\n    `New Value: ${d.newValue || 'N/A'}`,\n    `Evidence: ${d.evidenceSnippet || 'N/A'}`,\n    `Confidence: ${d.confidence || 'N/A'}`,\n    `Timestamp: ${timestamp}`\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      severity,\n      timestamp,\n      certsText,\n      aiText,\n      iamText,\n      slackSummary,\n      emailSubject,\n      emailBody\n    }\n  });\n}\n\nreturn results;"
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json || {};\n  const eventType = String(d.eventType || '').trim();\n  const lowerEvent = eventType.toLowerCase();\n  const recordType = String(d.recordType || 'audit').trim();\n  const aiList = Array.isArray(d.aiSubprocessors) ? d.aiSubprocessors : [];\n  const certs = Array.isArray(d.certifications) ? d.certifications : [];\n  const iam = Array.isArray(d.iamProviders) ? d.iamProviders : [];\n  const hasAi = d.hasAiSubprocessor === true || aiList.length > 0;\n\n  let severity = 'AUDIT_INFO';\n  if (recordType === 'delta') {\n    if (lowerEvent === 'ai_subprocessor_added' || lowerEvent.endsWith('_removed')) {\n      severity = 'HIGH_RISK';\n    } else {\n      severity = 'COMPLIANCE_CHANGE';\n    }\n  } else if (recordType === 'audit') {\n    severity = hasAi ? 'HIGH_RISK' : 'AUDIT_INFO';\n  } else if (lowerEvent === 'ai_subprocessor_added' || lowerEvent.endsWith('_removed')) {\n    severity = 'HIGH_RISK';\n  } else if (eventType.length > 0) {\n    severity = 'COMPLIANCE_CHANGE';\n  }\n\n  const timestamp = d.detectedAt || d.auditedAt || new Date().toISOString();\n  const certsText = certs.length > 0 ? certs.join(', ') : 'None detected';\n  const aiText = aiList.length > 0 ? aiList.join(', ') : 'None detected';\n  const iamText = iam.length > 0 ? iam.join(', ') : 'None detected';\n  const emoji = severity === 'HIGH_RISK' ? ':rotating_light:' : severity === 'COMPLIANCE_CHANGE' ? ':shield:' : ':clipboard:';\n\n  const slackSummary = [\n    `${emoji} *[${severity}] SaaS Vendor Compliance Alert* (\\`${eventType || recordType}\\`)`,\n    `*Vendor Domain:* ${d.domain || 'Unknown'}`,\n    `*Trust Center:* ${d.trustCenterPlatform || 'Unknown'} — ${d.trustCenterUrl || 'Not found'}`,\n    `*Certifications:* ${certsText}`,\n    `*AI Subprocessors:* ${hasAi ? aiText : 'None'}`,\n    `*IAM / SSO:* ${iamText}`,\n    d.previousValue || d.newValue ? `*Change:* ${d.previousValue || 'N/A'} -> ${d.newValue || 'N/A'}` : null,\n    `*Confidence:* ${d.confidence || 'N/A'} | *Timestamp:* ${timestamp}`\n  ]\n    .filter(Boolean)\n    .join('\\n');\n\n  const emailSubject = `[${severity}] Vendor Security Update: ${d.domain} (${eventType || recordType})`;\n  const emailBody = [\n    `Severity: ${severity}`,\n    `Vendor Domain: ${d.domain || 'Unknown'}`,\n    `Record / Event: ${recordType} / ${eventType || 'N/A'}`,\n    `Trust Center Platform: ${d.trustCenterPlatform || 'N/A'}`,\n    `Trust Center URL: ${d.trustCenterUrl || 'N/A'}`,\n    `Certifications: ${certsText}`,\n    `Uses AI Subprocessor: ${hasAi ? 'YES' : 'No'} (${aiText})`,\n    `IAM / SSO Providers: ${iamText}`,\n    `Previous Value: ${d.previousValue || 'N/A'}`,\n    `New Value: ${d.newValue || 'N/A'}`,\n    `Evidence: ${d.evidenceSnippet || 'N/A'}`,\n    `Confidence: ${d.confidence || 'N/A'}`,\n    `Timestamp: ${timestamp}`\n  ].join('\\n');\n\n  results.push({\n    json: {\n      ...d,\n      severity,\n      timestamp,\n      certsText,\n      aiText,\n      iamText,\n      slackSummary,\n      emailSubject,\n      emailBody\n    }\n  });\n}\n\nreturn results;"
       },
       "id": "b1a2c3d4-0002-4000-8000-000000000007",
       "name": "Classify Vendor Risk & Format",
@@ -500,29 +500,23 @@
             "node": "Alert Security Team on Slack",
             "type": "main",
             "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Post Compliance Update to Slack",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Post Compliance Update to Slack",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Alert Security Team on Slack": {
-      "main": [
-        [
+          },
           {
             "node": "Escalate AI Subprocessor Risk via Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Compliance Update to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Post Compliance Update to Slack",
             "type": "main",
             "index": 0
           }
