@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.3.0) — 9 verb_noun External-Intelligence Tools + 7 One-Click Prompts
+ * Shared MCP Catalog (v2.4.0) — 10 verb_noun External-Intelligence Tools + 8 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.3.0';
+export const SERVER_VERSION = '2.4.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -925,6 +925,141 @@ export const TOOLS = [
       coldEmailOpener: { type: 'string', description: 'Zero-hallucination personalized opening sentence.' },
     }),
   },
+  {
+    name: 'monitor_ats_hiring_intent',
+    actorSlug: 'maitreya_buddha~ats-jobs-hiring-intent-tech-stack-monitor',
+    annotations: {
+      title: 'Monitor ATS Jobs, Hiring Intent & 70+ Tech-Stack Signals',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
+    description:
+      'Monitor live ATS job openings, 45-120d hard-to-fill aging, and 70+ tech-stack buying signals across 13 ATS engines and 7 global feeds via a 71,900+ board directory and 64-shard live discovery router. Supply targets, presetPacks, rawCsvOrUrls, datasetId, or sourceRunId, OR leave targets empty with titleKeywords/techStackFilter to auto-trigger global live discovery and Reverse-Pivot; omitting both targets and filters returns 0 items at $0. Bills $0.99/1K saved rows ($0 filtered or unchanged), runs ~5-30s isolating per-board failures in OUTPUT_SUMMARY, and persists optional watch_diff KV snapshots or webhookUrl alerts (explaining readOnlyHint=false). Use for recruiting signals, tech-stack buying intent, or weekly job-board delta tracking; do not use for editing your own ATS or corporate domain/LinkedIn enrichment without job signals (use enrich_b2b_company_leads instead).',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        targets: {
+          type: 'array',
+          maxItems: 500,
+          items: { type: 'string' },
+          description:
+            'Company domains, names, or direct ATS URLs (e.g. ["linear.app", "ramp.com", "nvidia.eightfold.ai"]). Leave empty [] with titleKeywords/techStackFilter for Auto-Global 64-shard + 7-feed discovery.',
+        },
+        presetPacks: {
+          type: 'array',
+          items: {
+            type: 'string',
+            enum: ['ai_llm', 'fintech', 'devtools_cloud', 'enterprise_saas', 'ecommerce_dtc', 'europe_scaleups', 'fortune500_enterprise'],
+          },
+          description: 'Optional curated live-verified vertical ATS board bundles.',
+        },
+        rawCsvOrUrls: {
+          type: 'string',
+          description: 'Optional pasted CSV/TSV rows or newline-separated company domains/ATS URLs.',
+        },
+        datasetId: {
+          type: 'string',
+          description: 'Optional upstream Apify Dataset ID or URL containing target company domains.',
+        },
+        sourceRunId: {
+          type: 'string',
+          description: 'Optional upstream Apify Run ID or URL; automatically resolves defaultDatasetId.',
+        },
+        titleKeywords: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Optional job keywords (e.g. ["Snowflake", "Account Executive"]). Activates Auto-Global live search when targets is empty.',
+        },
+        techStackFilter: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Optional tech-stack tags to require (e.g. ["Rust", "Kubernetes", "Snowflake", "PyTorch"]). Filtered roles are skipped at $0.',
+        },
+        keywordScope: {
+          type: 'string',
+          enum: ['title', 'title_and_description'],
+          description: 'Match titleKeywords in title only or title + full decoded description.',
+          default: 'title',
+        },
+        outputMode: {
+          type: 'string',
+          enum: ['jobs', 'companies', 'both'],
+          description: 'Emit individual job rows, 1 aggregated hiring-intent dossier per company, or both.',
+          default: 'jobs',
+        },
+        agencyPersona: {
+          type: 'string',
+          enum: ['all', 'recruiting_agency', 'b2b_saas_sdr', 'dev_shop_agency', 'vc_investor'],
+          description: 'Tailors intentScore weighting and deterministic outreach openers ($0 LLM cost).',
+          default: 'recruiting_agency',
+        },
+        onlyHardToFillSweetSpot: {
+          type: 'boolean',
+          description: 'When true, keep only roles aged 45-120 days ($0 skip otherwise).',
+          default: false,
+        },
+        onlyNewSinceLastRun: {
+          type: 'boolean',
+          description: '1-click weekly delta mode: skips unchanged seen roles at $0 and emits 7 time-series triggers.',
+          default: false,
+        },
+        dedupStoreName: {
+          type: 'string',
+          description: 'Optional Named Apify Key-Value Store for 16-shard watch_diff or skip_seen tracking.',
+        },
+        dedupMode: {
+          type: 'string',
+          enum: ['watch_diff', 'skip_seen'],
+          description: 'watch_diff emits 7 time-series triggers & skips unchanged at $0; skip_seen skips all previously seen IDs at $0.',
+          default: 'watch_diff',
+        },
+        crmExportPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat CRM column mapping preset.',
+          default: 'default',
+        },
+        maxJobsPerCompany: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 500,
+          description: 'Maximum matching jobs emitted per company board (1-500).',
+          default: 25,
+        },
+        maxTotalJobs: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 10000,
+          description: 'Hard global cap on total billed rows returned (1-10,000).',
+          default: 50,
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTP/HTTPS webhook URL notified on completion.',
+        },
+      },
+    },
+    outputSchema: makeOutputSchema('Live ATS jobs or aggregated company hiring-intent dossiers with tech-stack tags, aging tiers, watch triggers, and outreach copy.', {
+      recordType: { type: 'string', description: 'Record type: job or company.' },
+      companyName: { type: 'string', description: 'Resolved hiring company name.' },
+      atsPlatform: { type: 'string', description: 'Source ATS engine or global feed (greenhouse, ashby, lever, eightfold, smartrecruiters, personio, himalayas, etc.).' },
+      title: { type: 'string', description: 'Job title (or top role headline for company dossiers).' },
+      location: { type: 'string', description: 'Job location or remote region.' },
+      intentScore: { type: 'integer', description: '0-100 persona-weighted hiring-intent score.' },
+      hardToFillTier: { type: 'string', description: 'Honest aging bucket: FRESH_0_14D, ACTIVE_15_44D, STUCK_SWEET_SPOT_45_120D, EVERGREEN_120D_PLUS, or UNKNOWN.' },
+      daysOpen: { type: 'integer', description: 'Verified days open since initial posting (null if unavailable).' },
+      techStackCsv: { type: 'string', description: 'Comma-separated verified tech-stack tags (zero-FP context anchored).' },
+      salaryDisplay: { type: 'string', description: 'Formatted disclosed salary range if present.' },
+      watchTriggers: { type: 'array', items: { type: 'string' }, description: 'Detected time-series triggers in watch_diff mode.' },
+      linkedinHiringManagerSearchUrl: { type: 'string', description: '1-click LinkedIn hiring-manager search URL.' },
+      outreachSubject: { type: 'string', description: 'Deterministic persona-ready outreach subject ($0 LLM cost).' },
+      outreachOpener: { type: 'string', description: 'Deterministic persona-ready opening sentence ($0 LLM cost).' },
+      jobUrl: { type: 'string', description: 'Direct official ATS or source posting URL.' },
+    }),
+  },
 ];
 
 // Backward-compatible internal alias map for v1.x tool names (never advertised in tools/list)
@@ -938,6 +1073,7 @@ export const LEGACY_TOOL_ALIASES = {
   korea_mfds_functional_cosmetics_oem: 'search_korea_mfds_oem_filings',
   local_b2b_website_audit_email_pitch_finder: 'audit_local_b2b_websites',
   meta_ads_advertiser_leak_audit_email_enricher: 'audit_meta_ads_advertisers',
+  ats_jobs_hiring_intent_tech_stack_monitor: 'monitor_ats_hiring_intent',
 };
 
 export const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
@@ -1080,6 +1216,29 @@ export const PROMPTS = [
       {
         name: 'dedupStoreName',
         description: 'Optional Named Key-Value Store for weekly skip_seen ($0 repeats) or watch_diff change triggers.',
+        required: false,
+      },
+    ],
+  },
+  {
+    name: 'monitor_ats_hiring_signals_and_draft_outreach',
+    title: 'Discover Live ATS Hiring Intent & Draft Recruiting/SDR Outreach',
+    description:
+      'Search 13 live ATS engines + 7 global feeds by keyword/tech stack OR target company domains, surface 45-120d hard-to-fill roles and 70+ tech stacks (0% ghost jobs), and draft persona-tailored outreach.',
+    arguments: [
+      {
+        name: 'keywordsOrTargets',
+        description: 'Either keywords/tech stack (e.g. "Snowflake, Rust") for zero-list Auto-Global search OR comma-separated company domains (e.g. "linear.app, ramp.com, stripe.com").',
+        required: true,
+      },
+      {
+        name: 'agencyPersona',
+        description: 'Outreach persona: recruiting_agency, b2b_saas_sdr, dev_shop_agency, vc_investor, or all (default: recruiting_agency).',
+        required: false,
+      },
+      {
+        name: 'outputMode',
+        description: 'Output granularity: jobs, companies, or both (default: jobs).',
         required: false,
       },
     ],
@@ -1290,14 +1449,40 @@ export function buildPromptResult(name, args = {}) {
         ],
       };
     }
+    case 'monitor_ats_hiring_signals_and_draft_outreach': {
+      const rawVal = clean(args.keywordsOrTargets, 'Snowflake');
+      const persona = clean(args.agencyPersona, 'recruiting_agency');
+      const mode = clean(args.outputMode, 'jobs');
+      const parts = rawVal.split(',').map((s) => s.trim()).filter(Boolean);
+      const looksLikeDomains = parts.length > 0 && parts.every((p) => p.includes('.') && !p.includes(' '));
+      const argHint = looksLikeDomains
+        ? `\`targets: ${JSON.stringify(parts)}\``
+        : `\`targets: []\`, \`titleKeywords: ${JSON.stringify(parts)}\`, \`keywordScope: "title_and_description"\``;
+      return {
+        description: prompt.description,
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Call \`monitor_ats_hiring_intent\` with ${argHint}, \`agencyPersona: "${persona}"\`, \`outputMode: "${mode}"\`, and \`maxTotalJobs: 30\`.`,
+                'Return a prioritized hiring-intent brief sorted by `intentScore` (Company, ATS Platform, Role Title, Days Open / Aging Tier, Verified Tech Stack, Disclosed Salary, LinkedIn Hiring Manager Search URL, and Outreach Opener). Highlight any `STUCK_SWEET_SPOT_45_120D` or `watchTriggers` alerts first.',
+              ].join('\n'),
+            },
+          },
+        ],
+      };
+    }
     default:
       return null;
   }
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.3.0 — 9 zero-proxy tools + 7 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.4.0 — 10 zero-proxy tools + 8 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
+  '- Live ATS jobs, 45-120d hard-to-fill recruiting signals, 70+ tech-stack hiring intent, company hiring dossiers & weekly watch_diff across 13 ATS engines + 71,900+ board directory + 7 global feeds (works with domains OR zero-list keywords like "Snowflake"/"Rust") -> monitor_ats_hiring_intent.',
   '- Meta Ad Library datasets, Apify Run IDs, or DTC ad landing pages -> 4-layer 110+ tech stack, 404/OOS/DMARC leaks, buyer fit, CS-queue guard, Tier-2 expansion pitches & weekly watch_diff -> audit_meta_ads_advertisers.',
   '- Local business / Google Maps / US Chamber 8-point website weakness audit + owner emails + cold-email openers -> audit_local_b2b_websites.',
   '- Competitor wholesale retail stockists + buyer emails -> extract_brand_store_stockists.',
@@ -1307,7 +1492,7 @@ export const SERVER_INSTRUCTIONS = [
   '- Creator/influencer Link-in-Bio agency emails, monetization links, and Readiness Score -> enrich_creator_bio_leads.',
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
-  'Built-in Prompts: audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
+  'Built-in Prompts: monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
   'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails unless outreachStatus === "ready", primaryEmail is non-empty (inboxType !== "cs_ticket_queue" and inboxType !== "none"), and zeroBounceUnsafe !== true.',
 ].join('\n');
 

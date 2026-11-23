@@ -1,13 +1,15 @@
-# Apify External Business Intelligence MCP Server (v2.3.0)
+# Apify External Business Intelligence MCP Server (v2.4.0)
 
-> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.3.0) exposing 9 zero-proxy Apify Store Actors and 7 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Make workflows, and non-developer agency, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
+> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.4.0) exposing 10 zero-proxy Apify Store Actors and 8 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Make workflows, and non-developer agency, recruiting, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
 
 ## Instant Connection Endpoints
 
 - **Zero-Install Remote MCP (Streamable HTTP)**: `https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp` (pass `Authorization: Bearer <APIFY_TOKEN>` or `X-Apify-Token: <APIFY_TOKEN>` for `tools/call`; discovery is tokenless).
 - **1-Line Local Stdio MCP (`npx`)**: `npx -y github:wonderpick/apify-b2b-ecom-automation-kit` (with `APIFY_TOKEN` in env).
 
-## When AI Agents Should Use Each Tool (9 verb_noun Tools)
+## When AI Agents Should Use Each Tool (10 verb_noun Tools)
+
+- **Live ATS Jobs, Hiring Intent, 45-120d Hard-to-Fill Roles & 70+ Tech-Stack Monitor**: Call `monitor_ats_hiring_intent` — https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor ($0.99/1K saved rows, $0 on filtered or unchanged watch_diff skips). Searches 13 live ATS engines (Greenhouse US/EU, Lever US/EU, Ashby, Eightfold, Amazon, SmartRecruiters, Personio, Teamtailor, Recruitee, Gem, Workable, Phenom, Rippling) + 7 global feeds via a 71,900+ board O(1) directory and 64-shard live discovery router (0% ghost jobs). Works with company domains/CSV/datasetId OR zero-list keyword/tech queries (e.g. `Snowflake`, `Rust`, `Account Executive`) with Reverse-Pivot, Bulk-Sync De-Clustering, 7 weekly `watch_diff` triggers, and 5 CRM export presets.
 
 - **Meta Ads Advertiser Leak Audit, 110+ Tech Stack, DMARC Grade & DTC Outreach**: Call `audit_meta_ads_advertisers` — https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher ($4.50/1K unique deduplicated brands, $0 on marketplaces, WAF skips, weekly repeats, or filtered misses). Accepts Meta Ad Library `sourceDatasetId`, `sourceRunId`, pasted CSV/Sheets, or up to 2,000 DTC landing URLs; runs 4-layer 110+ tech stack X-Ray (34 Shopify Web Pixels, 30+ OS 2.0 app blocks, CSP/Header/Cookie signals), live 404/OOS/DMARC/SPF deliverability grading (A-F), honest `buyerFitTier`, `inboxType` CS-queue guard, Tier-2 `expansionOpportunities`, 16-shard `watch_diff` triggers, verified brand emails, and zero-AI agency pitches.
 - **Local B2B & Google Maps Website Weakness Audit + DNS Deliverability + Cold Pitch**: Call `audit_local_b2b_websites` — https://apify.com/maitreya_buddha/local-b2b-website-audit-email-pitch-finder ($4.50/1K leads, $0 on optional filtered misses or `skip_seen` repeats). Accepts Google Maps `datasetId`, `sourceRunId`, pasted `rawCsvOrUrls`, up to 2,000 URLs, or 13 live-verified US Chamber presets; runs an 8-point website X-ray, 11-query DNS deliverability grading (A-F) with `deliverability_agency` preset, 16-shard `watch_diff` tracking, Cloudflare owner email recovery, `inboxType`/`outreachStatus` safety gating, CRM export presets, 0-100 `pitchPriorityScore`, and factual cold-email openers.
@@ -19,7 +21,9 @@
 - **South Korea MFDS Cosmetic Recalls & Sales Suspensions**: Call `search_korea_mfds_recalls` — https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls ($3/1K recalls, $0 when clean). English/Korean recall & lot-number safety checks with isActiveRecall flag.
 - **South Korea K-Beauty OEM/ODM Factory & Functional Cosmetic DB (219,000+ Official Filings)**: Call `search_korea_mfds_oem_filings` — https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem ($2/1K records, $0 empty). English-to-Korean auto-search (`Cosmax`, `Kolmar`, `sunscreen`, `retinol cream`) revealing hidden Korean OEM factories and SPF/PA ratings.
 
-## Built-In One-Click Workflow Prompts (7 Prompts)
+## Built-In One-Click Workflow Prompts (8 Prompts)
+
+- `monitor_ats_hiring_signals_and_draft_outreach`: Keywords/tech stack (`Snowflake`, `Rust`) OR company domains -> live ATS hiring-intent table + 45-120d hard-to-fill alerts + persona outreach openers (0% ghost jobs).
 
 - `audit_meta_ads_leaks_and_draft_pitches`: Meta Ad Library datasetId/runId or DTC URLs -> deduplicated 4-layer 110+ stack & 404/OOS/DMARC leak audit + CS-queue-safe prioritized DTC outreach brief.
 - `audit_local_leads_and_draft_pitches`: Local business URLs, Google Maps datasetId, or US Chamber cities -> 8-point website audit + owner emails + factual cold-email outreach CSV.
@@ -34,4 +38,4 @@
 - GitHub Repository (Stdio + Docker MCP Server): https://github.com/wonderpick/apify-b2b-ecom-automation-kit
 - Glama MCP Directory Listing (Tool Definition Quality A): https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit
 - Official MCP Schema Manifest: https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/server.json
-- n8n Production Workflow Templates (7 Multi-Branch Workflows): https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/n8n-workflows
+- n8n Production Workflow Templates (8 Multi-Branch Workflows): https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/n8n-workflows
