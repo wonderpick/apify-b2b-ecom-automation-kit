@@ -1,0 +1,85 @@
+{
+  "name": "Weekly ATS Hiring-Intent & Tech-Stack Monitor (71K Boards) -> Slack/CRM",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~ats-jobs-hiring-intent-tech-stack-monitor/run-sync-get-dataset-items?timeout=60&memory=128",
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer REPLACE_WITH_APIFY_TOKEN" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "parseResponse": true,
+        "data": "{\"targets\":[\"linear.app\",\"ramp.com\",\"vercel.com\",\"stripe.com\"],\"outputMode\":\"jobs\",\"agencyPersona\":\"recruiting_agency\",\"dedupStoreName\":\"make-ats-hiring-watch\",\"dedupMode\":\"watch_diff\",\"maxJobsPerCompany\":5,\"maxTotalJobs\":25}"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 }
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{1.data}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true
+      },
+      "filter": {
+        "name": "High-Intent Hiring Signal (Score >= 60)",
+        "conditions": [
+          [
+            {
+              "a": "{{2.intentScore}}",
+              "b": "60",
+              "o": "number:greaterOrEqual"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/WEBHOOK",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"text\":\"ATS Hiring Signal: {{2.companyName}} — {{2.title}} (Score {{2.intentScore}}, Stack: {{2.techStackCsv}})\\nOpener: {{2.outreachOpener}}\"}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  }
+}

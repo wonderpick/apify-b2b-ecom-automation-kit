@@ -180,8 +180,10 @@ This repository also ships 9 multi-branch, production-grade n8n workflows (12–
 8. **[`n8n-workflows/08-ats-jobs-hiring-intent-outreach.json`](./n8n-workflows/08-ats-jobs-hiring-intent-outreach.json)** — Weekly Monday 08:00 ATS Hiring-Intent & Tech-Stack Monitor (`watch_diff`, 13 ATS engines + 71,900+ board directory) -> intent-score Switch routing -> Slack alert + Gmail digest + optional CRM webhook delivery.
 9. **[`n8n-workflows/09-app-store-churn-intel-lead-outreach.json`](./n8n-workflows/09-app-store-churn-intel-lead-outreach.json)** — Daily App Store & Google Play Silent Churn Monitor (`watchDiff`, 14-language NLP + EU-DSA contacts + GTM/MMP X-Ray) -> opportunity-score Switch routing -> Slack `#app-churn-alerts` + Gmail digest + guarded CRM webhook delivery.
 
-### Clay HTTP Enrichment Recipes (`clay-templates/`)
-- **[`clay-templates/app-store-churn-intel-clay-recipe.json`](./clay-templates/app-store-churn-intel-clay-recipe.json)** — 60-second Clay Custom HTTP enrichment column for unified iOS + Google Play churn intelligence, ASO scores, paid UA/MMP stacks, and EU-DSA developer contacts.
+### Free Clay.com HTTP Recipes, Make.com Blueprints & Live Sample CSVs
+- **Clay.com Free Recipes ([`clay-templates/`](./clay-templates/README.md))**: 60-second Native Apify Block + Custom HTTP JSON recipes for **App Store & Google Play Churn**, **ATS Jobs (71K Boards)**, and **Meta Ads Leak Audit**.
+- **Make.com Free Blueprints ([`make-blueprints/`](./make-blueprints/README.md))**: 1-click import `.json` scenarios routing high-priority churn, hiring-intent, and DTC ad-leak signals to Slack/CRM.
+- **Live Verified Sample CSVs ([`samples/`](./samples/))**: Real extracted outputs (`sample-11-app-store-churn-leads.csv`, `sample-10-ats-hiring-intent-signals.csv`, `sample-09-meta-ads-leak-audit.csv`) so you can inspect data quality before running.
 
 ### Direct Node.js / Python Examples (`examples/`)
 - Node.js (v20+, zero dependencies): `APIFY_TOKEN="..." node examples/node/run-actors.mjs`

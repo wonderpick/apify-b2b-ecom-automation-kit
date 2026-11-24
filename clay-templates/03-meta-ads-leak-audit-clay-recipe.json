@@ -1,0 +1,30 @@
+{
+  "name": "Clay HTTP Enrichment Column — Meta Ads Advertiser Leak Audit, 110+ Stack & DMARC Grade",
+  "actorSlug": "maitreya_buddha~meta-ads-advertiser-leak-audit-email-enricher",
+  "method": "POST",
+  "endpoint": "https://api.apify.com/v2/acts/maitreya_buddha~meta-ads-advertiser-leak-audit-email-enricher/run-sync-get-dataset-items?timeout=60&memory=128",
+  "headers": {
+    "Authorization": "Bearer REPLACE_WITH_APIFY_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "bodyTemplate": {
+    "landingPageUrls": ["{{ad_landing_url}}"],
+    "agencyPreset": "auto_best_fit",
+    "enableDnsEmailCheck": true,
+    "maxBrands": 1
+  },
+  "recommendedClayColumns": {
+    "brandName": "$.0.brandName",
+    "leadPriority": "$.0.leadPriority",
+    "buyerFitTier": "$.0.buyerFitTier",
+    "leakScore": "$.0.leakScore",
+    "deliverabilityGrade": "$.0.deliverabilityGrade",
+    "primaryEmail": "$.0.primaryEmail",
+    "inboxType": "$.0.inboxType",
+    "outreachStatus": "$.0.outreachStatus",
+    "detectedTechStack": "$.0.detectedTechStack",
+    "coldEmailSubject": "$.0.coldEmailSubject",
+    "coldEmailIcebreaker": "$.0.coldEmailIcebreaker",
+    "linkedinDecisionMakerSearchUrl": "$.0.linkedinDecisionMakerSearchUrl"
+  }
+}

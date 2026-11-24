@@ -1,0 +1,85 @@
+{
+  "name": "Weekly Meta Ads DTC Leak Audit (404/OOS/DMARC + 110+ Stack) -> Slack/CRM",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~meta-ads-advertiser-leak-audit-email-enricher/run-sync-get-dataset-items?timeout=60&memory=128",
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer REPLACE_WITH_APIFY_TOKEN" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "parseResponse": true,
+        "data": "{\"landingPageUrls\":[\"https://www.chomps.com/\"],\"agencyPreset\":\"auto_best_fit\",\"dedupStoreName\":\"make-meta-ads-watch\",\"dedupMode\":\"watch_diff\",\"maxBrands\":15}"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 }
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{1.data}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true
+      },
+      "filter": {
+        "name": "Outreach-Ready Brands Only",
+        "conditions": [
+          [
+            {
+              "a": "{{2.outreachStatus}}",
+              "b": "ready",
+              "o": "text:equal"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/WEBHOOK",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"text\":\"DTC Ad Leak Lead: {{2.brandName}} ({{2.domain}}) | Leak Score {{2.leakScore}} | DMARC {{2.deliverabilityGrade}} | Email: {{2.primaryEmail}}\\nSubject: {{2.coldEmailSubject}}\"}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  }
+}

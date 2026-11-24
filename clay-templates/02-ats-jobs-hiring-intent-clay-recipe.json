@@ -1,0 +1,38 @@
+{
+  "name": "Clay HTTP Enrichment Column — Live ATS Jobs, Hiring Intent & 70+ Tech Stack (71K Boards)",
+  "actorSlug": "maitreya_buddha~ats-jobs-hiring-intent-tech-stack-monitor",
+  "method": "POST",
+  "endpoint": "https://api.apify.com/v2/acts/maitreya_buddha~ats-jobs-hiring-intent-tech-stack-monitor/run-sync-get-dataset-items?timeout=60&memory=128",
+  "headers": {
+    "Authorization": "Bearer REPLACE_WITH_APIFY_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "bodyTemplate": {
+    "targets": ["{{company_domain}}"],
+    "outputMode": "both",
+    "agencyPersona": "b2b_saas_sdr",
+    "maxJobsPerCompany": 5,
+    "maxTotalJobs": 10
+  },
+  "zeroListKeywordModeExample": {
+    "targets": [],
+    "titleKeywords": ["Snowflake", "Data Engineer"],
+    "keywordScope": "title_and_description",
+    "outputMode": "jobs",
+    "agencyPersona": "recruiting_agency",
+    "maxTotalJobs": 50
+  },
+  "recommendedClayColumns": {
+    "companyName": "$.0.companyName",
+    "atsPlatform": "$.0.atsPlatform",
+    "topRoleTitle": "$.0.title",
+    "intentScore": "$.0.intentScore",
+    "hardToFillTier": "$.0.hardToFillTier",
+    "daysOpen": "$.0.daysOpen",
+    "techStackCsv": "$.0.techStackCsv",
+    "salaryDisplay": "$.0.salaryDisplay",
+    "linkedinHiringManagerSearchUrl": "$.0.linkedinHiringManagerSearchUrl",
+    "outreachSubject": "$.0.outreachSubject",
+    "outreachOpener": "$.0.outreachOpener"
+  }
+}

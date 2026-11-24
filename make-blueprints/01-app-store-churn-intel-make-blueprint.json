@@ -1,0 +1,86 @@
+{
+  "name": "Daily App Store & Google Play Silent Churn Monitor -> Slack Alerts",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~app-store-google-play-churn-intel-lead-enricher/run-sync-get-dataset-items?timeout=60&memory=128",
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer REPLACE_WITH_APIFY_TOKEN" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "parseResponse": true,
+        "data": "{\"mode\":\"app_intelligence\",\"searchTerms\":[\"invoice maker\"],\"countries\":[\"us\"],\"maxApps\":5,\"sampleReviewsPerStore\":40,\"watchDiff\":true,\"dedupStoreName\":\"make-app-churn-watch\",\"outreachPersona\":\"aso_growth_agency\"}"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "expect": []
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{1.data}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true
+      },
+      "filter": {
+        "name": "High-Priority Churn Leads Only (Score >= 50)",
+        "conditions": [
+          [
+            {
+              "a": "{{2.opportunityScore}}",
+              "b": "50",
+              "o": "number:greaterOrEqual"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/WEBHOOK",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"text\":\"App Churn Lead: {{2.appName}} (Score {{2.opportunityScore}}, Gap {{2.silentChurnDivergence}}, Top Pain: {{2.topPainBucket}}, Email: {{2.primaryEmail}})\\nOpener: {{2.outreachOpener}}\"}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  }
+}
