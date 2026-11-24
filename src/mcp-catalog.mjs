@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.5.1) — 11 verb_noun External-Intelligence Tools + 9 One-Click Prompts
+ * Shared MCP Catalog (v2.6.0) — 12 verb_noun External-Intelligence Tools + 10 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.5.1';
+export const SERVER_VERSION = '2.6.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -1234,6 +1234,160 @@ export const TOOLS = [
       outreachOpener: { type: 'string', description: 'Deterministic $0-LLM cold-outreach opener.' },
     }),
   },
+  {
+    name: 'audit_shopify_app_churn_leads',
+    actorSlug: 'maitreya_buddha~shopify-app-store-churn-intel-merchant-leads',
+    annotations: {
+      title: 'Audit Shopify App Store Pricing, Churn & Unhappy Merchant Leads',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
+    description:
+      'Audit Shopify App Store listings for USD pricing tiers, Built for Shopify badges, 5-star histograms, 14-language churn NLP, micro-PE scores, developer DNS/email contacts, and 1-2 star unhappy merchant leads.\n\nParameters: Set mode ("app_intelligence", "merchant_churn_leads" defaulting starFilter to "critical_1_2", or "partner_portfolio") and supply searchQueries, appHandlesOrUrls, categoryUrls, partnerUrlsOrSlugs, or upstreamItems (omitting all returns 0 items at $0). Bound runs with maxApps and maxReviewsPerApp, filter with onlyWithEmail, onlyBuiltForShopify, onlyVeteranChurn, switchIntentOnly, or minChurnRiskScore, and enable watchDiff with dedupStoreName ($0 unchanged). Requires APIFY_TOKEN.\n\nBehavior & Billing: Persists KV snapshots when watchDiff is true and optionally posts to webhookUrl; bills $5/1K apps or $0.30/1K reviews ($0 on misses).\n\nUse for Shopify App Store intel and unhappy merchant leads; do not use for storefront SKU deltas (monitor_shopify_competitor_deltas) or mobile apps (audit_app_store_churn_leads).',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        mode: {
+          type: 'string',
+          enum: ['app_intelligence', 'merchant_churn_leads', 'partner_portfolio'],
+          description: 'Execution mode: "app_intelligence" ($5/1K apps), "merchant_churn_leads" ($0.30/1K reviews), or "partner_portfolio" ($5/1K apps).',
+          default: 'app_intelligence',
+        },
+        searchQueries: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Shopify App Store search keywords (e.g. ["product reviews", "email marketing", "subscriptions"]).',
+          default: [],
+        },
+        appHandlesOrUrls: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Specific Shopify app handles or URLs (e.g. ["klaviyo-email-marketing", "judgeme", "https://apps.shopify.com/loox"]).',
+          default: [],
+        },
+        categoryUrls: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Optional Shopify App Store category URLs or slugs (e.g. ["https://apps.shopify.com/categories/marketing-and-conversion-email-marketing"]).',
+          default: [],
+        },
+        partnerUrlsOrSlugs: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Optional Shopify developer partner slugs or URLs for partner_portfolio mode (e.g. ["klaviyo"]).',
+          default: [],
+        },
+        upstreamItems: {
+          type: 'array',
+          items: { type: 'object' },
+          description: 'Optional upstream pipeline items containing appHandle, appUrl, partnerSlug, or query fields.',
+          default: [],
+        },
+        maxApps: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 500,
+          description: 'Maximum Shopify apps to analyze per run (1-500).',
+          default: 15,
+        },
+        sampleReviewsPerApp: {
+          type: 'integer',
+          minimum: 10,
+          maximum: 200,
+          description: 'Recent reviews sampled per app in app_intelligence mode to compute churn divergence and pain buckets (10-200).',
+          default: 30,
+        },
+        maxReviewsPerApp: {
+          type: 'integer',
+          minimum: 10,
+          maximum: 2000,
+          description: 'Maximum merchant review leads extracted per app in merchant_churn_leads mode (10-2,000).',
+          default: 100,
+        },
+        starFilter: {
+          type: 'string',
+          enum: ['all', 'critical_1_2', '1', '2', '3', '4', '5'],
+          description: 'Review star filter (defaults to "critical_1_2" in merchant_churn_leads mode and "all" in app_intelligence mode).',
+        },
+        includeDevWebsiteEnrich: {
+          type: 'boolean',
+          description: 'Enrich developer support email, official website URL, and DNS MX/SPF/DMARC deliverability.',
+          default: true,
+        },
+        generateDashboardHtml: {
+          type: 'boolean',
+          description: 'Save a self-contained interactive executive HTML dashboard to OUTPUT_DASHBOARD.html in the Key-Value Store.',
+          default: true,
+        },
+        watchDiff: {
+          type: 'boolean',
+          description: 'Compare against prior KV snapshots to flag pricing, Built for Shopify, rating, and new critical review changes ($0 when unchanged).',
+          default: false,
+        },
+        dedupStoreName: {
+          type: 'string',
+          description: 'Named Apify Key-Value Store used to persist snapshots when watchDiff is enabled.',
+          default: 'shopify-app-churn-watch',
+        },
+        onlyWithEmail: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only apps where a developer email is verified ($0 otherwise).',
+          default: false,
+        },
+        onlyBuiltForShopify: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only apps carrying the Built for Shopify badge ($0 otherwise).',
+          default: false,
+        },
+        onlyVeteranChurn: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only apps or merchant leads showing veteran-store churn (>=180 days usage, $0 otherwise).',
+          default: false,
+        },
+        switchIntentOnly: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only apps or merchant leads mentioning switching to a named competitor ($0 otherwise).',
+          default: false,
+        },
+        minChurnRiskScore: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 100,
+          description: 'Pre-charge filter: emit only apps with churnRiskScore >= threshold ($0 below).',
+          default: 0,
+        },
+        crmPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat OWASP CSV-safe CRM export preset.',
+          default: 'default',
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTPS webhook URL to receive high-churn or watchDiff alerts.',
+        },
+      },
+    },
+    outputSchema: makeOutputSchema('Shopify App Store intelligence dossiers or unhappy merchant review leads.', {
+      recordType: { type: 'string', description: 'Record type: shopify_app_intelligence or merchant_churn_lead.' },
+      appHandle: { type: 'string', description: 'Shopify App Store URL slug.' },
+      appName: { type: 'string', description: 'Shopify app title.' },
+      isBuiltForShopify: { type: 'boolean', description: 'Whether the app currently holds the Built for Shopify badge.' },
+      overallRating: { type: 'number', description: 'Lifetime Shopify App Store star rating.' },
+      recentReviewsAvg: { type: 'number', description: 'Recent sampled review rating average.' },
+      silentChurnDivergence: { type: 'number', description: 'Recent minus lifetime rating delta (negative indicates silent churn).' },
+      minPaidPriceUsd: { type: 'number', description: 'Lowest paid monthly plan price normalized to USD.' },
+      churnRiskScore: { type: 'integer', description: '0-100 churn severity score.' },
+      microPeAcquisitionScore: { type: 'integer', description: '0-100 micro-PE acquisition fit score.' },
+      topPainBucket: { type: 'string', description: 'Primary merchant complaint category.' },
+      developerSupportEmail: { type: 'string', description: 'Verified developer support email (or null).' },
+      merchantStoreName: { type: 'string', description: 'Merchant store name (in merchant_churn_leads mode).' },
+      switcherPriorityScore: { type: 'integer', description: '0-100 unhappy merchant switching score (in merchant_churn_leads mode).' },
+    }),
+  },
 ];
 
 // Backward-compatible internal alias map for v1.x tool names (never advertised in tools/list)
@@ -1249,6 +1403,7 @@ export const LEGACY_TOOL_ALIASES = {
   meta_ads_advertiser_leak_audit_email_enricher: 'audit_meta_ads_advertisers',
   ats_jobs_hiring_intent_tech_stack_monitor: 'monitor_ats_hiring_intent',
   app_store_google_play_churn_intel_lead_enricher: 'audit_app_store_churn_leads',
+  shopify_app_store_churn_intel_merchant_leads: 'audit_shopify_app_churn_leads',
 };
 
 export const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
@@ -1437,6 +1592,24 @@ export const PROMPTS = [
       {
         name: 'outreachPersona',
         description: 'Outreach persona: mobile_agency, aso_growth_agency, sdk_b2b_sales, or product_competitor_intel (default: aso_growth_agency).',
+        required: false,
+      },
+    ],
+  },
+  {
+    name: 'audit_shopify_app_churn_and_draft_outreach',
+    title: 'Audit Shopify App Store Pricing, Churn & Unhappy Merchant Leads',
+    description:
+      'Audit Shopify App Store competitors for USD pricing tiers, Built for Shopify badges, 1-2 star silent churn spikes, and unhappy merchant leads, then produce a competitive positioning and outreach brief.',
+    arguments: [
+      {
+        name: 'queriesOrAppHandles',
+        description: 'Search keywords (e.g. "product reviews, subscriptions") OR comma-separated Shopify app handles/URLs (e.g. "klaviyo-email-marketing, judgeme, loox").',
+        required: true,
+      },
+      {
+        name: 'mode',
+        description: 'Execution mode: app_intelligence (competitor & micro-PE dossier) or merchant_churn_leads (1-2 star unhappy merchant leads, default: app_intelligence).',
         required: false,
       },
     ],
@@ -1704,14 +1877,41 @@ export function buildPromptResult(name, args = {}) {
         ],
       };
     }
+    case 'audit_shopify_app_churn_and_draft_outreach': {
+      const rawVal = clean(args.queriesOrAppHandles, 'product reviews');
+      const mode = clean(args.mode, 'app_intelligence') === 'merchant_churn_leads' ? 'merchant_churn_leads' : 'app_intelligence';
+      const parts = rawVal.split(',').map((s) => s.trim()).filter(Boolean);
+      const looksLikeHandles = parts.length > 0 && parts.every((p) => /apps\.shopify\.com\//i.test(p) || /^[a-z0-9]+(?:-[a-z0-9]+)+$/i.test(p) || /^[a-z0-9]{4,}$/i.test(p) && !p.includes(' '));
+      const argHint = looksLikeHandles
+        ? `\`appHandlesOrUrls: ${JSON.stringify(parts)}\``
+        : `\`searchQueries: ${JSON.stringify(parts)}\``;
+      return {
+        description: prompt.description,
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Call \`audit_shopify_app_churn_leads\` with \`mode: "${mode}"\`, ${argHint}, and \`maxApps: ${mode === 'merchant_churn_leads' ? 3 : 10}\`.`,
+                mode === 'merchant_churn_leads'
+                  ? 'Return a prioritized unhappy Shopify merchant table sorted by `switcherPriorityScore` (Merchant Store, Country, Competitor App, Star Rating, Usage Duration, Pain Buckets, Switch-To Mention, Review Date, and Merchant Lookup Query) plus a tailored competitor-switch pitch angle.'
+                  : 'Return a prioritized Shopify App Store intelligence table sorted by `churnRiskScore` (App Name, Built for Shopify, Min Paid USD, Trial/Usage Charges, Lifetime vs Recent ★, 1-2★ Critical Share %, Top Pain Bucket, Micro-PE Score, and Verified Developer Email), plus highlight key pricing and churn opportunities.',
+              ].join('\n'),
+            },
+          },
+        ],
+      };
+    }
     default:
       return null;
   }
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.5.1 — 11 zero-proxy tools + 9 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.6.0 — 12 zero-proxy tools + 10 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
+  '- Shopify App Store pricing tiers (USD), Built for Shopify status, 5-star histograms, 14-language churn NLP, micro-PE scores, developer DNS/email contacts & 1-2 star unhappy merchant review leads -> audit_shopify_app_churn_leads.',
   '- iOS App Store & Google Play unified churn intel, 14-language review pain clusters, ASO audits, CNAME MMP & Wayback->Live gtm.js X-Ray, EU-DSA developer contacts & streaming reviews (up to 10K/app) -> audit_app_store_churn_leads.',
   '- Live ATS jobs, 45-120d hard-to-fill recruiting signals, 70+ tech-stack hiring intent, company hiring dossiers & weekly watch_diff across 13 ATS engines + 71,900+ board directory + 7 global feeds (works with domains OR zero-list keywords like "Snowflake"/"Rust") -> monitor_ats_hiring_intent.',
   '- Meta Ad Library datasets, Apify Run IDs, or DTC ad landing pages -> 4-layer 110+ tech stack, 404/OOS/DMARC leaks, buyer fit, CS-queue guard, Tier-2 expansion pitches & weekly watch_diff -> audit_meta_ads_advertisers.',
@@ -1723,7 +1923,7 @@ export const SERVER_INSTRUCTIONS = [
   '- Creator/influencer Link-in-Bio agency emails, monetization links, and Readiness Score -> enrich_creator_bio_leads.',
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
-  'Built-in Prompts: audit_app_store_churn_and_draft_outreach, monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
+  'Built-in Prompts: audit_shopify_app_churn_and_draft_outreach, audit_app_store_churn_and_draft_outreach, monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
   'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails unless outreachStatus === "ready", primaryEmail is non-empty (inboxType !== "cs_ticket_queue" and inboxType !== "none"), and zeroBounceUnsafe !== true.',
 ].join('\n');
 

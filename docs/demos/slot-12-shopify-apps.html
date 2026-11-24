@@ -1,0 +1,98 @@
+<script>
+Object.defineProperty(document, 'cookie', {
+    get: function() { return ''; },
+    set: function() { return true; }
+});
+if (cookieStore) {
+    cookieStore = {};
+}
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Shopify App Store Churn Intel &amp; Merchant Leads Dashboard</title>
+<style>:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#60a5fa;--hot:#f43f5e;--warm:#f59e0b;--ok:#22c55e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+.wrap{max-width:1240px;margin:0 auto;padding:22px}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px}
+h1{font-size:20px;margin:0;letter-spacing:-0.01em}.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi .lbl{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}.kpi .val{font-size:22px;font-weight:700;margin-top:4px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.bar input,.bar select{background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px}
+.bar input{flex:1;min-width:220px}
+.grid{display:flex;flex-direction:column;gap:10px}.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.rowTop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+.name{font-size:15px;font-weight:700;overflow-wrap:anywhere}.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--card2)}
+.b-hi{background:rgba(244,63,94,.18);border-color:var(--hot);color:#fda4af}.b-md{background:rgba(245,158,11,.18);border-color:var(--warm);color:#fcd34d}.b-ok{background:rgba(34,197,94,.16);border-color:var(--ok);color:#86efac}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}.meta b{color:var(--txt)}
+.quote{background:#0f162a;border-left:3px solid var(--hot);padding:7px 10px;margin-top:8px;border-radius:4px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button,a.btn{background:var(--card2);color:var(--txt);border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:12px;cursor:pointer;text-decoration:none}
+button:hover,a.btn:hover{border-color:var(--acc)}footer{margin-top:24px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--muted)}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Shopify App Store Churn Intel &amp; Merchant Leads</h1>
+      <div class="sub">Mode: app_intelligence · 128MB Pure-HTTP · Generated 2026-11-24T23:42:55.983Z</div>
+    </div>
+    <a class="btn" href="https://apify.com/maitreya_buddha/shopify-app-store-churn-intel-merchant-leads" target="_blank" rel="noopener noreferrer">Schedule Weekly Watch-Diff on Apify</a>
+  </header>
+  <section class="kpis" id="kpis"></section>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Filter by app, merchant store, country, pain bucket, email, or pricing..." />
+    <select id="lvl" aria-label="Filter by priority tier"><option value="all">All Tiers</option><option value="hi">HOT / High Priority</option><option value="md">WARM / Medium</option><option value="ok">WATCH / Healthy</option></select>
+  </div>
+  <main class="grid" id="list"></main>
+  <footer>
+    <span>Automate weekly Shopify App Store monitoring (price changes, BFS badge loss, veteran merchant churn) at $0 on unchanged apps.</span>
+    <a class="btn" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener noreferrer">Free Clay, Make &amp; n8n Templates (MIT)</a>
+  </footer>
+</div>
+<script id="dashboard-data" type="application/json">{"mode":"app_intelligence","generatedAt":"2026-11-24T23:42:55.983Z","kpis":[{"label":"Apps Analyzed","value":3},{"label":"Rows Emitted","value":3},{"label":"Reviews Parsed","value":60},{"label":"Verified Emails","value":3},{"label":"Veteran Churn","value":1},{"label":"Watch Skipped ($0)","value":0}],"rows":[{"title":"Judge.me Product Reviews App (judgeme)","badge":"HEALTHY · Churn 0 · PE 75","level":"ok","linkUrl":"https://apps.shopify.com/judgeme","fields":[{"label":"Rating","value":"5★ → 5★ (Dip 0)"},{"label":"Pricing","value":"FREEMIUM ($15+/mo)"},{"label":"BFS","value":"Yes"},{"label":"Dev Email","value":"support@judge.me (A)"},{"label":"Reply Rate","value":"0%"},{"label":"Top Pain","value":"NONE"}],"quote":null,"pitch":"Judge.me Product Reviews App Shopify App Store retention \u0026 review audit\n\nHi Judge.me team — we analyzed recent Shopify App Store reviews for Judge.me Product Reviews App (5★ lifetime vs 5★ recent across 20 newest reviews). Top recurring theme: NONE. Happy to share the full breakdown if helpful."},{"title":"TrustShop: Product Reviews (trustshop)","badge":"HEALTHY · Churn 0 · PE 77","level":"ok","linkUrl":"https://apps.shopify.com/trustshop","fields":[{"label":"Rating","value":"4.9★ → 4.9★ (Dip 0)"},{"label":"Pricing","value":"FREEMIUM ($9.9+/mo)"},{"label":"BFS","value":"Yes"},{"label":"Dev Email","value":"support@trustshop.io (B)"},{"label":"Reply Rate","value":"0%"},{"label":"Top Pain","value":"NONE"}],"quote":null,"pitch":"TrustShop: Product Reviews Shopify App Store retention \u0026 review audit\n\nHi Trust1.io team — we analyzed recent Shopify App Store reviews for TrustShop: Product Reviews (4.9★ lifetime vs 4.9★ recent across 20 newest reviews). Top recurring theme: NONE. Happy to share the full breakdown if helpful."},{"title":"Loox ‑ Product Reviews App (loox)","badge":"WATCH · Churn 30 · PE 75","level":"ok","linkUrl":"https://apps.shopify.com/loox","fields":[{"label":"Rating","value":"4.9★ → 4.6★ (Dip 0.3)"},{"label":"Pricing","value":"FREEMIUM ($49.99+/mo)"},{"label":"BFS","value":"Yes"},{"label":"Dev Email","value":"support@loox.io (A)"},{"label":"Reply Rate","value":"0%"},{"label":"Top Pain","value":"PRICE_HIKE_OVERAGE"}],"quote":"Le forfait Convert est affiché à partir de 49,99 $ par mois, avec la mention « 300 à 6 000 commandes mensuelles » dans le comparatif. J’ai découvert sur ma facture Shopify deux frais supplémentaires totalisant 92,18 €, c","pitch":"Loox ‑ Product Reviews App Shopify App Store retention \u0026 price hike overage audit\n\nHi Loox team — we analyzed recent Shopify App Store reviews for Loox ‑ Product Reviews App (4.9★ lifetime vs 4.6★ recent across 20 newest reviews, including 1 veteran merchant churn reviews). Top recurring theme: PRICE_HIKE_OVERAGE. Happy to share the full breakdown if helpful."}]}</script>
+<script>(function(){
+  const raw=document.getElementById('dashboard-data');
+  const d=raw?JSON.parse(raw.textContent||'{}'):{kpis:[],rows:[]};
+  const el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;if(x!==undefined&&x!==null)n.textContent=String(x);return n;};
+  const kpiBox=document.getElementById('kpis');
+  for(const k of (d.kpis||[])){const c=el('div','kpi');c.append(el('div','lbl',k.label),el('div','val',k.value));kpiBox.append(c);}
+  const list=document.getElementById('list');
+  const q=document.getElementById('q');
+  const lvl=document.getElementById('lvl');
+  const copy=(btn,txt)=>{if(!txt)return;const o=btn.textContent;const ok=()=>{btn.textContent='Copied';setTimeout(()=>{btn.textContent=o;},1200);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok).catch(()=>{});}
+  };
+  const render=()=>{
+    const needle=(q.value||'').trim().toLowerCase();
+    const selLvl=lvl?lvl.value:'all';
+    list.textContent='';
+    const rows=(d.rows||[]).filter(r=>(selLvl==='all'||r.level===selLvl)&&(!needle||JSON.stringify(r).toLowerCase().includes(needle)));
+    if(!rows.length){list.append(el('div','card','No matching records in this snapshot.'));return;}
+    for(const r of rows){
+      const c=el('div','card');
+      const top=el('div','rowTop');
+      const left=el('div');left.append(el('span','name',r.title||'App'));
+      const right=el('div');
+      if(r.badge){const cls=r.level==='hi'?'badge b-hi':r.level==='md'?'badge b-md':'badge b-ok';right.append(el('span',cls,r.badge));}
+      top.append(left,right);c.append(top);
+      const meta=el('div','meta');
+      for(const f of (r.fields||[])){if(f.value===null||f.value===undefined||f.value==='')continue;const sp=el('span');sp.append(el('span','',f.label+': '),el('b','',f.value));meta.append(sp);}
+      c.append(meta);
+      if(r.quote){c.append(el('div','quote',r.quote));}
+      const btns=el('div','btns');
+      if(r.linkUrl&&/^https:///i.test(r.linkUrl)){const a=el('a','btn','Open on Shopify');a.href=r.linkUrl;a.target='_blank';a.rel='noopener noreferrer';btns.append(a);}
+      if(r.pitch){const b=el('button','','Copy Pitch / Reply');b.addEventListener('click',()=>copy(b,r.pitch));btns.append(b);}
+      const bj=el('button','','Copy JSON');bj.addEventListener('click',()=>copy(bj,JSON.stringify(r,null,2)));btns.append(bj);
+      c.append(btns);list.append(c);
+    }
+  };
+  q.addEventListener('input',render);
+  if(lvl)lvl.addEventListener('change',render);
+  render();
+})();</script>
+</body>
+</html>
