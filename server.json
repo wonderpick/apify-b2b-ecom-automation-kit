@@ -3,7 +3,7 @@
   "name": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
   "title": "Apify External Business Intelligence MCP Server",
   "description": "11 external-intel tools & 9 prompts: App Store churn, ATS hiring, Meta Ads, B2B, Shopify & SOC 2.",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "icons": [
     {
       "src": "https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/icon.png",

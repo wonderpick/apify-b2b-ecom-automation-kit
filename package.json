@@ -1,6 +1,6 @@
 {
   "name": "apify-b2b-ecom-mcp-server",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "mcpName": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
   "description": "Zero-subscription external business intelligence MCP server (11 verb_noun tools + 9 one-click workflow prompts): unified App Store & Google Play churn intel + EU-DSA leads, live ATS hiring-intent & 70+ tech-stack monitor (71K boards), Meta Ads leak audit, local B2B audit, retail stockists, Shopify deltas, SaaS SOC 2, B2B/creator email enrichment, and Korea MFDS K-Beauty OEM & recalls.",
   "type": "module",

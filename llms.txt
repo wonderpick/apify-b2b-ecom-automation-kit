@@ -1,6 +1,6 @@
-# Apify External Business Intelligence MCP Server (v2.5.0)
+# Apify External Business Intelligence MCP Server (v2.5.1)
 
-> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.5.0) exposing 11 zero-proxy Apify Store Actors and 9 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Clay/Make workflows, and non-developer mobile, agency, recruiting, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
+> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.5.1) exposing 11 zero-proxy Apify Store Actors and 9 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Clay/Make workflows, and non-developer mobile, agency, recruiting, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
 
 ## Instant Connection Endpoints
 

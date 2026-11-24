@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.5.0) — 11 verb_noun External-Intelligence Tools + 9 One-Click Prompts
+ * Shared MCP Catalog (v2.5.1) — 11 verb_noun External-Intelligence Tools + 9 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.5.0';
+export const SERVER_VERSION = '2.5.1';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -147,7 +147,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Monitor up to 50 external Shopify competitor stores (up to 2,500 products each) for price, stock, catalog, and MAP changes against persisted Key-Value Store snapshots. Requires storeUrls; minPriceChangePercent and mapFloorPrices drive CRITICAL alerts, while stateStoreName isolates snapshots per workflow (avoid concurrent runs on the same stateStoreName to prevent race overwrites). Persists snapshot state and optional webhookUrl alerts (explaining readOnlyHint=false), isolating per-store or webhook failures in OUTPUT_SUMMARY without aborting the run. Bills $2/1K real deltas ($0 on baseline or unchanged runs). Use for recurring Shopify SKU tracking; do not use for editing your Shopify admin, Meta ad audits (use audit_meta_ads_advertisers), or retail stockists (use extract_brand_store_stockists).',
+      'Monitor up to 50 external Shopify competitor stores (up to 2,500 products each) for price, stock, catalog, and MAP changes against persisted Key-Value Store snapshots.\n\nParameters: Requires storeUrls (omitting it returns 0 items at $0). minPriceChangePercent and mapThresholds trigger CRITICAL alerts, emitBaselineSummary controls first-run output, and stateStoreName isolates snapshots per workflow (avoid concurrent runs on the same stateStoreName). Requires APIFY_TOKEN.\n\nBehavior & Billing: Writes persistent KV snapshots and optional webhookUrl alerts, isolates per-store or webhook errors in OUTPUT_SUMMARY without aborting, and bills $2/1K real deltas ($0 on baseline or unchanged runs).\n\nUse for recurring Shopify SKU monitoring; do not use for editing your Shopify admin, Meta ad audits (use audit_meta_ads_advertisers), or retail stockists (use extract_brand_store_stockists).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -246,7 +246,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Audit or monitor up to 500 external SaaS vendor Trust Centers for security certifications, DNS IAM/SSO, and third-party/AI subprocessors. Requires domains (empty input returns 0 items at $0); mode="audit" runs statelessly, while mode="monitor" diffs against stateStoreName snapshots and emitBaselineSummary controls first-run output. Persists monitor snapshots and optional webhookUrl alerts (explaining readOnlyHint=false), isolating per-domain 403/timeout failures in OUTPUT_SUMMARY. Bills $5/1K audited domains or real changes ($0 when unchanged or WAF-blocked). Use for TPRM vendor risk or finding SaaS vendors lacking SOC 2; do not use for editing internal GRC workspaces or local SMB website audits (use audit_local_b2b_websites instead).',
+      'Audit or monitor external SaaS vendor Trust Centers (up to 500 domains) for security certifications, DNS IAM/SSO, and third-party or AI subprocessors.\n\nParameters: Requires domains (empty input returns 0 items at $0). mode="audit" runs statelessly, while mode="monitor" diffs against stateStoreName snapshots and uses emitBaselineSummary to control first-run rows; checkSubprocessors and checkDnsIam toggle deep checks, and concurrency bounds parallelism. Requires APIFY_TOKEN.\n\nBehavior & Billing: Persists monitor snapshots and optional webhookUrl alerts, isolates per-domain 403/timeout failures in OUTPUT_SUMMARY, and bills $5/1K audited domains or real changes ($0 when unchanged or WAF-blocked).\n\nUse for TPRM vendor risk or SOC 2 gap prospecting; do not use for editing internal GRC workspaces or local SMB website audits (use audit_local_b2b_websites instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -418,7 +418,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Enrich creator Link-in-Bio pages across 15+ bio platforms with agency or business emails, DNS deliverability checks, and sponsorship readiness scores. Supply at least one source (urls, rawCsvOrUrls, datasetId, or sourceRunId; omitting all returns 0 items at $0); enableDeepContactFollow toggles 1-hop personal-site crawling, while onlyWithEmail and minReadinessScore gate billing before charge. Streams up to 50,000 profiles in 50-item chunks at $2.50/1K enriched ($0 on 404, WAF, or filtered skips), isolating per-profile failures in OUTPUT_SUMMARY with optional webhookUrl delivery. Use for influencer and UGC sponsorship outreach; do not use for corporate B2B companies (use enrich_b2b_company_leads instead).',
+      'Enrich creator Link-in-Bio pages across 15+ bio platforms with verified agency or business emails, DNS deliverability checks, and sponsorship readiness scores.\n\nParameters: Supply at least one source (urls, rawCsvOrUrls, datasetId, or sourceRunId; omitting all returns 0 items at $0). enableDeepContactFollow toggles 1-hop personal-site crawling, enableDnsEmailCheck runs DNS MX/SPF/DMARC checks, and onlyWithEmail or minReadinessScore filter before billing. Requires APIFY_TOKEN.\n\nBehavior & Billing: Email validity filters trap/placeholder domains and verifies DNS MX records; readiness scores (0-100) weight verified agency/direct emails, active brand-deal/monetization links, promo codes, and DNS grade. Streams up to 50,000 profiles at $2.50/1K enriched ($0 on 404, WAF, or filtered skips), isolating per-profile failures in OUTPUT_SUMMARY with optional webhookUrl delivery.\n\nUse for influencer and UGC sponsorship outreach; do not use for corporate B2B companies (use enrich_b2b_company_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -575,7 +575,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Search 219,000+ official South Korea MFDS functional cosmetic filings in English or Korean to uncover Korean OEM/ODM factories and functional claims. Filter inputs accept English or Korean (common terms like "sunscreen", "Cosmax", "Kolmar" auto-bridge; unmapped English falls back to raw substring match), datasetType selects reported/reviewed/both registries, resolveOemFromReviewed joins reviewed base formulas to expose hidden factories, and maxItems/maxPagesToScan cap scan volume. Queries the live MFDS API (~5-20s; slower when resolveOemFromReviewed joins formulas) with transient retries and bills $2/1K records ($0 if empty). Use for K-Beauty OEM sourcing and R&D; do not use for recall checks (use search_korea_mfds_recalls instead).',
+      'Search 219,000+ official South Korea MFDS functional cosmetic filings in English or Korean to uncover Korean OEM/ODM factories and functional claims.\n\nParameters: Filter inputs accept English or Korean (common terms like "sunscreen", "Cosmax", "Kolmar" auto-bridge; unmapped English falls back to raw substring match). datasetType selects reported, reviewed, or both registries, resolveOemFromReviewed joins reviewed base formulas to expose hidden factories, and maxItems caps scan volume. Requires APIFY_TOKEN.\n\nBehavior & Billing: Queries the live MFDS API (~5-20s; slower when resolveOemFromReviewed joins formulas) with transient retries and bills $2/1K records ($0 if empty).\n\nUse for K-Beauty OEM sourcing and R&D; do not use for recall checks (use search_korea_mfds_recalls instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -645,7 +645,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Audit local SMB websites for technical, SEO, pixel, and DNS deliverability weaknesses, then extract owner emails and factual cold-pitch copy. Supply at least one source (websiteUrls, rawCsvOrUrls, datasetId + datasetField, sourceRunId, or presetChambers; omitting all returns 0 items at $0); agencyPreset tailors scoring and copy, dedupStoreName persists 16-shard KV snapshots for skip_seen or watch_diff modes, and onlyWithEmail/onlyWithWeakness/minPitchScore filter before billing. Persists KV dedup shards and optional webhookUrl payloads (explaining readOnlyHint=false), isolates per-site WAF/timeout errors in OUTPUT_SUMMARY, and bills $4.50/1K leads ($0 on WAF, filtered misses, or skip_seen repeats). Use for local agency prospecting; do not use for SaaS SOC 2 audits (use audit_saas_trust_center) or Meta/DTC ad audits (use audit_meta_ads_advertisers).',
+      'Audit local SMB websites for technical, SEO, pixel, and DNS deliverability weaknesses, then extract owner emails and factual cold-pitch copy.\n\nParameters: Supply at least one source (websiteUrls, rawCsvOrUrls, datasetId + datasetField, sourceRunId, or presetChambers; omitting all returns 0 items at $0). agencyPreset tailors scoring and copy, dedupStoreName + dedupMode persist 16-shard KV snapshots for skip_seen or watch_diff modes, and onlyWithEmail, onlyWithWeakness, or minPitchScore filter before billing. Requires APIFY_TOKEN.\n\nBehavior & Billing: Writes KV dedup shards and optional webhookUrl payloads, isolates per-site WAF/timeout errors in OUTPUT_SUMMARY, and bills $4.50/1K leads ($0 on WAF, filtered misses, or skip_seen repeats).\n\nUse for local agency prospecting; do not use for SaaS SOC 2 audits (use audit_saas_trust_center) or Meta/DTC ad audits (use audit_meta_ads_advertisers).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -803,7 +803,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Deduplicate Meta Ad Library datasets or DTC ad landing URLs into audited advertiser brands with tech-stack detection, DNS deliverability checks, verified emails, and outreach copy. Supply at least one source (landingPageUrls, rawCsvOrUrls, sourceDatasetId, or sourceRunId; omitting all returns 0 items at $0); dedupStoreName persists 16-shard KV snapshots for skip_seen ($0 repeats) or weekly watch_diff triggers, while onlyWithEmail, onlyWithActiveLeaks, and minLeakScore filter before billing. Persists KV dedup snapshots and optional webhookUrl batches (explaining readOnlyHint=false), runs ~15-60s per 20 brands with per-brand WAF/403/timeout isolation in OUTPUT_SUMMARY, and bills $4.50/1K unique brands ($0 on marketplaces, WAF skips, repeats, or filtered misses). Use for Meta Ad Library and DTC advertiser audits; do not use for local SMB audits (use audit_local_b2b_websites) or Shopify SKU price tracking (use monitor_shopify_competitor_deltas).',
+      'Deduplicate Meta Ad Library datasets or DTC landing URLs into audited advertiser brands with tech-stack X-Ray, DNS deliverability checks, verified emails, and outreach copy.\n\nParameters: Supply at least one source (landingPageUrls, rawCsvOrUrls, sourceDatasetId, or sourceRunId; omitting all returns 0 items at $0). dedupStoreName paired with dedupMode persists 16-shard KV snapshots for skip_seen ($0 repeats) or weekly watch_diff triggers; onlyWithEmail, onlyWithActiveLeaks, and minLeakScore filter before billing, while maxBrands caps volume. Requires APIFY_TOKEN.\n\nBehavior & Billing: Writes KV dedup snapshots and optional webhookUrl batches, runs ~15-60s per 20 brands isolating WAF/403/timeout failures in OUTPUT_SUMMARY, and bills $4.50/1K unique brands ($0 on marketplaces, WAF skips, repeats, or filtered misses).\n\nUse for Meta Ad Library and DTC advertiser audits; do not use for local SMB audits (use audit_local_b2b_websites) or Shopify SKU price tracking (use monitor_shopify_competitor_deltas).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -936,7 +936,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Monitor live ATS job openings, 45-120d hard-to-fill aging, and 70+ tech-stack buying signals across 13 ATS engines and 7 global feeds via a 71,900+ board directory and 64-shard live discovery router. Supply targets, presetPacks, rawCsvOrUrls, datasetId, or sourceRunId, OR leave targets empty with titleKeywords/techStackFilter to auto-trigger global live discovery and Reverse-Pivot; omitting both targets and filters returns 0 items at $0. Bills $0.99/1K saved rows ($0 filtered or unchanged), runs ~5-30s isolating per-board failures in OUTPUT_SUMMARY, and persists optional watch_diff KV snapshots or webhookUrl alerts (explaining readOnlyHint=false). Use for recruiting signals, tech-stack buying intent, or weekly job-board delta tracking; do not use for editing your own ATS or corporate domain/LinkedIn enrichment without job signals (use enrich_b2b_company_leads instead).',
+      'Monitor live ATS job openings, hard-to-fill role aging, and tech-stack hiring intent across 13 ATS engines and 7 global job feeds.\n\nParameters: Supply targets, presetPacks, rawCsvOrUrls, datasetId, or sourceRunId—or leave targets empty with titleKeywords or techStackFilter to trigger global discovery (omitting both targets and filters returns 0 items at $0). outputMode selects jobs, companies, or both; onlyHardToFillSweetSpot and onlyNewSinceLastRun filter before billing, while dedupStoreName + dedupMode track weekly changes. Requires APIFY_TOKEN.\n\nBehavior & Billing: Writes optional KV snapshots and webhookUrl alerts, runs ~5-30s isolating per-board errors in OUTPUT_SUMMARY, and bills $0.99/1K saved rows ($0 on filtered or unchanged skips).\n\nUse for recruiting signals and tech-stack buying intent; do not use for editing your own ATS or company email enrichment without job signals (use enrich_b2b_company_leads instead).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -1071,7 +1071,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Analyze iOS App Store and Google Play apps for silent churn divergence, 14-language review pain clusters, ASO gaps, WAF-resilient ad/MMP stacks, and verified EU-DSA developer contacts in one 128MB run. Supply searchTerms, iosAppIds, androidPackageIds, upstreamItems, or topChartFeed (omitting all defaults to a 3-app demo query), choose app_intelligence or review_stream mode, and optionally enable watchDiff (Named KV snapshots) or webhookUrl alerts (explaining readOnlyHint=false). Optional pre-charge filters (minOpportunityScore, painBucketFilter, switchIntentOnly, onlyWithEmail) and unchanged watchDiff skips cost $0, while per-app WAF or store errors are isolated in OUTPUT_SUMMARY without crashing; bills $5/1K unified apps or $0.50/1K streamed reviews. Use for mobile app churn intelligence, ASO audits, and mobile agency outbound; do not use for Shopify web store tracking (use monitor_shopify_competitor_deltas) or local SMB website audits (use audit_local_b2b_websites).',
+      'Analyze iOS App Store and Google Play apps for silent churn divergence, 14-language review pain clusters, ASO gaps, ad/MMP stacks, and verified EU-DSA developer contacts.\n\nParameters: Supply searchTerms, iosAppIds, androidPackageIds, upstreamItems, or topChartFeed (omitting all defaults to a 3-app demo query). mode selects app_intelligence or review_stream; pre-charge filters (minOpportunityScore, painBucketFilter, switchIntentOnly, onlyWithEmail) gate billing, and watchDiff + dedupStoreName track incremental changes. Requires APIFY_TOKEN.\n\nBehavior & Billing: Writes optional watchDiff KV snapshots and webhookUrl alerts, isolates per-app WAF or store errors in OUTPUT_SUMMARY without crashing, and bills $5/1K unified apps or $0.50/1K streamed reviews ($0 on filtered or unchanged skips).\n\nUse for mobile app churn intelligence, ASO audits, and mobile agency outbound; do not use for Shopify web store tracking (use monitor_shopify_competitor_deltas) or local SMB audits (use audit_local_b2b_websites).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -1168,6 +1168,15 @@ export const TOOLS = [
           maximum: 100,
           description: 'Pre-charge filter: emit only apps with opportunityScore >= threshold ($0 below).',
           default: 0,
+        },
+        painBucketFilter: {
+          type: 'array',
+          items: {
+            type: 'string',
+            enum: ['CRASH_BUG', 'PAYWALL_PRICING', 'SUBSCRIPTION_CANCEL', 'LOGIN_AUTH', 'PERFORMANCE_BATTERY', 'UX_UPDATE_REGRESSION', 'SUPPORT_GHOSTED', 'COMPETITOR_SWITCH_INTENT'],
+          },
+          description: 'Optional pre-charge filter restricting emitted apps or reviews to specific pain themes ($0 when skipped).',
+          default: [],
         },
         onlyWithEmail: {
           type: 'boolean',
@@ -1701,7 +1710,7 @@ export function buildPromptResult(name, args = {}) {
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.5.0 — 11 zero-proxy tools + 9 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.5.1 — 11 zero-proxy tools + 9 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
   '- iOS App Store & Google Play unified churn intel, 14-language review pain clusters, ASO audits, CNAME MMP & Wayback->Live gtm.js X-Ray, EU-DSA developer contacts & streaming reviews (up to 10K/app) -> audit_app_store_churn_leads.',
   '- Live ATS jobs, 45-120d hard-to-fill recruiting signals, 70+ tech-stack hiring intent, company hiring dossiers & weekly watch_diff across 13 ATS engines + 71,900+ board directory + 7 global feeds (works with domains OR zero-list keywords like "Snowflake"/"Rust") -> monitor_ats_hiring_intent.',
