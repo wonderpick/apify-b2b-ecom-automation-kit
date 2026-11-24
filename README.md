@@ -2,18 +2,18 @@
 
 [![Glama MCP Score](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit/badges/score.svg)](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit)
 [![mcptry 100/100 #1 Sales & CRM](https://img.shields.io/badge/mcptry-100%2F100%20(%231%20Sales%20%26%20CRM%20%C2%B7%20Security%20A%20%C2%B7%2023ms)-10B981?style=flat-square)](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit)
-[![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.4.0%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
+[![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.5.0%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
 [![License: MIT](https://img.shields.io/badge/License-MIT-slate?style=flat-square)](./LICENSE)
 
-> **Give your team AND your AI assistants real-time eyes on the outside world — 10 zero-proxy external intelligence tools, 8 one-click workflow Prompts, 8 multi-branch n8n templates, zero monthly SaaS subscriptions, and `$0` billing whenever nothing changed or nothing matched.**
+> **Give your team AND your AI assistants real-time eyes on the outside world — 11 zero-proxy external intelligence tools, 9 one-click workflow Prompts, 9 multi-branch n8n templates, Clay HTTP recipes, zero monthly SaaS subscriptions, and `$0` billing whenever nothing changed or nothing matched.**
 
-> **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **Grade A (`5/5` Disambiguation & Naming Consistency)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.4.0`)**, and backed by live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
+> **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **Grade A (`5/5` Disambiguation & Naming Consistency)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.5.0`)**, and backed by live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
 
 ---
 
 ### Quick Navigation
-- **[For Human Operators (Agencies, Founders & Outbound Teams)](#for-human-operators-agencies-founders--outbound-teams):** Plain-English use cases, `$0.99–$4.50/1K` vs `$49–$995/mo` comparison table, and 1-click n8n workflows.
-- **[For AI Agents & Developers (MCP, Stdio, Docker & Remote HTTP)](#for-ai-agents--developers-mcp-stdio-docker--remote-http):** Zero-install Remote `/mcp` URL, 1-line `npx` / `src/mcp-server.mjs` / `Dockerfile` setup, 10 typed `verb_noun` tools, and 8 built-in Prompts.
+- **[For Human Operators (Agencies, Founders & Outbound Teams)](#for-human-operators-agencies-founders--outbound-teams):** Plain-English use cases, `$0.50–$5/1K` vs `$49–$995/mo` comparison table, and 1-click n8n/Clay templates.
+- **[For AI Agents & Developers (MCP, Stdio, Docker & Remote HTTP)](#for-ai-agents--developers-mcp-stdio-docker--remote-http):** Zero-install Remote `/mcp` URL, 1-line `npx` / `src/mcp-server.mjs` / `Dockerfile` setup, 11 typed `verb_noun` tools, and 9 built-in Prompts.
 
 ---
 
@@ -22,7 +22,8 @@
 Think about the moment every agency owner, growth operator, wholesale director, e-commerce lead, and security manager hits today:
 
 You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real business question:
-- **NEW (`v2.4.0`):** *"Find every company actively hiring for `Snowflake`, `Rust`, or `Account Executive` across 13 live ATS engines & 71,900+ boards (0% ghost jobs), flag 45–120d hard-to-fill roles and weekly `watch_diff` repost loops, and export Instantly/HubSpot outreach at `$0.99/1K`."*
+- **NEW (`v2.5.0`):** *"Audit iOS App Store and Google Play apps for `"invoice maker"` across `us, de, jp, kr`, measure silent churn & per-store version regressions in 14 languages, verify paid UA/MMP stacks past Cloudflare WAF, pull EU-DSA developer emails & phones, and generate an interactive HTML Dashboard at `$5/1K` apps (`$0.50/1K` streamed reviews)."*
+- *"Find every company actively hiring for `Snowflake`, `Rust`, or `Account Executive` across 13 live ATS engines & 71,900+ boards (0% ghost jobs), flag 45–120d hard-to-fill roles and weekly `watch_diff` repost loops, and export Instantly/HubSpot outreach at `$0.99/1K`."*
 - *"Audit these 500 Meta Ad Library advertisers or local B2B sites from Google Maps, run 11-query DNS deliverability grading (A-F), catch 404/OOS/DMARC leaks, track weekly `watch_diff` triggers, isolate CS ticket queues, and export CRM-ready cold pitches."*
 - *"Audit these 100 local businesses from Google Maps for 8 website weaknesses, grab their owner emails, and draft a factual cold-email opener for each."*
 - *"Which independent boutiques carry our top competitor right now — and what are their wholesale buyer emails?"*
@@ -39,8 +40,9 @@ You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real bus
 
 ### Side-by-Side Comparison vs. Existing Tool Categories
 
-| Real Operator Job-to-Be-Done | **This Open-Source Suite (`v2.4.0`, Pay-As-You-Go)** | Official / Inward-Only MCPs | Monthly Store / Tech Databases (`$49–$995/mo`) | Multi-Step Enrichment Workbenches (`$149–$800/mo`) |
+| Real Operator Job-to-Be-Done | **This Open-Source Suite (`v2.5.0`, Pay-As-You-Go)** | Official / Inward-Only MCPs | Monthly Store / Tech Databases (`$49–$995/mo`) | Multi-Step Enrichment Workbenches (`$149–$800/mo`) |
 |---|---|---|---|---|
+| **Unified iOS App Store & Google Play Churn Intel, Reviews, ASO & EU-DSA Leads** | **Tier 0A/0B AASA/assetlinks matching, Apple Catalog deep reviews + dev replies, GP 199/page + EU-DSA, 14-lang NLP + TF-IDF topics, Wayback->Live GTM + CNAME MMPs, ASO Audit & HTML Dashboard (`$5/1K` apps · `$0.50/1K` reviews · `$0` skips)** | Only manages *your own* published app | `$179–$599/mo` per seat; no outbound emails or CRM CSVs | Single-store scrapers (no dev replies, no matching, no SDK/ad X-Ray) |
 | **Live ATS Jobs, Hiring Intent & 70+ Tech Stack (13 ATS + 71K Boards)** | **Works with domains OR zero-list keywords (`Snowflake`/`Rust`), 64-shard live router (0% ghost jobs), 45–120d aging, Bulk-Sync De-Clustering, 7 `watch_diff` triggers & 5 CRM presets (`$0.99/1K` · `$0` proxy & skips)** | Not available | `$49–$400/mo` or `$5/1K` stale cached DBs with ghost jobs | Proxy-heavy 3-ATS scrapers (`$2/1K` + proxy) with no delta tracking |
 | **Meta Ads Advertiser Leak Audit + 110+ Stack + DMARC + Pitches** | **Dedupes ads -> brands, 4-layer 110+ stack (34 Shopify Web Pixels + OS 2.0 + CSP), 404/OOS/DMARC A–F, `buyerFitTier`, `inboxType` CS-queue guard, Tier-2 growth pitches, 16-shard `watch_diff` (`$4.50/1K` · `$0` skips)** | Not available | Static store indexes; miss live 404/OOS & sandboxed web pixels | `$150–$600/1K` across 4+ credit steps; misfires on GTM/headless |
 | **Local B2B / Google Maps 8-Point Audit + Owner Email + Cold Pitch** | **Audits SSL/mobile/speed/©/SEO/pixels/chat/CMS + Cloudflare owner emails + factual openers (`$4.50/1K` · `$0` filtered)** | Not available | No live website weakness audit | Split across 3+ paid tools |
@@ -54,9 +56,9 @@ You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real bus
 
 # For AI Agents & Developers (MCP, Stdio, Docker & Remote HTTP)
 
-An open-source **Node.js `stdio` Model Context Protocol (MCP) server** implemented in [`src/mcp-server.mjs`](./src/mcp-server.mjs) (with [`src/mcp-catalog.mjs`](./src/mcp-catalog.mjs), [`Dockerfile`](./Dockerfile), [`glama.json`](./glama.json), and [`server.json`](./server.json)) using `@modelcontextprotocol/sdk` and `StdioServerTransport` — **plus a free, zero-install Remote Streamable HTTP endpoint (`/mcp`)** on Cloudflare Workers. It exposes **10 structured, zero-proxy tools (`outputSchema` + `structuredContent` + full MCP `annotations`)** and **8 ready-to-run workflow Prompts** that cost **$0 whenever nothing changed or nothing matched**.
+An open-source **Node.js `stdio` Model Context Protocol (MCP) server** implemented in [`src/mcp-server.mjs`](./src/mcp-server.mjs) (with [`src/mcp-catalog.mjs`](./src/mcp-catalog.mjs), [`Dockerfile`](./Dockerfile), [`glama.json`](./glama.json), and [`server.json`](./server.json)) using `@modelcontextprotocol/sdk` and `StdioServerTransport` — **plus a free, zero-install Remote Streamable HTTP endpoint (`/mcp`)** on Cloudflare Workers. It exposes **11 structured, zero-proxy tools (`outputSchema` + `structuredContent` + full MCP `annotations`)** and **9 ready-to-run workflow Prompts** that cost **$0 whenever nothing changed or nothing matched**.
 
-> **Zero-Token Discovery:** `initialize`, `tools/list`, `prompts/list`, `prompts/get`, and `resources/list` work cleanly with **no `APIFY_TOKEN` required**, allowing MCP clients and automated Glama / Official MCP Registry inspectors to discover all 10 tool schemas and 8 workflow prompts out of the box. `APIFY_TOKEN` is only required when invoking `tools/call`.
+> **Zero-Token Discovery:** `initialize`, `tools/list`, `prompts/list`, `prompts/get`, and `resources/list` work cleanly with **no `APIFY_TOKEN` required**, allowing MCP clients and automated Glama / Official MCP Registry inspectors to discover all 11 tool schemas and 9 workflow prompts out of the box. `APIFY_TOKEN` is only required when invoking `tools/call`.
 
 ---
 
@@ -116,10 +118,11 @@ docker run -i --rm -e APIFY_TOKEN="apify_api_your_token" apify-b2b-ecom-mcp
 
 ## Exposed MCP Tools (`src/mcp-server.mjs` & Remote `/mcp`)
 
-All 10 tools follow strict `verb_noun` naming, return typed `structuredContent` matching concise `outputSchema` definitions, and declare MCP safety `annotations` (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`). *(Legacy v1.x tool names remain transparently supported as silent internal aliases.)*
+All 11 tools follow strict `verb_noun` naming, return typed `structuredContent` matching concise `outputSchema` definitions, and declare MCP safety `annotations` (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`). *(Legacy v1.x tool names remain transparently supported as silent internal aliases.)*
 
 | MCP Tool Name | Key Inputs | Structured Output & Pricing | Backing Actor |
 | :--- | :--- | :--- | :--- |
+| **`audit_app_store_churn_leads`** | `mode`, `searchTerms`, `iosAppIds`, `androidPackageIds`, `upstreamItems`, `countries`, `autoLocalLanguage`, `starFilter`, `maxApps`, `watchDiff`, `outreachPersona`, `crmPreset` | Unified iOS + Google Play silent churn divergence, 14-language negation-aware NLP + TF-IDF emerging topics, per-store version regressions, EU-DSA contacts, Wayback->Live `gtm.js` + CNAME MMP stacks, ASO audits & HTML Dashboard — `$5/1K` apps (`$0.50/1K` reviews), `$0` proxy & skips | [App Store & Google Play Churn Intel, Reviews & Lead Enricher](https://apify.com/maitreya_buddha/app-store-google-play-churn-intel-lead-enricher) |
 | **`monitor_ats_hiring_intent`** | `targets`, `presetPacks`, `rawCsvOrUrls`, `datasetId`, `sourceRunId`, `titleKeywords`, `techStackFilter`, `outputMode`, `agencyPersona`, `onlyNewSinceLastRun`, `crmExportPreset`, `maxTotalJobs` | Live ATS jobs & company hiring dossiers across 13 ATS engines + 71,900+ board directory + 64-shard live router + 7 global feeds (0% ghost jobs), 45–120d hard-to-fill aging, Bulk-Sync De-Clustering, 70+ zero-FP tech tags, 7 weekly `watch_diff` triggers & 5 CRM presets — `$0.99/1K`, `$0` proxy & filtered/unchanged skips | [ATS Jobs, Hiring Intent & Tech-Stack Monitor](https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor) |
 | **`audit_meta_ads_advertisers`** | `landingPageUrls`, `sourceDatasetId`, `sourceRunId`, `rawCsvOrUrls`, `agencyPreset`, `crmExportPreset`, `dedupStoreName`, `dedupMode`, `onlyWithEmail`, `maxBrands` | Brand dedup, 4-layer 110+ tech stack (34 Shopify Web Pixels + OS 2.0 + CSP), live 404/OOS/DMARC A–F, `buyerFitTier`, `inboxType` CS-queue safety guard, Tier-2 `expansionOpportunities`, 16-shard `watch_diff` triggers, verified emails & zero-AI agency pitches — `$4.50/1K`, `$0` on marketplaces/WAF/repeats/filtered misses | [Meta Ads Advertiser Leak Audit & Email Enricher](https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher) |
 | **`audit_local_b2b_websites`** | `websiteUrls`, `rawCsvOrUrls`, `datasetId`, `sourceRunId`, `presetChambers`, `agencyPreset`, `crmExportPreset`, `dedupStoreName`, `dedupMode`, `enableDnsEmailCheck`, `webhookUrl` | 8-point local business website weakness X-ray + 11-query DNS deliverability grade (A-F) + `deliverability_agency` preset + 16-shard `watch_diff`, Cloudflare-decoded owner emails, `inboxType`/`outreachStatus`, CRM presets, 0–100 `pitchPriorityScore`, and zero-hallucination cold-email openers — `$4.50/1K`, `$0` on filtered misses or repeats | [Local B2B Lead Audit, Email & Cold-Pitch Finder](https://apify.com/maitreya_buddha/local-b2b-website-audit-email-pitch-finder) |
@@ -139,6 +142,7 @@ Non-developer operators can trigger ready-made multi-step workflows directly fro
 
 | Prompt Name | What It Does in One Click | Tools Chained |
 | :--- | :--- | :--- |
+| **`audit_app_store_churn_and_draft_outreach`** | Audits iOS App Store & Google Play apps by keyword or app IDs for silent churn, 14-language pain clusters, ASO gaps, paid UA/MMP stacks & EU-DSA developer contacts, and drafts a prioritized agency outreach brief. | `audit_app_store_churn_leads` |
 | **`monitor_ats_hiring_signals_and_draft_outreach`** | Searches 13 live ATS engines + 7 global feeds by keyword (`Snowflake`, `Rust`) OR company domains, highlights 45–120d hard-to-fill roles & 70+ tech stacks (0% ghost jobs), and drafts persona outreach. | `monitor_ats_hiring_intent` |
 | **`audit_meta_ads_leaks_and_draft_pitches`** | Deduplicates Meta Ad Library datasets/Run IDs or DTC landing URLs, audits 110+ stack + 404/OOS/DMARC leaks, separates `cs_ticket_queue` rows to LinkedIn DM, and builds a prioritized DTC outreach brief. | `audit_meta_ads_advertisers` |
 | **`audit_local_leads_and_draft_pitches`** | Audits local business URLs, Google Maps datasets, or US Chamber cities for 8 website weaknesses, recovers owner emails, and builds a ranked cold-pitch table (skipping WAF-protected rows). | `audit_local_b2b_websites` |
@@ -155,16 +159,16 @@ Non-developer operators can trigger ready-made multi-step workflows directly fro
 - **Local Transport:** `StdioServerTransport` from `@modelcontextprotocol/sdk/server/stdio.js` (`Dockerfile` + `src/mcp-server.mjs` + `src/mcp-catalog.mjs`).
 - **Remote Transport:** Stateless Streamable HTTP JSON-RPC 2.0 endpoint at `https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp`.
 - **Handlers:**
-  - `ListToolsRequestSchema`: Returns 10 `verb_noun` tool schemas with `annotations` and concise `outputSchema` synchronously without authentication.
-  - `ListPromptsRequestSchema` / `GetPromptRequestSchema`: Returns 8 ready-to-run workflow prompts synchronously without authentication.
+  - `ListToolsRequestSchema`: Returns 11 `verb_noun` tool schemas with `annotations` and concise `outputSchema` synchronously without authentication.
+  - `ListPromptsRequestSchema` / `GetPromptRequestSchema`: Returns 9 ready-to-run workflow prompts synchronously without authentication.
   - `CallToolRequestSchema`: Resolves canonical or legacy v1.x tool names, validates `APIFY_TOKEN`, executes the backing Apify Actor (`run-sync-get-dataset-items?memory=256`), and returns both `content` text and typed `structuredContent`.
-- **Zero-Proxy Lean Compute:** All 10 backing Actors default to `256 MB` RAM (verified at `128 MB`) with pure Node.js HTTP / HTTP/2 / DNS (zero Puppeteer/Playwright and `$0` proxy fees).
+- **Zero-Proxy Lean Compute:** All 11 backing Actors default to `256 MB` RAM (verified at `128 MB`) with pure Node.js HTTP / HTTP/2 / DNS (zero Puppeteer/Playwright and `$0` proxy fees).
 
 ---
 
-## Bonus: Ready-to-Import n8n Workflow Templates (`n8n-workflows/`)
+## Bonus: Ready-to-Import n8n Workflow & Clay Templates (`n8n-workflows/`, `clay-templates/`)
 
-This repository also ships 8 multi-branch, production-grade n8n workflows (12–13 functional nodes each, `httpHeaderAuth`) and Node.js / Python scripts for teams automating the same pipelines outside MCP:
+This repository also ships 9 multi-branch, production-grade n8n workflows (12–13 functional nodes each, `httpHeaderAuth`), Clay HTTP enrichment recipes, and Node.js / Python scripts for teams automating the same pipelines outside MCP:
 
 1. **[`n8n-workflows/01-shopify-price-stock-alert-slack.json`](./n8n-workflows/01-shopify-price-stock-alert-slack.json)** — Scheduled 6-hour Shopify competitor delta monitor -> severity Switch routing -> Slack `#pricing-alerts` + Gmail + Google Sheets `DeltaHistory`.
 2. **[`n8n-workflows/02-saas-soc2-ai-subprocessor-alert-slack.json`](./n8n-workflows/02-saas-soc2-ai-subprocessor-alert-slack.json)** — Weekly vendor Trust Center monitor -> AI subprocessor risk Switch routing -> Slack `#security-alerts` + Gmail + Google Sheets `ComplianceLog`.
@@ -174,6 +178,10 @@ This repository also ships 8 multi-branch, production-grade n8n workflows (12–
 6. **[`n8n-workflows/06-local-b2b-website-audit-cold-pitch-outreach.json`](./n8n-workflows/06-local-b2b-website-audit-cold-pitch-outreach.json)** — Local business URLs / US Chamber batch -> 8-point website audit + owner emails + factual cold-email openers -> `VIP_HOT` / `WARM_PITCH` / `NURTURE` Switch routing -> Slack `#agency-leads` + Gmail draft pitch + Google Sheets `AuditedLeads`.
 7. **[`n8n-workflows/07-meta-ads-advertiser-leak-audit-outreach.json`](./n8n-workflows/07-meta-ads-advertiser-leak-audit-outreach.json)** — Weekly Meta Ad Library / DTC URL batch -> 4-layer 110+ stack + 404/OOS/DMARC leak audit + 16-shard `watch_diff` -> CS-queue safety gate -> `VIP_HOT` / `WARM` / `NURTURE` Switch routing -> Slack `#agency-leads` + Gmail pitch brief + Google Sheets `AuditedAdvertisers` / `ManualReviewOrCS`.
 8. **[`n8n-workflows/08-ats-jobs-hiring-intent-outreach.json`](./n8n-workflows/08-ats-jobs-hiring-intent-outreach.json)** — Weekly Monday 08:00 ATS Hiring-Intent & Tech-Stack Monitor (`watch_diff`, 13 ATS engines + 71,900+ board directory) -> intent-score Switch routing -> Slack alert + Gmail digest + optional CRM webhook delivery.
+9. **[`n8n-workflows/09-app-store-churn-intel-lead-outreach.json`](./n8n-workflows/09-app-store-churn-intel-lead-outreach.json)** — Daily App Store & Google Play Silent Churn Monitor (`watchDiff`, 14-language NLP + EU-DSA contacts + GTM/MMP X-Ray) -> opportunity-score Switch routing -> Slack `#app-churn-alerts` + Gmail digest + guarded CRM webhook delivery.
+
+### Clay HTTP Enrichment Recipes (`clay-templates/`)
+- **[`clay-templates/app-store-churn-intel-clay-recipe.json`](./clay-templates/app-store-churn-intel-clay-recipe.json)** — 60-second Clay Custom HTTP enrichment column for unified iOS + Google Play churn intelligence, ASO scores, paid UA/MMP stacks, and EU-DSA developer contacts.
 
 ### Direct Node.js / Python Examples (`examples/`)
 - Node.js (v20+, zero dependencies): `APIFY_TOKEN="..." node examples/node/run-actors.mjs`

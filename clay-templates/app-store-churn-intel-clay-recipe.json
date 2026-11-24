@@ -1,0 +1,51 @@
+{
+  "name": "Clay HTTP Enrichment Column — App Store & Google Play Churn Intel v0.3.3",
+  "actorSlug": "maitreya_buddha~app-store-google-play-churn-intel-lead-enricher",
+  "method": "POST",
+  "endpoint": "https://api.apify.com/v2/acts/maitreya_buddha~app-store-google-play-churn-intel-lead-enricher/run-sync-get-dataset-items?timeout=60&memory=128",
+  "headers": {
+    "Authorization": "Bearer REPLACE_WITH_APIFY_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "bodyTemplate": {
+    "mode": "app_intelligence",
+    "upstreamItems": [
+      {
+        "iosAppId": "{{ios_app_id}}",
+        "androidPackageId": "{{android_package_id}}",
+        "appUrl": "{{store_url}}",
+        "domain": "{{company_domain}}",
+        "companyName": "{{company_name}}"
+      }
+    ],
+    "countries": ["us"],
+    "maxApps": 1,
+    "sampleReviewsPerStore": 40,
+    "crossPlatformBridge": true,
+    "includeWebsiteGtmXray": true,
+    "enableWaybackWafFallback": true,
+    "includeDeveloperEmailEnrich": true,
+    "outreachPersona": "aso_growth_agency",
+    "crmPreset": "default"
+  },
+  "recommendedClayColumns": {
+    "opportunityScore": "$.0.opportunityScore",
+    "opportunityTier": "$.0.opportunityTier",
+    "silentChurnDivergence": "$.0.silentChurnDivergence",
+    "avgSentimentScore": "$.0.avgSentimentScore",
+    "trendDirection": "$.0.trendDirection",
+    "asoMetadataScore": "$.0.asoMetadataScore",
+    "topPainBucket": "$.0.topPainBucket",
+    "emergingPainTopics": "$.0.emergingPainTopics",
+    "peerBenchmark": "$.0.peerBenchmark",
+    "primaryEmail": "$.0.primaryEmail",
+    "emailRoleTier": "$.0.emailRoleTier",
+    "developerPhone": "$.0.developerPhone",
+    "developerLegalEntity": "$.0.developerLegalEntity",
+    "paidAdSpendVerified": "$.0.paidAdSpendVerified",
+    "adPlatforms": "$.0.adPlatforms",
+    "inAppSdkStack": "$.0.inAppSdkStack",
+    "outreachSubject": "$.0.outreachSubject",
+    "outreachBody": "$.0.outreachBody"
+  }
+}

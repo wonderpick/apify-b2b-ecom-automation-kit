@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.4.0) — 10 verb_noun External-Intelligence Tools + 8 One-Click Prompts
+ * Shared MCP Catalog (v2.5.0) — 11 verb_noun External-Intelligence Tools + 9 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.4.0';
+export const SERVER_VERSION = '2.5.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -1060,6 +1060,171 @@ export const TOOLS = [
       jobUrl: { type: 'string', description: 'Direct official ATS or source posting URL.' },
     }),
   },
+  {
+    name: 'audit_app_store_churn_leads',
+    actorSlug: 'maitreya_buddha~app-store-google-play-churn-intel-lead-enricher',
+    annotations: {
+      title: 'Audit App Store & Google Play Churn, ASO & Developer Leads',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
+    description:
+      'Analyze iOS App Store and Google Play apps for silent churn divergence, 14-language review pain clusters, ASO gaps, WAF-resilient ad/MMP stacks, and verified EU-DSA developer contacts in one 128MB run. Supply searchTerms, iosAppIds, androidPackageIds, upstreamItems, or topChartFeed (omitting all defaults to a 3-app demo query), choose app_intelligence or review_stream mode, and optionally enable watchDiff (Named KV snapshots) or webhookUrl alerts (explaining readOnlyHint=false). Optional pre-charge filters (minOpportunityScore, painBucketFilter, switchIntentOnly, onlyWithEmail) and unchanged watchDiff skips cost $0, while per-app WAF or store errors are isolated in OUTPUT_SUMMARY without crashing; bills $5/1K unified apps or $0.50/1K streamed reviews. Use for mobile app churn intelligence, ASO audits, and mobile agency outbound; do not use for Shopify web store tracking (use monitor_shopify_competitor_deltas) or local SMB website audits (use audit_local_b2b_websites).',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        mode: {
+          type: 'string',
+          enum: ['app_intelligence', 'review_stream'],
+          description: 'app_intelligence outputs unified iOS+Android app audits ($5/1K); review_stream streams individual reviews up to 10,000/app ($0.50/1K).',
+          default: 'app_intelligence',
+        },
+        searchTerms: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Keywords searched simultaneously across iOS App Store and Google Play (e.g. ["invoice maker", "habit tracker"]).',
+        },
+        iosAppIds: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Numeric Apple track IDs (e.g. ["570060128"]) or apps.apple.com URLs; auto-matched to Google Play via AASA/assetlinks.',
+        },
+        androidPackageIds: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Google Play package IDs (e.g. ["com.duolingo"]) or play.google.com URLs; auto-matched to iOS including cross-script pairs.',
+        },
+        upstreamItems: {
+          type: 'array',
+          items: { type: 'object' },
+          description: 'Optional structured pipeline items ({ iosAppId, androidPackageId, appUrl, domain, companyName, label }) for zero-permission n8n/Clay/MCP chaining.',
+        },
+        topChartFeed: {
+          type: 'string',
+          enum: ['none', 'topfreeapplications', 'toppaidapplications', 'topgrossingapplications', 'googleplaytop'],
+          description: 'Optional live App Store or Google Play Top Chart seed feed.',
+          default: 'none',
+        },
+        topChartCategory: {
+          type: 'string',
+          enum: ['ALL', 'BUSINESS', 'FINANCE', 'PRODUCTIVITY', 'HEALTH_AND_FITNESS', 'EDUCATION', 'SHOPPING', 'LIFESTYLE', 'SOCIAL', 'TOOLS', 'TRAVEL_AND_LOCAL', 'FOOD_AND_DRINK', 'PHOTOGRAPHY'],
+          description: 'Commercial category applied when topChartFeed is enabled.',
+          default: 'ALL',
+        },
+        countries: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'ISO-2 country storefronts to query (e.g. ["us", "de", "jp", "kr"]).',
+          default: ['us'],
+        },
+        autoLocalLanguage: {
+          type: 'boolean',
+          description: 'Auto-map each country storefront to its native local review language across 35+ countries.',
+          default: true,
+        },
+        starFilter: {
+          type: 'string',
+          enum: ['all', 'critical_1_2', '1', '2', '3', '4', '5'],
+          description: 'Optional review rating filter while preserving unbiased recent churn baselines.',
+          default: 'all',
+        },
+        maxApps: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 200,
+          description: 'Maximum unified apps to analyze or scan (1-200).',
+          default: 5,
+        },
+        sampleReviewsPerStore: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 500,
+          description: 'Reviews sampled per store in app_intelligence mode at $0 extra review charge (0-500).',
+          default: 40,
+        },
+        maxReviewsPerApp: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 10000,
+          description: 'Maximum combined iOS+Android reviews per app in review_stream mode (1-10,000).',
+          default: 100,
+        },
+        includeWebsiteGtmXray: {
+          type: 'boolean',
+          description: 'Run pure-HTTP gtm.js, 12-subdomain CNAME MMP, DNS TXT, .well-known & app-ads.txt X-Ray.',
+          default: true,
+        },
+        includeDeveloperEmailEnrich: {
+          type: 'boolean',
+          description: 'Combine EU-DSA trader contacts with 1-hop website contact discovery and MX verification.',
+          default: true,
+        },
+        minOpportunityScore: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 100,
+          description: 'Pre-charge filter: emit only apps with opportunityScore >= threshold ($0 below).',
+          default: 0,
+        },
+        onlyWithEmail: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only apps with a verified developer email ($0 otherwise).',
+          default: false,
+        },
+        switchIntentOnly: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only apps/reviews showing competitor switch intent ($0 otherwise).',
+          default: false,
+        },
+        outreachPersona: {
+          type: 'string',
+          enum: ['mobile_agency', 'aso_growth_agency', 'sdk_b2b_sales', 'product_competitor_intel'],
+          description: 'Tailors deterministic $0-LLM outreach copy to your agency or sales motion.',
+          default: 'aso_growth_agency',
+        },
+        crmPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat OWASP CSV-safe CRM export preset.',
+          default: 'default',
+        },
+        watchDiff: {
+          type: 'boolean',
+          description: 'Persist per-app snapshots (10,000-ID ring buffer + 90-run history) to skip unchanged runs at $0.',
+          default: false,
+        },
+        dedupStoreName: {
+          type: 'string',
+          description: 'Named Key-Value Store used when watchDiff is enabled.',
+          default: 'app-store-churn-intel-watch',
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTPS webhook URL (Slack Block Kit / Discord Embed / Make / n8n).',
+        },
+      },
+    },
+    outputSchema: makeOutputSchema('Unified iOS + Google Play app churn intelligence records or streamed reviews.', {
+      recordType: { type: 'string', description: 'Record type: app_intelligence or review.' },
+      appName: { type: 'string', description: 'Unified mobile application title.' },
+      developerName: { type: 'string', description: 'Publisher or developer name.' },
+      platformCoverage: { type: 'string', description: 'BOTH, IOS_ONLY, or ANDROID_ONLY.' },
+      overallBlendedRating: { type: 'number', description: 'Lifetime blended rating across available stores.' },
+      recentReviewsAvg: { type: 'number', description: 'Unbiased recent review rating average.' },
+      silentChurnDivergence: { type: 'number', description: 'Recent minus lifetime rating divergence (negative indicates silent churn).' },
+      asoMetadataScore: { type: 'integer', description: '0-100 platform-normalized ASO audit score.' },
+      topPainBucket: { type: 'string', description: 'Primary review pain category.' },
+      opportunityScore: { type: 'integer', description: '0-100 churn & outreach opportunity score.' },
+      primaryEmail: { type: 'string', description: 'Prioritized verified developer email (or null).' },
+      paidAdSpendVerified: { type: 'boolean', description: 'Whether active paid-UA tags or MMPs were verified.' },
+      inAppSdkStack: { type: 'array', items: { type: 'string' }, description: 'Observable ad, MMP, and privacy SDK stack.' },
+      outreachSubject: { type: 'string', description: 'Deterministic $0-LLM cold-outreach subject.' },
+      outreachOpener: { type: 'string', description: 'Deterministic $0-LLM cold-outreach opener.' },
+    }),
+  },
 ];
 
 // Backward-compatible internal alias map for v1.x tool names (never advertised in tools/list)
@@ -1074,6 +1239,7 @@ export const LEGACY_TOOL_ALIASES = {
   local_b2b_website_audit_email_pitch_finder: 'audit_local_b2b_websites',
   meta_ads_advertiser_leak_audit_email_enricher: 'audit_meta_ads_advertisers',
   ats_jobs_hiring_intent_tech_stack_monitor: 'monitor_ats_hiring_intent',
+  app_store_google_play_churn_intel_lead_enricher: 'audit_app_store_churn_leads',
 };
 
 export const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
@@ -1239,6 +1405,29 @@ export const PROMPTS = [
       {
         name: 'outputMode',
         description: 'Output granularity: jobs, companies, or both (default: jobs).',
+        required: false,
+      },
+    ],
+  },
+  {
+    name: 'audit_app_store_churn_and_draft_outreach',
+    title: 'Audit App Store & Google Play Silent Churn & Draft Agency Outreach',
+    description:
+      'Audit mobile apps across iOS App Store and Google Play for silent churn divergence, 14-language pain clusters, ASO gaps, paid UA/MMP stacks, and EU-DSA contacts, then produce a prioritized outreach and CS-response brief.',
+    arguments: [
+      {
+        name: 'keywordsOrAppIds',
+        description: 'Search keywords (e.g. "invoice maker, habit tracker") OR comma-separated iOS numeric IDs / Android package IDs (e.g. "570060128, com.duolingo").',
+        required: true,
+      },
+      {
+        name: 'countries',
+        description: 'Optional comma-separated ISO-2 countries (default: "us", e.g. "us, de, jp, kr").',
+        required: false,
+      },
+      {
+        name: 'outreachPersona',
+        description: 'Outreach persona: mobile_agency, aso_growth_agency, sdk_b2b_sales, or product_competitor_intel (default: aso_growth_agency).',
         required: false,
       },
     ],
@@ -1474,14 +1663,47 @@ export function buildPromptResult(name, args = {}) {
         ],
       };
     }
+    case 'audit_app_store_churn_and_draft_outreach': {
+      const rawVal = clean(args.keywordsOrAppIds, 'invoice maker');
+      const countries = clean(args.countries, 'us')
+        .split(',')
+        .map((c) => c.trim().toLowerCase())
+        .filter(Boolean);
+      const persona = clean(args.outreachPersona, 'aso_growth_agency');
+      const parts = rawVal.split(',').map((s) => s.trim()).filter(Boolean);
+      const iosIds = parts.filter((p) => /^\d{6,}$/.test(p) || /apps\.apple\.com/i.test(p));
+      const androidPkgs = parts.filter((p) => /^[a-z][a-z0-9_]*(\.[a-z0-9_]+){1,}$/i.test(p) || /play\.google\.com/i.test(p));
+      const keywords = parts.filter((p) => !iosIds.includes(p) && !androidPkgs.includes(p));
+      const argParts = [];
+      if (iosIds.length) argParts.push(`\`iosAppIds: ${JSON.stringify(iosIds)}\``);
+      if (androidPkgs.length) argParts.push(`\`androidPackageIds: ${JSON.stringify(androidPkgs)}\``);
+      if (keywords.length) argParts.push(`\`searchTerms: ${JSON.stringify(keywords)}\``);
+      const argHint = argParts.join(', ') || '`searchTerms: ["invoice maker"]`';
+      return {
+        description: prompt.description,
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Call \`audit_app_store_churn_leads\` with ${argHint}, \`countries: ${JSON.stringify(countries.length ? countries : ['us'])}\`, \`outreachPersona: "${persona}"\`, and \`maxApps: 5\`.`,
+                'Return a prioritized mobile churn & agency outreach table sorted by `opportunityScore` (App Name, Coverage, Lifetime vs Recent ★, Silent Churn Gap, ASO Score, Top Pain Bucket, Paid Ad / MMP Stack, Verified Developer Email, and Cold Outreach Opener), plus highlight any release regressions or emerging pain topics.',
+              ].join('\n'),
+            },
+          },
+        ],
+      };
+    }
     default:
       return null;
   }
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.4.0 — 10 zero-proxy tools + 8 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.5.0 — 11 zero-proxy tools + 9 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
+  '- iOS App Store & Google Play unified churn intel, 14-language review pain clusters, ASO audits, CNAME MMP & Wayback->Live gtm.js X-Ray, EU-DSA developer contacts & streaming reviews (up to 10K/app) -> audit_app_store_churn_leads.',
   '- Live ATS jobs, 45-120d hard-to-fill recruiting signals, 70+ tech-stack hiring intent, company hiring dossiers & weekly watch_diff across 13 ATS engines + 71,900+ board directory + 7 global feeds (works with domains OR zero-list keywords like "Snowflake"/"Rust") -> monitor_ats_hiring_intent.',
   '- Meta Ad Library datasets, Apify Run IDs, or DTC ad landing pages -> 4-layer 110+ tech stack, 404/OOS/DMARC leaks, buyer fit, CS-queue guard, Tier-2 expansion pitches & weekly watch_diff -> audit_meta_ads_advertisers.',
   '- Local business / Google Maps / US Chamber 8-point website weakness audit + owner emails + cold-email openers -> audit_local_b2b_websites.',
@@ -1492,7 +1714,7 @@ export const SERVER_INSTRUCTIONS = [
   '- Creator/influencer Link-in-Bio agency emails, monetization links, and Readiness Score -> enrich_creator_bio_leads.',
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
-  'Built-in Prompts: monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
+  'Built-in Prompts: audit_app_store_churn_and_draft_outreach, monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
   'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails unless outreachStatus === "ready", primaryEmail is non-empty (inboxType !== "cs_ticket_queue" and inboxType !== "none"), and zeroBounceUnsafe !== true.',
 ].join('\n');
 
