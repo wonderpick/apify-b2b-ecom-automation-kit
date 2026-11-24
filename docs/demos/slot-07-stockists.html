@@ -1,0 +1,88 @@
+<script>
+Object.defineProperty(document, 'cookie', {
+    get: function() { return ''; },
+    set: function() { return true; }
+});
+if (cookieStore) {
+    cookieStore = {};
+}
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Brand Store Locator & Stockist Buyer Dashboard — Executive Dashboard</title>
+<style>:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#60a5fa;--hot:#f43f5e;--warm:#f59e0b;--ok:#22c55e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+.wrap{max-width:1240px;margin:0 auto;padding:22px}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px}
+h1{font-size:20px;margin:0;letter-spacing:-0.01em}.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi .lbl{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}.kpi .val{font-size:22px;font-weight:700;margin-top:4px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.bar input{flex:1;min-width:220px;background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px}
+.grid{display:flex;flex-direction:column;gap:10px}.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.rowTop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+.name{font-size:15px;font-weight:700;overflow-wrap:anywhere}.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--card2)}
+.b-hi{background:rgba(244,63,94,.18);border-color:var(--hot);color:#fda4af}.b-md{background:rgba(245,158,11,.18);border-color:var(--warm);color:#fcd34d}.b-ok{background:rgba(34,197,94,.16);border-color:var(--ok);color:#86efac}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}.meta b{color:var(--txt)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button,a.btn{background:var(--card2);color:var(--txt);border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:12px;cursor:pointer;text-decoration:none}
+button:hover,a.btn:hover{border-color:var(--acc)}footer{margin-top:24px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--muted)}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Brand Store Locator & Stockist Buyer Dashboard</h1>
+      <div class="sub">Zero-Proxy Retail Stockists & Verified Wholesale Emails · Generated 2026-11-24T21:54:05.360Z</div>
+    </div>
+    <a class="btn" href="https://apify.com/maitreya_buddha/brand-store-locator-stockist-email-enricher" target="_blank" rel="noopener noreferrer">Run / Schedule Weekly Monitor on Apify</a>
+  </header>
+  <section class="kpis" id="kpis"></section>
+  <div class="bar"><input id="q" type="search" placeholder="Filter by company, email, tech stack, priority, or signal..." /></div>
+  <main class="grid" id="list"></main>
+  <footer>
+    <span>Automate this weekly via Apify Scheduled Runs (<code>watch_diff</code> skips unchanged records at $0) + Clay / Make.com / n8n.</span>
+    <a class="btn" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener noreferrer">Free Clay, Make &amp; n8n Templates (MIT)</a>
+  </footer>
+</div>
+<script id="dashboard-data" type="application/json">{"actor":"brand-store-locator-stockist-email-enricher","generatedAt":"2026-11-24T21:54:05.360Z","kpis":[{"label":"Brands","value":1},{"label":"Stores Saved","value":15},{"label":"Emails Found","value":0},{"label":"Independent Boutiques","value":15},{"label":"Domains Enriched","value":0}],"rows":[{"title":"32 DEGREES NORTH","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"HILTON HEAD ISLAND"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"ACTIVE ENDEAVORS, INC.","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"CORALVILLE"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"ACTIVE ENDEAVORS, INC.","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"DAVENPORT"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"Dammam - Al Nakheel Mall","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"Dammam"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"Kuwait City - Assima Mall","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"Kuwait City"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"Auckland - Britomart","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"Auckland"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"BABY DOE'S CLOTHING","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"GOLDEN"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"BAHLE ENTERPRISES, INC.","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"SUTTONS BAY"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"BEAR MOUNTAIN OUTFITTERS","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"HIGHLANDS"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null},{"title":"Beijing - Hanguang Department Store","badge":"independent_boutique · Score 25","level":"ok","fields":[{"label":"Location","value":"Beijing"},{"label":"Email","value":null},{"label":"Inbox / Grade","value":"none"},{"label":"Website","value":null}],"copyText":null}]}</script>
+<script>(function(){
+  const raw=document.getElementById('dashboard-data');
+  const d=raw?JSON.parse(raw.textContent||'{}'):{kpis:[],rows:[]};
+  const el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;if(x!==undefined&&x!==null)n.textContent=String(x);return n;};
+  const kpiBox=document.getElementById('kpis');
+  for(const k of (d.kpis||[])){const c=el('div','kpi');c.append(el('div','lbl',k.label),el('div','val',k.value));kpiBox.append(c);}
+  const list=document.getElementById('list');
+  const q=document.getElementById('q');
+  const copy=(btn,txt)=>{if(!txt)return;const o=btn.textContent;const ok=()=>{btn.textContent='Copied';setTimeout(()=>{btn.textContent=o;},1200);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok).catch(()=>{});}
+  };
+  const render=()=>{
+    const needle=(q.value||'').trim().toLowerCase();
+    list.textContent='';
+    const rows=(d.rows||[]).filter(r=>!needle||JSON.stringify(r).toLowerCase().includes(needle));
+    if(!rows.length){list.append(el('div','card','No matching records in this snapshot.'));return;}
+    for(const r of rows){
+      const c=el('div','card');
+      const top=el('div','rowTop');
+      const left=el('div');left.append(el('span','name',r.title||'Record'));
+      const right=el('div');
+      if(r.badge){const cls=r.level==='hi'?'badge b-hi':r.level==='md'?'badge b-md':'badge b-ok';right.append(el('span',cls,r.badge));}
+      top.append(left,right);c.append(top);
+      const meta=el('div','meta');
+      for(const f of (r.fields||[])){if(f.value===null||f.value===undefined||f.value==='')continue;const sp=el('span');sp.append(el('span','',f.label+': '),el('b','',f.value));meta.append(sp);}
+      c.append(meta);
+      const btns=el('div','btns');
+      if(r.copyText){const b=el('button','','Copy Pitch / Contact');b.addEventListener('click',()=>copy(b,r.copyText));btns.append(b);}
+      const bj=el('button','','Copy JSON');bj.addEventListener('click',()=>copy(bj,JSON.stringify(r,null,2)));btns.append(bj);
+      c.append(btns);list.append(c);
+    }
+  };
+  q.addEventListener('input',render);
+  render();
+})();</script>
+</body>
+</html>

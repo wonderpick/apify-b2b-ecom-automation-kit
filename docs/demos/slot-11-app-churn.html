@@ -1,0 +1,274 @@
+<script>
+Object.defineProperty(document, 'cookie', {
+    get: function() { return ''; },
+    set: function() { return true; }
+});
+if (cookieStore) {
+    cookieStore = {};
+}
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>App Store &amp; Google Play Churn Intel Dashboard</title>
+<style>
+:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#60a5fa;--hot:#f43f5e;--warm:#f59e0b;--watch:#38bdf8;--ok:#22c55e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+.wrap{max-width:1280px;margin:0 auto;padding:20px}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px}
+h1{font-size:20px;margin:0;letter-spacing:-0.01em}.sub{color:var(--muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi .lbl{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}.kpi .val{font-size:22px;font-weight:700;margin-top:4px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.bar input,.bar select{background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px}
+.bar input{flex:1;min-width:210px}.grid{display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.rowTop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+.titleBox{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.appName{font-size:16px;font-weight:700;overflow-wrap:anywhere;word-break:break-word}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--card2)}
+.b-HOT{background:rgba(244,63,94,.18);border-color:var(--hot);color:#fda4af}.b-WARM{background:rgba(245,158,11,.18);border-color:var(--warm);color:#fcd34d}
+.b-WATCH{background:rgba(56,189,248,.16);border-color:var(--watch);color:#7dd3fc}.b-HEALTHY{background:rgba(34,197,94,.16);border-color:var(--ok);color:#86efac}
+.metrics{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:13px;color:var(--muted);overflow-wrap:anywhere;word-break:break-word}.metrics b{color:var(--txt)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button,a.btn{background:var(--card2);color:var(--txt);border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:12px;cursor:pointer;text-decoration:none}
+button:hover,a.btn:hover{border-color:var(--acc)}.details{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:none}
+.details.open{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pane{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
+.pane h4{margin:0 0 6px;font-size:12px;color:var(--acc);text-transform:uppercase;letter-spacing:.04em}
+.quote{background:#0f162a;border-left:3px solid var(--hot);padding:7px 9px;margin-top:6px;border-radius:4px;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
+.muted{color:var(--muted)}.svgRow{display:flex;align-items:center;gap:12px;margin-top:8px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><h1>App Store &amp; Google Play Churn Intel Dashboard</h1><div id="metaSub" class="sub"></div></div><div class="sub">Zero-LLM · 128MB Pure-HTTP Engine v0.3.3</div></header>
+<div id="kpis" class="kpis"></div>
+<div class="bar">
+<input id="q" type="search" placeholder="Search app, developer, email, pain bucket, SDK...">
+<select id="fCov"><option value="ALL">All Stores</option><option value="BOTH">iOS + Android</option><option value="IOS_ONLY">iOS Only</option><option value="ANDROID_ONLY">Android Only</option></select>
+<select id="fTier"><option value="ALL">All Tiers</option><option value="HOT">HOT</option><option value="WARM">WARM</option><option value="WATCH">WATCH</option><option value="HEALTHY">HEALTHY</option></select>
+<select id="fPaid"><option value="ALL">Paid Ads: All</option><option value="YES">Paid Ads Verified</option><option value="NO">No Paid Ads</option></select>
+<select id="fTrend"><option value="ALL">Trend: All</option><option value="DETERIORATING">Deteriorating</option><option value="STABLE">Stable</option><option value="IMPROVING">Improving</option></select>
+</div>
+<div id="list" class="grid"></div>
+</div>
+<script id="dashboard-data" type="application/json">{"summary":{"mode":"app_intelligence","appsAnalyzed":3,"recordsEmitted":3,"verifiedEmailsCount":3,"paidAdsVerifiedCount":2,"watchDiffSkipped":0,"countries":["us"],"durationSec":27.52,"peakMemoryMb":127.3},"apps":[{"name":"Invoice Simple: Invoice Maker","dev":"Zenvoice Inc.","legal":"Zenvoice Software Inc","cov":"BOTH","match":"EXACT_DOMAIN","tier":"WARM","score":64,"life":4.85,"rec":3.51,"gap":1.34,"critPct":33.8,"sent":0.25,"trend":"IMPROVING","topPain":"PAYWALL_PRICING","pains":{"CRASH_BUG":7,"PAYWALL_PRICING":9,"SUBSCRIPTION_CANCEL":6,"LOGIN_AUTH":0,"PERFORMANCE_BATTERY":1,"UX_UPDATE_REGRESSION":0,"SUPPORT_GHOSTED":2,"COMPETITOR_SWITCH_INTENT":1},"email":"support@invoicesimple.com","role":"CS_SUPPORT","phone":"+1 929-284-7757","paid":true,"ads":["Google Ads","Meta Pixel","TikTok Pixel","Reddit Pixel"],"sdks":["AppsFlyer","Amplitude","Intercom","Stripe","Apple Universal Links (AASA)"],"privRisk":"HIGH","webSrc":"live_http","asoScore":100,"asoGrade":"A","missingKw":["the invoice maker free","invoice maker invoice fly","invoice maker \u0026 estimate app","invoice maker for contractors","invoice maker freee","invoice maker by invoice home"],"topics":["raising price (4)","price increase (4)","loyal customer (3)","amount invoices (3)"],"peer":{"r":1,"n":3,"rv":0.03,"av":0},"relImpacts":[{"s":"ios","v":"7.1.2","d":-1.5,"lvl":"REGRESSION_SPIKE"},{"s":"android","v":"7.2.0","d":-0.62,"lvl":"REGRESSION_SPIKE"},{"s":"ios","v":"6.15.1","d":-0.17,"lvl":"REGRESSION_SPIKE"}],"hist":[],"quotes":[{"s":"ios","r":1,"t":"Not working!: Very disappointed with this app. I’m paying a monthly subscription fee, but the app isn’t working properly and I can’t use the service I’m paying for. If you’re going","cs":"Hi there — We sincerely apologize for the crashes and instability you ran into — our mobile engineers are prioritizing a fix. Please reach out to support@invoicesimple.com with your device model so we can resolve this for you as a priority."},{"s":"ios","r":1,"t":"Terrible customer service: I have used this app for years and also purchased the unlimited version. But as of 2 months ago I can no longer print or email any invoices/ estimates to","cs":"Hi there — We sincerely apologize for the crashes and instability you ran into — our mobile engineers are prioritizing a fix. Please reach out to support@invoicesimple.com with your device model so we can resolve this for you as a priority."}],"subj":"Fixing Invoice Simple: Invoice Maker's recent 3.51★ review dip","body":"Noticed Invoice Simple: Invoice Maker holds a 4.85★ lifetime rating, yet recent reviews averaged 3.51★ (33.8% 1-2★) with recurring paywall pricing reports. We help mobile teams resolve high-churn release regressions and close iOS/Android parity gaps in 2-week sprints. Worth sharing the top 3 verbatim failure patterns we extracted?","iosUrl":"https://apps.apple.com/us/app/invoice-simple-invoice-maker/id694831622?uo=4","gpUrl":"https://play.google.com/store/apps/details?id=com.aadhk.woinvoice\u0026hl=en\u0026gl=us","dmUrl":"https://www.linkedin.com/search/results/people/?keywords=%22Zenvoice%20Software%20Inc%22%20(%22Head%20of%20Mobile%22%20OR%20%22VP%20of%20Engineering%22%20OR%20%22CTO%22%20OR%20%22Founder%22)"},{"name":"Freebie Invoice Maker Simple","dev":"Invoice Generator","legal":"Invoice Generator s.r.o.","cov":"ANDROID_ONLY","match":"SINGLE_STORE","tier":"WARM","score":46,"life":4.82,"rec":3.82,"gap":1,"critPct":28.9,"sent":0.36,"trend":"IMPROVING","topPain":"PAYWALL_PRICING","pains":{"CRASH_BUG":0,"PAYWALL_PRICING":1,"SUBSCRIPTION_CANCEL":1,"LOGIN_AUTH":0,"PERFORMANCE_BATTERY":0,"UX_UPDATE_REGRESSION":0,"SUPPORT_GHOSTED":0,"COMPETITOR_SWITCH_INTENT":0},"email":"info@invoice-maker.app","role":"CS_SUPPORT","phone":"+421 904 194 592","paid":false,"ads":[],"sdks":[],"privRisk":"LOW","webSrc":"live_http","asoScore":100,"asoGrade":"A","missingKw":["the invoice maker free","invoice maker invoice fly","invoice maker \u0026 estimate app","invoice maker for contractors","invoice maker freee","invoice maker by invoice home"],"topics":["free invoices (2)","another subscription (2)"],"peer":{"r":2,"n":3,"rv":0,"av":0},"relImpacts":[{"s":"android","v":"26.11.10","d":-0.42,"lvl":"NEUTRAL"}],"hist":[],"quotes":[{"s":"android","r":1,"t":"Maybe I'm missing something but this app is NOT free. It is to download but not to use exclusively for free. After creating only 5 invoices I was prompted to upgrade my plan and no","cs":"Hi there — we are truly sorry for your frustrating experience with Freebie Invoice Maker Simple. Please reach out to info@invoice-maker.app with your device model so we can resolve this for you as a priority."},{"s":"android","r":1,"t":"was an absolutely amazing app I used for all of my invoices. I make 10 to 20 odd invoices a month for free. new update released and suddenly it's $100 a year to only have 10 a mont","cs":"Hi there — we are truly sorry for your frustrating experience with Freebie Invoice Maker Simple. Please reach out to info@invoice-maker.app with your device model so we can resolve this for you as a priority."}],"subj":"Fixing Freebie Invoice Maker Simple's recent 3.82★ review dip","body":"Noticed Freebie Invoice Maker Simple holds a 4.82★ lifetime rating, yet recent reviews averaged 3.82★ (28.9% 1-2★) with recurring paywall pricing reports. We help mobile teams resolve high-churn release regressions and close iOS/Android parity gaps in 2-week sprints. Worth sharing the top 3 verbatim failure patterns we extracted?","iosUrl":null,"gpUrl":"https://play.google.com/store/apps/details?id=app.invoice_maker\u0026hl=en\u0026gl=us","dmUrl":"https://www.linkedin.com/search/results/people/?keywords=%22Invoice%20Generator%20s.r.o.%22%20(%22Head%20of%20Mobile%22%20OR%20%22VP%20of%20Engineering%22%20OR%20%22CTO%22%20OR%20%22Founder%22)"},{"name":"Invoice Maker ▸ Estimate App","dev":"GetPaid Inc.","legal":"GetPaid Inc.","cov":"BOTH","match":"EXACT_DOMAIN","tier":"WATCH","score":36,"life":4.81,"rec":4.26,"gap":0.55,"critPct":16.2,"sent":0.58,"trend":"IMPROVING","topPain":"SUBSCRIPTION_CANCEL","pains":{"CRASH_BUG":1,"PAYWALL_PRICING":1,"SUBSCRIPTION_CANCEL":6,"LOGIN_AUTH":0,"PERFORMANCE_BATTERY":0,"UX_UPDATE_REGRESSION":0,"SUPPORT_GHOSTED":0,"COMPETITOR_SWITCH_INTENT":0},"email":"support@tofu.com","role":"CS_SUPPORT","phone":"+1 646-980-5553","paid":true,"ads":["Google Ads","Meta Pixel"],"sdks":["AppsFlyer","Amplitude","Intercom","Apple Universal Links (AASA)"],"privRisk":"HIGH","webSrc":"live_http","asoScore":84,"asoGrade":"B","missingKw":["the invoice maker free","invoice maker invoice fly","invoice maker for contractors","invoice maker freee","invoice maker by invoice home","invoice maker | فاکتور ساز"],"topics":["free trial (3)","terrible experience (3)","left charged (2)","charged card (2)"],"peer":{"r":3,"n":3,"rv":-0.01,"av":-16},"relImpacts":[{"s":"ios","v":"3.9.63","d":-0.44,"lvl":"NEUTRAL"},{"s":"ios","v":"3.9.59","d":-0.27,"lvl":"NEUTRAL"},{"s":"ios","v":"3.9.57","d":0.23,"lvl":"NEUTRAL"}],"hist":[],"quotes":[{"s":"android","r":1,"t":"Terrible experience with your app I left it. It then charged my card twice for a service I wasn't using. I want to get a refund please eeee, as it showed I was inactive on the app.","cs":"Hi there — We are very sorry for the billing or cancellation frustration — we want to make this right immediately. Please reach out to support@tofu.com with your device model so we can resolve this for you as a priority."},{"s":"android","r":1,"t":"terrible experience app didn't due what I needed so I left it.it then charged my card twice for a service I wasn't using went to get a refund as it could be shown i was inactivity ","cs":"Hi there — We are very sorry for the billing or cancellation frustration — we want to make this right immediately. Please reach out to support@tofu.com with your device model so we can resolve this for you as a priority."}],"subj":"Fixing Invoice Maker ▸ Estimate App's recent 4.26★ review dip","body":"Noticed Invoice Maker ▸ Estimate App holds a 4.81★ lifetime rating, yet recent reviews averaged 4.26★ (16.2% 1-2★) with recurring subscription cancel reports. We help mobile teams resolve high-churn release regressions and close iOS/Android parity gaps in 2-week sprints. Worth sharing the top 3 verbatim failure patterns we extracted?","iosUrl":"https://apps.apple.com/us/app/invoice-maker-estimate-app/id1314873764?uo=4","gpUrl":"https://play.google.com/store/apps/details?id=com.tofu.invoices\u0026hl=en\u0026gl=us","dmUrl":"https://www.linkedin.com/search/results/people/?keywords=%22GetPaid%20Inc.%22%20(%22Head%20of%20Mobile%22%20OR%20%22VP%20of%20Engineering%22%20OR%20%22CTO%22%20OR%20%22Founder%22)"}]}</script>
+<script>
+(function(){
+  const raw = document.getElementById('dashboard-data');
+  const data = raw ? JSON.parse(raw.textContent || '{}') : { summary: {}, apps: [] };
+  const s = data.summary || {};
+  const apps = Array.isArray(data.apps) ? data.apps : [];
+  const el = (tag, cls, txt) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined && txt !== null) n.textContent = String(txt);
+    return n;
+  };
+  const svgEl = (tag, attrs) => {
+    const n = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    for (const [k, v] of Object.entries(attrs || {})) n.setAttribute(k, String(v));
+    return n;
+  };
+  const copyTxt = (btn, text) => {
+    if (!text) return;
+    const orig = btn.textContent;
+    const flash = (msg) => { btn.textContent = msg; setTimeout(() => { btn.textContent = orig; }, 1400); };
+    const fallbackCopy = () => {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand && document.execCommand('copy');
+        document.body.removeChild(ta);
+        flash(ok ? 'Copied!' : 'Copy failed');
+      } catch (_e) {
+        flash('Copy failed');
+      }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => flash('Copied!')).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  };
+
+  const kpiWrap = document.getElementById('kpis');
+  const hotCount = apps.filter((a) => a.tier === 'HOT').length;
+  const kpis = [
+    ['Apps Analyzed', s.appsAnalyzed ?? apps.length],
+    ['HOT Churn Leads', hotCount],
+    ['Verified Emails', s.verifiedEmailsCount ?? 0],
+    ['Paid Ads Verified', s.paidAdsVerifiedCount ?? 0],
+    ['Watch-Diff Skipped ($0)', s.watchDiffSkipped ?? 0],
+    ['Peak RAM / Duration', (s.peakMemoryMb ?? '-') + 'MB / ' + (s.durationSec ?? '-') + 's'],
+  ];
+  for (const [label, val] of kpis) {
+    const box = el('div', 'kpi');
+    box.appendChild(el('div', 'lbl', label));
+    box.appendChild(el('div', 'val', val));
+    kpiWrap.appendChild(box);
+  }
+  document.getElementById('metaSub').textContent =
+    'Mode: ' + (s.mode || 'app_intelligence') + ' | Countries: ' + ((s.countries || []).join(', ') || 'us') + ' | Records: ' + (s.recordsEmitted ?? apps.length);
+
+  function buildPainSvg(pains) {
+    const entries = Object.entries(pains || {}).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    if (!entries.length) return null;
+    const maxV = Math.max(...entries.map(([, c]) => c), 1);
+    const svg = svgEl('svg', { width: 250, height: entries.length * 20 + 4, viewBox: '0 0 250 ' + (entries.length * 20 + 4) });
+    entries.forEach(([k, v], i) => {
+      const y = i * 20 + 2;
+      const w = Math.max(8, Math.round((v / maxV) * 110));
+      const lbl = svgEl('text', { x: 0, y: y + 12, fill: '#93a4c3', 'font-size': 10 });
+      lbl.textContent = k.slice(0, 18);
+      svg.appendChild(lbl);
+      svg.appendChild(svgEl('rect', { x: 118, y: y + 3, width: w, height: 11, rx: 3, fill: '#f43f5e' }));
+      const cnt = svgEl('text', { x: 124 + w, y: y + 12, fill: '#e6edf7', 'font-size': 10 });
+      cnt.textContent = String(v);
+      svg.appendChild(cnt);
+    });
+    return svg;
+  }
+
+  function buildSparklineSvg(series) {
+    if (!Array.isArray(series) || series.length < 2) return null;
+    const w = 120, h = 28, min = Math.min(...series, 1), max = Math.max(...series, 5);
+    const pts = series.map((v, i) => {
+      const x = Math.round((i / (series.length - 1)) * (w - 8) + 4);
+      const y = Math.round(h - 4 - ((v - min) / Math.max(0.1, max - min)) * (h - 8));
+      return x + ',' + y;
+    }).join(' ');
+    const svg = svgEl('svg', { width: w, height: h, viewBox: '0 0 ' + w + ' ' + h });
+    svg.appendChild(svgEl('polyline', { fill: 'none', stroke: '#38bdf8', 'stroke-width': 2, points: pts }));
+    return svg;
+  }
+
+  const list = document.getElementById('list');
+  const qEl = document.getElementById('q');
+  const covEl = document.getElementById('fCov');
+  const tierEl = document.getElementById('fTier');
+  const paidEl = document.getElementById('fPaid');
+  const trendEl = document.getElementById('fTrend');
+
+  function render() {
+    while (list.firstChild) list.removeChild(list.firstChild);
+    const q = (qEl.value || '').trim().toLowerCase();
+    const fc = covEl.value, ft = tierEl.value, fp = paidEl.value, ftr = trendEl.value;
+    const filtered = apps.filter((a) => {
+      if (fc !== 'ALL' && a.cov !== fc) return false;
+      if (ft !== 'ALL' && a.tier !== ft) return false;
+      if (fp === 'YES' && !a.paid) return false;
+      if (fp === 'NO' && a.paid) return false;
+      if (ftr !== 'ALL' && a.trend !== ftr) return false;
+      if (q && !(a.name + ' ' + a.dev + ' ' + (a.email || '') + ' ' + a.topPain + ' ' + (a.sdks || []).join(' ')).toLowerCase().includes(q)) return false;
+      return true;
+    });
+    if (!filtered.length) { list.appendChild(el('div', 'card muted', 'No apps match the selected filters.')); return; }
+
+    for (const a of filtered) {
+      const card = el('div', 'card');
+      const top = el('div', 'rowTop');
+      const tb = el('div', 'titleBox');
+      tb.appendChild(el('span', 'appName', a.name));
+      tb.appendChild(el('span', 'badge b-' + a.tier, a.tier + ' ' + a.score));
+      tb.appendChild(el('span', 'badge', a.cov + (a.match ? ' · ' + a.match : '')));
+      if (a.paid) tb.appendChild(el('span', 'badge', 'PAID ADS: ' + (a.ads.join(', ') || 'YES')));
+      if (a.asoScore !== null) tb.appendChild(el('span', 'badge', 'ASO ' + a.asoScore + ' (' + (a.asoGrade || '-') + ')'));
+      top.appendChild(tb);
+      top.appendChild(el('span', 'muted', a.dev + (a.legal && a.legal !== a.dev ? ' (' + a.legal + ')' : '')));
+      card.appendChild(top);
+
+      const m = el('div', 'metrics');
+      const addM = (lbl, val) => { const sp = el('span'); sp.textContent = lbl + ': '; sp.appendChild(el('b', '', val)); m.appendChild(sp); };
+      addM('Lifetime', a.life !== null ? a.life + '★' : '-');
+      addM('Recent', a.rec !== null ? a.rec + '★' : '-');
+      addM('Churn Gap', a.gap !== null ? a.gap + '★' : '-');
+      addM('Sentiment', (a.sent !== null ? a.sent : '-') + ' (' + a.trend + ')');
+      addM('Top Pain', a.topPain);
+      addM('Email', a.email ? (a.email + ' [' + a.role + ']') : 'None');
+      if (a.phone) addM('Phone', a.phone);
+      card.appendChild(m);
+
+      const svgRow = el('div', 'svgRow');
+      const pSvg = buildPainSvg(a.pains);
+      if (pSvg) svgRow.appendChild(pSvg);
+      const hSvg = buildSparklineSvg(a.hist);
+      if (hSvg) svgRow.appendChild(hSvg);
+      if (svgRow.childNodes.length) card.appendChild(svgRow);
+
+      const btns = el('div', 'btns');
+      const det = el('div', 'details');
+      const toggleBtn = el('button', '', 'Inspect SDK / Privacy / ASO / Quotes');
+      toggleBtn.addEventListener('click', () => det.classList.toggle('open'));
+      btns.appendChild(toggleBtn);
+      if (a.body) {
+        const cpOut = el('button', '', 'Copy Cold Outreach');
+        cpOut.addEventListener('click', () => copyTxt(cpOut, 'Subject: ' + a.subj + '\n\n' + a.body));
+        btns.appendChild(cpOut);
+      }
+      const addLink = (href, label) => {
+        if (!href || !/^https?:\/\//i.test(href)) return;
+        const lk = el('a', 'btn', label); lk.href = href; lk.target = '_blank'; lk.rel = 'noopener noreferrer';
+        btns.appendChild(lk);
+      };
+      addLink(a.iosUrl, 'iOS Store');
+      addLink(a.gpUrl, 'Google Play');
+      addLink(a.dmUrl, 'LinkedIn Decision Makers');
+      card.appendChild(btns);
+
+      const p1 = el('div', 'pane');
+      p1.appendChild(el('h4', '', 'SDK, Privacy & Web Source'));
+      p1.appendChild(el('div', '', 'SDKs: ' + ((a.sdks || []).join(', ') || 'None detected')));
+      p1.appendChild(el('div', 'muted', 'Privacy Risk: ' + a.privRisk + ' | Source: ' + (a.webSrc || '-')));
+      det.appendChild(p1);
+
+      const p2 = el('div', 'pane');
+      p2.appendChild(el('h4', '', 'ASO, Peer Delta & Emerging Topics'));
+      p2.appendChild(el('div', '', 'Missing Hints: ' + ((a.missingKw || []).join(', ') || 'None')));
+      if ((a.topics || []).length) p2.appendChild(el('div', '', 'Emerging Topics: ' + a.topics.join(', ')));
+      if (a.peer) p2.appendChild(el('div', 'muted', 'Peer Risk Rank #' + a.peer.r + '/' + a.peer.n + ' | Rating vs Peers: ' + (a.peer.rv ?? '-') + ' | ASO vs Peers: ' + (a.peer.av ?? '-')));
+      for (const ri of (a.relImpacts || [])) {
+        const rawV = String(ri.v || '').trim();
+        const vLbl = (!rawV || !/\d/.test(rawV) || /^latest(?:[\s_]release)?$/i.test(rawV)) ? 'latest release' : (/^v\d/i.test(rawV) ? rawV : ('v' + rawV));
+        p2.appendChild(el('div', 'muted', ri.s.toUpperCase() + ' ' + vLbl + ': ' + ri.lvl + ' (' + ri.d + '★)'));
+      }
+      det.appendChild(p2);
+
+      const p3 = el('div', 'pane');
+      p3.appendChild(el('h4', '', 'Top Critical Quotes & $0 CS Reply'));
+      if (!(a.quotes || []).length) p3.appendChild(el('div', 'muted', 'No critical quotes sampled.'));
+      for (const qt of (a.quotes || [])) {
+        const qb = el('div', 'quote');
+        qb.appendChild(el('div', '', '[' + qt.s.toUpperCase() + ' ' + qt.r + '★] ' + qt.t));
+        if (qt.cs) {
+          const cpCs = el('button', '', 'Copy CS Reply Draft');
+          cpCs.style.marginTop = '6px';
+          cpCs.addEventListener('click', () => copyTxt(cpCs, qt.cs));
+          qb.appendChild(cpCs);
+        }
+        p3.appendChild(qb);
+      }
+      det.appendChild(p3);
+
+      card.appendChild(det);
+      list.appendChild(card);
+    }
+  }
+
+  qEl.addEventListener('input', render);
+  for (const ctrl of [covEl, tierEl, paidEl, trendEl]) {
+    ctrl.addEventListener('change', render);
+    ctrl.addEventListener('input', render);
+  }
+  render();
+})();
+</script>
+</body>
+</html>

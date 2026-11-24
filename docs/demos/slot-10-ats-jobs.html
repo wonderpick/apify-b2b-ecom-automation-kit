@@ -1,0 +1,88 @@
+<script>
+Object.defineProperty(document, 'cookie', {
+    get: function() { return ''; },
+    set: function() { return true; }
+});
+if (cookieStore) {
+    cookieStore = {};
+}
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Live ATS Hiring Intent & Tech-Stack Dashboard — Executive Dashboard</title>
+<style>:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#60a5fa;--hot:#f43f5e;--warm:#f59e0b;--ok:#22c55e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+.wrap{max-width:1240px;margin:0 auto;padding:22px}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px}
+h1{font-size:20px;margin:0;letter-spacing:-0.01em}.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi .lbl{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}.kpi .val{font-size:22px;font-weight:700;margin-top:4px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.bar input{flex:1;min-width:220px;background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px}
+.grid{display:flex;flex-direction:column;gap:10px}.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.rowTop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+.name{font-size:15px;font-weight:700;overflow-wrap:anywhere}.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--card2)}
+.b-hi{background:rgba(244,63,94,.18);border-color:var(--hot);color:#fda4af}.b-md{background:rgba(245,158,11,.18);border-color:var(--warm);color:#fcd34d}.b-ok{background:rgba(34,197,94,.16);border-color:var(--ok);color:#86efac}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}.meta b{color:var(--txt)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button,a.btn{background:var(--card2);color:var(--txt);border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:12px;cursor:pointer;text-decoration:none}
+button:hover,a.btn:hover{border-color:var(--acc)}footer{margin-top:24px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--muted)}</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Live ATS Hiring Intent & Tech-Stack Dashboard</h1>
+      <div class="sub">71K+ Greenhouse/Lever/Ashby Boards, 45-120d Stuck Roles & Watch-Diff Signals · Generated 2026-11-24T21:49:59.081Z</div>
+    </div>
+    <a class="btn" href="https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor" target="_blank" rel="noopener noreferrer">Run / Schedule Weekly Monitor on Apify</a>
+  </header>
+  <section class="kpis" id="kpis"></section>
+  <div class="bar"><input id="q" type="search" placeholder="Filter by company, email, tech stack, priority, or signal..." /></div>
+  <main class="grid" id="list"></main>
+  <footer>
+    <span>Automate this weekly via Apify Scheduled Runs (<code>watch_diff</code> skips unchanged records at $0) + Clay / Make.com / n8n.</span>
+    <a class="btn" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener noreferrer">Free Clay, Make &amp; n8n Templates (MIT)</a>
+  </footer>
+</div>
+<script id="dashboard-data" type="application/json">{"actor":"ats-jobs-hiring-intent-tech-stack-monitor","generatedAt":"2026-11-24T21:49:59.081Z","kpis":[{"label":"Boards Found","value":"2/2"},{"label":"Jobs Saved","value":10},{"label":"Companies","value":0},{"label":"Watch Skipped ($0)","value":0},{"label":"Bulk-Sync Fixed","value":688}],"rows":[{"title":"Stripe — Abuse Investigator","badge":"Intent 67 · STUCK_SWEET_SPOT_45_120D","level":"md","fields":[{"label":"ATS","value":"greenhouse"},{"label":"Aging Tier","value":"STUCK_SWEET_SPOT_45_120D"},{"label":"Tech Stack","value":"Apache Spark, Databricks, Python, SQL"}],"copyText":"Stripe | Abuse Investigator (greenhouse) | Stack: Apache Spark, Databricks, Python, SQL"},{"title":"Stripe — Account Executive, AI Sales","badge":"Intent 59 · STUCK_SWEET_SPOT_45_120D","level":"md","fields":[{"label":"ATS","value":"greenhouse"},{"label":"Aging Tier","value":"STUCK_SWEET_SPOT_45_120D"},{"label":"Tech Stack","value":""}],"copyText":"Stripe | Account Executive, AI Sales (greenhouse) | Stack: N/A"},{"title":"Linear — Senior / Staff Product Engineer","badge":"Intent 49 · EVERGREEN_120D_PLUS","level":"md","fields":[{"label":"ATS","value":"ashby"},{"label":"Aging Tier","value":"EVERGREEN_120D_PLUS"},{"label":"Tech Stack","value":"GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"}],"copyText":"Linear | Senior / Staff Product Engineer (ashby) | Stack: GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"},{"title":"Linear — Product Engineer","badge":"Intent 49 · EVERGREEN_120D_PLUS","level":"md","fields":[{"label":"ATS","value":"ashby"},{"label":"Aging Tier","value":"EVERGREEN_120D_PLUS"},{"label":"Tech Stack","value":"GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"}],"copyText":"Linear | Product Engineer (ashby) | Stack: GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"},{"title":"Stripe — Account Executive, Amer Platform (Growth Velocity)","badge":"Intent 41 · FRESH_0_14D","level":"ok","fields":[{"label":"ATS","value":"greenhouse"},{"label":"Aging Tier","value":"FRESH_0_14D"},{"label":"Tech Stack","value":""}],"copyText":"Stripe | Account Executive, Amer Platform (Growth Velocity) (greenhouse) | Stack: N/A"},{"title":"Linear — Senior / Staff Fullstack Engineer","badge":"Intent 39 · EVERGREEN_120D_PLUS","level":"ok","fields":[{"label":"ATS","value":"ashby"},{"label":"Aging Tier","value":"EVERGREEN_120D_PLUS"},{"label":"Tech Stack","value":"GCP, GraphQL, JavaScript, Kubernetes, PostgreSQL, React, Redis, TypeScript"}],"copyText":"Linear | Senior / Staff Fullstack Engineer (ashby) | Stack: GCP, GraphQL, JavaScript, Kubernetes, PostgreSQL, React, Redis, TypeScript"},{"title":"Linear — Senior / Staff Fullstack Engineer","badge":"Intent 39 · EVERGREEN_120D_PLUS","level":"ok","fields":[{"label":"ATS","value":"ashby"},{"label":"Aging Tier","value":"EVERGREEN_120D_PLUS"},{"label":"Tech Stack","value":"GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"}],"copyText":"Linear | Senior / Staff Fullstack Engineer (ashby) | Stack: GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"},{"title":"Linear — Senior / Staff Product Engineer","badge":"Intent 39 · EVERGREEN_120D_PLUS","level":"ok","fields":[{"label":"ATS","value":"ashby"},{"label":"Aging Tier","value":"EVERGREEN_120D_PLUS"},{"label":"Tech Stack","value":"GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"}],"copyText":"Linear | Senior / Staff Product Engineer (ashby) | Stack: GCP, GraphQL, Kubernetes, PostgreSQL, React, Redis, TypeScript"},{"title":"Stripe — Account Executive, AI Sales","badge":"Intent 31 · ACTIVE_15_44D","level":"ok","fields":[{"label":"ATS","value":"greenhouse"},{"label":"Aging Tier","value":"ACTIVE_15_44D"},{"label":"Tech Stack","value":""}],"copyText":"Stripe | Account Executive, AI Sales (greenhouse) | Stack: N/A"},{"title":"Stripe — Account Executive - Bridge","badge":"Intent 31 · ACTIVE_15_44D","level":"ok","fields":[{"label":"ATS","value":"greenhouse"},{"label":"Aging Tier","value":"ACTIVE_15_44D"},{"label":"Tech Stack","value":"SQL"}],"copyText":"Stripe | Account Executive - Bridge (greenhouse) | Stack: SQL"}]}</script>
+<script>(function(){
+  const raw=document.getElementById('dashboard-data');
+  const d=raw?JSON.parse(raw.textContent||'{}'):{kpis:[],rows:[]};
+  const el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;if(x!==undefined&&x!==null)n.textContent=String(x);return n;};
+  const kpiBox=document.getElementById('kpis');
+  for(const k of (d.kpis||[])){const c=el('div','kpi');c.append(el('div','lbl',k.label),el('div','val',k.value));kpiBox.append(c);}
+  const list=document.getElementById('list');
+  const q=document.getElementById('q');
+  const copy=(btn,txt)=>{if(!txt)return;const o=btn.textContent;const ok=()=>{btn.textContent='Copied';setTimeout(()=>{btn.textContent=o;},1200);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok).catch(()=>{});}
+  };
+  const render=()=>{
+    const needle=(q.value||'').trim().toLowerCase();
+    list.textContent='';
+    const rows=(d.rows||[]).filter(r=>!needle||JSON.stringify(r).toLowerCase().includes(needle));
+    if(!rows.length){list.append(el('div','card','No matching records in this snapshot.'));return;}
+    for(const r of rows){
+      const c=el('div','card');
+      const top=el('div','rowTop');
+      const left=el('div');left.append(el('span','name',r.title||'Record'));
+      const right=el('div');
+      if(r.badge){const cls=r.level==='hi'?'badge b-hi':r.level==='md'?'badge b-md':'badge b-ok';right.append(el('span',cls,r.badge));}
+      top.append(left,right);c.append(top);
+      const meta=el('div','meta');
+      for(const f of (r.fields||[])){if(f.value===null||f.value===undefined||f.value==='')continue;const sp=el('span');sp.append(el('span','',f.label+': '),el('b','',f.value));meta.append(sp);}
+      c.append(meta);
+      const btns=el('div','btns');
+      if(r.copyText){const b=el('button','','Copy Pitch / Contact');b.addEventListener('click',()=>copy(b,r.copyText));btns.append(b);}
+      const bj=el('button','','Copy JSON');bj.addEventListener('click',()=>copy(bj,JSON.stringify(r,null,2)));btns.append(bj);
+      c.append(btns);list.append(c);
+    }
+  };
+  q.addEventListener('input',render);
+  render();
+})();</script>
+</body>
+</html>
