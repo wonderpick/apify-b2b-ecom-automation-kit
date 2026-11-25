@@ -1,0 +1,11 @@
+appHandle,appName,merchantStoreName,merchantCountry,reviewRating,reviewDate,usageDuration,isVeteranChurn,topPainBucket,painBuckets,switchIntentTargets,devReplied,switcherPriorityScore,merchantLookupQuery,reviewUrl
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,Terrals,Spain,5,2026-11-24,,false,NONE,,,false,0,"""Terrals"" Spain shopify",https://apps.shopify.com/reviews/2439922
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,Biom.bg,Bulgaria,5,2026-11-24,,false,NONE,,,false,0,"""Biom.bg"" Bulgaria shopify",https://apps.shopify.com/reviews/2439773
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,Evalo Clothing,Ireland,5,2026-11-23,,false,NONE,,,false,0,"""Evalo Clothing"" Ireland shopify",https://apps.shopify.com/reviews/2439346
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,Shepherd Shenanigans,United States,5,2026-11-23,3 months using the app,false,NONE,,,false,12,"""Shepherd Shenanigans"" United States shopify",https://apps.shopify.com/reviews/2439238
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,Mackey's,United States,5,2026-11-23,Almost 6 years using the app,false,NONE,,,false,12,"""Mackey's"" United States shopify",https://apps.shopify.com/reviews/2439192
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,Batu Suci,United States,5,2026-11-22,Over 3 years using the app,false,NONE,,,false,12,"""Batu Suci"" United States shopify",https://apps.shopify.com/reviews/2438192
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,PaisleyEQ,United States,5,2026-11-21,4 months using the app,false,NONE,,,false,12,"""PaisleyEQ"" United States shopify",https://apps.shopify.com/reviews/2437521
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,ShapeShine,United States,5,2026-11-21,About 2 years using the app,false,NONE,,,false,12,"""ShapeShine"" United States shopify",https://apps.shopify.com/reviews/2437381
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,EST'SEVEN,Netherlands,5,2026-11-21,3 months using the app,false,NONE,,,false,12,"""EST'SEVEN"" Netherlands shopify",https://apps.shopify.com/reviews/2437056
+klaviyo-email-marketing,Klaviyo: Email Marketing & SMS,CoreLabs,United States,5,2026-11-20,About 2 months using the app,false,NONE,,,true,12,"""CoreLabs"" United States shopify",https://apps.shopify.com/reviews/2436722

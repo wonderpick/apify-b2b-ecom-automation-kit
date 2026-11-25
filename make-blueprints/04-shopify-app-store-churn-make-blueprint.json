@@ -1,0 +1,86 @@
+{
+  "name": "Daily Shopify App Store Pricing, Built for Shopify & Churn Monitor -> Slack Alerts",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~shopify-app-store-churn-intel-merchant-leads/run-sync-get-dataset-items?timeout=60&memory=128",
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer REPLACE_WITH_APIFY_TOKEN" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "parseResponse": true,
+        "data": "{\"mode\":\"app_intelligence\",\"searchQueries\":[\"product reviews\",\"email marketing\"],\"maxApps\":10,\"sampleReviewsPerApp\":30,\"includeDevWebsiteEnrich\":true,\"watchDiff\":true,\"dedupStoreName\":\"make-shopify-app-churn-watch\"}"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "expect": []
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{1.data}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true
+      },
+      "filter": {
+        "name": "High-Priority Shopify Churn Leads (Score >= 50)",
+        "conditions": [
+          [
+            {
+              "a": "{{2.churnRiskScore}}",
+              "b": "50",
+              "o": "number:greaterOrEqual"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/WEBHOOK",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"text\":\"Shopify App Churn Alert: {{2.appName}} (Churn {{2.churnRiskScore}} | Micro-PE {{2.microPeAcquisitionScore}} | Built for Shopify: {{2.isBuiltForShopify}} | Min USD: ${{2.minPaidPriceUsd}}/mo | Top Pain: {{2.topPainBucket}} | Dev Email: {{2.developerSupportEmail}})\\nPitch: {{2.outreachSubject}}\"}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  }
+}

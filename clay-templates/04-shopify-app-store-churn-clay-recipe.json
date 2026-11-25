@@ -1,0 +1,48 @@
+{
+  "name": "Clay HTTP Enrichment Column — Shopify App Store Pricing, Churn & Merchant Leads v0.1.1",
+  "actorSlug": "maitreya_buddha~shopify-app-store-churn-intel-merchant-leads",
+  "method": "POST",
+  "endpoint": "https://api.apify.com/v2/acts/maitreya_buddha~shopify-app-store-churn-intel-merchant-leads/run-sync-get-dataset-items?timeout=60&memory=128",
+  "headers": {
+    "Authorization": "Bearer REPLACE_WITH_APIFY_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "bodyTemplate": {
+    "mode": "app_intelligence",
+    "upstreamItems": [
+      {
+        "appHandle": "{{shopify_app_handle}}",
+        "appUrl": "{{shopify_app_url}}",
+        "partnerSlug": "{{shopify_partner_slug}}",
+        "query": "{{app_category_keyword}}"
+      }
+    ],
+    "maxApps": 1,
+    "sampleReviewsPerApp": 30,
+    "includeDevWebsiteEnrich": true,
+    "generateDashboardHtml": false,
+    "watchDiff": false,
+    "crmPreset": "default"
+  },
+  "recommendedClayColumns": {
+    "appName": "$.0.appName",
+    "isBuiltForShopify": "$.0.isBuiltForShopify",
+    "overallRating": "$.0.overallRating",
+    "recentReviewsAvg": "$.0.recentReviewsAvg",
+    "silentChurnDivergence": "$.0.silentChurnDivergence",
+    "totalReviews": "$.0.totalReviews",
+    "criticalSharePct": "$.0.criticalSharePct",
+    "pricingModel": "$.0.pricingModel",
+    "minPaidPriceUsd": "$.0.minPaidPriceUsd",
+    "trialDays": "$.0.trialDays",
+    "hasUsageCharges": "$.0.hasUsageCharges",
+    "churnRiskScore": "$.0.churnRiskScore",
+    "microPeAcquisitionScore": "$.0.microPeAcquisitionScore",
+    "topPainBucket": "$.0.topPainBucket",
+    "developerName": "$.0.developerName",
+    "developerSupportEmail": "$.0.developerSupportEmail",
+    "developerWebsiteUrl": "$.0.developerWebsiteUrl",
+    "outreachSubject": "$.0.outreachSubject",
+    "outreachBody": "$.0.outreachBody"
+  }
+}

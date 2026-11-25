@@ -189,9 +189,9 @@ This repository also ships 10 multi-branch, production-grade n8n workflows (12�
 - **[Open All 6 Live `OUTPUT_DASHBOARD.html` Demos](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/index.html)** — Unedited HTML dashboards generated in 128 MB zero-proxy Apify Cloud runs (Slots #7–#12, including [Slot #12 Shopify App Store Churn Intel](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-12-shopify-apps.html)).
 
 ### Free Clay.com HTTP Recipes, Make.com Blueprints & Live Sample CSVs
-- **Clay.com Free Recipes ([`clay-templates/`](./clay-templates/README.md))**: 60-second Native Apify Block + Custom HTTP JSON recipes for **App Store & Google Play Churn**, **ATS Jobs (71K Boards)**, and **Meta Ads Leak Audit**.
-- **Make.com Free Blueprints ([`make-blueprints/`](./make-blueprints/README.md))**: 1-click import `.json` scenarios routing high-priority churn, hiring-intent, and DTC ad-leak signals to Slack/CRM.
-- **Live Verified Sample CSVs ([`samples/`](./samples/))**: Real extracted outputs (`sample-11-app-store-churn-leads.csv`, `sample-10-ats-hiring-intent-signals.csv`, `sample-09-meta-ads-leak-audit.csv`) so you can inspect data quality before running.
+- **Clay.com Free Recipes ([`clay-templates/`](./clay-templates/README.md))**: 60-second Native Apify Block + Custom HTTP JSON recipes for **Shopify App Store Churn & Merchant Leads**, **App Store & Google Play Churn**, **ATS Jobs (71K Boards)**, and **Meta Ads Leak Audit**.
+- **Make.com Free Blueprints ([`make-blueprints/`](./make-blueprints/README.md))**: 1-click import `.json` scenarios routing high-priority Shopify app churn, mobile churn, hiring-intent, and DTC ad-leak signals to Slack/CRM.
+- **Live Verified Sample CSVs ([`samples/`](./samples/))**: Real extracted outputs (`sample-12-shopify-app-churn-intel.csv`, `sample-12-shopify-unhappy-merchant-leads.csv`, `sample-11-app-store-churn-leads.csv`, `sample-10-ats-hiring-intent-signals.csv`, `sample-09-meta-ads-leak-audit.csv`) so you can inspect data quality before running.
 
 ### Direct Node.js / Python Examples (`examples/`)
 - Node.js (v20+, zero dependencies): `APIFY_TOKEN="..." node examples/node/run-actors.mjs`

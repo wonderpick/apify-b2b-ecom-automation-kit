@@ -1,0 +1,4 @@
+appHandle,appName,isBuiltForShopify,overallRating,recentReviewsAvg,silentChurnDivergence,totalReviews,criticalSharePct,pricingModel,minPaidPriceUsd,trialDays,hasUsageCharges,churnRiskScore,microPeAcquisitionScore,topPainBucket,developerName,developerSupportEmail,developerWebsiteUrl,appUrl
+judgeme,Judge.me Product Reviews App,true,5,5,0,50728,0.4,FREEMIUM,15,15,false,0,75,NONE,Judge.me,support@judge.me,https://judge.me,https://apps.shopify.com/judgeme
+trustshop,TrustShop: Product Reviews,true,4.9,4.9,0,390,1,FREEMIUM,9.9,7,false,0,77,NONE,Trust1.io,support@trustshop.io,https://trust1.io/product-reviews,https://apps.shopify.com/trustshop
+loox,Loox ‑ Product Reviews App,true,4.9,4.6,0.3,10192,1.9,FREEMIUM,49.99,14,true,30,75,PRICE_HIKE_OVERAGE,Loox,support@loox.io,https://loox.app?utm_source=appstore&utm_medium=listing&utm_campaign=listing,https://apps.shopify.com/loox
