@@ -1,0 +1,86 @@
+{
+  "name": "Google News Full-Text RAG & B2B Crisis Trigger Monitor -> Slack Alerts",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~google-news-intel-rag-trigger-monitor/run-sync-get-dataset-items?timeout=60&memory=128",
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer REPLACE_WITH_APIFY_TOKEN" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "parseResponse": true,
+        "data": "{\"mode\":\"full_article_rag\",\"queries\":[\"OpenAI\",\"NVIDIA AI\"],\"locales\":[\"US:en\",\"KR:ko\",\"JP:ja\"],\"timeframe\":\"24h\",\"maxArticles\":10,\"decodeUrls\":true,\"dedupeSimilarStories\":true,\"watchDiff\":true,\"dedupStoreName\":\"make-gnews-rag-watch\"}"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "expect": []
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{1.data}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true
+      },
+      "filter": {
+        "name": "High-Urgency or Crisis Stories (Urgency >= 60)",
+        "conditions": [
+          [
+            {
+              "a": "{{2.urgencyScore}}",
+              "b": "60",
+              "o": "number:greaterOrEqual"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/WEBHOOK",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"text\":\"Google News Trigger: {{2.title}} ({{2.publisherName}} | Urgency {{2.urgencyScore}} | Crisis: {{2.crisisAlert}} | Status: {{2.extractionStatus}} {{2.wordCount}}w / {{2.ragChunksCount}} chunks)\\nURL: {{2.publisherUrl}}\"}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  }
+}

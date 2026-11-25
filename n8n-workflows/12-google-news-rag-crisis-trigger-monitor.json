@@ -1,0 +1,412 @@
+{
+  "name": "Daily Google News Full-Text RAG, B2B Triggers & PR Crisis Monitor",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 1. Setup Guide (Zero Hardcoded Secrets)\n1. Create an **HTTP Header Auth** credential (`Apify Bearer Auth`) with Header Name `Authorization` and Value `Bearer <YOUR_APIFY_TOKEN>`.\n2. Edit **Workflow Config** to set `queries`, `locales` (e.g. `US:en`, `KR:ko`, `JP:ja`), `mode` (`full_article_rag` or `news_headlines_intel`), `dedupStoreName`, and optional `ragWebhookUrl`.\n3. Connect Slack & Gmail credentials on the alert nodes, then activate the schedule.",
+        "height": 230,
+        "width": 520
+      },
+      "id": "sticky-setup",
+      "name": "Sticky: Setup Guide",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [160, -140]
+    },
+    {
+      "parameters": {
+        "content": "## 2. Async Apify Runner (128MB Pure HTTP)\nCalls `maitreya_buddha~google-news-intel-rag-trigger-monitor` under `LIMITED_PERMISSIONS` with `watchDiff=true` ($0 pre-decode skip on seen stories), 5-in-1 URL decoding, streaming HTML stripping & 3-layer paywall sibling rescue.",
+        "height": 180,
+        "width": 520
+      },
+      "id": "sticky-runner",
+      "name": "Sticky: Async Runner",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [740, -140]
+    },
+    {
+      "parameters": {
+        "content": "## 3. Crisis / Trigger & RAG Vector Router\nRoutes `crisisAlert === true` or `urgencyScore >= 70` stories immediately to **Slack + Gmail**, while forwarding all full-text `ragChunks` rows to your guarded **Vector / CRM Webhook**.",
+        "height": 180,
+        "width": 520
+      },
+      "id": "sticky-router",
+      "name": "Sticky: Signal Router",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1340, -140]
+    },
+    {
+      "parameters": {
+        "content": "## 4. Guarded Vector / CRM Webhook\nThe **RAG Webhook Configured?** IF node safely skips delivery when `RAG_WEBHOOK_URL` is unset, preventing placeholder errors.",
+        "height": 180,
+        "width": 440
+      },
+      "id": "sticky-webhook",
+      "name": "Sticky: Guarded Webhook",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [1920, -140]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "node-1-schedule",
+      "name": "Every 6 Hours Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [180, 200]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfg-actor-slug",
+              "name": "actorSlug",
+              "value": "maitreya_buddha~google-news-intel-rag-trigger-monitor",
+              "type": "string"
+            },
+            {
+              "id": "cfg-mode",
+              "name": "mode",
+              "value": "full_article_rag",
+              "type": "string"
+            },
+            {
+              "id": "cfg-dedup-store",
+              "name": "dedupStoreName",
+              "value": "gnews-intel-watch",
+              "type": "string"
+            },
+            {
+              "id": "cfg-rag-webhook",
+              "name": "ragWebhookUrl",
+              "value": "={{ $vars?.RAG_WEBHOOK_URL || '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-2-config",
+      "name": "Workflow Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [420, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/acts/{{ $json.actorSlug }}/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "waitForFinish", "value": "60" },
+            { "name": "memory", "value": "128" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"mode\": \"{{ $json.mode }}\",\n  \"queries\": [\"OpenAI\", \"NVIDIA AI\"],\n  \"locales\": [\"US:en\", \"KR:ko\", \"JP:ja\"],\n  \"timeframe\": \"24h\",\n  \"maxArticles\": 20,\n  \"decodeUrls\": true,\n  \"dedupeSimilarStories\": true,\n  \"ragChunkMaxTokens\": 512,\n  \"watchDiff\": true,\n  \"dedupStoreName\": \"{{ $json.dedupStoreName }}\",\n  \"generateDashboardHtml\": true\n}",
+        "options": { "timeout": 75000 }
+      },
+      "id": "node-3-start-actor",
+      "name": "Run Google News RAG Actor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Apify Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "cond-run-succeeded",
+              "leftValue": "={{ $json.data?.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-4-if-succeeded",
+      "name": "Run Succeeded?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [940, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "cond-running",
+              "leftValue": "={{ $json.data?.status }}",
+              "rightValue": "RUNNING",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "cond-ready",
+              "leftValue": "={{ $json.data?.status }}",
+              "rightValue": "READY",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "node-5-if-running",
+      "name": "Still Running?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [940, 420]
+    },
+    {
+      "parameters": { "amount": 15, "unit": "seconds" },
+      "id": "node-6-wait",
+      "name": "Wait 15s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [680, 420]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data?.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [{ "name": "waitForFinish", "value": "60" }]
+        },
+        "options": { "timeout": 75000 }
+      },
+      "id": "node-7-poll",
+      "name": "Poll Actor Run",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 620],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Apify Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data?.defaultDatasetId }}/items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [{ "name": "clean", "value": "true" }]
+        },
+        "options": { "timeout": 30000 }
+      },
+      "id": "node-8-fetch-items",
+      "name": "Fetch Dataset Items",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1200, 200],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "Apify Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "outputKey": "breaking_crisis_or_trigger",
+              "conditions": {
+                "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+                "conditions": [
+                  {
+                    "id": "sw-crisis",
+                    "leftValue": "={{ Boolean($json.crisisAlert) }}",
+                    "rightValue": true,
+                    "operator": { "type": "boolean", "operation": "equals" }
+                  },
+                  {
+                    "id": "sw-urgency",
+                    "leftValue": "={{ Number($json.urgencyScore || 0) }}",
+                    "rightValue": 70,
+                    "operator": { "type": "number", "operation": "gte" }
+                  }
+                ],
+                "combinator": "or"
+              }
+            },
+            {
+              "outputKey": "rag_vector_ingest",
+              "conditions": {
+                "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+                "conditions": [
+                  {
+                    "id": "sw-title",
+                    "leftValue": "={{ Boolean($json.title) }}",
+                    "rightValue": true,
+                    "operator": { "type": "boolean", "operation": "equals" }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-9-switch",
+      "name": "Route Crisis vs RAG Ingest",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [1460, 200]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": { "__rl": true, "value": "#news-crisis-triggers", "mode": "name" },
+        "text": "=*Breaking News Trigger* — *{{ $json.title || 'Untitled' }}* ({{ $json.publisherName || 'n/a' }})\n• Urgency: {{ $json.urgencyScore ?? 0 }} | Crisis: {{ $json.crisisAlert ?? false }} | Sentiment: {{ $json.sentiment || 'neutral' }}\n• Event Triggers: {{ (Array.isArray($json.eventTriggers) ? $json.eventTriggers : []).join(', ') || 'none' }}\n• Extraction: {{ $json.extractionStatus || 'RSS_ONLY' }} ({{ $json.wordCount ?? 0 }}w / {{ $json.ragChunksCount ?? 0 }} RAG chunks) | Rescued From: {{ $json.rescuedFromPublisher || 'n/a' }}\n• Cluster Coverage: {{ $json.coverageCount ?? 1 }} sources [{{ (Array.isArray($json.crossLingualCoverage) ? $json.crossLingualCoverage : []).join('+') || $json.locale }}]\n• URL: {{ $json.publisherUrl || $json.googleNewsUrl || 'n/a' }}",
+        "otherOptions": {}
+      },
+      "id": "node-10-slack",
+      "name": "Send Slack Trigger Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1740, 80]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $vars?.ALERT_EMAIL || 'team@example.com' }}",
+        "subject": "=[News Alert · {{ $json.urgencyScore ?? 0 }}] {{ $json.title || 'Breaking Story' }}",
+        "emailType": "text",
+        "message": "=Headline: {{ $json.title || 'Untitled' }}\nPublisher: {{ $json.publisherName || 'n/a' }} ({{ $json.publisherUrl || $json.googleNewsUrl || 'n/a' }})\nLocale: {{ $json.locale || 'US:en' }} | Published: {{ $json.publishedAt || 'n/a' }}\nUrgency Score: {{ $json.urgencyScore ?? 0 }} | Crisis Alert: {{ $json.crisisAlert ?? false }} | Sentiment: {{ $json.sentiment || 'neutral' }}\nTriggers: {{ (Array.isArray($json.eventTriggers) ? $json.eventTriggers : []).join(', ') || 'none' }}\nTickers: {{ (Array.isArray($json.tickers) ? $json.tickers : []).join(', ') || 'none' }}\nExtraction Status: {{ $json.extractionStatus || 'RSS_ONLY' }} ({{ $json.wordCount ?? 0 }} words, {{ $json.ragChunksCount ?? 0 }} RAG chunks)\n\nExcerpt:\n{{ ($json.cleanPlainText || $json.snippet || '').slice(0, 1200) }}"
+      },
+      "id": "node-11-gmail",
+      "name": "Send Gmail Executive Brief",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1740, 260]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "cond-webhook-set",
+              "leftValue": "={{ $('Workflow Config').first()?.json?.ragWebhookUrl || '' }}",
+              "rightValue": "https://",
+              "operator": { "type": "string", "operation": "startsWith" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-12-if-webhook",
+      "name": "RAG Webhook Configured?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1740, 440]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Workflow Config').first()?.json?.ragWebhookUrl || '' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": { "timeout": 15000 }
+      },
+      "id": "node-13-rag-webhook",
+      "name": "Push To Vector / CRM Webhook",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2020, 440],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RAG_WEBHOOK_HEADER_AUTH",
+          "name": "RAG Webhook Header Auth"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every 6 Hours Trigger": {
+      "main": [[{ "node": "Workflow Config", "type": "main", "index": 0 }]]
+    },
+    "Workflow Config": {
+      "main": [[{ "node": "Run Google News RAG Actor", "type": "main", "index": 0 }]]
+    },
+    "Run Google News RAG Actor": {
+      "main": [[{ "node": "Run Succeeded?", "type": "main", "index": 0 }]]
+    },
+    "Run Succeeded?": {
+      "main": [
+        [{ "node": "Fetch Dataset Items", "type": "main", "index": 0 }],
+        [{ "node": "Still Running?", "type": "main", "index": 0 }]
+      ]
+    },
+    "Still Running?": {
+      "main": [[{ "node": "Wait 15s", "type": "main", "index": 0 }], []]
+    },
+    "Wait 15s": {
+      "main": [[{ "node": "Poll Actor Run", "type": "main", "index": 0 }]]
+    },
+    "Poll Actor Run": {
+      "main": [[{ "node": "Run Succeeded?", "type": "main", "index": 0 }]]
+    },
+    "Fetch Dataset Items": {
+      "main": [[{ "node": "Route Crisis vs RAG Ingest", "type": "main", "index": 0 }]]
+    },
+    "Route Crisis vs RAG Ingest": {
+      "main": [
+        [
+          { "node": "Send Slack Trigger Alert", "type": "main", "index": 0 },
+          { "node": "Send Gmail Executive Brief", "type": "main", "index": 0 },
+          { "node": "RAG Webhook Configured?", "type": "main", "index": 0 }
+        ],
+        [
+          { "node": "RAG Webhook Configured?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "RAG Webhook Configured?": {
+      "main": [[{ "node": "Push To Vector / CRM Webhook", "type": "main", "index": 0 }], []]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": { "templateCredsSetupCompleted": false }
+}

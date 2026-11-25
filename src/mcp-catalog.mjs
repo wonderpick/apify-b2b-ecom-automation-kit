@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.7.0) — 13 verb_noun External-Intelligence Tools + 11 One-Click Prompts
+ * Shared MCP Catalog (v2.8.0) — 14 verb_noun External-Intelligence Tools + 12 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.7.0';
+export const SERVER_VERSION = '2.8.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -1071,7 +1071,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Analyze iOS App Store and Google Play apps for silent churn divergence, 14-language review pain clusters, ASO gaps, ad/MMP stacks, and verified EU-DSA developer contacts.\n\nParameters: Supply searchTerms, iosAppIds, androidPackageIds, upstreamItems, or topChartFeed (omitting all defaults to a 3-app demo query). mode selects app_intelligence or review_stream; pre-charge filters (minOpportunityScore, painBucketFilter, switchIntentOnly, onlyWithEmail) gate billing, and watchDiff + dedupStoreName track incremental changes. Requires APIFY_TOKEN.\n\nBehavior & Billing: Writes optional watchDiff KV snapshots and webhookUrl alerts, isolates per-app WAF or store errors in OUTPUT_SUMMARY without crashing, and bills $5/1K unified apps or $0.50/1K streamed reviews ($0 on filtered or unchanged skips).\n\nUse for mobile app churn intelligence, ASO audits, and mobile agency outbound; do not use for Shopify web store tracking (use monitor_shopify_competitor_deltas) or local SMB audits (use audit_local_b2b_websites).',
+      'Analyze iOS App Store and Google Play apps for silent churn divergence, 14-language pain clusters, ASO gaps, ad/MMP stacks, and EU-DSA developer contacts.\n\nParameters: Supply searchTerms, iosAppIds, androidPackageIds, upstreamItems, or topChartFeed (omitting all runs a 3-app demo). Mode params: app_intelligence uses sampleReviewsPerStore/includeWebsiteGtmXray/includeDeveloperEmailEnrich/outreachPersona; review_stream uses maxReviewsPerApp/starFilter. Pre-charge filters (minOpportunityScore, painBucketFilter, switchIntentOnly, onlyWithEmail) and watchDiff + dedupStoreName gate billing. Requires APIFY_TOKEN.\n\nBilling: $5/1K unified apps or $0.50/1K streamed reviews ($0 on filtered or unchanged skips); isolates per-app errors in OUTPUT_SUMMARY and supports webhookUrl. Use for mobile churn/ASO audits; do not use for Shopify apps (audit_shopify_app_churn_leads).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -1245,7 +1245,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Audit Shopify App Store listings for USD pricing tiers, Built for Shopify badges, 5-star histograms, 14-language churn NLP, micro-PE scores, developer DNS/email contacts, and 1-2 star unhappy merchant leads.\n\nParameters: Set mode ("app_intelligence", "merchant_churn_leads" defaulting starFilter to "critical_1_2", or "partner_portfolio") and supply searchQueries, appHandlesOrUrls, categoryUrls, partnerUrlsOrSlugs, or upstreamItems (omitting all returns 0 items at $0). Bound runs with maxApps and maxReviewsPerApp, filter with onlyWithEmail, onlyBuiltForShopify, onlyVeteranChurn, switchIntentOnly, or minChurnRiskScore, and enable watchDiff with dedupStoreName ($0 unchanged). Requires APIFY_TOKEN.\n\nBehavior & Billing: Persists KV snapshots when watchDiff is true and optionally posts to webhookUrl; bills $5/1K apps or $0.30/1K reviews ($0 on misses).\n\nUse for Shopify App Store intel and unhappy merchant leads; do not use for storefront SKU deltas (monitor_shopify_competitor_deltas) or mobile apps (audit_app_store_churn_leads).',
+      'Audit Shopify App Store listings for USD pricing tiers, Built for Shopify badges, 5-star histograms, 14-language churn NLP, micro-PE scores, developer contacts, and 1-2 star unhappy merchant leads.\n\nParameters: Supply searchQueries, appHandlesOrUrls, categoryUrls, partnerUrlsOrSlugs, or upstreamItems (empty returns 0 items at $0). Mode params: app_intelligence uses sampleReviewsPerApp/includeDevWebsiteEnrich/minChurnRiskScore; merchant_churn_leads uses maxReviewsPerApp/starFilter (default critical_1_2); partner_portfolio uses partnerUrlsOrSlugs. Supports watchDiff + dedupStoreName and pre-charge filters. Requires APIFY_TOKEN.\n\nBilling: $5/1K apps or $0.30/1K reviews ($0 on misses/unchanged); optional webhookUrl. Use for Shopify App Store intel and unhappy merchant leads; do not use for storefront SKU deltas (monitor_shopify_competitor_deltas).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -1399,7 +1399,7 @@ export const TOOLS = [
       openWorldHint: true,
     },
     description:
-      'Audit Substack newsletters across 35 categories, search queries, or handles/URLs to compute Stripe USD paid ARR floors, detect sponsor brands and media kits, verify author emails (MX/DMARC), stream RAG post archives, and extract Notes and comments.\n\nParameters: Supply categories, searchQueries, publicationUrlsOrHandles, or upstreamItems (omitting all returns 0 items at $0). Choose mode ("newsletter_intelligence", "post_sponsor_stream", or "notes_and_comments"), optional watchDiff + dedupStoreName, or pre-charge filters. Requires APIFY_TOKEN.\n\nBehavior & Billing: Runs in 128 MB pure HTTP ($0 proxy), writes optional watchDiff KV snapshots and webhookUrl payloads, isolates unreachable hosts in OUTPUT_SUMMARY, and bills $4/1K newsletters, $0.40/1K posts, or $0.25/1K notes/comments ($0 on empty/unchanged/filtered misses).\n\nUse for Substack sponsor leads, revenue intel, RAG archives, and Notes/comments; do not use for Link-in-Bio agencies (use enrich_creator_bio_leads) or Shopify Apps (use audit_shopify_app_churn_leads).',
+      'Audit Substack newsletters across 35 categories, search queries, or handles/URLs for Stripe USD paid ARR floors, sponsor brands, MX/DMARC author emails, RAG post archives, and Notes/comments.\n\nParameters: Supply categories, searchQueries, publicationUrlsOrHandles, or upstreamItems (empty returns 0 items at $0). Mode params: newsletter_intelligence uses discoveryBoard/includeAboutAndDomainEnrich/outreachPersona/watchDiff/pre-charge filters; post_sponsor_stream uses maxPostsPerPublication/includeCleanPostText; notes_and_comments uses maxNotesPerAuthor/maxCommentsPerPost. Requires APIFY_TOKEN.\n\nBilling: 128 MB pure HTTP ($0 proxy); $4/1K newsletters, $0.40/1K posts, or $0.25/1K notes/comments ($0 on empty/unchanged/filtered misses); optional webhookUrl. Use for Substack sponsor leads, revenue intel & RAG; do not use for news monitoring (monitor_google_news_rag_triggers).',
     inputSchema: {
       type: 'object',
       additionalProperties: false,
@@ -1544,6 +1544,135 @@ export const TOOLS = [
       bodyText: { type: 'string', description: 'Plain text content of a Substack Note or nested reader comment (in notes_and_comments mode).' },
     }),
   },
+  {
+    name: 'monitor_google_news_rag_triggers',
+    actorSlug: 'maitreya_buddha~google-news-intel-rag-trigger-monitor',
+    annotations: {
+      title: 'Monitor Google News Full Text, RAG Chunks & B2B Triggers',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
+    description:
+      'Scrape Google News across EN/KO/JA/DE/ES with 5-in-1 publisher URL decoding (Bing News fallback), streaming HTML full-text & 512-token RAG chunks, 3-layer paywall sibling rescue, 10 B2B/PR event triggers, cross-lingual clustering, and $0-skip watchDiff monitoring.\n\nParameters: Supply queries, topics, or topicOrClusterUrls (defaults to NVIDIA AI). Mode params: news_headlines_intel uses decodeUrls/onlyWithTriggers; full_article_rag adds streaming full text, paywall rescue, onlyFullText, and ragChunkMaxTokens. Supports locales, timeframe, dedupeSimilarStories, watchDiff + dedupStoreName, and webhookUrl. Requires APIFY_TOKEN.\n\nBilling: 128 MB pure HTTP ($0 proxy); $0.80/1K headlines or $1.50/1K full-text RAG articles (up to 50% off; $0 on watchDiff skips/filtered misses). Use for live news RAG, PR crisis & B2B trigger tracking; do not use for Substack newsletters (audit_substack_newsletters_leads).',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        mode: {
+          type: 'string',
+          enum: ['news_headlines_intel', 'full_article_rag'],
+          description: 'news_headlines_intel ($0.80/1K: decoded URLs + 10 B2B/PR triggers + clusters) or full_article_rag ($1.50/1K: adds streaming full text, 3-layer paywall sibling rescue & 512-token RAG chunks).',
+          default: 'news_headlines_intel',
+        },
+        queries: {
+          type: 'array',
+          maxItems: 20,
+          items: { type: 'string' },
+          description: 'Search keywords or boolean queries (e.g. ["OpenAI", "NVIDIA AI", "cyberattack healthcare"]).',
+          default: ['NVIDIA AI'],
+        },
+        topics: {
+          type: 'array',
+          maxItems: 10,
+          items: {
+            type: 'string',
+            enum: ['TOP', 'WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY', 'ENTERTAINMENT', 'SPORTS', 'SCIENCE', 'HEALTH'],
+          },
+          description: 'Optional Google News topic feeds (e.g. ["TECHNOLOGY", "BUSINESS"]).',
+          default: [],
+        },
+        topicOrClusterUrls: {
+          type: 'array',
+          maxItems: 10,
+          items: { type: 'string' },
+          description: 'Optional direct Google News topic, search, or RSS feed URLs.',
+          default: [],
+        },
+        locales: {
+          type: 'array',
+          maxItems: 10,
+          items: { type: 'string' },
+          description: 'COUNTRY:lang locales for cross-lingual monitoring and clustering (e.g. ["US:en", "KR:ko", "JP:ja", "DE:de", "ES:es"]).',
+          default: ['US:en'],
+        },
+        timeframe: {
+          type: 'string',
+          enum: ['1h', '6h', '12h', '24h', '7d', '30d', 'any'],
+          description: 'Recency window applied to search queries (e.g. "24h" for daily cron, "7d" for weekly briefs).',
+          default: '7d',
+        },
+        maxArticles: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 2000,
+          description: 'Maximum deduplicated stories to process per run (1-2,000).',
+          default: 20,
+        },
+        decodeUrls: {
+          type: 'boolean',
+          description: 'Decode obfuscated news.google.com redirect links into real publisher URLs in 5-in-1 pure HTTP batches.',
+          default: true,
+        },
+        dedupeSimilarStories: {
+          type: 'boolean',
+          description: 'Emit 1 canonical representative per cross-lingual story cluster with coverageCount and relatedSources.',
+          default: false,
+        },
+        onlyFullText: {
+          type: 'boolean',
+          description: 'In full_article_rag mode, skip blocked/paywalled rows without full text or sibling rescue at $0.',
+          default: false,
+        },
+        onlyWithTriggers: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only stories matching at least one of the 10 B2B/PR event triggers ($0 otherwise).',
+          default: false,
+        },
+        ragChunkMaxTokens: {
+          type: 'integer',
+          minimum: 128,
+          maximum: 2048,
+          description: 'In full_article_rag mode, target token size for overlap-preserving ragChunks (128-2,048).',
+          default: 512,
+        },
+        watchDiff: {
+          type: 'boolean',
+          description: 'Skip previously seen articles BEFORE URL decoding at $0 using immutable run-delta KV snapshots.',
+          default: false,
+        },
+        dedupStoreName: {
+          type: 'string',
+          description: 'Named Apify Key-Value Store for watchDiff 90-day rolling LRU snapshots.',
+          default: 'gnews-intel-watch',
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTPS webhook URL to receive run summary and breaking triggers.',
+        },
+      },
+    },
+    outputSchema: makeOutputSchema('Decoded Google News intelligence records with B2B/PR triggers, cross-lingual clusters, and optional full-text RAG chunks.', {
+      recordType: { type: 'string', description: 'Record type: news_headline_intel or news_article_rag.' },
+      title: { type: 'string', description: 'Clean article headline.' },
+      publisherName: { type: 'string', description: 'Source publisher display name.' },
+      publisherUrl: { type: 'string', description: 'Decoded canonical publisher URL (or null if decodeUrls is false).' },
+      publishedAt: { type: 'string', description: 'ISO-8601 publication timestamp.' },
+      locale: { type: 'string', description: 'Source locale (e.g. US:en, KR:ko, JP:ja).' },
+      extractionStatus: { type: 'string', description: 'RSS_ONLY, FULL, RESCUED_FROM_SIBLING, PAYWALL_TRUNCATED, or BLOCKED.' },
+      rescuedFromPublisher: { type: 'string', description: 'Free cluster-sibling publisher name when Layer-3 paywall rescue succeeded.' },
+      wordCount: { type: 'integer', description: 'Effective word count (CJK-normalized) in full_article_rag mode.' },
+      ragChunksCount: { type: 'integer', description: 'Number of 512-token RAG chunks built.' },
+      cleanPlainText: { type: 'string', description: 'Clean full-text article body for AI/RAG pipelines (full_article_rag mode).' },
+      eventTriggers: { type: 'array', items: { type: 'string' }, description: 'Detected B2B/PR event triggers (FUNDING, MA, LAYOFF, BREACH, RECALL, etc.).' },
+      sentiment: { type: 'string', description: 'Negation-aware sentiment label (positive, neutral, negative).' },
+      urgencyScore: { type: 'integer', description: '0-100 breaking urgency score.' },
+      crisisAlert: { type: 'boolean', description: 'True when active crisis trigger is not negated.' },
+      clusterId: { type: 'string', description: 'Cross-lingual story cluster ID.' },
+      coverageCount: { type: 'integer', description: 'Number of publishers covering this story cluster.' },
+    }),
+  },
 ];
 
 // Backward-compatible internal alias map for v1.x tool names (never advertised in tools/list)
@@ -1561,6 +1690,7 @@ export const LEGACY_TOOL_ALIASES = {
   app_store_google_play_churn_intel_lead_enricher: 'audit_app_store_churn_leads',
   shopify_app_store_churn_intel_merchant_leads: 'audit_shopify_app_churn_leads',
   substack_scraper_sponsor_revenue_leads: 'audit_substack_newsletters_leads',
+  google_news_intel_rag_trigger_monitor: 'monitor_google_news_rag_triggers',
 };
 
 export const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
@@ -1785,6 +1915,29 @@ export const PROMPTS = [
       {
         name: 'mode',
         description: 'Execution mode: newsletter_intelligence (paid ARR, sponsors & verified emails), post_sponsor_stream (RAG cleanPlainText + per-post sponsors), or notes_and_comments (public Notes + nested comments, default: newsletter_intelligence).',
+        required: false,
+      },
+    ],
+  },
+  {
+    name: 'monitor_google_news_rag_and_triggers',
+    title: 'Monitor Google News Full Text, RAG Chunks & B2B/PR Crisis Triggers',
+    description:
+      'Decode Google News redirect URLs across EN/KO/JA/DE/ES, extract full-text articles + 512-token RAG chunks with 3-layer paywall sibling rescue, detect 10 B2B/PR crisis triggers, and cluster global coverage.',
+    arguments: [
+      {
+        name: 'queriesOrTopics',
+        description: 'Comma-separated search keywords (e.g. "OpenAI, NVIDIA AI") OR Google News topics ("TECHNOLOGY, BUSINESS").',
+        required: true,
+      },
+      {
+        name: 'mode',
+        description: 'Execution mode: news_headlines_intel ($0.80/1K headlines + triggers) or full_article_rag ($1.50/1K full text + 512-token RAG chunks, default: full_article_rag).',
+        required: false,
+      },
+      {
+        name: 'locales',
+        description: 'Optional comma-separated locales (e.g. "US:en, KR:ko, JP:ja", default: "US:en").',
         required: false,
       },
     ],
@@ -2110,14 +2263,46 @@ export function buildPromptResult(name, args = {}) {
         ],
       };
     }
+    case 'monitor_google_news_rag_and_triggers': {
+      const rawVal = clean(args.queriesOrTopics, 'NVIDIA AI');
+      const mode = clean(args.mode, 'full_article_rag') === 'news_headlines_intel' ? 'news_headlines_intel' : 'full_article_rag';
+      const locales = clean(args.locales, 'US:en')
+        .split(',')
+        .map((l) => l.trim())
+        .filter(Boolean);
+      const parts = rawVal.split(',').map((s) => s.trim()).filter(Boolean);
+      const validTopics = new Set(['TOP', 'WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY', 'ENTERTAINMENT', 'SPORTS', 'SCIENCE', 'HEALTH']);
+      const isTopics = parts.length > 0 && parts.every((p) => validTopics.has(p.toUpperCase()));
+      const argHint = isTopics
+        ? `\`topics: ${JSON.stringify(parts.map((p) => p.toUpperCase()))}\`, \`queries: []\``
+        : `\`queries: ${JSON.stringify(parts)}\``;
+      return {
+        description: prompt.description,
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Call \`monitor_google_news_rag_triggers\` with \`mode: "${mode}"\`, ${argHint}, \`locales: ${JSON.stringify(locales.length ? locales : ['US:en'])}\`, \`decodeUrls: true\`, and \`maxArticles: ${mode === 'full_article_rag' ? 10 : 20}\`.`,
+                mode === 'full_article_rag'
+                  ? 'Synthesize a citation-backed executive RAG brief from `cleanPlainText` and `ragChunks`, flagging any `RESCUED_FROM_SIBLING` paywall rescues, `crisisAlert === true` stories, B2B/PR `eventTriggers`, and multi-lingual `clusterId` coverage.'
+                  : 'Return a prioritized breaking-news trigger table sorted by `urgencyScore` (Headline, Publisher, Decoded URL, Event Triggers, Sentiment, Crisis Alert, Cross-Lingual Coverage Count) and recommend follow-up actions.',
+              ].join('\n'),
+            },
+          },
+        ],
+      };
+    }
     default:
       return null;
   }
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.7.0 — 13 zero-proxy tools + 11 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.8.0 — 14 zero-proxy tools + 12 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
+  '- Google News 5-in-1 URL decoding (Bing News fallback), streaming HTML full-text & 512-token RAG chunks, 3-layer paywall sibling rescue, 10 B2B/PR crisis triggers, EN/KO/JA/DE/ES cross-lingual clustering & $0-skip watchDiff -> monitor_google_news_rag_triggers.',
   '- Substack newsletter paid ARR floor, sponsor brands & media kits, MX/DMARC verified author emails, /api/v1/archive RAG post text, public Substack Notes & nested reader comments -> audit_substack_newsletters_leads.',
   '- Shopify App Store pricing tiers (USD), Built for Shopify status, 5-star histograms, 14-language churn NLP, micro-PE scores, developer DNS/email contacts & 1-2 star unhappy merchant review leads -> audit_shopify_app_churn_leads.',
   '- iOS App Store & Google Play unified churn intel, 14-language review pain clusters, ASO audits, CNAME MMP & Wayback->Live gtm.js X-Ray, EU-DSA developer contacts & streaming reviews (up to 10K/app) -> audit_app_store_churn_leads.',
@@ -2131,7 +2316,7 @@ export const SERVER_INSTRUCTIONS = [
   '- Creator/influencer Link-in-Bio agency emails, monetization links, and Readiness Score -> enrich_creator_bio_leads.',
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
-  'Built-in Prompts: audit_substack_sponsors_and_rag_archive, audit_shopify_app_churn_and_draft_outreach, audit_app_store_churn_and_draft_outreach, monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
+  'Built-in Prompts: monitor_google_news_rag_and_triggers, audit_substack_sponsors_and_rag_archive, audit_shopify_app_churn_and_draft_outreach, audit_app_store_churn_and_draft_outreach, monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
   'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails unless outreachStatus === "ready", primaryEmail is non-empty (inboxType !== "cs_ticket_queue" and inboxType !== "none"), and zeroBounceUnsafe !== true.',
 ].join('\n');
 

@@ -1,0 +1,35 @@
+{
+  "name": "Clay HTTP Enrichment Column — Google News B2B Triggers, Decoded URLs & Full-Text RAG v0.1.1",
+  "actorSlug": "maitreya_buddha~google-news-intel-rag-trigger-monitor",
+  "method": "POST",
+  "endpoint": "https://api.apify.com/v2/acts/maitreya_buddha~google-news-intel-rag-trigger-monitor/run-sync-get-dataset-items?timeout=60&memory=128",
+  "headers": {
+    "Authorization": "Bearer REPLACE_WITH_APIFY_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "bodyTemplate": {
+    "mode": "news_headlines_intel",
+    "queries": ["{{company_name}}"],
+    "locales": ["US:en"],
+    "timeframe": "30d",
+    "maxArticles": 5,
+    "decodeUrls": true,
+    "dedupeSimilarStories": true,
+    "onlyWithTriggers": false,
+    "watchDiff": false,
+    "generateDashboardHtml": false
+  },
+  "recommendedClayColumns": {
+    "latestHeadline": "$.0.title",
+    "publisherName": "$.0.publisherName",
+    "publisherUrl": "$.0.publisherUrl",
+    "publishedAt": "$.0.publishedAt",
+    "eventTriggers": "$.0.eventTriggers",
+    "sentiment": "$.0.sentiment",
+    "urgencyScore": "$.0.urgencyScore",
+    "crisisAlert": "$.0.crisisAlert",
+    "tickers": "$.0.tickers",
+    "coverageCount": "$.0.coverageCount",
+    "crossLingualCoverage": "$.0.crossLingualCoverage"
+  }
+}

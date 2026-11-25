@@ -1,0 +1,101 @@
+<script>
+Object.defineProperty(document, 'cookie', {
+    get: function() { return ''; },
+    set: function() { return true; }
+});
+if (cookieStore) {
+    cookieStore = {};
+}
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Google News Intelligence &amp; Trigger Dashboard</title>
+<style>
+:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#60a5fa;--hot:#f43f5e;--warm:#f59e0b;--ok:#22c55e}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+.wrap{max-width:1200px;margin:0 auto;padding:22px}header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px}
+h1{font-size:20px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi .lbl{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.05em}.kpi .val{font-size:21px;font-weight:700;margin-top:4px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.bar input,.bar select{background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px}
+.bar input{flex:1;min-width:220px}.grid{display:flex;flex-direction:column;gap:10px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.rowTop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:8px}
+.name{font-size:15px;font-weight:700;color:var(--txt);text-decoration:none}.name:hover{color:var(--acc)}
+.badges{display:flex;flex-wrap:wrap;gap:6px}.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--card2)}
+.b-hi{background:rgba(244,63,94,.18);border-color:var(--hot);color:#fda4af}.b-md{background:rgba(245,158,11,.18);border-color:var(--warm);color:#fcd34d}.b-ok{background:rgba(34,197,94,.16);border-color:var(--ok);color:#86efac}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:7px;font-size:12px;color:var(--muted)}.excerpt{margin-top:8px;font-size:12.5px;color:#cbd5e1}
+a.btn{background:var(--card2);color:var(--txt);border:1px solid var(--border);border-radius:7px;padding:6px 11px;font-size:12px;text-decoration:none}
+footer{margin-top:22px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:10px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Google News Intelligence, RAG &amp; Trigger Monitor</h1>
+      <div class="sub">Mode: full_article_rag · Pure-HTTP Streaming · Generated 2026-11-25T06:17:00.272Z</div>
+    </div>
+    <a class="btn" href="https://apify.com/maitreya_buddha/google-news-intel-rag-trigger-monitor" target="_blank" rel="noopener noreferrer">Schedule Hourly watchDiff ($0 Duplicates)</a>
+  </header>
+  <section class="kpis" id="kpis"></section>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Filter by headline, publisher, ticker, event trigger, or language..." />
+    <select id="flt" aria-label="Filter stories">
+      <option value="all">All Stories</option>
+      <option value="crisis">Crisis Alerts Only</option>
+      <option value="triggered">With B2B/PR Triggers</option>
+      <option value="full">Full-Text / Rescued Only</option>
+    </select>
+  </div>
+  <main class="grid" id="list"></main>
+  <footer>
+    <span>Zero-proxy pure-HTTP news monitoring with 5-in-1 URL decoding, streaming RAG chunks &amp; $0 duplicate skips.</span>
+    <a class="btn" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener noreferrer">Free MCP, n8n, Clay &amp; Make Kit (MIT)</a>
+  </footer>
+</div>
+<script id="dashboard-data" type="application/json">{"mode":"full_article_rag","generatedAt":"2026-11-25T06:17:00.272Z","kpis":[{"label":"Stories Emitted","value":8},{"label":"Watch Skipped ($0)","value":0},{"label":"B2B/PR Triggers","value":5},{"label":"Crisis Alerts","value":0},{"label":"Full Text / Rescued","value":"8 (1 rescued)"},{"label":"403/429 Block Rate","value":"0%"}],"rows":[{"title":"Missed That $149 AirPods Pro 3 Deal? Amazon Just Brought It Back","url":"https://www.macrumors.com/2026/11/24/amazon-airpods-pro-3-deal-back/","publisher":"MacRumors","publishedAt":"2026-11-24 23:45","locale":"US:en","engine":"google_news_rss","extractionStatus":"FULL","sentiment":"positive","urgencyScore":27,"crisisAlert":false,"triggers":["PARTNERSHIP_CONTRACT"],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":226,"tokens":301,"excerpt":"Missed That $149 AirPods Pro 3 Deal? Amazon Just Brought It Back MacRumors New low prices just landed on Apple Watches, AirPods and MacBooks before Black Friday CNN Apple’s AirPods Pro 3 are a whopping $100 off ahead of Black Friday The Ver"},{"title":"GTA VI was the biggest launch in PlayStation history - GSMArena.com news","url":"https://www.gsmarena.com/gta_vi_was_the_biggest_launch_in_playstation_history-news-75621.php","publisher":"GSMArena.com","publishedAt":"2026-11-25 00:33","locale":"US:en","engine":"google_news_rss","extractionStatus":"FULL","sentiment":"neutral","urgencyScore":10,"crisisAlert":false,"triggers":[],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":367,"tokens":488,"excerpt":"GTA VI was the biggest launch in PlayStation history - GSMArena.com news GSMArena.com Thank you for making Grand Theft Auto VI the biggest launch in PlayStation history PlayStation.Blog GTA VI’s jaw-dropping success: in figures The Guardian"},{"title":"Review: The Asus ProArt P16 offers a glimpse of a future powered by local AI","url":"https://arstechnica.com/reviews/2026/11/review-the-asus-proart-p16-offers-a-glimpse-of-a-future-powered-by-local-ai/","publisher":"Ars Technica","publishedAt":"2026-11-23 12:00","locale":"US:en","engine":"google_news_rss","extractionStatus":"FULL","sentiment":"positive","urgencyScore":31,"crisisAlert":false,"triggers":["FUNDING_ROUND"],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":2810,"tokens":3737,"excerpt":"Review: The Asus ProArt P16 offers a glimpse of a future powered by local AI Ars Technica NVIDIA RTX Spark Compact Desktops Out Now NVIDIA Blog Microsoft releases compact RTX Spark mini-PC with 128 GB RAM and 6,144 CUDA cores Notebookcheck "},{"title":"Mario Kart World Has Been Updated To Version 1.9.0, Here Are The Full Patch Notes","url":"https://www.nintendolife.com/news/2026/11/mario-kart-world-has-been-updated-to-version-1-9-0-here-are-the-full-patch-notes","publisher":"Nintendo Life","publishedAt":"2026-11-25 04:34","locale":"US:en","engine":"google_news_rss","extractionStatus":"FULL","sentiment":"neutral","urgencyScore":10,"crisisAlert":false,"triggers":[],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":1187,"tokens":1579,"excerpt":"Mario Kart World Has Been Updated To Version 1.9.0, Here Are The Full Patch Notes Nintendo Life Mario Kart World update adds 8 courses and more Nintendo Mario Kart World updated to Ver. 1.9.0 (8 revamped tracks, 2 new Knockout Tour rallies "},{"title":"7 Black Friday gaming laptops deals actually worth it from Acer, Asus, Lenovo and MSI — save up to $700 now","url":"https://www.tomsguide.com/computing/gaming-laptops/black-friday-gaming-laptop-deals-november-24-2026","publisher":"Tom's Guide","publishedAt":"2026-11-24 19:59","locale":"US:en","engine":"google_news_rss","extractionStatus":"FULL","sentiment":"positive","urgencyScore":25,"crisisAlert":false,"triggers":["PRODUCT_LAUNCH"],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":1145,"tokens":1523,"excerpt":"7 Black Friday gaming laptops deals actually worth it from Acer, Asus, Lenovo and MSI — save up to $700 now Tom's Guide The 15 best Black Friday laptop and computer deals because these things are too expensive CNN These Black Friday laptops"},{"title":"Watch out, AlphaFold: Claude and ChatGPT’s new biology skills wow scientists","url":"https://www.nature.com/articles/d41586-026-03836-z","publisher":"Nature","publishedAt":"2026-11-25 02:44","locale":"US:en","engine":"google_news_rss","extractionStatus":"FULL","sentiment":"neutral","urgencyScore":10,"crisisAlert":false,"triggers":[],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":153,"tokens":203,"excerpt":"Watch out, AlphaFold: Claude and ChatGPT’s new biology skills wow scientists Nature GPT-6 models demonstrate intrinsic protein-design capabilities OpenAI OpenAI says GPT-6.2 helped design proteins that bound five targets in lab tests Superp"},{"title":"Grand Theft Auto 6 fans spot north Florida landmarks in video game","url":"https://www.tallahassee.com/story/news/local/2026/11/24/what-florida-gulf-coast-panhandle-cities-influenced-gta-6/92926611007/","publisher":"Tallahassee Democrat","publishedAt":"2026-11-24 10:10","locale":"US:en","engine":"google_news_rss","extractionStatus":"RESCUED_FROM_SIBLING","sentiment":"positive","urgencyScore":42,"crisisAlert":false,"triggers":["PRODUCT_LAUNCH","EXPANSION_HIRING"],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":1253,"tokens":1666,"excerpt":"Grand Theft Auto 6 fans spot north Florida landmarks in video game Tallahassee Democrat Behind the design of GTA 6 The Festival as it takes over Miami Wallpaper* The Vice City Heat: Miami’s NBA team goes all in on ‘Grand Theft Auto VI’ coll"},{"title":"GTA 6 Results in Call of Duty Losing Nearly Half of Its Player Base During Launch Weekend","url":"https://www.ign.com/articles/call-of-dutys-player-count-dropped-by-over-40-following-gta-6s-release-according-to-analysts","publisher":"IGN","publishedAt":"2026-11-23 23:37","locale":"US:en","engine":"google_news_rss","extractionStatus":"FULL","sentiment":"neutral","urgencyScore":25,"crisisAlert":false,"triggers":["PRODUCT_LAUNCH"],"tickers":[],"coverageCount":1,"langs":["en"],"watchTriggers":[],"words":582,"tokens":774,"excerpt":"GTA 6 Results in Call of Duty Losing Nearly Half of Its Player Base During Launch Weekend IGN ‘Call of Duty’ And ‘Fortnite’ Engagement Plunges After ‘GTA VI’ Release, Report Says Forbes Analyst estimates Call of Duty lost 44% of its players"}]}</script>
+<script>(function(){
+  const raw=document.getElementById('dashboard-data');
+  const d=raw?JSON.parse(raw.textContent||'{}'):{kpis:[],rows:[]};
+  const el=(t,c,x)=>{const n=document.createElement(t);if(c)n.className=c;if(x!==undefined&&x!==null)n.textContent=String(x);return n;};
+  const kb=document.getElementById('kpis');
+  for(const k of (d.kpis||[])){const c=el('div','kpi');c.append(el('div','lbl',k.label),el('div','val',k.value));kb.append(c);}
+  const list=document.getElementById('list'),q=document.getElementById('q'),flt=document.getElementById('flt');
+  const render=()=>{
+    const needle=(q.value||'').trim().toLowerCase(),mode=flt.value;
+    list.textContent='';
+    const rows=(d.rows||[]).filter(r=>{
+      if(mode==='crisis'&&!r.crisisAlert)return false;
+      if(mode==='triggered'&&!(r.triggers&&r.triggers.length))return false;
+      if(mode==='full'&&r.extractionStatus!=='FULL'&&r.extractionStatus!=='RESCUED_FROM_SIBLING')return false;
+      return !needle||JSON.stringify(r).toLowerCase().includes(needle);
+    });
+    if(!rows.length){list.append(el('div','card','No matching stories in this run.'));return;}
+    for(const r of rows){
+      const c=el('div','card'),top=el('div','rowTop');
+      const a=el('a','name',r.title);
+      if(r.url&&/^https?:///i.test(r.url)){a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';}
+      const b=el('div','badges');
+      if(r.crisisAlert)b.append(el('span','badge b-hi','CRISIS · '+r.urgencyScore));
+      else if(r.urgencyScore>=45)b.append(el('span','badge b-md','URGENT · '+r.urgencyScore));
+      else b.append(el('span','badge b-ok',r.sentiment+' · '+r.urgencyScore));
+      for(const tg of (r.triggers||[]))b.append(el('span','badge',tg));
+      for(const tk of (r.tickers||[]))b.append(el('span','badge','$'+tk));
+      top.append(a,b);c.append(top);
+      const m=el('div','meta');
+      m.append(el('span','',r.publisher),el('span','',r.publishedAt),el('span','',r.locale+' · '+r.engine),el('span','','Body: '+r.extractionStatus+(r.words?' ('+r.words+'w / '+r.tokens+' tok)':'')),el('span','','Cluster: '+r.coverageCount+(r.langs.length>1?' ['+r.langs.join(',')+']':'')));
+      c.append(m);
+      if(r.excerpt)c.append(el('div','excerpt',r.excerpt));
+      list.append(c);
+    }
+  };
+  q.addEventListener('input',render);flt.addEventListener('change',render);render();
+})();</script>
+</body>
+</html>

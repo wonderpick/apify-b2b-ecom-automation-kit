@@ -1,8 +1,8 @@
 {
   "name": "apify-b2b-ecom-mcp-server",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "mcpName": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
-  "description": "Zero-subscription external business intelligence MCP server (13 verb_noun tools + 11 one-click workflow prompts): Substack paid ARR/sponsors/RAG/Notes, Shopify App Store churn & merchant leads, unified App Store & Google Play churn, live ATS hiring-intent (71K boards), Meta Ads leaks, local B2B audit, retail stockists, Shopify deltas, SaaS SOC 2, B2B/creator emails, and Korea MFDS K-Beauty OEM & recalls.",
+  "description": "Zero-subscription external business intelligence MCP server (14 verb_noun tools + 12 one-click workflow prompts): Google News full-text RAG & crisis triggers, Substack paid ARR/sponsors/RAG/Notes, Shopify App Store churn, App Store & Google Play churn, live ATS hiring-intent (71K boards), Meta Ads leaks, local B2B audit, retail stockists, Shopify deltas, SaaS SOC 2, B2B/creator emails, and Korea MFDS K-Beauty OEM & recalls.",
   "type": "module",
   "main": "src/mcp-server.mjs",
   "bin": {

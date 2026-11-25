@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Objective 128MB Cloud Benchmarks — Apify External Business Intelligence Suite (v2.7.0)</title>
-<meta name="description" content="Measured Linux 128MB cloud RAM, execution latency, compute unit cost, and parsing accuracy benchmarks across 13 zero-proxy Apify Actors vs browser-based scrapers and monthly SaaS tools." />
+<title>Objective 128MB Cloud Benchmarks — Apify External Business Intelligence Suite (v2.8.0)</title>
+<meta name="description" content="Measured Linux 128MB cloud RAM, execution latency, compute unit cost, and parsing accuracy benchmarks across 14 zero-proxy Apify Actors vs browser-based scrapers and monthly SaaS tools." />
 <link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/benchmarks.html" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Objective 128MB Cloud Benchmarks: 13 Zero-Proxy Apify Scrapers vs Legacy Browser Scrapers & Monthly SaaS",
+  "headline": "Objective 128MB Cloud Benchmarks: 14 Zero-Proxy Apify Scrapers vs Legacy Browser Scrapers & Monthly SaaS",
   "datePublished": "2026-11-25",
   "dateModified": "2026-11-25",
   "author": { "@type": "Person", "name": "BoGeun Kim", "url": "https://github.com/wonderpick" },
-  "about": ["Substack Revenue & Sponsor Scraper", "Shopify App Store Scraper", "App Store & Google Play Review Churn Intelligence", "Live ATS Jobs Scraper", "Meta Ads Leak Audit", "Model Context Protocol (MCP)"],
+  "about": ["Google News Full-Text RAG & Trigger Monitor", "Substack Revenue & Sponsor Scraper", "Shopify App Store Scraper", "App Store & Google Play Review Churn Intelligence", "Live ATS Jobs Scraper", "Meta Ads Leak Audit", "Model Context Protocol (MCP)"],
   "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/benchmarks.html"
 }
 </script>
@@ -38,8 +38,8 @@ code{background:var(--card2);padding:2px 5px;border-radius:5px;font-size:12px;co
 <body>
 <div class="wrap">
   <div class="top">
-    <div><strong>Apify External BI Suite — Objective Benchmarks (v2.7.0)</strong></div>
-    <div><a href="./index.html">Home</a> · <a href="./demos/index.html">7 Live HTML Dashboards</a> · <a href="./llms-full.txt">llms-full.txt</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit">GitHub</a></div>
+    <div><strong>Apify External BI Suite — Objective Benchmarks (v2.8.0)</strong></div>
+    <div><a href="./index.html">Home</a> · <a href="./demos/index.html">8 Live HTML Dashboards</a> · <a href="./llms-full.txt">llms-full.txt</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit">GitHub</a></div>
   </div>
 
   <h1>Verified 128 MB Cloud Benchmarks &amp; Engineering Proof</h1>
@@ -57,6 +57,13 @@ code{background:var(--card2);padding:2px 5px;border-radius:5px;font-size:12px;co
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td><strong>Slot #14 · Google News Full-Text RAG, URL Decoder &amp; Triggers</strong><br/><code>monitor_google_news_rag_triggers</code></td>
+        <td><span class="good">53.97 MB</span> / 7.85s (EN/KO/JA headlines)<br/><span class="good">48.94 MB</span> / 4.38s (8/8 full-text RAG, 72% HTML saved)</td>
+        <td><code>$0.80 / 1K</code> headlines<br/><code>$1.50 / 1K</code> full-text RAG<br/>Up to 50% Diamond discount</td>
+        <td>5-in-1 pure-HTTP <code>batchexecute</code> URL decoder + Bing News fallback, streaming HTML stripper (72–79% RAM reduction), 3-layer paywall sibling rescue, 512-token RAG chunks, 10 B2B/PR triggers, EN/KO/JA/DE/ES clustering &amp; <code>$0</code> pre-decode <code>watchDiff</code>.</td>
+        <td><a href="./demos/slot-14-google-news-intel.html">Dashboard</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-14-google-news-rag-fulltext.csv">CSV</a></td>
+      </tr>
       <tr>
         <td><strong>Slot #13 · Substack Revenue, Sponsors, RAG Posts &amp; Notes</strong><br/><code>audit_substack_newsletters_leads</code></td>
         <td><span class="good">51.91 MB</span> / 2.80s (newsletter intel)<br/><span class="good">43.30 MB</span> / 2.29s (RAG posts)<br/><span class="good">40.34 MB</span> / 1.39s (Notes/comments)</td>
@@ -102,22 +109,23 @@ code{background:var(--card2);padding:2px 5px;border-radius:5px;font-size:12px;co
     </tbody>
   </table>
 
-  <h2>2. Full 13-Actor Portfolio &amp; Independent Registry Scores</h2>
+  <h2>2. Full 14-Actor Portfolio &amp; Independent Registry Scores</h2>
   <div class="box">
     <ul>
       <li><strong>Glama MCP Directory:</strong> Grade <strong>A (4.8 / 5.0 average TDQS)</strong> · 92% Discovery Score · Dockerfile build verified green (<code>14.1s</code>).</li>
       <li><strong>mcptry.com:</strong> <strong>100 / 100</strong> (#1 in Sales &amp; CRM · Security Grade A · 23 ms edge latency).</li>
-      <li><strong>Official MCP Registry:</strong> <code>io.github.wonderpick/apify-b2b-ecom-automation-kit</code> verified at <code>v2.7.0</code> (Streamable HTTP + stdio + Docker).</li>
-      <li><strong>Security &amp; Hygiene Invariants:</strong> 13/13 Actors run under <code>LIMITED_PERMISSIONS</code>, enforce redirect-hop SSRF IPv4/IPv6 blocking, OWASP CSV formula neutralization, fail-closed batched PPE billing, and XSS-proof <code>OUTPUT_DASHBOARD.html</code>.</li>
+      <li><strong>Official MCP Registry:</strong> <code>io.github.wonderpick/apify-b2b-ecom-automation-kit</code> verified at <code>v2.8.0</code> (Streamable HTTP + stdio + Docker).</li>
+      <li><strong>Security &amp; Hygiene Invariants:</strong> 14/14 Actors run under <code>LIMITED_PERMISSIONS</code>, enforce redirect-hop SSRF IPv4/IPv6 + IP-pinned anti-rebinding blocking, OWASP CSV formula neutralization, fail-closed batched PPE billing, and XSS-proof <code>OUTPUT_DASHBOARD.html</code>.</li>
     </ul>
   </div>
 
-  <h2>3. Complete Actor &amp; MCP Tool Directory (13 Tools · 11 Prompts · 26 Public Store Tasks)</h2>
+  <h2>3. Complete Actor &amp; MCP Tool Directory (14 Tools · 12 Prompts · 29 Public Store Tasks)</h2>
   <table>
     <thead>
       <tr><th>#</th><th>MCP Tool Name</th><th>Apify Actor</th><th>Primary Pricing</th><th>Zero-Cost Skip Rule</th></tr>
     </thead>
     <tbody>
+      <tr><td>14</td><td><code>monitor_google_news_rag_triggers</code></td><td><a href="https://apify.com/maitreya_buddha/google-news-intel-rag-trigger-monitor">google-news-intel-rag-trigger-monitor</a></td><td>$0.80/1K · $1.50/1K RAG</td><td>$0 pre-decode <code>watchDiff</code> or filtered misses</td></tr>
       <tr><td>13</td><td><code>audit_substack_newsletters_leads</code></td><td><a href="https://apify.com/maitreya_buddha/substack-scraper-sponsor-revenue-leads">substack-scraper-sponsor-revenue-leads</a></td><td>$4/1K · $0.40/1K posts · $0.25/1K notes</td><td>$0 unchanged <code>watchDiff</code>, dormant, or filtered</td></tr>
       <tr><td>12</td><td><code>audit_shopify_app_churn_leads</code></td><td><a href="https://apify.com/maitreya_buddha/shopify-app-store-churn-intel-merchant-leads">shopify-app-store-churn-intel-merchant-leads</a></td><td>$5/1K apps · $0.30/1K reviews</td><td>$0 unchanged <code>watchDiff</code>, delisted, or filtered</td></tr>
       <tr><td>11</td><td><code>audit_app_store_churn_leads</code></td><td><a href="https://apify.com/maitreya_buddha/app-store-google-play-churn-intel-lead-enricher">app-store-google-play-churn-intel-lead-enricher</a></td><td>$5/1K apps · $0.50/1K reviews</td><td>$0 unchanged <code>watchDiff</code> or filtered</td></tr>
