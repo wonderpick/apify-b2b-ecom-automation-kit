@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Free Website 8-Point Audit &amp; DMARC A–F Email Deliverability Grader (No Login)</title>
+<meta name="description" content="Audit any B2B or local business website in 2 seconds: check SSL, mobile viewport, SEO tags, GA4/Meta pixels, booking/chat widgets, CMS, DNS DMARC/SPF grade (A–F), and factual cold-email opener." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Website 8-Point Audit & DMARC A–F Deliverability Grader",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free instant 8-point B2B website weakness audit and DNS DMARC/SPF deliverability grader with Excel-safe CSV export."
+}
+</script>
+<style>
+:root{--bg:#090e1c;--panel:#111930;--panel2:#172242;--border:#26365e;--txt:#eaf0fa;--muted:#94a6c8;--acc:#60a5fa;--acc2:#2563eb;--ok:#34d399;--warn:#fbbf24;--bad:#f87171}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:28px 18px 60px}
+.nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.brand{font-weight:800;font-size:15px;color:var(--txt);text-decoration:none}
+.navlinks{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12.5px;text-decoration:none;font-weight:600}
+.pill.primary{background:var(--acc2);border-color:#3b82f6;color:#fff}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--ok);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.28);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.18;margin:0 0 10px}
+.sub{color:var(--muted);font-size:15px;max-width:780px;margin:0 0 22px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type="text"]{flex:1 1 280px;background:#0b1226;color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14.5px}
+button.cta{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:1px solid #3b82f6;border-radius:10px;padding:12px 20px;font-size:14.5px;font-weight:700;cursor:pointer}
+button.cta:disabled{opacity:.55;cursor:wait}
+button.sec{background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.presets span{font-size:12.5px;color:var(--muted)}
+.chip{background:#0d152b;color:#cbd5e1;border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer}
+.chip:hover{border-color:var(--acc);color:#fff}
+.status{margin-top:12px;font-size:13px;color:var(--muted);min-height:20px}
+.status.err{color:var(--bad)}
+.status.ok{color:var(--ok)}
+.hidden{display:none!important}
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:14px}
+.kpi .lbl{font-size:11.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.kpi .val{font-size:20px;font-weight:800;color:var(--txt)}
+.kpi .val.green{color:var(--ok)}
+.kpi .val.warn{color:var(--warn)}
+ul.pains{list-style:none;margin:8px 0 16px;padding:0;display:grid;gap:7px}
+ul.pains li{background:#0c1428;border:1px solid rgba(251,191,36,.35);border-radius:9px;padding:9px 12px;font-size:13px;color:#fde68a}
+.pitch-box{background:#0b1226;border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px}
+.upgrade{background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid #3b82f6;border-radius:16px;padding:22px;margin-top:20px}
+.upgrade h2{margin:0 0 8px;font-size:20px}
+.upgrade p{margin:0 0 14px;color:#cbd5e1;font-size:14px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+a.big-cta{display:inline-flex;align-items:center;gap:8px;background:#10b981;color:#052e16;font-weight:800;font-size:14.5px;padding:12px 20px;border-radius:10px;text-decoration:none}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a class="brand" href="../index.html">Apify External BI Suite · Free Tools</a>
+    <div class="navlinks">
+      <a class="pill" href="./google-news-url-decoder.html">Google News Decoder</a>
+      <a class="pill" href="./substack-sponsor-checker.html">Substack Checker</a>
+      <a class="pill" href="./ats-jobs-checker.html">Live ATS Jobs</a>
+      <a class="pill" href="./saas-soc2-checker.html">SaaS SOC 2 Checker</a>
+      <a class="pill primary" href="https://apify.com/maitreya_buddha/local-b2b-website-audit-email-pitch-finder" target="_blank" rel="noopener">Full 2,000-Site Actor</a>
+    </div>
+  </div>
+
+  <span class="eyebrow">100% Free · Zero Login · Instant Agency X-Ray</span>
+  <h1>Website 8-Point Weakness &amp; DMARC A–F Grader</h1>
+  <p class="sub">Run a live agency audit on any business website in 2 seconds — checks <strong>HTTPS, mobile viewport, SEO tags, GA4/Meta pixels, booking/chat widgets, CMS, and DNS DMARC/SPF deliverability grade (A–F)</strong>.</p>
+
+  <div class="card">
+    <form id="auditForm">
+      <div class="row">
+        <input type="text" id="urlInput" maxlength="200" placeholder="Enter website URL (e.g. https://ddofoods.com or https://fellowproducts.com)" aria-label="Website URL" />
+        <button type="submit" class="cta" id="checkBtn">Run Free 8-Point Audit</button>
+      </div>
+      <div class="presets">
+        <span>Try 1-click live sites:</span>
+        <button type="button" class="chip" data-u="https://ddofoods.com">ddofoods.com</button>
+        <button type="button" class="chip" data-u="https://fellowproducts.com">fellowproducts.com</button>
+        <button type="button" class="chip" data-u="https://stripe.com">stripe.com</button>
+      </div>
+    </form>
+    <div id="statusMsg" class="status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div id="resultCard" class="card hidden">
+    <div class="bar">
+      <div>
+        <h2 id="siteTitle" style="margin:0 0 2px;font-size:21px">Website Audit</h2>
+        <div id="siteSub" style="font-size:13px;color:var(--muted)"></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button type="button" class="sec" id="copyShareBtn">Copy Shareable Link</button>
+        <button type="button" class="sec" id="downloadCsvBtn">Download CSV</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">DMARC / SPF Grade</div><div class="val green" id="kpiDmarc">—</div></div>
+      <div class="kpi"><div class="lbl">Agency Pitch Priority</div><div class="val warn" id="kpiScore">—</div></div>
+      <div class="kpi"><div class="lbl">Detected CMS</div><div class="val" id="kpiCms">—</div></div>
+      <div class="kpi"><div class="lbl">Pixels &amp; Chat Found</div><div class="val" id="kpiStack" style="font-size:14px">—</div></div>
+    </div>
+
+    <div>
+      <strong style="font-size:13px">Detected Weaknesses &amp; Revenue Leaks</strong>
+      <ul id="painList" class="pains"></ul>
+    </div>
+
+    <div class="pitch-box">
+      <strong style="font-size:12.5px;color:var(--acc)">Factual Agency Outreach Opener (Zero Hallucination)</strong>
+      <div id="pitchSubj" style="font-weight:700;margin-top:6px;font-size:13.5px"></div>
+      <div id="pitchBody" style="color:#cbd5e1;margin-top:4px;font-size:13px"></div>
+    </div>
+
+    <div class="upgrade">
+      <h2>Audit 2,000 Google Maps / Local B2B Websites + Recover Verified Owner Emails Free</h2>
+      <p>Connect any Google Maps Apify dataset or paste a spreadsheet of up to 2,000 prospects to run our full 8-point audit, 11-query DNS deliverability grading, Cloudflare-decoded owner emails, and CRM-ready Instantly/HubSpot exports with <strong>$5/month free Apify credits</strong> (covers ~1,100 audited businesses).</p>
+      <div class="cta-row">
+        <a class="big-cta" href="https://console.apify.com/actors/erqYEcg2GRhGJCTV5/input" target="_blank" rel="noopener">Audit 1,000+ Sites Free on Apify &rarr;</a>
+        <button type="button" class="sec" id="copyJsonBtn">Copy Ready JSON for This Site</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>MIT Open-Source <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener">Apify External BI &amp; MCP Suite</a></span>
+    <span><a href="../index.html">All 14 Actors &amp; 5 Free Tools</a></span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var API_BASE = 'https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/public/b2b-audit';
+  var lastData = null;
+
+  var form = document.getElementById('auditForm');
+  var input = document.getElementById('urlInput');
+  var btn = document.getElementById('checkBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var resultCard = document.getElementById('resultCard');
+  var siteTitle = document.getElementById('siteTitle');
+  var siteSub = document.getElementById('siteSub');
+  var kpiDmarc = document.getElementById('kpiDmarc');
+  var kpiScore = document.getElementById('kpiScore');
+  var kpiCms = document.getElementById('kpiCms');
+  var kpiStack = document.getElementById('kpiStack');
+  var painList = document.getElementById('painList');
+  var pitchSubj = document.getElementById('pitchSubj');
+  var pitchBody = document.getElementById('pitchBody');
+  var copyShareBtn = document.getElementById('copyShareBtn');
+  var downloadCsvBtn = document.getElementById('downloadCsvBtn');
+  var copyJsonBtn = document.getElementById('copyJsonBtn');
+
+  function owaspCsvCell(val) {
+    var s = val == null ? '' : String(val);
+    if (/^[\t\r\n]|^\s*[=+\-@]/.test(s)) s = "'" + s;
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  function clearNode(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+  function setStatus(t, cls) { statusMsg.textContent = t || ''; statusMsg.className = 'status' + (cls ? ' ' + cls : ''); }
+
+  function render(data) {
+    lastData = data;
+    resultCard.classList.remove('hidden');
+    siteTitle.textContent = data.companyName || data.domain || 'Website';
+    siteSub.textContent = (data.domain || '') + ' · HTTP ' + (data.httpStatus || 'N/A') + ' · ' + (data.responseTimeMs || 0) + ' ms · DMARC: ' + (data.dmarcPolicy || 'missing');
+    kpiDmarc.textContent = 'Grade ' + (data.deliverabilityGrade || 'F') + ' (' + (data.dmarcPolicy || 'missing') + ')';
+    kpiScore.textContent = String(data.pitchPriorityScore ?? 0) + ' / 100';
+    kpiCms.textContent = data.cmsPlatform || 'Custom';
+    var stackBits = (data.analyticsAndPixels || []).concat(data.bookingAndChatWidgets || []);
+    kpiStack.textContent = stackBits.length ? stackBits.join(', ') : 'None detected';
+
+    clearNode(painList);
+    var pains = Array.isArray(data.detectedPainPoints) ? data.detectedPainPoints : [];
+    if (pains.length === 0) {
+      var li = document.createElement('li');
+      li.style.borderColor = 'rgba(52,211,153,.35)';
+      li.style.color = '#a7f3d0';
+      li.textContent = 'Clean baseline! No major website or DMARC weaknesses detected.';
+      painList.appendChild(li);
+    } else {
+      pains.forEach(function (p) {
+        var li = document.createElement('li');
+        li.textContent = String(p);
+        painList.appendChild(li);
+      });
+    }
+    pitchSubj.textContent = 'Subject: ' + (data.coldEmailSubject || '');
+    pitchBody.textContent = data.coldEmailIcebreaker || '';
+  }
+
+  async function runCheck(urlVal, pushUrl) {
+    var clean = String(urlVal || '').trim();
+    if (!clean) { setStatus('Enter a website URL like "https://ddofoods.com".', 'err'); return; }
+    btn.disabled = true;
+    setStatus('Running 8-point website audit & Cloudflare DNS DMARC/SPF lookup...', '');
+    if (pushUrl) {
+      try {
+        var next = new URL(window.location.href);
+        next.searchParams.set('url', clean);
+        window.history.replaceState(null, '', next.toString());
+      } catch (e) {}
+    }
+    try {
+      var res = await fetch(API_BASE + '?url=' + encodeURIComponent(clean));
+      var data = await res.json();
+      if (!res.ok) { setStatus(data.message || data.error || 'Audit failed (HTTP ' + res.status + ')', 'err'); return; }
+      render(data);
+      setStatus('8-point audit + DMARC grade complete!' + (data.cached ? ' (Edge cached)' : ''), 'ok');
+    } catch (err) {
+      setStatus('Network error contacting audit endpoint.', 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); runCheck(input.value, true); });
+  document.querySelectorAll('.chip').forEach(function (c) {
+    c.addEventListener('click', function () { var u = c.getAttribute('data-u') || ''; input.value = u; runCheck(u, true); });
+  });
+  copyShareBtn.addEventListener('click', async function () {
+    try { await navigator.clipboard.writeText(window.location.href); copyShareBtn.textContent = 'Copied Share Link!'; setTimeout(function () { copyShareBtn.textContent = 'Copy Shareable Link'; }, 1800); } catch (e) {}
+  });
+  downloadCsvBtn.addEventListener('click', function () {
+    if (!lastData) return;
+    var hdr = ['Company', 'Domain', 'DMARC Grade', 'DMARC Policy', 'Pitch Score', 'CMS', 'Weaknesses', 'Opener'];
+    var row = [lastData.companyName, lastData.domain, lastData.deliverabilityGrade, lastData.dmarcPolicy, lastData.pitchPriorityScore, lastData.cmsPlatform, (lastData.detectedPainPoints || []).join('; '), lastData.coldEmailIcebreaker || ''];
+    var csv = hdr.map(owaspCsvCell).join(',') + '\r\n' + row.map(owaspCsvCell).join(',');
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a'); a.href = url; a.download = 'b2b-audit-' + (lastData.domain || 'site') + '.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  });
+  copyJsonBtn.addEventListener('click', async function () {
+    var ready = (lastData && lastData.apifyReadyInput) || { websiteUrls: [input.value.trim() || 'https://ddofoods.com'], enableDnsEmailCheck: true };
+    try { await navigator.clipboard.writeText(JSON.stringify(ready, null, 2)); copyJsonBtn.textContent = 'Copied Ready JSON!'; setTimeout(function () { copyJsonBtn.textContent = 'Copy Ready JSON for This Site'; }, 2000); } catch (e) {}
+  });
+  try {
+    var initU = new URLSearchParams(window.location.search).get('url');
+    if (initU) { input.value = initU; runCheck(initU, false); }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

@@ -11,10 +11,14 @@
 
 ---
 
-### Free Instant Web Tools (Zero Login · Live Data · Instant CSV)
+### 5 Free Instant Web Tools & Live 2026 Directories (Zero Login · Instant CSV)
 Try our production extraction engines directly in your browser with no account or API key:
-- **[Free Google News URL Decoder & Live Story Extractor](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html)** — Decode encrypted `news.google.com/articles/CBMi...` redirect URLs into real publisher links or pull live headlines in 2 seconds (Excel-safe CSV + automatic Bing News fallback).
-- **[Free Substack Paid Revenue & Active Sponsor Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html)** — Inspect any Substack publication's public Stripe pricing, verified paid ARR floor, active sponsors in recent issues, media kit link, and posting cadence live.
+- **[Free Google News URL Decoder & Live Story Extractor](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html)** — Decode `news.google.com/articles/CBMi...` links or pull live headlines in 2 seconds (Excel-safe CSV + Bing News fallback).
+- **[Free Substack Paid Revenue & Active Sponsor Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html)** — Inspect any Substack's Stripe pricing, paid ARR floor, active sponsors, media kit, and cadence live.
+- **[Free Live ATS Job Board Checker (Greenhouse, Ashby & Lever)](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/ats-jobs-checker.html)** — Check real-time open roles (0% ghost jobs), 45+ day hard-to-fill roles, and hiring tech signals.
+- **[Free SaaS Trust Center, SOC 2 & AI Subprocessor Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/saas-soc2-checker.html)** — Probe Vanta/Drata/SafeBase Trust Centers, SOC 2/ISO/HIPAA badges, DNS IAM/SSO, and AI subprocessors.
+- **[Free Website 8-Point Weakness & DMARC A–F Grader](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html)** — Audit HTTPS, mobile, SEO, GA4/Meta pixels, booking/chat widgets, CMS, and DNS DMARC/SPF grade (A–F).
+- **[Top 55 Paid Substack Newsletters & Active Sponsors Directory (2026)](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/substack-paid-sponsors-directory-2026.html)** — Searchable live-verified directory + [Google News Decoding Guide](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/decode-google-news-urls-2026.html) · [ATS Public API Guide](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/ats-public-job-board-apis-2026.html) · [Shopify Churn Guide](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/shopify-app-store-churn-reviews-guide.html).
 
 ### Quick Navigation
 - **[For Human Operators (Agencies, Founders & Outbound Teams)](#for-human-operators-agencies-founders--outbound-teams):** Plain-English use cases, `$0.25–$5/1K` vs `$49–$995/mo` comparison table, and 1-click n8n/Clay/Make templates.

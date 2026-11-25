@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Public Greenhouse, Lever &amp; Ashby Job Board JSON API Endpoints (2026 Developer Guide + Free Tester)</title>
+<meta name="description" content="Exact public unauthenticated JSON API endpoints for Greenhouse, Ashby, and Lever career boards (0% ghost jobs, zero scraping proxies) plus a free live ATS job checker." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/ats-public-job-board-apis-2026.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do Greenhouse, Lever, and Ashby expose public JSON APIs for job postings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Greenhouse exposes https://boards-api.greenhouse.io/v1/boards/{slug}/jobs, Ashby exposes https://api.ashbyhq.com/posting-api/job-board/{slug}, and Lever exposes https://api.lever.co/v0/postings/{slug}?mode=json — all return live structured JSON with zero authentication and zero ghost-job aggregator delay."
+      }
+    }
+  ]
+}
+</script>
+<style>
+:root{--bg:#090e1c;--panel:#111930;--border:#26365e;--txt:#eaf0fa;--muted:#94a6c8;--acc:#60a5fa}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:30px 18px 60px}
+a{color:var(--acc)}code{background:#172242;padding:2px 6px;border-radius:6px;font-size:13px;color:#93c5fd}
+pre{background:#0b1226;border:1px solid var(--border);border-radius:12px;padding:14px;overflow-x:auto;font-size:12.5px;color:#cbd5e1}
+.box{background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid #3b82f6;border-radius:14px;padding:18px;margin:20px 0}
+a.cta{display:inline-block;background:#10b981;color:#052e16;font-weight:800;padding:10px 18px;border-radius:10px;text-decoration:none;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><a href="../index.html">&larr; Back to Apify External BI Suite</a> · <a href="../tools/ats-jobs-checker.html">Open Free Live ATS Checker</a></p>
+  <h1>Public Greenhouse, Lever &amp; Ashby Job Board JSON API Endpoints (2026)</h1>
+  <p style="color:var(--muted)">Instead of scraping stale aggregator sites full of ghost jobs, recruiters, B2B SDRs, and job-search builders can query company ATS boards directly over clean public JSON.</p>
+
+  <div class="box">
+    <strong>Test any company's live ATS board in 1 second (zero login):</strong>
+    <p style="margin:6px 0 8px;color:#cbd5e1">Check open roles, 45+ day stuck-role urgency, remote count, and hiring tech signals with instant CSV export:</p>
+    <a class="cta" href="../tools/ats-jobs-checker.html?company=stripe">Open Free Live ATS Jobs Checker &rarr;</a>
+  </div>
+
+  <h2>Verified Zero-Auth Public Endpoints</h2>
+  <pre># 1. Greenhouse (e.g. stripe, anthropic, figma, airbnb, datadog)
+curl "https://boards-api.greenhouse.io/v1/boards/stripe/jobs"
+
+# 2. Ashby (e.g. linear, ramp, vercel, notion, openai)
+curl "https://api.ashbyhq.com/posting-api/job-board/linear"
+
+# 3. Lever (e.g. palantir, netflix, spotify)
+curl "https://api.lever.co/v0/postings/palantir?mode=json"</pre>
+
+  <h2>Why Sales &amp; Recruiting Teams Track 45–120 Day Stuck Roles</h2>
+  <p>Comparing <code>first_published</code> / <code>publishedAt</code> against today's date reveals roles that have sat unfilled for 45–120+ days — the strongest public signal of urgent recruiting budget or technical bottleneck. Pair that with tech-stack mentions inside role descriptions (<code>Snowflake</code>, <code>Kubernetes</code>, <code>Rust</code>, <code>Salesforce</code>) for high-converting B2B outreach.</p>
+
+  <h2>Search Across 71,900+ Live Boards Without Maintaining a Company List</h2>
+  <p>Our <a href="https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor">ATS Jobs &amp; Hiring Intent Monitor</a> covers 13 ATS engines and a 71,900-board O(1) directory ($0.99/1K saved rows, $0 proxy, $0 on unchanged weekly <code>watch_diff</code> runs — covered by Apify's free $5/mo credit).</p>
+</div>
+</body>
+</html>

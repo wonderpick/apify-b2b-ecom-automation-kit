@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>How to Decode Google News CBMi Redirect URLs in 2026 (Pure HTTP + Free Online Tool)</title>
+<meta name="description" content="Why Base64 decoding broke for Google News RSS CBMi/AU_yqL URLs, how to decode them in pure HTTP via 5-in-1 batchexecute without headless browsers, and a free no-login decoder tool." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/decode-google-news-urls-2026.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why did Base64 decoding stop working on Google News RSS URLs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google replaced plain protobuf Base64 strings inside /rss/articles/CBMi... links with opaque encrypted tokens (often starting with AU_yqL). Decoding them now requires fetching data-n-a-id, data-n-a-ts, and data-n-a-sg from the article wrapper HTML (~590 KB in) and calling Google's batchexecute RPC."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do you avoid HTTP 429 rate limits when decoding Google News URLs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Batch up to 5 tokens into a single batchexecute POST payload (5x fewer RPC calls), use a streaming tail-buffer scanner up to 1 MB instead of loading full pages in headless Chrome, and automatically fall back to Bing News RSS (?format=rss&mkt=...&setlang=...&cc=...) when EU consent.google.com redirects trigger."
+      }
+    }
+  ]
+}
+</script>
+<style>
+:root{--bg:#090e1c;--panel:#111930;--border:#26365e;--txt:#eaf0fa;--muted:#94a6c8;--acc:#60a5fa;--ok:#34d399}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:30px 18px 60px}
+a{color:var(--acc)}code{background:#172242;padding:2px 6px;border-radius:6px;font-size:13px;color:#93c5fd}
+pre{background:#0b1226;border:1px solid var(--border);border-radius:12px;padding:14px;overflow-x:auto;font-size:12.5px;color:#cbd5e1}
+.box{background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid #3b82f6;border-radius:14px;padding:18px;margin:20px 0}
+a.cta{display:inline-block;background:#10b981;color:#052e16;font-weight:800;padding:10px 18px;border-radius:10px;text-decoration:none;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><a href="../index.html">&larr; Back to Apify External BI Suite</a> · <a href="../tools/google-news-url-decoder.html">Open Free Live Decoder</a></p>
+  <h1>How to Decode Google News <code>CBMi</code> Redirect URLs in 2026 (Pure HTTP)</h1>
+  <p style="color:var(--muted)">If your Google News RSS script, n8n workflow, or RAG pipeline suddenly started breaking on <code>https://news.google.com/rss/articles/CBMi...</code> links, here is the exact technical cause and the working pure-HTTP fix.</p>
+
+  <div class="box">
+    <strong>Need real publisher URLs right now (zero code, zero login)?</strong>
+    <p style="margin:6px 0 8px;color:#cbd5e1">Try our free browser tool to search any keyword, auto-decode Google News links into real publisher URLs, and export Excel-safe CSV in 2 seconds:</p>
+    <a class="cta" href="../tools/google-news-url-decoder.html?q=OpenAI&locale=US:en">Open Free Google News URL Decoder &rarr;</a>
+  </div>
+
+  <h2>1. Why Offline Base64 Decoding Broke</h2>
+  <p>Before mid-2024, the Base64 token after <code>/articles/</code> embedded the publisher URL in plain ASCII inside a protobuf message. Today, most fresh Google News links wrap an opaque encrypted token (commonly beginning with <code>AU_yqL</code>) that can only be resolved server-side via Google's <code>batchexecute</code> RPC.</p>
+
+  <h2>2. The Working Pure-HTTP 2-Step Pipeline (No Puppeteer/Playwright)</h2>
+  <ol>
+    <li><strong>Stream-scan <code>/rss/articles/&lt;token&gt;</code> up to 1 MB:</strong> Google now places <code>data-n-a-id</code>, <code>data-n-a-ts</code>, and <code>data-n-a-sg</code> near <strong>byte 590,508</strong> of the HTML response. Do not truncate at 250 KB, and use a streaming tail-buffer reader so memory stays under 32 KB.</li>
+    <li><strong>Batch 5 tokens into one <code>batchexecute</code> POST:</strong> Posting <code>Fbv4je</code> / <code>garturlreq</code> in batches of 5 cuts HTTP 429 rate limits by 5x compared to 1-by-1 requests.</li>
+    <li><strong>Add automatic Bing News RSS fallback:</strong> In EU regions (where Google redirects to <code>consent.google.com</code>), <code>https://www.bing.com/news/search?q=...&amp;format=rss&amp;mkt=en-US&amp;setlang=en&amp;cc=US</code> embeds the direct publisher URL inside the <code>?url=</code> query parameter.</li>
+  </ol>
+
+  <pre>// Extract tokens from /rss/articles/ HTML (~590 KB offset)
+const sg = html.match(/data-n-a-sg="([^"]+)"/)?.[1];
+const ts = Number(html.match(/data-n-a-ts="(\d+)"/)?.[1]);
+const id = html.match(/data-n-a-id="([^"]+)"/)?.[1];
+
+// Batch up to 5 tokens in one POST to https://news.google.com/_/DotsSplashUi/data/batchexecute
+const inner = JSON.stringify(['garturlreq', [['X','X',['X','X'],null,null,1,1,'US:en',null,1,null,null,null,null,null,0,1],'X','X',1,[1,1,1],1,1,null,0,0,null,0], id, ts, sg]);
+const body = 'f.req=' + encodeURIComponent(JSON.stringify([[['Fbv4je', inner, null, '1']]]));</pre>
+
+  <h2>3. Need 100–5,000+ Full-Text Articles + 512-Token RAG Chunks?</h2>
+  <p>Our open-source Apify Actor (<a href="https://apify.com/maitreya_buddha/google-news-intel-rag-trigger-monitor">Google News Full-Text RAG &amp; Trigger Monitor</a>) runs this exact 5-in-1 pure-HTTP decoder in <strong>128 MB RAM ($0 proxy)</strong>, strips HTML in streaming mode, rescues paywalled articles via cluster siblings, and outputs 512-token LLM chunks + 10 B2B/PR crisis triggers — covered by Apify's free $5/month starter credits (~3,300 full-text articles).</p>
+</div>
+</body>
+</html>

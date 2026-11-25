@@ -1,13 +1,24 @@
-# Apify External Business Intelligence MCP Server (v2.7.0)
+# Apify External Business Intelligence MCP Server & 5 Free Web Tools (v2.8.0)
 
-> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.7.0) exposing 13 zero-proxy Apify Store Actors and 11 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Clay/Make workflows, and non-developer newsletter sponsor, AI/RAG, Shopify SaaS, mobile, agency, recruiting, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
+> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.8.0) exposing 14 zero-proxy Apify Store Actors, 12 workflow Prompts, and 5 free no-login interactive web utilities (Google News URL Decoder, Substack Revenue & Sponsor Checker, Live ATS Jobs Checker, SaaS SOC 2/AI Subprocessor Checker, and Website 8-Point & DMARC Grader). Pay only for real results — $0 on empty, unchanged, or filtered runs.
+
+## 5 Free Instant No-Login Web Tools & Live Directories
+
+- **Free Google News URL Decoder & Live Story Extractor**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html
+- **Free Substack Paid Revenue & Active Sponsor Checker**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html
+- **Free Live ATS Job Board Checker (Greenhouse, Ashby & Lever)**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/ats-jobs-checker.html
+- **Free SaaS Trust Center, SOC 2 & AI Subprocessor Checker**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/saas-soc2-checker.html
+- **Free Website 8-Point Audit & DMARC A–F Grader**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html
+- **Top 55 Paid Substack Newsletters & Active Sponsors Live Directory (2026)**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/substack-paid-sponsors-directory-2026.html
 
 ## Instant Connection Endpoints
 
 - **Zero-Install Remote MCP (Streamable HTTP)**: `https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp` (pass `Authorization: Bearer <APIFY_TOKEN>` or `X-Apify-Token: <APIFY_TOKEN>` for `tools/call`; discovery is tokenless).
 - **1-Line Local Stdio MCP (`npx`)**: `npx -y github:wonderpick/apify-b2b-ecom-automation-kit` (with `APIFY_TOKEN` in env).
 
-## When AI Agents Should Use Each Tool (13 verb_noun Tools)
+## When AI Agents Should Use Each Tool (14 verb_noun Tools)
+
+- **Google News Full-Text RAG, URL Decoder & B2B/PR Crisis Triggers**: Call `monitor_google_news_rag_triggers` — https://apify.com/maitreya_buddha/google-news-intel-rag-trigger-monitor ($0.80/1K headlines or $1.50/1K full-text RAG, up to 50% tiered store discounts, $0 on unchanged `watchDiff` skips). 5-in-1 pure-HTTP URL decoding + Bing News fallback, streaming HTML stripping (72-79% RAM saved), 3-layer paywall sibling rescue, 512-token RAG chunks, and 10 B2B/PR triggers across EN/KO/JA/DE/ES.
 
 - **Substack Paid Revenue, Sponsors, Author Emails, RAG Post Archives & Notes/Comments**: Call `audit_substack_newsletters_leads` — https://apify.com/maitreya_buddha/substack-scraper-sponsor-revenue-leads ($4/1K newsletters, $0.40/1K RAG posts, or $0.25/1K Notes/comments, up to 50% tiered store discounts, $0 on empty/unchanged `watchDiff`/filtered skips). Covers 35 categories (paid/trending/all), Stripe USD paid ARR floors, block & banner sponsor + media-kit detection, MX/DMARC verified emails, paragraph-preserving `/api/v1/archive` RAG plain text, public Notes + nested reader comments, and an interactive HTML Dashboard in 128MB RAM.
 

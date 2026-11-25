@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/</loc><lastmod>2026-11-25</lastmod><priority>1.0</priority></url>
-  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/benchmarks.html</loc><lastmod>2026-11-25</lastmod><priority>0.95</priority></url>
-  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/llms.txt</loc><lastmod>2026-11-25</lastmod><priority>0.9</priority></url>
-  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/llms-full.txt</loc><lastmod>2026-11-25</lastmod><priority>0.9</priority></url>
-  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/index.html</loc><lastmod>2026-11-25</lastmod><priority>0.9</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html</loc><lastmod>2026-11-25</lastmod><priority>0.98</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html</loc><lastmod>2026-11-25</lastmod><priority>0.98</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/ats-jobs-checker.html</loc><lastmod>2026-11-25</lastmod><priority>0.98</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/saas-soc2-checker.html</loc><lastmod>2026-11-25</lastmod><priority>0.96</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html</loc><lastmod>2026-11-25</lastmod><priority>0.96</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/substack-paid-sponsors-directory-2026.html</loc><lastmod>2026-11-25</lastmod><priority>0.95</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/decode-google-news-urls-2026.html</loc><lastmod>2026-11-25</lastmod><priority>0.93</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/ats-public-job-board-apis-2026.html</loc><lastmod>2026-11-25</lastmod><priority>0.93</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/shopify-app-store-churn-reviews-guide.html</loc><lastmod>2026-11-25</lastmod><priority>0.92</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/benchmarks.html</loc><lastmod>2026-11-25</lastmod><priority>0.90</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/llms.txt</loc><lastmod>2026-11-25</lastmod><priority>0.90</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/llms-full.txt</loc><lastmod>2026-11-25</lastmod><priority>0.90</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/index.html</loc><lastmod>2026-11-25</lastmod><priority>0.88</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-14-google-news-intel.html</loc><lastmod>2026-11-25</lastmod><priority>0.88</priority></url>
   <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-13-substack-intel.html</loc><lastmod>2026-11-25</lastmod><priority>0.85</priority></url>
   <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-12-shopify-apps.html</loc><lastmod>2026-11-25</lastmod><priority>0.85</priority></url>
   <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-11-app-churn.html</loc><lastmod>2026-11-25</lastmod><priority>0.85</priority></url>
   <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-10-ats-jobs.html</loc><lastmod>2026-11-25</lastmod><priority>0.85</priority></url>
-  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-09-meta-ads.html</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
-  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-08-local-audit.html</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
-  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-07-stockists.html</loc><lastmod>2026-11-25</lastmod><priority>0.8</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-09-meta-ads.html</loc><lastmod>2026-11-25</lastmod><priority>0.80</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-08-local-audit.html</loc><lastmod>2026-11-25</lastmod><priority>0.80</priority></url>
+  <url><loc>https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-07-stockists.html</loc><lastmod>2026-11-25</lastmod><priority>0.80</priority></url>
 </urlset>

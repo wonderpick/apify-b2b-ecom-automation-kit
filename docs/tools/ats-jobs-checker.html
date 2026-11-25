@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Free Live ATS Job Board Checker — Greenhouse, Ashby &amp; Lever (No Login, Instant CSV)</title>
+<meta name="description" content="Check any company's real-time open jobs directly from Greenhouse, Ashby, and Lever APIs (0% ghost jobs). Detect 45+ day stuck roles, remote jobs, and hiring tech signals with instant Excel-safe CSV export." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/ats-jobs-checker.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Live ATS Job Board Checker (Greenhouse, Ashby & Lever)",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/ats-jobs-checker.html",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free live ATS job board checker for Greenhouse, Ashby, and Lever with 45-day stuck role aging, hiring signals, and Excel-safe CSV export."
+}
+</script>
+<style>
+:root{--bg:#090e1c;--panel:#111930;--panel2:#172242;--border:#26365e;--txt:#eaf0fa;--muted:#94a6c8;--acc:#60a5fa;--acc2:#2563eb;--ok:#34d399;--warn:#fbbf24;--bad:#f87171}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 60px}
+.nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.brand{font-weight:800;font-size:15px;color:var(--txt);text-decoration:none}
+.navlinks{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12.5px;text-decoration:none;font-weight:600}
+.pill.primary{background:var(--acc2);border-color:#3b82f6;color:#fff}
+.pill:hover{border-color:var(--acc)}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--ok);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.28);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.18;margin:0 0 10px;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:15px;max-width:790px;margin:0 0 22px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type="text"]{flex:1 1 280px;background:#0b1226;color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14.5px}
+button.cta{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:1px solid #3b82f6;border-radius:10px;padding:12px 20px;font-size:14.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cta:hover{filter:brightness(1.08)}
+button.cta:disabled{opacity:.55;cursor:wait}
+button.sec{background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer}
+button.sec:hover{border-color:var(--acc)}
+.presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.presets span{font-size:12.5px;color:var(--muted)}
+.chip{background:#0d152b;color:#cbd5e1;border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer}
+.chip:hover{border-color:var(--acc);color:#fff}
+.status{margin-top:12px;font-size:13px;color:var(--muted);min-height:20px}
+.status.err{color:var(--bad)}
+.status.ok{color:var(--ok)}
+.hidden{display:none!important}
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:14px}
+.kpi .lbl{font-size:11.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.kpi .val{font-size:21px;font-weight:800;color:var(--txt)}
+.kpi .val.green{color:var(--ok)}
+.kpi .val.warn{color:var(--warn)}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 16px}
+.tag{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);color:#bfdbfe;border-radius:8px;padding:4px 9px;font-size:12px;font-weight:700}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #1e2b4d;vertical-align:top}
+th{background:#0d152b;color:#cbd5e1;font-size:11.5px;text-transform:uppercase;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+a.ext{color:var(--acc);text-decoration:none;font-weight:600}
+a.ext:hover{text-decoration:underline}
+.upgrade{background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid #3b82f6;border-radius:16px;padding:22px;margin-top:20px}
+.upgrade h2{margin:0 0 8px;font-size:20px}
+.upgrade p{margin:0 0 14px;color:#cbd5e1;font-size:14px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+a.big-cta{display:inline-flex;align-items:center;gap:8px;background:#10b981;color:#052e16;font-weight:800;font-size:14.5px;padding:12px 20px;border-radius:10px;text-decoration:none}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a class="brand" href="../index.html">Apify External BI Suite · Free Tools</a>
+    <div class="navlinks">
+      <a class="pill" href="./google-news-url-decoder.html">Google News Decoder</a>
+      <a class="pill" href="./substack-sponsor-checker.html">Substack Checker</a>
+      <a class="pill" href="./saas-soc2-checker.html">SaaS SOC 2 Checker</a>
+      <a class="pill" href="./website-dmarc-audit.html">Website &amp; DMARC Audit</a>
+      <a class="pill primary" href="https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor" target="_blank" rel="noopener">Full 71K-Board Actor</a>
+    </div>
+  </div>
+
+  <span class="eyebrow">100% Free · Zero Login · Direct ATS JSON (0% Ghost Jobs)</span>
+  <h1>Live ATS Job Board &amp; Hiring Urgency Checker</h1>
+  <p class="sub">Query any company's live <strong>Greenhouse, Ashby, or Lever</strong> career board directly in 1 second — zero stale job-board aggregators. Spot 45+ day hard-to-fill roles, hiring tech signals, and export Excel-safe CSV.</p>
+
+  <div class="card">
+    <form id="atsForm">
+      <div class="row">
+        <input type="text" id="companyInput" maxlength="140" placeholder="Enter company slug or domain (e.g. stripe, anthropic, figma, linear.app)" aria-label="Company slug or domain" />
+        <button type="submit" class="cta" id="checkBtn">Check Live ATS Jobs</button>
+      </div>
+      <div class="presets">
+        <span>Try 1-click live boards:</span>
+        <button type="button" class="chip" data-c="stripe">Stripe (Greenhouse)</button>
+        <button type="button" class="chip" data-c="anthropic">Anthropic (Greenhouse)</button>
+        <button type="button" class="chip" data-c="figma">Figma (Greenhouse)</button>
+        <button type="button" class="chip" data-c="linear">Linear (Ashby)</button>
+      </div>
+    </form>
+    <div id="statusMsg" class="status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div id="resultCard" class="card hidden">
+    <div class="bar">
+      <div>
+        <h2 id="boardHeading" style="margin:0 0 2px;font-size:21px">Live ATS Board</h2>
+        <div id="boardSub" style="font-size:13px;color:var(--muted)"></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button type="button" class="sec" id="copyShareBtn">Copy Shareable Link</button>
+        <button type="button" class="sec" id="downloadCsvBtn">Download CSV (Excel-Safe)</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">Live Open Roles</div><div class="val green" id="kpiTotal">—</div></div>
+      <div class="kpi"><div class="lbl">ATS Engine Verified</div><div class="val" id="kpiEngine">—</div></div>
+      <div class="kpi"><div class="lbl">Stuck 45+ Days (Urgent)</div><div class="val warn" id="kpiStuck">—</div></div>
+      <div class="kpi"><div class="lbl">Remote Roles</div><div class="val" id="kpiRemote">—</div></div>
+    </div>
+
+    <div>
+      <strong style="font-size:13px">Detected Hiring &amp; Tech Stack Signals</strong>
+      <div id="signalTags" class="tags"></div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Role Title (Direct Apply)</th>
+            <th>Department</th>
+            <th>Location</th>
+            <th>Posted / Age</th>
+          </tr>
+        </thead>
+        <tbody id="jobsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="upgrade">
+      <h2 id="upgradeHead">Search 71,900+ Live ATS Boards &amp; Export All Remaining Roles Free</h2>
+      <p>This instant checker shows the first 15 roles from Greenhouse, Ashby, or Lever for one company. To search by keyword or tech stack (e.g. <code>Snowflake</code>, <code>Rust</code>, <code>Account Executive</code>) across <strong>13 ATS engines &amp; 71,900+ boards</strong> with weekly <code>watch_diff</code> alerts and CRM exports, run our Apify Actor with <strong>$5/month free credits</strong> (covers ~5,000 live roles — no card needed).</p>
+      <div class="cta-row">
+        <a class="big-cta" href="https://console.apify.com/actors/R7CdG61iWo4QkKXyb/input" target="_blank" rel="noopener">Unlock 71K Live Boards Free on Apify &rarr;</a>
+        <button type="button" class="sec" id="copyJsonBtn">Copy Ready JSON for This Company</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>MIT Open-Source <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener">Apify External BI &amp; MCP Suite</a> · <a href="../guides/ats-public-job-board-apis-2026.html">Public ATS API Endpoints Guide</a></span>
+    <span><a href="../index.html">All 14 Actors &amp; 5 Free Tools</a></span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var API_BASE = 'https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/public/ats-jobs';
+  var lastData = null;
+
+  var form = document.getElementById('atsForm');
+  var input = document.getElementById('companyInput');
+  var btn = document.getElementById('checkBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var resultCard = document.getElementById('resultCard');
+  var boardHeading = document.getElementById('boardHeading');
+  var boardSub = document.getElementById('boardSub');
+  var kpiTotal = document.getElementById('kpiTotal');
+  var kpiEngine = document.getElementById('kpiEngine');
+  var kpiStuck = document.getElementById('kpiStuck');
+  var kpiRemote = document.getElementById('kpiRemote');
+  var signalTags = document.getElementById('signalTags');
+  var jobsBody = document.getElementById('jobsBody');
+  var upgradeHead = document.getElementById('upgradeHead');
+  var copyShareBtn = document.getElementById('copyShareBtn');
+  var downloadCsvBtn = document.getElementById('downloadCsvBtn');
+  var copyJsonBtn = document.getElementById('copyJsonBtn');
+
+  function safeHttpHref(raw) {
+    if (typeof raw !== 'string') return null;
+    try {
+      var u = new URL(raw);
+      if ((u.protocol === 'https:' || u.protocol === 'http:') && !u.username && !u.password) return u.toString();
+      return null;
+    } catch (e) { return null; }
+  }
+
+  function owaspCsvCell(val) {
+    var s = val == null ? '' : String(val);
+    if (/^[\t\r\n]|^\s*[=+\-@]/.test(s)) s = "'" + s;
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+
+  function clearNode(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+
+  function setStatus(t, cls) {
+    statusMsg.textContent = t || '';
+    statusMsg.className = 'status' + (cls ? ' ' + cls : '');
+  }
+
+  function render(data) {
+    lastData = data;
+    resultCard.classList.remove('hidden');
+    boardHeading.textContent = (data.company || '').toUpperCase() + ' — Live ' + (data.atsEngine || 'ATS') + ' Board';
+    boardSub.textContent = 'Showing ' + data.shownCount + ' of ' + data.totalOpenJobs + ' live open roles' + (data.remainingLockedCount > 0 ? ' (' + data.remainingLockedCount + ' more available on Apify)' : '');
+    kpiTotal.textContent = String(data.totalOpenJobs || 0);
+    kpiEngine.textContent = data.atsEngine || 'ATS';
+    kpiStuck.textContent = String(data.stuckRoles45dCount || 0);
+    kpiRemote.textContent = String(data.remoteCount || 0);
+    upgradeHead.textContent = data.remainingLockedCount > 0
+      ? 'Unlock All ' + data.totalOpenJobs + ' Live Roles (' + data.remainingLockedCount + ' Remaining) + 71,900 Boards Free'
+      : 'Search 71,900+ Live ATS Boards & Tech Stacks Free on Apify';
+
+    clearNode(signalTags);
+    var sigs = Array.isArray(data.hiringSignals) ? data.hiringSignals : [];
+    if (sigs.length === 0) {
+      var none = document.createElement('span');
+      none.className = 'tag';
+      none.textContent = 'General Hiring';
+      signalTags.appendChild(none);
+    } else {
+      sigs.forEach(function (s) {
+        var el = document.createElement('span');
+        el.className = 'tag';
+        el.textContent = s.signal + ' (' + s.count + ')';
+        signalTags.appendChild(el);
+      });
+    }
+
+    clearNode(jobsBody);
+    (data.jobs || []).forEach(function (j, idx) {
+      var tr = document.createElement('tr');
+      var td0 = document.createElement('td'); td0.textContent = String(idx + 1); tr.appendChild(td0);
+      var td1 = document.createElement('td');
+      var href = safeHttpHref(j.applyUrl);
+      if (href) {
+        var a = document.createElement('a');
+        a.className = 'ext'; a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = j.title || 'Open Role';
+        td1.appendChild(a);
+      } else {
+        td1.textContent = j.title || 'Open Role';
+      }
+      tr.appendChild(td1);
+      var td2 = document.createElement('td'); td2.textContent = j.department || 'General'; tr.appendChild(td2);
+      var td3 = document.createElement('td'); td3.textContent = j.location || 'Unspecified'; tr.appendChild(td3);
+      var td4 = document.createElement('td');
+      td4.style.whiteSpace = 'nowrap';
+      td4.textContent = (j.postedAt || 'Live') + (typeof j.ageDays === 'number' ? ' (' + j.ageDays + 'd)' : '');
+      tr.appendChild(td4);
+      jobsBody.appendChild(tr);
+    });
+  }
+
+  async function runCheck(company, pushUrl) {
+    var clean = String(company || '').trim();
+    if (!clean) { setStatus('Enter a company slug like "stripe", "anthropic", or "linear".', 'err'); return; }
+    btn.disabled = true;
+    setStatus('Querying official Greenhouse, Ashby & Lever APIs live...', '');
+    if (pushUrl) {
+      try {
+        var next = new URL(window.location.href);
+        next.searchParams.set('company', clean);
+        window.history.replaceState(null, '', next.toString());
+      } catch (e) {}
+    }
+    try {
+      var res = await fetch(API_BASE + '?company=' + encodeURIComponent(clean));
+      var data = await res.json();
+      if (!res.ok) {
+        lastData = data;
+        resultCard.classList.add('hidden');
+        setStatus(data.message || data.error || 'Lookup failed (HTTP ' + res.status + ')', 'err');
+        return;
+      }
+      render(data);
+      setStatus('Found ' + data.totalOpenJobs + ' live roles on ' + data.atsEngine + (data.cached ? ' (edge cached)' : '') + '!', 'ok');
+    } catch (err) {
+      setStatus('Network error contacting live ATS checker.', 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); runCheck(input.value, true); });
+  document.querySelectorAll('.chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      var v = c.getAttribute('data-c') || '';
+      input.value = v;
+      runCheck(v, true);
+    });
+  });
+
+  copyShareBtn.addEventListener('click', async function () {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      copyShareBtn.textContent = 'Copied Share Link!';
+      setTimeout(function () { copyShareBtn.textContent = 'Copy Shareable Link'; }, 1800);
+    } catch (e) {}
+  });
+
+  downloadCsvBtn.addEventListener('click', function () {
+    if (!lastData || !Array.isArray(lastData.jobs)) return;
+    var rows = [['Company', 'ATS Engine', 'Title', 'Department', 'Location', 'Posted Date', 'Age Days', 'Apply URL'].map(owaspCsvCell).join(',')];
+    lastData.jobs.forEach(function (j) {
+      rows.push([lastData.company, lastData.atsEngine, j.title, j.department, j.location, j.postedAt || '', j.ageDays ?? '', j.applyUrl || ''].map(owaspCsvCell).join(','));
+    });
+    var blob = new Blob([rows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'ats-live-jobs-' + (lastData.company || 'board') + '.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  copyJsonBtn.addEventListener('click', async function () {
+    var ready = (lastData && lastData.apifyReadyInput) || { targets: [input.value.trim() || 'stripe.com'], outputMode: 'both', maxTotalJobs: 200 };
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(ready, null, 2));
+      copyJsonBtn.textContent = 'Copied Ready JSON!';
+      setTimeout(function () { copyJsonBtn.textContent = 'Copy Ready JSON for This Company'; }, 2000);
+    } catch (e) {}
+  });
+
+  try {
+    var initC = new URLSearchParams(window.location.search).get('company');
+    if (initC) { input.value = initC; runCheck(initC, false); }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
