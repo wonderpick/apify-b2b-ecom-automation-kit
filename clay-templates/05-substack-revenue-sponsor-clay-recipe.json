@@ -1,0 +1,48 @@
+{
+  "name": "Clay HTTP Enrichment Column — Substack Paid Revenue, Sponsors & Author Leads v0.1.1",
+  "actorSlug": "maitreya_buddha~substack-scraper-sponsor-revenue-leads",
+  "method": "POST",
+  "endpoint": "https://api.apify.com/v2/acts/maitreya_buddha~substack-scraper-sponsor-revenue-leads/run-sync-get-dataset-items?timeout=60&memory=128",
+  "headers": {
+    "Authorization": "Bearer REPLACE_WITH_APIFY_TOKEN",
+    "Content-Type": "application/json"
+  },
+  "bodyTemplate": {
+    "mode": "newsletter_intelligence",
+    "upstreamItems": [
+      {
+        "publicationUrl": "{{substack_url_or_domain}}",
+        "handle": "{{substack_author_handle}}",
+        "category": "{{substack_category}}"
+      }
+    ],
+    "maxPublications": 1,
+    "maxPostsPerPublication": 6,
+    "includeAboutAndDomainEnrich": true,
+    "outreachPersona": "sponsor_brand",
+    "generateDashboardHtml": false,
+    "watchDiff": false,
+    "crmPreset": "default"
+  },
+  "recommendedClayColumns": {
+    "publicationName": "$.0.publicationName",
+    "subdomain": "$.0.subdomain",
+    "publicationUrl": "$.0.publicationUrl",
+    "authorName": "$.0.authorName",
+    "totalSubscribersApprox": "$.0.totalSubscribersApprox",
+    "bestsellerTier": "$.0.bestsellerTier",
+    "minAnnualPriceUsd": "$.0.minAnnualPriceUsd",
+    "verifiedPaidArrFloorUsd": "$.0.verifiedPaidArrFloorUsd",
+    "arrConfidence": "$.0.arrConfidence",
+    "activityStatus": "$.0.activityStatus",
+    "hasSponsorSignal": "$.0.hasSponsorSignal",
+    "detectedSponsorBrands": "$.0.detectedSponsorBrands",
+    "mediaKitUrls": "$.0.mediaKitUrls",
+    "primaryEmail": "$.0.primaryEmail",
+    "inboxType": "$.0.inboxType",
+    "deliverabilityGrade": "$.0.deliverabilityGrade",
+    "opportunityScore": "$.0.opportunityScore",
+    "outreachSubject": "$.0.outreachSubject",
+    "outreachBody": "$.0.outreachBody"
+  }
+}

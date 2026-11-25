@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.6.0) — 12 verb_noun External-Intelligence Tools + 10 One-Click Prompts
+ * Shared MCP Catalog (v2.7.0) — 13 verb_noun External-Intelligence Tools + 11 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.6.0';
+export const SERVER_VERSION = '2.7.0';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -1388,6 +1388,162 @@ export const TOOLS = [
       switcherPriorityScore: { type: 'integer', description: '0-100 unhappy merchant switching score (in merchant_churn_leads mode).' },
     }),
   },
+  {
+    name: 'audit_substack_newsletters_leads',
+    actorSlug: 'maitreya_buddha~substack-scraper-sponsor-revenue-leads',
+    annotations: {
+      title: 'Audit Substack Newsletters, Paid ARR, Sponsors, RAG Posts & Notes',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
+    description:
+      'Audit Substack newsletters across 35 categories, search queries, or handles/URLs to compute Stripe USD paid ARR floors, detect sponsor brands and media kits, verify author emails (MX/DMARC), stream RAG post archives, and extract Notes and comments.\n\nParameters: Supply categories, searchQueries, publicationUrlsOrHandles, or upstreamItems (omitting all returns 0 items at $0). Choose mode ("newsletter_intelligence", "post_sponsor_stream", or "notes_and_comments"), optional watchDiff + dedupStoreName, or pre-charge filters. Requires APIFY_TOKEN.\n\nBehavior & Billing: Runs in 128 MB pure HTTP ($0 proxy), writes optional watchDiff KV snapshots and webhookUrl payloads, isolates unreachable hosts in OUTPUT_SUMMARY, and bills $4/1K newsletters, $0.40/1K posts, or $0.25/1K notes/comments ($0 on empty/unchanged/filtered misses).\n\nUse for Substack sponsor leads, revenue intel, RAG archives, and Notes/comments; do not use for Link-in-Bio agencies (use enrich_creator_bio_leads) or Shopify Apps (use audit_shopify_app_churn_leads).',
+    inputSchema: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        mode: {
+          type: 'string',
+          enum: ['newsletter_intelligence', 'post_sponsor_stream', 'notes_and_comments'],
+          description: 'Execution mode: newsletter_intelligence ($4/1K dossiers), post_sponsor_stream ($0.40/1K RAG posts + sponsors), or notes_and_comments ($0.25/1K public Notes + nested comments).',
+          default: 'newsletter_intelligence',
+        },
+        categories: {
+          type: 'array',
+          maxItems: 10,
+          items: { type: 'string' },
+          description: 'Optional Substack category slugs or names (e.g. ["technology", "finance", "business", "culture"]). Optional when searchQueries or publicationUrlsOrHandles is provided.',
+        },
+        discoveryBoard: {
+          type: 'string',
+          enum: ['paid', 'trending', 'public_all', 'both_leaderboards'],
+          description: 'Substack category board to pull: paid (bestsellers), trending (rising), public_all (free + paid), or both_leaderboards.',
+          default: 'paid',
+        },
+        searchQueries: {
+          type: 'array',
+          maxItems: 10,
+          items: { type: 'string' },
+          description: 'Optional Substack search keywords to discover niche newsletters (e.g. ["semiconductors", "ai engineering"]).',
+        },
+        publicationUrlsOrHandles: {
+          type: 'array',
+          maxItems: 200,
+          items: { type: 'string' },
+          description: 'Optional direct Substack URLs, custom newsletter domains, subdomains, or @author handles (e.g. ["https://newsletter.pragmaticengineer.com", "bytebytego", "@semianalysis"]).',
+        },
+        upstreamItems: {
+          type: 'array',
+          maxItems: 500,
+          items: { type: 'object', additionalProperties: true },
+          description: 'Optional upstream JSON rows from Clay, Make, n8n, or another Apify Actor for cross-run chaining under LIMITED_PERMISSIONS.',
+        },
+        maxPublications: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 500,
+          description: 'Maximum Substack publications to analyze (1-500).',
+          default: 15,
+        },
+        maxPostsPerPublication: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 500,
+          description: 'Maximum recent posts per publication via streaming RSS or /api/v1/archive cursor pagination (1-500).',
+          default: 10,
+        },
+        includeCleanPostText: {
+          type: 'boolean',
+          description: 'In post_sponsor_stream mode, fetch full public post bodies and output paragraph-preserving cleanPlainText + ragTokenEstimate.',
+          default: true,
+        },
+        maxNotesPerAuthor: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 200,
+          description: 'In notes_and_comments mode, maximum public Substack Notes per author (0-200).',
+          default: 20,
+        },
+        maxCommentsPerPost: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 200,
+          description: 'In notes_and_comments mode, maximum flattened nested reader comments per post (0-200).',
+          default: 50,
+        },
+        includeAboutAndDomainEnrich: {
+          type: 'boolean',
+          description: 'Fetch /about, author public_profile, and 1-hop custom domain /sponsor or /contact pages for emails, media kits, and DNS MX/SPF/DMARC checks.',
+          default: true,
+        },
+        outreachPersona: {
+          type: 'string',
+          enum: ['sponsor_brand', 'b2b_agency', 'pr_media', 'micro_pe_analyst'],
+          description: 'Outreach persona used to tailor outreachSubject and outreachBody.',
+          default: 'sponsor_brand',
+        },
+        onlyWithEmail: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only newsletters with at least one verified email ($0 otherwise).',
+          default: false,
+        },
+        onlyWithSponsorSignal: {
+          type: 'boolean',
+          description: 'Pre-charge filter: emit only newsletters with detected sponsor blocks, banners, or media-kit links ($0 otherwise).',
+          default: false,
+        },
+        excludeDormant: {
+          type: 'boolean',
+          description: 'Pre-charge filter: skip dormant newsletters with no post in 45+ days at $0.',
+          default: false,
+        },
+        minBestsellerTier: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 100000,
+          description: 'Pre-charge filter: minimum Substack bestseller paid-subscriber badge tier (0, 100, 1000, 10000; $0 below).',
+          default: 0,
+        },
+        watchDiff: {
+          type: 'boolean',
+          description: 'Enable weekly stateful watch_diff in newsletter_intelligence mode to skip unchanged publications at $0 and emit 8 change triggers.',
+          default: false,
+        },
+        dedupStoreName: {
+          type: 'string',
+          description: 'Optional Apify Named Key-Value Store name for watchDiff snapshots (default: substack-intel-watch).',
+        },
+        crmPreset: {
+          type: 'string',
+          enum: ['default', 'instantly', 'smartlead', 'hubspot', 'lemlist'],
+          description: 'Optional flat OWASP CSV-safe CRM export preset.',
+          default: 'default',
+        },
+        webhookUrl: {
+          type: 'string',
+          description: 'Optional SSRF-protected HTTPS webhook URL to receive run results.',
+        },
+      },
+    },
+    outputSchema: makeOutputSchema('Substack newsletter intelligence dossiers, RAG post archive rows, or public Notes & nested comment records.', {
+      recordType: { type: 'string', description: 'Record type: substack_newsletter_intelligence, substack_post, substack_note, or post_comment.' },
+      publicationName: { type: 'string', description: 'Substack publication display name.' },
+      subdomain: { type: 'string', description: 'Canonical Substack subdomain.' },
+      publicationUrl: { type: 'string', description: 'Canonical newsletter URL (custom domain or substack.com).' },
+      authorName: { type: 'string', description: 'Primary newsletter author name.' },
+      totalSubscribersApprox: { type: 'integer', description: 'Approximate total subscriber count parsed from Substack metadata.' },
+      bestsellerTier: { type: 'integer', description: 'Verified Substack paid bestseller tier (100, 1000, 10000, etc.).' },
+      verifiedPaidArrFloorUsd: { type: 'number', description: 'Conservative USD annual paid revenue floor derived from bestsellerTier and Stripe plans.' },
+      hasSponsorSignal: { type: 'boolean', description: 'Whether sponsor blocks, banner ads, or media-kit links were detected.' },
+      primaryEmail: { type: 'string', description: 'Prioritized author or sponsor contact email (or null).' },
+      deliverabilityGrade: { type: 'string', description: 'DNS MX/SPF/DMARC deliverability grade (A-F).' },
+      opportunityScore: { type: 'integer', description: '0-100 sponsorship/outreach opportunity score.' },
+      cleanPlainText: { type: 'string', description: 'Paragraph-preserving plain text for AI/RAG pipelines (in post_sponsor_stream mode).' },
+      bodyText: { type: 'string', description: 'Plain text content of a Substack Note or nested reader comment (in notes_and_comments mode).' },
+    }),
+  },
 ];
 
 // Backward-compatible internal alias map for v1.x tool names (never advertised in tools/list)
@@ -1404,6 +1560,7 @@ export const LEGACY_TOOL_ALIASES = {
   ats_jobs_hiring_intent_tech_stack_monitor: 'monitor_ats_hiring_intent',
   app_store_google_play_churn_intel_lead_enricher: 'audit_app_store_churn_leads',
   shopify_app_store_churn_intel_merchant_leads: 'audit_shopify_app_churn_leads',
+  substack_scraper_sponsor_revenue_leads: 'audit_substack_newsletters_leads',
 };
 
 export const TOOL_MAP = new Map(TOOLS.map((t) => [t.name, t]));
@@ -1610,6 +1767,24 @@ export const PROMPTS = [
       {
         name: 'mode',
         description: 'Execution mode: app_intelligence (competitor & micro-PE dossier) or merchant_churn_leads (1-2 star unhappy merchant leads, default: app_intelligence).',
+        required: false,
+      },
+    ],
+  },
+  {
+    name: 'audit_substack_sponsors_and_rag_archive',
+    title: 'Audit Substack Paid ARR, Sponsors, Author Emails, RAG Posts & Notes',
+    description:
+      'Discover Substack newsletters across 35 categories or direct handles/URLs to compute Stripe USD paid ARR floors, active sponsor brands, MX-verified emails, full-text RAG post archives, and public Notes & nested comments.',
+    arguments: [
+      {
+        name: 'targetsOrCategories',
+        description: 'Substack category slugs (e.g. "technology, finance") OR comma-separated publication URLs/handles (e.g. "https://newsletter.pragmaticengineer.com, bytebytego, @semianalysis").',
+        required: true,
+      },
+      {
+        name: 'mode',
+        description: 'Execution mode: newsletter_intelligence (paid ARR, sponsors & verified emails), post_sponsor_stream (RAG cleanPlainText + per-post sponsors), or notes_and_comments (public Notes + nested comments, default: newsletter_intelligence).',
         required: false,
       },
     ],
@@ -1903,14 +2078,47 @@ export function buildPromptResult(name, args = {}) {
         ],
       };
     }
+    case 'audit_substack_sponsors_and_rag_archive': {
+      const rawVal = clean(args.targetsOrCategories, 'technology');
+      const validModes = new Set(['newsletter_intelligence', 'post_sponsor_stream', 'notes_and_comments']);
+      const mode = validModes.has(clean(args.mode, 'newsletter_intelligence'))
+        ? clean(args.mode, 'newsletter_intelligence')
+        : 'newsletter_intelligence';
+      const parts = rawVal.split(',').map((s) => s.trim()).filter(Boolean);
+      const looksLikeUrlsOrHandles =
+        parts.length > 0 && parts.some((p) => p.includes('.') || p.startsWith('@') || p.includes('/'));
+      const argHint = looksLikeUrlsOrHandles
+        ? `\`publicationUrlsOrHandles: ${JSON.stringify(parts)}\``
+        : `\`categories: ${JSON.stringify(parts)}\`, \`discoveryBoard: "paid"\``;
+      return {
+        description: prompt.description,
+        messages: [
+          {
+            role: 'user',
+            content: {
+              type: 'text',
+              text: [
+                `Call \`audit_substack_newsletters_leads\` with \`mode: "${mode}"\`, ${argHint}, and \`maxPublications: ${mode === 'newsletter_intelligence' ? 10 : 3}\`.`,
+                mode === 'post_sponsor_stream'
+                  ? 'Summarize extracted Substack posts with RAG token estimates, highlight `hasSponsorBlock === true` advertiser mentions, and prepare clean plain-text chunks for downstream vector ingestion.'
+                  : mode === 'notes_and_comments'
+                    ? 'Highlight high-signal author Notes (`recordType === "substack_note"`) and nested reader comments (`isAuthorReply === true` or top likes) grouped by publication.'
+                    : 'Return a prioritized Substack sponsorship & revenue table sorted by `opportunityScore` (Publication, Author, Total Subscribers, Bestseller Tier, Verified Paid ARR Floor USD, Sponsor Brands & Media Kit, Verified Primary Email & DNS Grade, and Outreach Subject/Body), skipping any `support_or_billing` inboxes.',
+              ].join('\n'),
+            },
+          },
+        ],
+      };
+    }
     default:
       return null;
   }
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.6.0 — 12 zero-proxy tools + 10 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.7.0 — 13 zero-proxy tools + 11 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
+  '- Substack newsletter paid ARR floor, sponsor brands & media kits, MX/DMARC verified author emails, /api/v1/archive RAG post text, public Substack Notes & nested reader comments -> audit_substack_newsletters_leads.',
   '- Shopify App Store pricing tiers (USD), Built for Shopify status, 5-star histograms, 14-language churn NLP, micro-PE scores, developer DNS/email contacts & 1-2 star unhappy merchant review leads -> audit_shopify_app_churn_leads.',
   '- iOS App Store & Google Play unified churn intel, 14-language review pain clusters, ASO audits, CNAME MMP & Wayback->Live gtm.js X-Ray, EU-DSA developer contacts & streaming reviews (up to 10K/app) -> audit_app_store_churn_leads.',
   '- Live ATS jobs, 45-120d hard-to-fill recruiting signals, 70+ tech-stack hiring intent, company hiring dossiers & weekly watch_diff across 13 ATS engines + 71,900+ board directory + 7 global feeds (works with domains OR zero-list keywords like "Snowflake"/"Rust") -> monitor_ats_hiring_intent.',
@@ -1923,7 +2131,7 @@ export const SERVER_INSTRUCTIONS = [
   '- Creator/influencer Link-in-Bio agency emails, monetization links, and Readiness Score -> enrich_creator_bio_leads.',
   '- South Korea MFDS cosmetic recall & safety notices (English or Korean queries) -> search_korea_mfds_recalls.',
   '- South Korea MFDS 219,000+ functional cosmetic filings & hidden Korean OEM/ODM factories -> search_korea_mfds_oem_filings.',
-  'Built-in Prompts: audit_shopify_app_churn_and_draft_outreach, audit_app_store_churn_and_draft_outreach, monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
+  'Built-in Prompts: audit_substack_sponsors_and_rag_archive, audit_shopify_app_churn_and_draft_outreach, audit_app_store_churn_and_draft_outreach, monitor_ats_hiring_signals_and_draft_outreach, audit_meta_ads_leaks_and_draft_pitches, audit_local_leads_and_draft_pitches, prospect_competitor_retail_stockists, kbeauty_supplier_due_diligence, audit_vendor_security_and_ai_risk, monitor_competitor_shopify_changes, build_creator_sponsorship_shortlist.',
   'Safety: All lookup/enrichment/audit tools are non-destructive and idempotent; monitor/watch_diff tools only persist non-destructive Apify Key-Value Store snapshots. Never auto-send cold emails unless outreachStatus === "ready", primaryEmail is non-empty (inboxType !== "cs_ticket_queue" and inboxType !== "none"), and zeroBounceUnsafe !== true.',
 ].join('\n');
 

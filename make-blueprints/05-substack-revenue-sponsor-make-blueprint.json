@@ -1,0 +1,86 @@
+{
+  "name": "Weekly Substack Sponsor, Paid Revenue & Media-Kit Monitor -> Slack Alerts",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true,
+        "useNewZLibDeCompress": true
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/maitreya_buddha~substack-scraper-sponsor-revenue-leads/run-sync-get-dataset-items?timeout=60&memory=128",
+        "method": "post",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer REPLACE_WITH_APIFY_TOKEN" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "parseResponse": true,
+        "data": "{\"mode\":\"newsletter_intelligence\",\"categories\":[\"technology\",\"finance\"],\"discoveryBoard\":\"paid\",\"maxPublications\":10,\"maxPostsPerPublication\":6,\"includeAboutAndDomainEnrich\":true,\"watchDiff\":true,\"dedupStoreName\":\"make-substack-sponsor-watch\"}"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "expect": []
+      }
+    },
+    {
+      "id": 2,
+      "module": "builtin:BasicFeeder",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "array": "{{1.data}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 }
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {
+        "handleErrors": true
+      },
+      "filter": {
+        "name": "High-Value Sponsor-Ready Newsletters (Score >= 60)",
+        "conditions": [
+          [
+            {
+              "a": "{{2.opportunityScore}}",
+              "b": "60",
+              "o": "number:greaterOrEqual"
+            }
+          ]
+        ]
+      },
+      "mapper": {
+        "url": "https://hooks.slack.com/services/REPLACE/WITH/WEBHOOK",
+        "method": "post",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "data": "{\"text\":\"Substack Sponsor Lead: {{2.publicationName}} by {{2.authorName}} (Score {{2.opportunityScore}} | Paid ARR Floor: ${{2.verifiedPaidArrFloorUsd}} | Subs: {{2.totalSubscribersApprox}} | Email: {{2.primaryEmail}} [DNS {{2.deliverabilityGrade}}] | Sponsors: {{2.hasSponsorSignal}})\\nPitch: {{2.outreachSubject}}\"}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 }
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false
+    }
+  }
+}

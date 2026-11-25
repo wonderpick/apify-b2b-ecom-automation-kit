@@ -1,13 +1,15 @@
-# Apify External Business Intelligence MCP Server (v2.6.0)
+# Apify External Business Intelligence MCP Server (v2.7.0)
 
-> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.6.0) exposing 12 zero-proxy Apify Store Actors and 10 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Clay/Make workflows, and non-developer Shopify SaaS, mobile, agency, recruiting, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
+> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.7.0) exposing 13 zero-proxy Apify Store Actors and 11 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Clay/Make workflows, and non-developer newsletter sponsor, AI/RAG, Shopify SaaS, mobile, agency, recruiting, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
 
 ## Instant Connection Endpoints
 
 - **Zero-Install Remote MCP (Streamable HTTP)**: `https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp` (pass `Authorization: Bearer <APIFY_TOKEN>` or `X-Apify-Token: <APIFY_TOKEN>` for `tools/call`; discovery is tokenless).
 - **1-Line Local Stdio MCP (`npx`)**: `npx -y github:wonderpick/apify-b2b-ecom-automation-kit` (with `APIFY_TOKEN` in env).
 
-## When AI Agents Should Use Each Tool (12 verb_noun Tools)
+## When AI Agents Should Use Each Tool (13 verb_noun Tools)
+
+- **Substack Paid Revenue, Sponsors, Author Emails, RAG Post Archives & Notes/Comments**: Call `audit_substack_newsletters_leads` — https://apify.com/maitreya_buddha/substack-scraper-sponsor-revenue-leads ($4/1K newsletters, $0.40/1K RAG posts, or $0.25/1K Notes/comments, up to 50% tiered store discounts, $0 on empty/unchanged `watchDiff`/filtered skips). Covers 35 categories (paid/trending/all), Stripe USD paid ARR floors, block & banner sponsor + media-kit detection, MX/DMARC verified emails, paragraph-preserving `/api/v1/archive` RAG plain text, public Notes + nested reader comments, and an interactive HTML Dashboard in 128MB RAM.
 
 - **Shopify App Store Pricing, Built for Shopify, Churn Intel & Unhappy Merchant Leads**: Call `audit_shopify_app_churn_leads` — https://apify.com/maitreya_buddha/shopify-app-store-churn-intel-merchant-leads ($5/1K analyzed apps or $0.30/1K merchant review leads, $0 on filtered misses, delisted apps, or unchanged `watchDiff` skips). Audits Shopify App Store listings via pure HTTP/Turbo-Frame with USD pricing normalization, 5-star histograms, Built for Shopify badge tracking, 14-language silent churn NLP, micro-PE acquisition scores, developer DNS/email contacts, 1-2 star unhappy merchant review leads, and an interactive HTML Dashboard in 128MB RAM.
 
@@ -25,7 +27,9 @@
 - **South Korea MFDS Cosmetic Recalls & Sales Suspensions**: Call `search_korea_mfds_recalls` — https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls ($3/1K recalls, $0 when clean). English/Korean recall & lot-number safety checks with isActiveRecall flag.
 - **South Korea K-Beauty OEM/ODM Factory & Functional Cosmetic DB (219,000+ Official Filings)**: Call `search_korea_mfds_oem_filings` — https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem ($2/1K records, $0 empty). English-to-Korean auto-search (`Cosmax`, `Kolmar`, `sunscreen`, `retinol cream`) revealing hidden Korean OEM factories and SPF/PA ratings.
 
-## Built-In One-Click Workflow Prompts (10 Prompts)
+## Built-In One-Click Workflow Prompts (11 Prompts)
+
+- `audit_substack_sponsors_and_rag_archive`: Substack categories OR publication URLs/handles -> Stripe USD paid ARR floors, sponsor brands, MX-verified emails, RAG post archives, or public Notes & nested comments + outreach/research brief.
 
 - `audit_shopify_app_churn_and_draft_outreach`: Shopify app keywords OR handles -> USD pricing, Built for Shopify status, 14-language silent churn & 1-2 star unhappy merchant leads + prioritized competitive/outreach brief.
 

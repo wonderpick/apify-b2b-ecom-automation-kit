@@ -2,18 +2,18 @@
 
 [![Glama MCP Score](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit/badges/score.svg)](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit)
 [![mcptry 100/100 #1 Sales & CRM](https://img.shields.io/badge/mcptry-100%2F100%20(%231%20Sales%20%26%20CRM%20%C2%B7%20Security%20A%20%C2%B7%2023ms)-10B981?style=flat-square)](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit)
-[![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.6.0%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
+[![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.7.0%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
 [![License: MIT](https://img.shields.io/badge/License-MIT-slate?style=flat-square)](./LICENSE)
 
-> **Give your team AND your AI assistants real-time eyes on the outside world — 12 zero-proxy external intelligence tools, 10 one-click workflow Prompts, 10 multi-branch n8n templates, 6 live HTML dashboards, Clay HTTP recipes, zero monthly SaaS subscriptions, and `$0` billing whenever nothing changed or nothing matched.**
+> **Give your team AND your AI assistants real-time eyes on the outside world — 13 zero-proxy external intelligence tools, 11 one-click workflow Prompts, 11 multi-branch n8n templates, 7 live HTML dashboards, Clay HTTP recipes, Make blueprints, zero monthly SaaS subscriptions, and `$0` billing whenever nothing changed or nothing matched.**
 
-> **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **Grade A (`5/5` Disambiguation & Naming Consistency)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.6.0`)**, and backed by live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
+> **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **Grade A (`4.8/5.0` TDQS)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.7.0`)**, and backed by live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
 
 ---
 
 ### Quick Navigation
-- **[For Human Operators (Agencies, Founders & Outbound Teams)](#for-human-operators-agencies-founders--outbound-teams):** Plain-English use cases, `$0.30–$5/1K` vs `$49–$995/mo` comparison table, and 1-click n8n/Clay templates.
-- **[For AI Agents & Developers (MCP, Stdio, Docker & Remote HTTP)](#for-ai-agents--developers-mcp-stdio-docker--remote-http):** Zero-install Remote `/mcp` URL, 1-line `npx` / `src/mcp-server.mjs` / `Dockerfile` setup, 12 typed `verb_noun` tools, and 10 built-in Prompts.
+- **[For Human Operators (Agencies, Founders & Outbound Teams)](#for-human-operators-agencies-founders--outbound-teams):** Plain-English use cases, `$0.25–$5/1K` vs `$49–$995/mo` comparison table, and 1-click n8n/Clay/Make templates.
+- **[For AI Agents & Developers (MCP, Stdio, Docker & Remote HTTP)](#for-ai-agents--developers-mcp-stdio-docker--remote-http):** Zero-install Remote `/mcp` URL, 1-line `npx` / `src/mcp-server.mjs` / `Dockerfile` setup, 13 typed `verb_noun` tools, and 11 built-in Prompts.
 
 ---
 
@@ -22,7 +22,8 @@
 Think about the moment every agency owner, growth operator, wholesale director, e-commerce lead, and security manager hits today:
 
 You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real business question:
-- **NEW (`v2.6.0`):** *"Audit Shopify App Store competitors for `"product reviews"` or extract 1–2★ unhappy merchant leads on `klaviyo-email-marketing` with USD pricing tiers, Built for Shopify status, 14-language silent churn NLP, micro-PE scores, and verified developer contacts at `$5/1K` apps (`$0.30/1K` merchant reviews, `$0` proxy)."*
+- **NEW (`v2.7.0`):** *"Find top paid Substack newsletters across 35 categories, compute verified Stripe USD paid ARR floors, detect active sponsor brands & media kits, extract MX/DMARC verified author emails, stream full-text RAG post archives, and pull public Notes & nested reader comments in 128 MB pure HTTP (`$4/1K` newsletters · `$0.40/1K` posts · `$0.25/1K` notes/comments, up to 50% tiered store discounts)."*
+- *"Audit Shopify App Store competitors for `"product reviews"` or extract 1–2★ unhappy merchant leads on `klaviyo-email-marketing` with USD pricing tiers, Built for Shopify status, 14-language silent churn NLP, micro-PE scores, and verified developer contacts at `$5/1K` apps (`$0.30/1K` merchant reviews, `$0` proxy)."*
 - *"Audit iOS App Store and Google Play apps for `"invoice maker"` across `us, de, jp, kr`, measure silent churn & per-store version regressions in 14 languages, verify paid UA/MMP stacks past Cloudflare WAF, pull EU-DSA developer emails & phones, and generate an interactive HTML Dashboard at `$5/1K` apps (`$0.50/1K` streamed reviews)."*
 - *"Find every company actively hiring for `Snowflake`, `Rust`, or `Account Executive` across 13 live ATS engines & 71,900+ boards (0% ghost jobs), flag 45–120d hard-to-fill roles and weekly `watch_diff` repost loops, and export Instantly/HubSpot outreach at `$0.99/1K`."*
 - *"Audit these 500 Meta Ad Library advertisers or local B2B sites from Google Maps, run 11-query DNS deliverability grading (A-F), catch 404/OOS/DMARC leaks, track weekly `watch_diff` triggers, isolate CS ticket queues, and export CRM-ready cold pitches."*
@@ -41,8 +42,9 @@ You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real bus
 
 ### Side-by-Side Comparison vs. Existing Tool Categories
 
-| Real Operator Job-to-Be-Done | **This Open-Source Suite (`v2.6.0`, Pay-As-You-Go)** | Official / Inward-Only MCPs | Monthly Store / Tech Databases (`$49–$995/mo`) | Multi-Step Enrichment Workbenches (`$149–$800/mo`) |
+| Real Operator Job-to-Be-Done | **This Open-Source Suite (`v2.7.0`, Pay-As-You-Go)** | Official / Inward-Only MCPs | Monthly Store / Tech Databases (`$49–$995/mo`) | Multi-Step Enrichment Workbenches (`$149–$800/mo`) |
 |---|---|---|---|---|
+| **Substack Paid Revenue, Sponsors, Author Emails, RAG Archives & Notes** | **35-category paid/trending/all discovery, Stripe USD paid ARR floors, block & banner sponsor + media-kit detection, MX/DMARC emails, `/api/v1/archive` RAG plain text & public Notes + nested comments (`$4/1K` · `$0.40/1K` posts · `$0.25/1K` notes, up to 50% off)** | Not available | `$99–$399/mo` creator DBs without live sponsor blocks or RAG archives | Single-mode post scrapers with no ARR, sponsors, emails, or Notes/comments |
 | **Shopify App Store Pricing, Built for Shopify, Churn & Unhappy Merchant Leads** | **Turbo-Frame search + USD pricing normalization, 5★ histogram, Built for Shopify badge, 14-lang churn NLP, 1–2★ veteran merchant leads, dev DNS/email enrichment, 8-trigger `watch_diff` & HTML Dashboard (`$5/1K` apps · `$0.30/1K` reviews · `$0` proxy/skips)** | Only edits *your own* Shopify Partner app | `$79–$299/mo` static SaaS indexes; no 1–2★ merchant switcher export | Fragile headless scrapers with FX/pagination misses & no churn NLP |
 | **Unified iOS App Store & Google Play Churn Intel, Reviews, ASO & EU-DSA Leads** | **Tier 0A/0B AASA/assetlinks matching, Apple Catalog deep reviews + dev replies, GP 199/page + EU-DSA, 14-lang NLP + TF-IDF topics, Wayback->Live GTM + CNAME MMPs, ASO Audit & HTML Dashboard (`$5/1K` apps · `$0.50/1K` reviews · `$0` skips)** | Only manages *your own* published app | `$179–$599/mo` per seat; no outbound emails or CRM CSVs | Single-store scrapers (no dev replies, no matching, no SDK/ad X-Ray) |
 | **Live ATS Jobs, Hiring Intent & 70+ Tech Stack (13 ATS + 71K Boards)** | **Works with domains OR zero-list keywords (`Snowflake`/`Rust`), 64-shard live router (0% ghost jobs), 45–120d aging, Bulk-Sync De-Clustering, 7 `watch_diff` triggers & 5 CRM presets (`$0.99/1K` · `$0` proxy & skips)** | Not available | `$49–$400/mo` or `$5/1K` stale cached DBs with ghost jobs | Proxy-heavy 3-ATS scrapers (`$2/1K` + proxy) with no delta tracking |
@@ -58,9 +60,9 @@ You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real bus
 
 # For AI Agents & Developers (MCP, Stdio, Docker & Remote HTTP)
 
-An open-source **Node.js `stdio` Model Context Protocol (MCP) server** implemented in [`src/mcp-server.mjs`](./src/mcp-server.mjs) (with [`src/mcp-catalog.mjs`](./src/mcp-catalog.mjs), [`Dockerfile`](./Dockerfile), [`glama.json`](./glama.json), and [`server.json`](./server.json)) using `@modelcontextprotocol/sdk` and `StdioServerTransport` — **plus a free, zero-install Remote Streamable HTTP endpoint (`/mcp`)** on Cloudflare Workers. It exposes **12 structured, zero-proxy tools (`outputSchema` + `structuredContent` + full MCP `annotations`)** and **10 ready-to-run workflow Prompts** that cost **$0 whenever nothing changed or nothing matched**.
+An open-source **Node.js `stdio` Model Context Protocol (MCP) server** implemented in [`src/mcp-server.mjs`](./src/mcp-server.mjs) (with [`src/mcp-catalog.mjs`](./src/mcp-catalog.mjs), [`Dockerfile`](./Dockerfile), [`glama.json`](./glama.json), and [`server.json`](./server.json)) using `@modelcontextprotocol/sdk` and `StdioServerTransport` — **plus a free, zero-install Remote Streamable HTTP endpoint (`/mcp`)** on Cloudflare Workers. It exposes **13 structured, zero-proxy tools (`outputSchema` + `structuredContent` + full MCP `annotations`)** and **11 ready-to-run workflow Prompts** that cost **$0 whenever nothing changed or nothing matched**.
 
-> **Zero-Token Discovery:** `initialize`, `tools/list`, `prompts/list`, `prompts/get`, and `resources/list` work cleanly with **no `APIFY_TOKEN` required**, allowing MCP clients and automated Glama / Official MCP Registry inspectors to discover all 12 tool schemas and 10 workflow prompts out of the box. `APIFY_TOKEN` is only required when invoking `tools/call`.
+> **Zero-Token Discovery:** `initialize`, `tools/list`, `prompts/list`, `prompts/get`, and `resources/list` work cleanly with **no `APIFY_TOKEN` required**, allowing MCP clients and automated Glama / Official MCP Registry inspectors to discover all 13 tool schemas and 11 workflow prompts out of the box. `APIFY_TOKEN` is only required when invoking `tools/call`.
 
 ---
 
@@ -120,10 +122,11 @@ docker run -i --rm -e APIFY_TOKEN="apify_api_your_token" apify-b2b-ecom-mcp
 
 ## Exposed MCP Tools (`src/mcp-server.mjs` & Remote `/mcp`)
 
-All 12 tools follow strict `verb_noun` naming, return typed `structuredContent` matching concise `outputSchema` definitions, and declare MCP safety `annotations` (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`). *(Legacy v1.x tool names remain transparently supported as silent internal aliases.)*
+All 13 tools follow strict `verb_noun` naming, return typed `structuredContent` matching concise `outputSchema` definitions, and declare MCP safety `annotations` (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`). *(Legacy v1.x tool names remain transparently supported as silent internal aliases.)*
 
 | MCP Tool Name | Key Inputs | Structured Output & Pricing | Backing Actor |
 | :--- | :--- | :--- | :--- |
+| **`audit_substack_newsletters_leads`** | `mode`, `categories`, `discoveryBoard`, `searchQueries`, `publicationUrlsOrHandles`, `maxPublications`, `maxPostsPerPublication`, `includeCleanPostText`, `maxNotesPerAuthor`, `maxCommentsPerPost`, `watchDiff`, `crmPreset` | 35-category Substack discovery, Stripe USD paid ARR floors, block & banner sponsor + media-kit detection, MX/DMARC verified author emails, `/api/v1/archive` RAG plain text, public Notes + nested comments & HTML Dashboard — `$4/1K` newsletters (`$0.40/1K` posts · `$0.25/1K` notes, up to 50% off, `$0` skips) | [Substack Scraper — Revenue, Sponsors, Posts & Author Leads](https://apify.com/maitreya_buddha/substack-scraper-sponsor-revenue-leads) |
 | **`audit_shopify_app_churn_leads`** | `mode`, `searchQueries`, `appHandlesOrUrls`, `categoryUrls`, `partnerUrlsOrSlugs`, `maxApps`, `sampleReviewsPerApp`, `maxReviewsPerApp`, `starFilter`, `watchDiff`, `crmPreset` | Shopify App Store USD pricing tiers, Built for Shopify badges, 5-star histograms, 14-language silent churn NLP, micro-PE scores, developer DNS/email contacts, 1–2★ unhappy merchant leads & HTML Dashboard — `$5/1K` apps (`$0.30/1K` reviews), `$0` proxy & skips | [Shopify App Store Scraper — Pricing, Churn & Merchant Leads](https://apify.com/maitreya_buddha/shopify-app-store-churn-intel-merchant-leads) |
 | **`audit_app_store_churn_leads`** | `mode`, `searchTerms`, `iosAppIds`, `androidPackageIds`, `upstreamItems`, `countries`, `autoLocalLanguage`, `starFilter`, `maxApps`, `watchDiff`, `outreachPersona`, `crmPreset` | Unified iOS + Google Play silent churn divergence, 14-language negation-aware NLP + TF-IDF emerging topics, per-store version regressions, EU-DSA contacts, Wayback->Live `gtm.js` + CNAME MMP stacks, ASO audits & HTML Dashboard — `$5/1K` apps (`$0.50/1K` reviews), `$0` proxy & skips | [App Store & Google Play Churn Intel, Reviews & Lead Enricher](https://apify.com/maitreya_buddha/app-store-google-play-churn-intel-lead-enricher) |
 | **`monitor_ats_hiring_intent`** | `targets`, `presetPacks`, `rawCsvOrUrls`, `datasetId`, `sourceRunId`, `titleKeywords`, `techStackFilter`, `outputMode`, `agencyPersona`, `onlyNewSinceLastRun`, `crmExportPreset`, `maxTotalJobs` | Live ATS jobs & company hiring dossiers across 13 ATS engines + 71,900+ board directory + 64-shard live router + 7 global feeds (0% ghost jobs), 45–120d hard-to-fill aging, Bulk-Sync De-Clustering, 70+ zero-FP tech tags, 7 weekly `watch_diff` triggers & 5 CRM presets — `$0.99/1K`, `$0` proxy & filtered/unchanged skips | [ATS Jobs, Hiring Intent & Tech-Stack Monitor](https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor) |
@@ -145,6 +148,7 @@ Non-developer operators can trigger ready-made multi-step workflows directly fro
 
 | Prompt Name | What It Does in One Click | Tools Chained |
 | :--- | :--- | :--- |
+| **`audit_substack_sponsors_and_rag_archive`** | Audits Substack categories or publication URLs/handles for Stripe USD paid ARR floors, sponsor brands, MX-verified author emails, full-text RAG post archives, or public Notes & nested comments, and drafts a prioritized sponsor/research brief. | `audit_substack_newsletters_leads` |
 | **`audit_shopify_app_churn_and_draft_outreach`** | Audits Shopify App Store competitors or extracts 1–2★ unhappy merchant leads with USD pricing, Built for Shopify status, 14-language pain clusters & verified dev contacts, then builds a prioritized positioning/outreach brief. | `audit_shopify_app_churn_leads` |
 | **`audit_app_store_churn_and_draft_outreach`** | Audits iOS App Store & Google Play apps by keyword or app IDs for silent churn, 14-language pain clusters, ASO gaps, paid UA/MMP stacks & EU-DSA developer contacts, and drafts a prioritized agency outreach brief. | `audit_app_store_churn_leads` |
 | **`monitor_ats_hiring_signals_and_draft_outreach`** | Searches 13 live ATS engines + 7 global feeds by keyword (`Snowflake`, `Rust`) OR company domains, highlights 45–120d hard-to-fill roles & 70+ tech stacks (0% ghost jobs), and drafts persona outreach. | `monitor_ats_hiring_intent` |
@@ -163,16 +167,16 @@ Non-developer operators can trigger ready-made multi-step workflows directly fro
 - **Local Transport:** `StdioServerTransport` from `@modelcontextprotocol/sdk/server/stdio.js` (`Dockerfile` + `src/mcp-server.mjs` + `src/mcp-catalog.mjs`).
 - **Remote Transport:** Stateless Streamable HTTP JSON-RPC 2.0 endpoint at `https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp`.
 - **Handlers:**
-  - `ListToolsRequestSchema`: Returns 12 `verb_noun` tool schemas with `annotations` and concise `outputSchema` synchronously without authentication.
-  - `ListPromptsRequestSchema` / `GetPromptRequestSchema`: Returns 10 ready-to-run workflow prompts synchronously without authentication.
+  - `ListToolsRequestSchema`: Returns 13 `verb_noun` tool schemas with `annotations` and concise `outputSchema` synchronously without authentication.
+  - `ListPromptsRequestSchema` / `GetPromptRequestSchema`: Returns 11 ready-to-run workflow prompts synchronously without authentication.
   - `CallToolRequestSchema`: Resolves canonical or legacy v1.x tool names, validates `APIFY_TOKEN`, executes the backing Apify Actor (`run-sync-get-dataset-items?memory=256`), and returns both `content` text and typed `structuredContent`.
-- **Zero-Proxy Lean Compute:** All 12 backing Actors default to `256 MB` RAM (verified at `128 MB`) with pure Node.js HTTP / HTTP/2 / DNS (zero Puppeteer/Playwright and `$0` proxy fees).
+- **Zero-Proxy Lean Compute:** All 13 backing Actors default to `256 MB` RAM (verified at `128 MB`) with pure Node.js HTTP / HTTP/2 / DNS (zero Puppeteer/Playwright and `$0` proxy fees).
 
 ---
 
 ## Bonus: Ready-to-Import n8n Workflow & Clay Templates (`n8n-workflows/`, `clay-templates/`)
 
-This repository also ships 10 multi-branch, production-grade n8n workflows (12–13 functional nodes each, `httpHeaderAuth`), Clay HTTP enrichment recipes, and Node.js / Python scripts for teams automating the same pipelines outside MCP:
+This repository also ships 11 multi-branch, production-grade n8n workflows (12–13 functional nodes each, `httpHeaderAuth`), Clay HTTP enrichment recipes, Make blueprints, and Node.js / Python scripts for teams automating the same pipelines outside MCP:
 
 1. **[`n8n-workflows/01-shopify-price-stock-alert-slack.json`](./n8n-workflows/01-shopify-price-stock-alert-slack.json)** — Scheduled 6-hour Shopify competitor delta monitor -> severity Switch routing -> Slack `#pricing-alerts` + Gmail + Google Sheets `DeltaHistory`.
 2. **[`n8n-workflows/02-saas-soc2-ai-subprocessor-alert-slack.json`](./n8n-workflows/02-saas-soc2-ai-subprocessor-alert-slack.json)** — Weekly vendor Trust Center monitor -> AI subprocessor risk Switch routing -> Slack `#security-alerts` + Gmail + Google Sheets `ComplianceLog`.
@@ -184,14 +188,15 @@ This repository also ships 10 multi-branch, production-grade n8n workflows (12�
 8. **[`n8n-workflows/08-ats-jobs-hiring-intent-outreach.json`](./n8n-workflows/08-ats-jobs-hiring-intent-outreach.json)** — Weekly Monday 08:00 ATS Hiring-Intent & Tech-Stack Monitor (`watch_diff`, 13 ATS engines + 71,900+ board directory) -> intent-score Switch routing -> Slack alert + Gmail digest + optional CRM webhook delivery.
 9. **[`n8n-workflows/09-app-store-churn-intel-lead-outreach.json`](./n8n-workflows/09-app-store-churn-intel-lead-outreach.json)** — Daily App Store & Google Play Silent Churn Monitor (`watchDiff`, 14-language NLP + EU-DSA contacts + GTM/MMP X-Ray) -> opportunity-score Switch routing -> Slack `#app-churn-alerts` + Gmail digest + guarded CRM webhook delivery.
 10. **[`n8n-workflows/10-shopify-app-store-churn-intel-outreach.json`](./n8n-workflows/10-shopify-app-store-churn-intel-outreach.json)** — Daily Shopify App Store Pricing, Churn & Unhappy Merchant Monitor (`watchDiff`, 128MB zero-proxy HTTP) -> churn/switcher Switch routing -> Slack `#shopify-app-churn-alerts` + Gmail digest + guarded CRM webhook delivery.
+11. **[`n8n-workflows/11-substack-revenue-sponsor-outreach-rag.json`](./n8n-workflows/11-substack-revenue-sponsor-outreach-rag.json)** — Weekly Monday 08:00 Substack Paid Revenue, Sponsor Signal & Author Outreach Pipeline (`watchDiff`, 128MB zero-proxy HTTP) -> sponsor-score Switch routing -> Slack `#substack-sponsor-leads` + Gmail digest + guarded CRM webhook delivery.
 
 ### Live Interactive Executive Dashboards (GitHub Pages)
-- **[Open All 6 Live `OUTPUT_DASHBOARD.html` Demos](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/index.html)** — Unedited HTML dashboards generated in 128 MB zero-proxy Apify Cloud runs (Slots #7–#12, including [Slot #12 Shopify App Store Churn Intel](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-12-shopify-apps.html)).
+- **[Open All 7 Live `OUTPUT_DASHBOARD.html` Demos](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/index.html)** — Unedited HTML dashboards generated in 128 MB zero-proxy Apify Cloud runs (Slots #7–#13, including [Slot #13 Substack Revenue & Sponsors](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-13-substack-intel.html) and [Slot #12 Shopify App Store Churn Intel](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/demos/slot-12-shopify-apps.html)).
 
 ### Free Clay.com HTTP Recipes, Make.com Blueprints & Live Sample CSVs
-- **Clay.com Free Recipes ([`clay-templates/`](./clay-templates/README.md))**: 60-second Native Apify Block + Custom HTTP JSON recipes for **Shopify App Store Churn & Merchant Leads**, **App Store & Google Play Churn**, **ATS Jobs (71K Boards)**, and **Meta Ads Leak Audit**.
-- **Make.com Free Blueprints ([`make-blueprints/`](./make-blueprints/README.md))**: 1-click import `.json` scenarios routing high-priority Shopify app churn, mobile churn, hiring-intent, and DTC ad-leak signals to Slack/CRM.
-- **Live Verified Sample CSVs ([`samples/`](./samples/))**: Real extracted outputs (`sample-12-shopify-app-churn-intel.csv`, `sample-12-shopify-unhappy-merchant-leads.csv`, `sample-11-app-store-churn-leads.csv`, `sample-10-ats-hiring-intent-signals.csv`, `sample-09-meta-ads-leak-audit.csv`) so you can inspect data quality before running.
+- **Clay.com Free Recipes ([`clay-templates/`](./clay-templates/README.md))**: 60-second Native Apify Block + Custom HTTP JSON recipes for **Substack Paid Revenue & Sponsors**, **Shopify App Store Churn & Merchant Leads**, **App Store & Google Play Churn**, **ATS Jobs (71K Boards)**, and **Meta Ads Leak Audit**.
+- **Make.com Free Blueprints ([`make-blueprints/`](./make-blueprints/README.md))**: 1-click import `.json` scenarios routing high-priority Substack sponsor leads, Shopify app churn, mobile churn, hiring-intent, and DTC ad-leak signals to Slack/CRM.
+- **Live Verified Sample CSVs ([`samples/`](./samples/))**: Real extracted outputs (`sample-13-substack-newsletter-intel.csv`, `sample-13-substack-posts-rag.csv`, `sample-12-shopify-app-churn-intel.csv`, `sample-12-shopify-unhappy-merchant-leads.csv`, `sample-11-app-store-churn-leads.csv`, `sample-10-ats-hiring-intent-signals.csv`, `sample-09-meta-ads-leak-audit.csv`) so you can inspect data quality before running.
 
 ### Direct Node.js / Python Examples (`examples/`)
 - Node.js (v20+, zero dependencies): `APIFY_TOKEN="..." node examples/node/run-actors.mjs`

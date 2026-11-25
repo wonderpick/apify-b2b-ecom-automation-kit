@@ -1,0 +1,1058 @@
+"audience","authorName","cleanPlainText","commentsCount","hasAudio","hasSponsorBlock","podcastDurationSecs","postDate","postId","postTitle","postType","postUrl","publicationName","publicationUrl","ragTokenEstimate","reactionsCount","recordType","restacksCount","slug","subdomain","subtitle","wordCount"
+"everyone","Gergely Orosz","Before we start, a Black Friday special. With Black Friday coming up, you can get 20% off the full subscription for the first year - which is $120 for the year, or $10/month. Paid subscribers get access to full deepdives, The Pulse on Thursdays, to resources for engineering managers and software engineers, and to the full archive.
+
+Get this special offer
+
+The offer is available until Tuesday, 1 December. You can also gift this offer.
+
+To mark The Pragmatic Engineer’s fifth birthday in September, I launched an essay competition on the theme of how things have changed in building software since the emergence of AI models that are better than ever at coding. Engineers shared their experiences and observations, and a $10,000 grand cash prize for our favorite entry went to ‘How software engineering changed: a tale of two eras’ by Neil Kakkar.
+
+There were also six category winners who each won $2,500 in prizes, and in this article we’re happy to share excerpts from the winners and runners-up in three of those categories, also linking to 40 more articles. These essays by hands-on engineers and engineering leaders impressed us with their details of hard-earned experience, and are refreshingly honest and raw. Thanks to everyone who entered the competition and congratulations to the winners.
+
+Today, we check out essays on three different areas:
+
+- What happens when AI writes all the code? How engineering practices have dramatically changed at startups and mid-sized tech companies in the twelve months since Opus 4.5 was released. The winner is ‘An engineering manager’s crazy year’ by Anton Zaides.
+
+- Stories from solo builders. How one-person businesses and side projects that turn “AI-native” are building more, faster, and with higher quality. The winning essay is ‘I’m a 100x engineer now!’ by David Veszelovszki.
+
+- Reflections on AI. What does this change mean for us human engineers? Thoughtful reflections which conclude that while agents can (and do!) write the code, engineers need to understand it to stay in control of systems and shape them. The winning piece is ‘The new core skills: agentic engineering at Granola’ by Jacob Bartlett.
+
+1. What happens when AI writes all the code?
+
+At the end of 2025, many of us in tech saw AI’s coding capability dramatically improve with Opus 4.5 and GPT-5.2, and the models suddenly become good enough to reliably write most of the code – and soon, almost all of it. In January, I asked: when AI writes almost all the code, what happens to software engineering?
+
+All the entries in this category covered the new challenges of AI generating the code, and how practices at many tech companies have adapted. Many writers compare a “before” and “after” with data on PR rates, revert rates, build times, and more.
+
+Winner: ‘An engineering manager’s crazy year’
+
+Edited excerpt from the essay by author of manager.dev, Engineering Manager at HoneyBook:
+
+“It’s June 2026; a nice, sunny day outside when I sit at my computer, looking at a 10k-line PR opened by my team’s great designer, and I want to die inside.
+
+It’s not a mock or a prototype; it’s code he wants to merge into production. Not only is it full of hacky solutions (not even talking about criminal useEffect abuses), it also has dummy data where backend calls were supposed to be. How the hell did I get here? Let’s back up a bit.
+
+I joined HoneyBook as an Engineering Manager in October 2025. It’s a 13-year-old startup (raised ~$500M), a management platform for business owners (think CRM+contracts+admin, etc.). I joined to lead an existing team of seven experienced engineers responsible for the financial products like managing business expenses, loans, etc.
+
+This past year has been a crazy ride, going in just a few months from classic engineering to pure vibe coding, ending with the launch of a real zero-to-one initiative at an established company.
+
+Code review collapse
+
+We split our work into three repositories: the shared ai-workflows codebase, our own backend repo, and a thin frontend layer called atlas-vibe. Each had a different code review approach:
+
+- In AI-workflows, every PR was thoroughly reviewed by at least two people including the engineer who wrote the code.
+
+- In atlas-vibe, there were barely any PRs. We vibe code on the frontend, slowly improving the skills in our repo, and reducing the amount of substandard code a bit.
+
+- In the backend repo, we had optional code reviews. That’s an interesting one.
+
+Slowly, it became more and more tempting to just not ask for reviews. It’s addicting to just develop a feature and immediately have it in production. There’s no need to have an open end in your brain.
+
+But still, at that stage I didn’t accept an ‘I don’t know, Claude wrote it’ approach. Even if you don’t request a review from someone, it’s still your responsibility to read and understand it. You can’t let Claude make the decisions and ‘drive’ the work.
+
+Output rose like crazy:
+
+Source: Weave
+
+It took me a while to understand that the code review stage contains a lot of peer pressure. When you submit your code to someone, you feel responsible for understanding it better, and nobody likes getting tons of PR comments (senior engineers, least of all). But when you know that nobody will review it, it’s much easier to cut corners in your own understanding too.
+
+So, in the span of a couple of months, we dropped from two people reviewing and understanding the code, to zero!
+
+The result was what you’d expect: a buggy codebase full of duplications and non-optimal patterns.
+
+Hands-on engineering managers (without giving up on the people side)
+
+From last October until March this year, I averaged one PR a week. Currently, it’s 20+. But more importantly, the nature of those PRs has changed: in March-June, it was mainly small things and side features, but since then I’ve taken on some more serious work myself, and it keeps increasing:
+
+Output as normalized units of work for an expert engineer. It’s been going up. Source: Weave
+
+I know there’s a lot of hate for the demand to go back to being hands-on from EMs, and I really understand it: I believe that people need us more than ever, and EMs who code all day are usually much less effective managers.
+
+In May, when we started to work on MyCo, I felt I just had to understand what our new flow looked like, and what we can improve. I believe it’s almost impossible to do this from the outside. For example, a debate with my engineer about our reduced quality in which I couldn’t participate properly without seeing the output myself, and I experienced both the advantages and limitations of the new flow.
+
+As our careers change, I believe that to be a good EM there is absolutely no other way than to join the building activity.
+
+I strongly believe that today, I have found a balance that works for me. I got rid of a lot of tedious work, and I feel as “present” as a manager as always, but now 10x more productive in my hands-on work. On Tuesdays and Thursdays I work from home and there are no meetings, and I’m able to release multiple big features a day. I was able to ramp up my parallel sessions to around 6-8, from 2-3 to fix some bugs along the way.”
+
+Read the full essay by Anton, where he gets into how non-engineers started to ship production code, why the team ditched their home-grown agentic solution for Eve by Vercel, and what Anton thinks about the future of building with AI
+
+Read the full essay
+
+Runner-ups
+
+We really enjoyed these five runner-up essays in this category about the “before” and “after” of AI and how it has changed software engineering:
+
+Software engineers are becoming “machinists” who need to build their own tools:
+
+PostHog engineer Paul D’Ambra makes an interesting point in his essay:
+
+“Software engineers are turning into AI Engineers? No, we are turning into software machinists. Replacing handmade software with (increasingly) cheap, plentiful, machine-made software. Unlike tailors who handcraft each item, machinists build tooling and inspect samples and then produce in large numbers.
+
+Two predictions:
+
+- continuous integration and review will change next
+
+- we make tools for our workshop
+
+Okay, things have changed less for folks working on systems with critical safety requirements, or high performance systems where it is easy to cause an incident. But the majority of us now have a different job. It is no longer sufficient to pore over every line of code, following the practices of bespoke tailored software engineers. Now, we are software machinists.”
+
+Read the full essay for details on tooling PostHog built like their deep review agents, and further predictions on change coming to CI.
+
+Learning how to enjoy working with AI
+
+Kira Howe is a Staff Engineer at analytics company Seeq and has been in a situation many of us can relate to. In her own words:
+
+“At some point earlier this year, I realized I was not enjoying work the way I used to. I will admit that I was one of those software people who was very unimpressed by ChatGPT in the early days, and I found the hype and excitement around LLMs really insufferable back then.
+
+Once it became obvious that these tools were becoming essential to how I work and not going anywhere, I decided I had to either accept my AI-centric fate and learn how to use them well, or leave the industry. I’ve come to believe that being a software engineer but resisting the increasing spread of AI tooling and applications is futile, and a recipe for misery.”
+
+Read the full essay – titled ‘Enjoying software engineering in the age of AI’ – for details on how Kira came around to feeling good about working with AI, and how practices at her company for CI, observability, and tooling changed.
+
+Bootstrapped company becomes AI-native
+
+Marc-André Moreau is CTO at Devolutions, a bootstrapped Canadian company of 250 people that builds remote desktop management and IT operations software. He writes:
+
+“October 2025. Claude Sonnet 4.5 has just come out, and everyone at Devolutions is going through AI training from Mindstone. The message from the CEO is clear: we are taking all the necessary steps to make the company AI-native. Employees are offered a voluntary departure package if they don’t want to be a part of this new “Devolutions 2.0”. Those who stay need to be committed and go all-in on AI with the rest of us. Here is the story of the profound shift that happened at Devolutions, and how a major migration originally estimated at three years was completed in just one.”
+
+A migration that should have taken ~3 years, per platform, was completed in less than one for Windows and Linux. Other platforms look promising
+
+Read the full essay for data-driven details of a complex application with 1,500 screens, the internal hackathon that ended up producing 60 useful skills, and how the company’s AI spending grew to $2M per year.
+
+Sixteen things AI changed in 2026
+
+Carlo Beschi is a Lead Agile Coach at Treatwell, which employs 700 staff, and he shared a long list of what’s changed because of AI at the company in his essay:
+
+- Paying off tech debt: Doing a lot more migrations and upgrades, and breezing through them.
+
+- Prototyping: everyone is prototyping – not with Figma, Lovable, or Google AI Studio, but with Claude Design
+
+- The “80/20 rule:” This says that 80% of the work is easy to get done alone with AI, but people are needed for the final 20%.
+
+- Roles are blurring: devs are working outside of their domains and PMs are writing more code
+
+- Mourning the craft: many engineers are having a hard time accepting that AI is taking over what they love in their job: writing well-crafted code
+
+Read the full essay, ‘The Earth is not flat’, for all 16 changes.
+
+Writing code became cheaper, but everything else became harder
+
+Bruno Felix, CTO at the fully remote, 8-person AI visibility startup XEO360 writes:
+
+“The last year was one of the most intense periods of my career.
+
+We’re in a transition where the main activity of a software engineer is shifting from rowing (focusing on one thing at a time and producing good code) to steering (managing multiple workstreams, context switching all day, and exercising sound judgment throughout).
+
+That is mentally taxing, and at times at odds with the skills, and sometimes the identities, we’ve built over the years.”
+
+Read the full essay for plenty of data on commit volume, CI time, and how practices changed.
+
+Shout outs
+
+Below are some other essays sent in by readers that get into detail about how things have changed.
+
+- ‘Rebuilding our Deterministic Tax Engine for an AI Native World’ by David Nisenbaum, Founding Engineer at Sphere, on how the company did it with agents.
+
+- ‘A year of contrasts: how software engineering is changing at Pulumi’ by Levi Blackstone, Principal Software Engineer at Pulumi. Case studies of shipping features in days that used to take months, and how build systems and engineering practices have changed.
+
+- ‘Gradually, then suddenly: from “learn to code” to “coding is solved”… and back again’ by Marcell Dietl, Tech Lead & Software Architect at Frontmark, on why non-functional requirements remain ones that humans make, and how engineering practices and hiring practices have changed.
+
+- ‘What a small team with old code can do with AI (and what it can’t, yet)’ by engineering manager Ygor Cardoso, including interesting details on the extra work created for devs when non-engineers start to contribute code.
+
+- AI transformed the work at Homie by Abdul Osman, Founding Engineer at Homie on how they rewrote the backend three times in a year, the move from IDEs to terminals, and how developer practices changed.
+
+- The return of a software engineer. Victor Zhang studied software engineering in 2006, then moved to work in finance. In 2024, he returned to software engineering at a 50-person company to freshen it up in Python, using ChatGPT. He writes that 2026 “changed everything.”
+
+- 10x what? by Krzysztof Maliszewski, Software Engineer at Coralogix. This is an interesting survey of 40 engineers at Coralogix – where half admit they’re addicted to agents!
+
+Survey of Coralogix engineers. Check out the full essay by Krzysztof Maliszewski
+
+2. Essays by solo builders and tiny teams
+
+We were impressed by some stories from readers about how far a single dev or a team of just 2–4 people can get these days, with agents helping them build software more ambitious than ever.
+
+Winner: ‘I’m a 100x engineer now!’
+
+Edited excerpt from David Veszelovszki’s essay, the creator of Cmdr: ‘a file manager from 2026, the spiritual successor of Total Commander,’ and former Sourcegraph software engineer
+
+Don’t stop rollin’: David works on his house while his agents build Cmdr
+
+‘After 30+ years of coding the old-fashioned way, I’m extremely enthusiastic and about 100x faster with AI! It has changed my entire workflow, and my life. While I’m writing this, I’m painting the kids’ room. Claude helped select the paint and calculate the amount I needed. I made all the decisions, I own everything that happened, while Claude did the research and prepared the decisions for me. That’s also exactly how I work.
+
+Today, while I’m painting, Claude is fixing bugs, developing features, and preparing a release. I’m even considering getting a day job because I could run my current project, Cmdr, for an hour a day, with agents carrying the rest. What a time to be alive!
+
+Speed!
+
+Lines of code is far from a perfect metric to describe complexity but it’s easy to measure and it kinda correlates with complexity? So I’ll use it here.
+
+An older snapshot of Sourcegraph’s main repo is still available so I know that my average output on the days when I pushed code was 194 LoC/day between 2022–2025 when I worked there. That many sweaty, reviewed, production-ready code lines from my own little fingers—okay, with the help of GitHub Copilot. And these were my active workdays. So, my real average output was closer to 100 LoC per calendar day.
+
+In contrast, I started Cmdr 10 months ago, and it’s...","0","true","false",,"2026-11-24T19:16:38.303Z","226374821","The Pragmatic Engineer Essay Challenge: Category Winners (Part 1)","newsletter","https://newsletter.pragmaticengineer.com/p/the-pragmatic-engineer-essay-challenge","The Pragmatic Engineer","https://newsletter.pragmaticengineer.com","8537","43","substack_post_sponsor_rag","1","the-pragmatic-engineer-essay-challenge","pragmaticengineer","How is AI changing the way we build software? Excerpts from three category winners of our recent essay contest, with links to 40 more by software engineers and experts","6419"
+"everyone","Alex Xu","Plan 2027 for more AI code while reducing CI spend (Sponsored)
+
+Next year your team will write more code with AI than ever. That means more commits, more CI and a bigger bill, unless your runners change.
+
+WarpBuild is the fix teams at Braintrust, Raycast, OpenRouter, Comcast and Jane Street already use:
+
+- Twice as fast at half the cost
+
+- One line change to runs-on
+
+- Linux, macOS and Windows on x86-64 and ARM64
+
+- Unlimited macOS concurrency
+
+- Pay only for what you use
+
+Use code START50 for $50 in free credits.
+
+Get $50 in free credits
+
+DoorDash’s dispatch platform has to make a lot of good delivery-related decisions while the situations around the system and its environment keep changing.
+
+To deal with the ever-growing need for innovation, the DoorDash engineering team had to redesign the dispatch system.
+
+With the redesign, they were able to deal with two main problems. One was about how to divide the calculations into smaller pieces. The second was about how to run those pieces across many machines without losing the information that might be needed to make good assignment decisions.
+
+In this article, we’ll look at how DoorDash Dispatch built a lightning-fast delivery system. Here’s what we’ll cover:
+
+- The role of a dispatch system
+
+- Why did the old dispatch system at DoorDash struggle
+
+- Why couldn’t DoorDash just add more servers
+
+- Separating coordination from heavy computation
+
+- Breaking the optimization problem into smaller pieces
+
+- How did DoorDash replace such a critical system safely
+
+- The improvements after the new system
+
+Disclaimer: This post is based on publicly shared details from various sources. References at the end. Please comment if you notice any inaccuracies.
+
+What Does a Dispatch System Actually Do
+
+When you place an order for food, several things take place to make the order successful. The restaurant cooks the food, and a delivery driver arrives at the restaurant to collect the food. After collecting the food, that driver brings it to you. DoorDash calls its delivery drivers Dashers.
+
+The dispatch system is the one that takes care of all these activities by deciding which Dashers should be given which orders to deal with. To make that decision, the system has to know a lot more than just which Dasher is closest to the restaurant. For example, let’s say you have a Dasher who is two minutes away, but the restaurant needs another 15 minutes to get the food ready. If you send that Dasher immediately to the restaurant, it can create a long wait time. You might have another Dasher who is much farther away, but they might reach the restaurant closer to the food preparation time. Also, you might have two orders going in a similar direction that could be clubbed into a single delivery trip.
+
+As you can see, the dispatch system has to consider both space and time while making these decisions. Space includes the locations of Dashers, restaurants, and customers. Time includes travel durations, traffic conditions, food preparation, and delivery expectations.
+
+You can think of this as being quite similar to the vehicle routing problem. Making decisions about how vehicles should handle a collection of destinations while working within a set of constraints. DoorDash’s version of this problem is especially demanding because the inputs keep changing. You have new orders arriving all the time. Dashers are always on the move. Food preparation estimates change even as the system is calculating.
+
+This gives dispatch an unusual requirement. A decision about a particular order must be good enough, but it should also be taken fast enough to be useful. If you calculate an assignment most beautifully, it’s useless if doing so takes a long time.
+
+This relation between the quality of decisions and speed of making those decisions is the starting point for the entire redesign.
+
+Why Did the Old System Struggle as DoorDash Grew?
+
+DoorDash’s previous dispatch engine was built as a monolith. This means that several major responsibilities were brought together into one tightly connected system.
+
+It maintained the state of the delivery network, applied business rules, and performed expensive routing calculations. You can think of the state as the information about the current situation, such as available Dashers and orders awaiting assignment.
+
+The old engine performs several stages in sequence. DoorDash used that engine to generate possible assignments, check proposed routes, and then optimize the choices. Candidate generation means coming up with possibilities that the system can evaluate. Optimization is all about selecting a good enough combination of those possibilities according to its goals and constraints.
+
+The difficulty with the old engine was that the computational work grew much faster than the delivery volume. This is because the important algorithms in the original engine had roughly quadratic complexity. It meant that doubling the size of the input could produce approximately four times the computational work.
+
+You can understand this pressure by thinking about possible Dasher-to-order combinations. If both the number of Dashers and the number of orders increase, the number of potential pairings grows quickly. If you evaluate routes and batches, it adds further work.
+
+During peak periods, the demand can go up to nearly four times the system’s dispatch processing capacity. The engine had to limit what it took into consideration or fall back to simpler decision rules. The delays caused by this also damaged the usefulness of its calculations. A Dasher might move away from a promising pickup. Or food that is ready might sit waiting while the engine was still making the decision.
+
+As you can see, the problem went beyond just slow software. Slow computation changed the quality of real-world deliveries with a pretty tangible impact on the user experience.
+
+Why Couldn’t DoorDash Just Add More Servers?
+
+If you add servers, it’s called horizontal scaling. It works quite well when you can divide work into independent requests. For example, let’s say you have many requests that display unrelated product pages, and those can be handled by different servers. One server generally doesn’t need to coordinate its answer with every other server answering a page request.
+
+However, dispatch assignments have more dependencies.
+
+Let’s say you have two nearby restaurant orders that could share a delivery trip. If you randomly send those orders to separate workers, each worker may find a reasonable individual assignment. But they won’t get the opportunity to deal with both of them. Similarly, two workers could independently identify the same Dasher as a promising choice.
+
+There is also a systems problem. Even if you can somehow distribute the calculations, some component must prepare the work, send the necessary data, gather the results, and combine them. If that component becomes overloaded, you have just moved the bottleneck to a different place rather than removing it completely.
+
+DoorDash therefore had to answer two questions at the same time:
+
+- How can the application distribute computation across more machines?
+
+- How can the optimization problem be divided while keeping useful relationships between orders, routes, and Dashers?
+
+The first question needed a change to the architecture. The second required changing how the work was organized.
+
+Separating Coordination from Heavy Computation
+
+DoorDash rebuilt the platform around two independently scalable tiers. You can think of a tier as a group of components with a particular responsibility.
+
+- The coordinator tier takes care of the dispatch process. You can use it to maintain the broader logistics state, apply business rules, and organize the work that needs to happen.
+
+- The compute tier is made up of workers that run expensive calculations. These workers generate and evaluate routing possibilities, run optimization routines, and execute ML models.
+
+Separating the two tiers lets you increase compute capacity without the need for every worker to take over all the responsibilities of the original engine. You can get a simple view of this execution flow in the following manner:
+
+- The workers operate in parallel. The reconciliation step combines their results into coordinated dispatch decisions.
+
+- However, if you distribute computation, you introduce a communication cost. If every worker gets a complete copy of the entire logistics state on every run, transmitting and processing that data could become quite costly.
+
+DoorDash takes care of this through localized payload sharding. You can think of a payload as the data sent with a job, and sharding means dividing that data into smaller portions. Each worker receives the local context needed for its assigned calculation.
+
+The coordinator sends these payloads over gRPC, which is a framework for communication between services. This happens on each dispatch tick. Or each round of dispatch processing.
+
+The payloads are totally self-contained. This way, you can keep the workers stateless. A worker can still hold a trained model or temporary calculation data. The key separation is that the responsibility for managing the changing logistics state remains with the coordinator.
+
+Breaking the Optimization Problem Into Smaller Pieces
+
+Separating the tiers makes it possible to execute things in parallel. But it doesn’t automatically bring down the size of the optimization problem.
+
+If every worker still had to evaluate a huge, interconnected set of possibilities, the original computational pressure would be high. Therefore, DoorDash introduced hierarchical decomposition, which means breaking a large problem into smaller problems through multiple stages.
+
+The coordinator groups the broader dispatch problem into localized geographic clusters and delivery trajectories. This is to create manageable pieces that retain the local relationships important to routing.
+
+The first is rapid pre-clustering, which you can use to create initial groups.
+
+The second is centroid-based refinement, which is used to refine those groups using their centers. For reference, you can think of a centroid as a representative center of a group of points.
+
+The main point here is that partitioning takes place through an initial grouping and is followed by refinement. You can think of each partition as a piece of work for a compute node. This node generates and checks possibilities within its local context while other nodes work on other partitions.
+
+This has two benefits. Smaller problems reduce the number of combinations each worker must take into account, and parallel execution lets you process several problems at the same time.
+
+But you still want local solutions to fit together. The software introduces a geographic boundary to organize computation. It doesn’t correspond to a real separation between delivery opportunities. Orders and routes near that boundary may still be related.
+
+Therefore, DoorDash uses a global reconciliation and scoring layer to combine results across partitions before you can select final assignments. This preserves much of the optimization quality of the original problem while letting expensive candidate generation take place in parallel.
+
+You can think of the workers as producing useful local options and reconciliation as considering how those options can be combined into the broader dispatch decisions.
+
+How Did DoorDash Replace Such a Critical System Safely
+
+Dispatch directly affects active deliveries. A defective setup could send Dashers to poor assignments, increase waiting time, or disrupt fulfillment.
+
+The DoorDash engineering team started with shadow testing.
+
+In shadow mode, you duplicate the incoming production work. They sent one to the existing engine, and another went to the new platform. The existing engine continued to control actual deliveries. However, the new engine also calculated what it would have done. But its output was recorded for analysis purposes.
+
+This lets the developers check the new platform under real production conditions. Also, including peak traffic. They could compare proposed matches, delivery-time-related behavior, and resilience against the existing system.
+
+This approach is known as behavioral regression analysis. You can think of a regression as a change that makes some previously acceptable behavior worse. The team had to establish that the new architecture took care of dispatch quality as well as improve performance.
+
+However, shadow testing has a practical limit. Since the decisions made by the new system are not actually executed, you cannot use it to fully check the real-world impact of those decisions.
+
+Therefore, the DoorDash engineering team followed shadow testing with production switchback experiments. In a switchback experiment, your systems take turns controlling real production activity under controlled conditions. This let them compare their outcomes. The DoorDash engineering team used limited exposure and fallback mechanisms while checking system reliability and fulfillment results. Only when they were satisfied did they expand the rollout to a wider user base.
+
+The progression was that shadow testing gave a lot of confidence in the new engine’s behavior on live production inputs, whereas controlled production experiments tested what happened when the decisions made an impact on deliveries.
+
+The Improvements
+
+DoorDash reports a great deal of improvement in the platform’s capacity and responsiveness after the implementation of the new dispatch system.
+
+The detailed results are as follows:
+
+- Ten times the dispatch processing scale, enabled by distributing computation.
+
+- More than 99.96% of runs completed in under 20 seconds, compared with execution stretching to minutes under heavy load in the old system.
+
+- More than 99.99% availability during Super Bowl traffic spikes, despite a 10% week-over-week increase in peak volume.
+
+Source: DoorDash engineering blog
+
+You can use these measurements to think about different properties. Processing scale is all about how much work the system can handle. Execution latency deals with how long a run takes. Availability is whether the system remains operational.
+
+For dispatch, all three results matter. You can have a platform that can eventually process a large volume, but it can still cause problems if individual decisions are taken too slowly.
+
+The additional capacity also lets the system evaluate a larger set of possibilities instead of restricting its search aggressively during busy periods. DoorDash connects this broader search to improved Dasher acceptance rates, fulfillment efficiency, and Dasher earnings. They also report millions of dollars in annualized fulfillment savings.
+
+The practical benefit was that decisions arrived faster, and the platform had enough computational room to consider better assignments.
+
+Conclusion
+
+The redesign also made it possible to have machine learning. With the new platform, they could make it practical to run more computationally demanding ML models inside the dispatch process.
+
+A trained model performs inference when it processes an input and produces an output, such as a score for a proposed route. If dispatch needs enormous numbers of these evaluations, even a small cost per evaluation can become significant.
+
+DoorDash introduced two model-serving tiers to handle different needs.
+
+L1 serves models locally inside compute workers. Each worker contains ONNX Runtime, which is software that executes trained ML models. Since these evaluations happen locally, they avoid a network round trip to a separate model server.
+
+L2 serves models through separate remote infrastructure. This tier handles more complex policy evaluations that occur less frequently. These heavier models run in isolated ML serving clusters, helping separate their computational demands from the coordinator’s state-management responsibilities.
+
+The main idea is that frequent evaluations need a very short execution path, while heav...","9","true","true",,"2026-11-23T16:31:03.705Z","225841091","DoorDash Dispatch: Building a Lightning-Fast Delivery System","newsletter","https://blog.bytebytego.com/p/doordash-dispatch-building-a-lightning","ByteByteGo Newsletter","https://blog.bytebytego.com","3421","233","substack_post_sponsor_rag","6","doordash-dispatch-building-a-lightning","bytebytego","In this article, we’ll look at how DoorDash Dispatch built a lightning-fast delivery system.","2572"
+"everyone","Alex Xu","Monitoring infrastructure that never sits still (Sponsored)
+
+Hosts and containers shift by the hour, so when latency spikes, it’s hard to tell which of your hundreds of signals actually matters. This free Datadog eBook lays out a practical framework for monitoring dynamic, cloud-native infrastructure, with worked examples for Kubernetes and AWS Lambda.
+
+You’ll learn how to:
+
+- Separate work metrics (throughput, success, errors, latency) from resource metrics
+
+- Cut alert noise by paging on symptoms, not causes
+
+- Apply the framework to Kubernetes clusters and Lambda functions
+
+Download the eBook
+
+This week’s system design refresher:
+
+- Docker vs Kubernetes
+
+- How Redis Works Under the Hood
+
+- Open Weights vs Closed Models: 7 Tradeoffs in 1 Diagram
+
+- How does Claude’s text watermark work?
+
+- 9 Distributed Systems Patterns You Should Know
+
+Docker vs Kubernetes
+
+Docker: It’s a tool for packaging an application, including its code, libraries, runtimes, and configurations, into a portable unit called a container image. That image is used to spin up a container, which can be deployed on a laptop, server, or in the cloud.
+
+Docker usually runs on a single machine. You can manage multiple containers on a single host with the help of Docker Compose.
+
+Kubernetes: It's an orchestration platform that manages the deployment and maintenance of containerized applications, particularly on multiple machines. It can start and stop containers, spin up more containers, and reduce their numbers as needed. It can distribute network traffic and roll out application updates.
+
+Kubernetes is useful when you need features for your production application, like automatic scaling, self-healing, high availability, and deployment across multiple machines.
+
+How Redis Works Under the Hood
+
+Redis is fast because it keeps everything in RAM and uses efficient in-memory data structures. Let’s see how Redis works under the hood:
+
+- The application sends a Redis command to the server. If replication is configured, commands that update data are normally sent to the primary server.
+
+- Redis decodes the request, which is usually encoded using the Redis Serialization Protocol (RESP). It separates the request into the command name, key(s), values, and other arguments.
+
+- Redis parses and validates the request command. It checks whether the command exists, and the arguments are correctly formatted. It checks whether the client is authenticated and authorized. If the request is invalid, an error is returned.
+
+- Redis looks up the command in its internal command table and finds the corresponding code to execute it.
+
+- Redis executes the command. Commands are executed sequentially.
+
+- Redis updates the RAM by locating the relevant keys in its in-memory dictionaries and then performs the requested operation.
+
+- If a key has a time-to-live, Redis stores its expiration timestamp separately. Expired keys are removed by lazy or active expiration.
+
+- Commands that change data in RAM may need to propagate such writes to supporting systems through different mechanisms. For example, AOF is a persistent mechanism based on logging writes. RDB is another persistent mechanism based on snapshots, or the data replication mechanism, which copies writes to other Redis servers.
+
+- If Redis reaches its configured memory limit, it applies its eviction policy.
+
+- Finally, Redis creates the response in RESP format and returns to the client.
+
+Most RAG Pipelines Answer, Then Forget (Sponsored)
+
+Basic RAG is good at looking things up, but not so good at remembering. Nothing a user says gets written back, so every session starts from zero and your agent repeats the same questions. The fix isn’t a bigger prompt. It’s a memory system that handles different kinds of information differently, so rules are retrieved exactly instead of by similarity search, and only what’s worth keeping gets saved.
+
+See the memory types + runnable code
+
+Open Weights vs Closed Models: 7 Tradeoffs in 1 Diagram
+
+For every AI project, you have two options: download the weights of an open model and run it yourself, or call a vendor's API. The diagram below puts the 7 tradeoffs side by side.
+
+Fine-tuning: Open weights allow fine-tuning on your own GPUs and data. Closed models do not allow users to access their weights for fine-tuning.
+
+Versioning: With open weights, you keep the artifact. Pin any version and run it for as long as you want. Closed models serve pinned, dated snapshots but retire them on the vendor's schedule.
+
+Transparency: Open weights are inspectable, but a closed model is a black box with an API.
+
+Deployment: Open weights can be deployed on various hardware. With closed models, every device connects inward to one endpoint.
+
+Licensing: Open-weight licenses are custom, and terms vary by model. Closed models run on a commercial ToS that the vendor sets.
+
+Self-hosting: Open weights are self-hosted by default. It is your stack. Closed models are API-first, though some vendors sell on-prem or private VPC deployments.
+
+Cost: Self-hosting wins only at high volume, once you add ops overhead. APIs are cheaper at low volume, with zero upfront cost.
+
+How does Claude’s text watermark work?
+
+Anthropic recently shared their intent to watermark text so they can identify AI-generated text. This post is based on my understanding of how it works.
+
+LLMs produce text word by word. At each step, they generate probabilities for the next likely word. Instead of sampling randomly from those words, the watermarking trick changes which words are allowed to be picked.
+
+How to watermark a response?
+
+Step 1: The model produces probabilities for the next word.
+
+Step 2: Normally a random number generator picks one of the good candidates. With watermarking, a keyed function takes a secret key plus the previous few words and decides which candidates are valid to pick from.
+
+Step 3: This repeats for the whole response. Places where there are multiple plausible choices carry the watermark signal.
+
+How to detect a watermarked text?
+
+Step 1: For any candidate word in the text, we check whether it is a valid choice based on the secret key and the few preceding words. If the word is valid, that is counted as a match.
+
+Step 2: Run this across the entire text. Watermarked text matches far more often. The overall match rate can be treated as an AI-generated score.
+
+I’m personally getting quite annoyed by the false negatives from all these AI text detection techniques, especially for technical writing.
+
+What’s your thoughts on AI text detection? Do you think AI text detection is useful, or will it create more problems?
+
+9 Distributed Systems Patterns You Should Know
+
+- In replication, you make exact copies of your data and store them on different servers.
+
+- In sharding, you break a large database horizontally, so different rows live on separate machines.
+
+- In consistent hashing, you distribute data across different machines or servers using a virtual circular ring.
+
+- PubSub is an asynchronous messaging pattern that decouples service creators from service consumers.
+
+- In circuit breaker distributed pattern, it stops an application from repeatedly executing an operation that is likely to fail.
+
+- In Retry with a backoff pattern, you handle temporary network glitches or brief service timeouts. It is a resiliency pattern.
+
+- In the leader election pattern, you designate a single master node to manage actions and maintain cluster state. It’s what stops two nodes from thinking they’re in charge.
+
+- In quorum read/write pattern, you ensure enough replicas agree on each read and write so that the set overlaps. It is a data consistency pattern that is used in distributed databases to guarantee up-to-date information.
+
+- Saga is a design pattern that manages distributed transactions through a sequence of local transactions across multiple microservices. If one step fails, each earlier step is undone by its own compensating action.","4","true","true",,"2026-11-21T16:31:20.162Z","225831071","EP234: Docker vs Kubernetes","newsletter","https://blog.bytebytego.com/p/ep234-docker-vs-kubernetes","ByteByteGo Newsletter","https://blog.bytebytego.com","1672","241","substack_post_sponsor_rag","6","ep234-docker-vs-kubernetes","bytebytego","Which one should we use?","1257"
+"only_paid","Gergely Orosz","The Pulse is a series covering events, insights, and trends within Big Tech and startups.
+
+Today’s a busy day: Anthropic has gone public in the largest-ever IPO, and the GTA VI video game is out.
+
+Image by ex-Anthropic engineer, Thariq Shihipar
+
+I’ll make things a bit more concise than usual:
+
+- Anthropic: the largest-ever IPO. The leading AI frontier lab raised …","6","true","false",,"2026-11-19T17:08:59.029Z","225681495","The Pulse: Is Amazon’s writing culture collapsing because of AI?","newsletter","https://newsletter.pragmaticengineer.com/p/the-pulse-is-amazons-writing-culture","The Pragmatic Engineer","https://newsletter.pragmaticengineer.com","3227","65","substack_post_sponsor_rag","2","the-pulse-is-amazons-writing-culture","pragmaticengineer","Also: Anthropic goes public with the largest-ever IPO, Meta frantically reverses shutdown of popular AI coding harness Conductor, and more","2426"
+"everyone","Gergely Orosz","Listen and watch now on YouTube, Apple, and Spotify. See the episode transcript at the top of this page, and timestamps for the episode at the bottom.
+
+Brought to You by
+
+• turbopuffer – a ridiculously scalable, fast and cheap hybrid search engine, built on top of object storage, used by cutting-edge companies like Anthropic, Linear, Ramp and many others. Many companies that switch to turbopuffer are cutting their search bills by 50% or more and getting much faster results. Check it out.
+
+• Entire – Entire launched its own Git forge, shipped Continuous Memory, and reinvented the pull request (called Trails). Trails are a much more natural workflow when agents keep pushing new changes, after iterating on feedback – and you have more context and control on when a change is ready to merge. Check it out
+
+• WorkOS – WorkOS built Airlock, the authorization layer for AI agents. It evaluates every request against the agent’s intent + your rules, and either allows it, denies it, or routes it to a human. Works with Claude Code, Codex & MCP gateways. Learn more
+
+In this episode
+
+In this conversation, we step into the world of an AI-pilled CEO to explore how their startup works. This episode might as well be a way of succeeding that contradicts the growing convention that AI spending costs are too high and must be clamped down on.
+
+Harjot Gill is founder and CEO of CodeRabbit, an AI code review business, and he shipped over 5,000 pull requests last month, spending on AI at a monthly run rate of $250,000(!) It’s certainly not a conventional approach and Harjot gets into detail about the thinking and reasoning behind it.
+
+In this episode of The Pragmatic Engineer Podcast, we talk about his background in building software and founding infra startups for the last 30 years, and how things changed into the era of building software factories at CodeRabbit. We talk about why he believes human code review is dead, and how his team maintains quality while shipping at unprecedented speed.
+
+We also get into the rising costs of AI development, why Harjot is convinced that tech startups need more funding than ever, and how AI is changing recruitment and the skills for success.
+
+Takeaways from the conversation with Harjot
+
+1. Janitorial work formed a large part of his 5,000 PRs last month, pushed with agents. He sets off his agents to improve systems like the CI, fixing flaky tests, and refining caching. A lot of the PRs are generated during his commute, and at evenings and nights. In a few cases, he steers agents to make the UI feel better. Examples of stuff Harjot has built:
+
+- A write-ahead log (WAL) on top of object stores using Rust (the agent ran for six weeks!). This WAL is now in production.
+
+- Migrating all of CodeRabbit’s services over to Bun – running over a weekend
+
+- A new CI system after the previous one had performance issues
+
+2. CodeRabbit spends millions of dollars per month on AI, with a team of 40 engineers. Harjot estimates that a PR costs him around $150 in a personal spend of around $250-$275K per month. He compares it to marketing teams with 10 marketers at VC-funded companies who can drive $100M in spend. I point out that his startup is an outlier; the AI spend I hear about elsewhere is in the region of between $200-$2,000 per month, per dev. Finding out how this spend makes sense was one reason I was keen to meet Harjot.
+
+3. For dev tooling startups like CodeRabbit, massive AI spend can be justified by launching new, AI-related products faster. It feels to me that CodeRabbit is not a typical company: its AI spending is a form of R&D if it creates new solutions that can be commercialized and sold. It’s not the same at places with fixed customer bases willing to pay a certain amount for an existing product, and no more.
+
+Also, Harjot says that they got quoted $13M/year for a CI solution to handle their PR output, but the price made him decide they’d build their own CI system using agents. It took a week, and the new CI cost 50% less than the quote, with similar performance.
+
+4. In 2021, Harjot believed AI would write most of the code. When working at FluxNinja, Harjot found that code review was already becoming a bottleneck, with GitHub Copilot’s autocompletions somewhat speeding up writing code. He misjudged the potential market size, assuming only larger companies that bought code verification solutions like Snyk and SonarSource, would buy AI-code review tools – instead, it’s pretty much everybody!
+
+5. Harjot believes agents need to be “hill climbing”; they need to have ways to verify their own work
+
+These are the layers that he believes are necessary, including ones he and the team use:
+
+- Formal models like TLA+ and Lean. For one of their products, the engineering team utilized TLA+, and found race conditions that the code review overlooked. More recently, Harjot is experimenting with another formal method, Lean.
+
+- Local deterministic simulations. One of the infra pieces built at Harjot’s startup is a simulation harness to fuzz different interleavings (concurrent operations).
+
+- Emulating real APIs. Harjot mocks up and emulates APIs like Google Cloud APIs as part of testing.
+
+- Dev environments. Agents can spin up services in environments like Google Cloud and Vercel, and confirm they work correctly on development deployments
+
+- Production: staged rollouts. Harjot believes in releasing features with feature flags, and doing progressive rollouts. He said they often have an agent observe the performance characteristics of the rollout, check the logs, and continue the wider rollout when things are stable. This last part reminds me of OpenAI’s Perf Factory inside its software factory.
+
+6. Human code review is dead, long live the human review! Harjot thinks that we will stop reviewing code generated by agents. Instead, we’ll spend more time reviewing the planning and final asset. Inside of CodeRabbit, engineers are reviewing releases (multiple PRs), not individual PRs.
+
+7. Engineers can be banned from committing without human review. The company has a “review exempt list” of devs who can push to production without anyone reviewing their releases. When an outage happens, the team traces the PR that broke prod, and the dev who pushed it gets a ‘strike.’ Rack up enough strikes and releases have to be reviewed by colleagues. I personally like this idea of giving trust to devs to push to prod, but pairing it with accountability: the trust gets revoked if you cause production to be unstable!
+
+8. Fine-tuning models stopped being worthwhile. CodeRabbit used to invest in fine-tuning models used in AI review, but Harjot says that new frontier models moving faster means that it would be tough to maintain their own fine-tuned ones, so it’s not worth it.
+
+9. There are “war rooms”. To get important stuff done, engineers, product folks, and designers gather in the room and steer the agents as together they build a prototype, then a working product. This approach reminds me of Uber in 2016, except ‘war room’ efforts took 2-3 weeks, people flew in from different offices, and it meant aligning on the plan and putting a rudimentary prototype together. The teams finished the remaining work over a matter of months.
+
+10. What Harjot looks for when hiring engineers: agency, breadth of experience, and systems thinking. He posted an unconventional job ad, only inviting candidates who had shipped 1,000+, non-slop PRs in the past 30 days, or had played 500+ hours of strategy and management games like Civilization, Age of Empires, Transport Tycoon, or Factorio. Harjot says he cannot unsee the similarities between running dozens of agents in parallel and playing a strategy video game involving tracking what dozens of units do.
+
+Additional thoughts
+
+This conversation gave me lots to think about. My kneejerk reaction was to question why anyone would spend so much on AI each month; I would assume it’s just wasteful. So, I’m delighted to learn more about where Harjot is coming from. I sense he is pushing the limit of what a single human developer can do when running hundreds of agents in parallel, and he still has more ideas than can be built. Plus, he doesn’t have to worry about his AI spending budget!
+
+Could spending be much cheaper for the same usage? Harjot and CodeRabbit are paying frontier API costs, not using open models. We cover how profitable coding use cases are for inference vendors and frontier companies due to KV cache nuances in this week’s inference deepdive, and how the $200/month Max plans for individuals and small businesses offer usage closer to $8,000-14,000/month in API usage, due to the same KV cache profitability detail. Moving to open models could surely reduce a good part of this spend, but at the cost of some capability.
+
+The engineer + strategy gamer combination helps push AI agent usage? Harjot is not some nontechnical “vibe coder”: he’s been coding for 30 years, and mostly used Neovim before moving over to AI agents. He’s long been obsessed with infra and distributed systems, and in his younger years, played Civilization. He detects parallels between the two activities and it’s interesting that he incorporated them into a job description.
+
+The “Dracula effect” is real with AI agents. I often see the “Dracula effect” of AI agents draining people, like Steve Yegge mentioned in February. Harjot also reports disturbed sleep, like waking up at night to nudge his agents.
+
+Well-funded AI-pilled startups could enjoy a massive upside of building with AI. Over the course of our conversation, I started to understand why it makes sense for Harjot and CodeRabbit to spend so much on AI. They need to build solutions that AI-native startups want to use, and CodeRabbit being AI-pilled itself confers the advantages of firsthand insights and empathy with customers. There’s much that can be learned from how Harjot and CodeRabbit work, all while this approach looks set to remain niche at a time when most companies are tightening the reins on AI spend.
+
+CodeRabbit’s business is being an AI infra startup, and the time-to-market with new products is a massive differentiator. In that context, it makes sense for CodeRabbit to build a lot of software internally and then productionize some of it, contributing to their revenue and valuation possibly increasing down the road. I find it useful to learn about such approaches, even if you decide that this direction would not be feasible for yourself, your team, or company.
+
+The Pragmatic Engineer deepdives relevant for this episode
+
+• Inside OpenAI’s agentic software factory
+
+• What is happening with code reviews?
+
+• What’s the ROI of software engineers’ spending on AI?
+
+• Why Ramp built its own in-house coding agent, Inspect
+
+• AI SRE: what is it, how could it change on-call – and does it work?
+
+• Context engineering with Dex Horthy
+
+• Formal methods with Hillel Wayne
+
+• Building Codex with Tibo Sottiaux
+
+Timestamps
+
+00:00 Intro
+
+03:17 How Harjot shipped over 5,000 pull requests in a month
+
+08:46 Harjot’s path into tech and his first startups
+
+12:25 Early conviction around AI and founding CodeRabbit
+
+14:40 Switching to AI coding
+
+20:35 Software factories explained
+
+25:37 What’s replacing human code review
+
+38:44 Technical debt and deslopping tests
+
+46:05 Evals
+
+50:25 Formal methods
+
+52:05 AI cost at CodeRabbit
+
+54:57 Startup funding in 2026 and the value of AI spend
+
+1:08:20 Hiring
+
+1:13:03 Work pace, sleep, and burnout
+
+1:21:55 Skills for the AI era
+
+1:24:30 Book recommendation
+
+References
+
+Where to find Harjot Gill:
+
+• X: https://x.com/harjotsgill
+
+• LinkedIn: https://www.linkedin.com/in/harjotsgill
+
+Book recommendation by Harjot The Black Swan by Nassim Nicholas Taleb: https://www.penguinrandomhouse.com/books/176226/the-black-swan-second-edition-by-nassim-nicholas-taleb/
+
+Mentions during the episode:
+
+- Harjot’s post on his pull request stats and token spend:
+
+- Harjot’s dotfiles: https://github.com/coderabbitai/dotfiles
+
+- Tesla Full Self-Driving (Supervised): https://www.tesla.com/fsd
+
+- AI tools for software engineers, but without the hype – with Simon Willison (co-creator of Django): https://newsletter.pragmaticengineer.com/p/ai-tools-for-software-engineers-simon-willison
+
+- Alcatel-Lucent: https://en.wikipedia.org/wiki/Alcatel-Lucent
+
+- University of Pennsylvania: https://www.upenn.edu
+
+- When AI writes almost all code, what happens to software engineering?: https://newsletter.pragmaticengineer.com/p/when-ai-writes-almost-all-code-what
+
+- Git at any scale (Cursor’s post on Origin): https://cursor.com/blog/git-at-any-scale
+
+- Write-ahead logging: https://en.wikipedia.org/wiki/Write-ahead_logging
+
+- What is SOC 2 Compliance?: https://www.paloaltonetworks.com/cyberpedia/soc-2
+
+- Jake Runzer’s post on the Railway incident:
+
+- The Pulse: a new trend of CPU shortages: https://newsletter.pragmaticengineer.com/p/the-pulse-a-new-trend-of-cpu-shortages
+
+- How Kubernetes is Built with Kat Cosgrove: https://newsletter.pragmaticengineer.com/p/how-kubernetes-is-built-with-kat
+
+- Formal methods with Hillel Wayne: https://newsletter.pragmaticengineer.com/p/formal-methods-with-hillel-wayne
+
+- Harjot’s post with CodeRabbit’s weekly commits chart:
+
+- Harjot’s post on $8M+ seed rounds no longer being enough:
+
+- Why Ramp built its own in-house coding agent, Inspect: https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect
+
+- Spotify Confidence: https://confidence.spotify.com
+
+- Harjot’s post on shipping 5K PRs in a week, with CodeRabbit’s hiring criteria: https://www.linkedin.com/posts/harjotsgill_we-at-coderabbit-shipped-5k-prs-last-week-share-7518364258942758912-Bts_/
+
+- Why We Sleep by Matthew Walker: https://www.amazon.com/dp/1501144324
+
+- Polyphasic sleep: https://en.wikipedia.org/wiki/Polyphasic_sleep
+
+- Harjot’s post on burnout:
+
+- Inside Fast’s rapid collapse: https://newsletter.pragmaticengineer.com/p/the-scoop-fast
+
+Technology, tool and vendor mentions:
+
+- CodeRabbit: https://www.coderabbit.ai
+
+- Codex: https://chatgpt.com/codex
+
+- Opus: https://www.anthropic.com/claude/opus
+
+- Claude Code: https://claude.com/product/claude-code
+
+- Neovim: https://neovim.io
+
+- Netsil: https://www.linkedin.com/company/netsil
+
+- New Relic: https://newrelic.com
+
+- AppDynamics: https://en.wikipedia.org/wiki/AppDynamics
+
+- eBPF: https://ebpf.io
+
+- Nutanix: https://www.nutanix.com
+
+- FluxNinja: https://www.fluxninja.com
+
+- Tabnine: https://en.wikipedia.org/wiki/Tabnine
+
+- GitHub Copilot: https://github.com/features/copilot
+
+- LTX (SQLite replication file format): https://github.com/superfly/ltx
+
+- Effect: https://effect.website
+
+- XState: https://stately.ai/docs/xstate
+
+- OrbStack: https://orbstack.dev
+
+- Snyk: https://snyk.io
+
+- SonarSource: https://www.sonarsource.com
+
+- TLA+: https://lamport.azurewebsites.net/tla/tla.html
+
+- Lean: https://lean-lang.org
+
+- Sid Meier’s Civilization: https://civilization.2k.com
+
+- Datadog: https://www.datadoghq.com
+
+- Devin: https://devin.ai
+
+- Bun: https://bun.com
+
+- Rippling: https://www.rippling.com
+
+- Age of Empires: https://www.ageofempires.com
+
+- Transport Tycoon: https://www.transporttycoon.com
+
+- Factorio: https://www.factorio.com
+
+—
+
+Production and marketing by Pen Name.","1","true","true","5197.061","2026-11-18T18:08:52.693Z","225268679","Software factories and code reviews with Harjot Gill","podcast","https://newsletter.pragmaticengineer.com/p/software-factories-and-code-reviews","The Pragmatic Engineer","https://newsletter.pragmaticengineer.com","3176","91","substack_post_sponsor_rag","10","software-factories-and-code-reviews","pragmaticengineer","CodeRabbit CEO Harjot Gill explains how he shipped over 5,000 pull requests in a month, why he believes human code review is dead, and what he gets from spending $250,000 a month on AI.","2388"
+"only_paid","Alex Xu","When you draw a system architecture diagram, services are often shown as boxes, and arrows between them show the communication pathways. Most of the time, we pay the greatest attention to the boxes that contain the code, databases, CPU usage, and deployments. But every arrow also hides critical work, resources, and a bunch of assumptions.
+
+You can have a failing request even when both services are running correctly. One service might be waiting for a connection. Or it might go to an outdated address. Or the request might reach the service after the calling service has already given up. All of this is part of the invisible system, and this is what we’re going to explore in this article.
+
+Here’s what we’ll cover:
+
+- The nature of a service call
+
+- Why moving data is costly
+
+- Why healthy services can have problems
+
+- How downstream calls spend time
+
+- How retries can cause issues
+
+- How slow dependencies impact the requests
+
+- How DNS changes impact requests
+
+The Nature of a Service-to-Service Call","0","true","false",,"2026-11-19T16:30:47.686Z","225656914","The Invisible Systems: What Happens Between Services","newsletter","https://blog.bytebytego.com/p/the-invisible-systems-what-happens","ByteByteGo Newsletter","https://blog.bytebytego.com","3611","15","substack_post_sponsor_rag","0","the-invisible-systems-what-happens","bytebytego","When you draw a system architecture diagram, services are often shown as boxes, and arrows between them show the communication pathways.","2715"
+"everyone","Alex Xu","GlobalFoundries on Taking AI Agents to Production (Sponsored)
+
+Getting AI agents into production at enterprise scale raises hard questions: what data they can reach, how fresh it needs to be, and how to keep them in bounds. At the Agentic Data Summit on December 9, Vishal Mehra, SVP & CIO at GlobalFoundries, shares how one of the world’s leading semiconductor manufacturers is putting agentic AI to work. Hear why GlobalFoundries chose Redpanda, what the team built, the results so far, and lessons for peers. Catch GlobalFoundries live at 10:00 AM PT. The summit is free and virtual and runs 8:30 AM–2:00 PM PT.
+
+Save Your Seat
+
+AI evals are one of the most important and hardest parts of building AI products. Getting started can feel like navigating a maze of conflicting advice.
+
+I reached out to Hamel Husain, an ML engineer at OpenAI with 20 years of experience, to share a practical introduction to AI evaluation. Previously at Airbnb and GitHub, Hamel has helped more than 35 companies build and evaluate real-world AI products. He coauthored Evals for AI Engineers: Systematically Measuring and Improving AI Applications with Shreya Shankar, an ML systems researcher and PhD candidate at UC Berkeley focused on LLM evaluation and data quality. Together, they’ve trained more than 4,500 engineers and product managers through their AI evals course.
+
+In today’s issue, we’re featuring an excerpt that introduces the Three Gulfs of LLM Application Development: understanding your data, making your requirements explicit, and getting the model to follow them consistently.
+
+Check out the book
+
+Excerpted from Evals for AI Engineers by Shreya Shankar and Hamel Husain. Copyright © 2027 Hamel Husain and Shreya Shankar. Published by O’Reilly Media, Inc. Used with permission.
+
+Evaluation in Applications
+
+At the application stage, the model has already been trained. The work is in building around it. You have to decide what the product should achieve, translate that goal into prompts and agent logic, and then verify that the model’s outputs are acceptable. Each of these steps introduces its own difficulties:
+
+- Objectives are vague at first. A goal like “summarize emails” sounds simple, but only when you inspect outputs do the ambiguities appear: how detailed, in what format, and with what exclusions?
+
+- Instructions might have gaps. Prompts and agent logic expressed in natural language rarely capture the full intent, which leads to inconsistent or incomplete behavior.
+
+- Behavior changes on new data. A setup that works on a handful of test cases may fail once it encounters the variability of real inputs.
+
+In practice, these issues show up again and again when building LLM applications. To reason about these challenges more systematically, we use the Three Gulfs framework, which names three places where development tends to break down—comprehension, specification, and generalization. Each gulf highlights a different point where development typically goes wrong, and each requires a different strategy to address, a theme we will return to throughout this book.
+
+The Three Gulfs of LLM Application Development
+
+As mentioned, a useful way to understand the challenges of building with LLMs is the Three Gulfs model (Figure 1-1), adapted from Shankar et al. (2025) and inspired by Norman (1988). The model highlights three common gaps that developers face when building and evaluating applications. We call these gaps comprehension, specification, and generalization.
+
+Throughout this book, we will use this framework to diagnose why an application is failing, and select the most appropriate strategy to fix it.
+
+Consider an agent that processes incoming emails sent to an organization. The goal is to extract the sender’s name, summarize the key requests, and categorize the email. At first glance, this seems straightforward. But each stage of development exposes different challenges across the Three Gulfs.
+
+Figure 1-1. Three Gulfs model of challenges in LLM agent development, adapted from Shankar et al. (2025)
+
+The Gulf of Comprehension (Between the Developer and Data)
+
+The first gulf is between the developer and the data. To build effective prompts and agents, you need a solid grasp of what your inputs actually look like. Without that, you will design against an imagined version of the task, not the real one.
+
+Consider the email processing example. If you only look at a handful of clean, well-written emails when drafting your prompt, you might write instructions that work fine on those cases. But the production data will also include forwards, replies with long quoted threads, messages with signatures in multiple languages, and poorly formatted text copied from PDFs. A prompt that ignores these realities might lead the LLM to, for example, summarize an entire quoted thread instead of the new message, or mistake a signature block for the main request.
+
+The Gulf of Comprehension applies to outputs too, not just inputs. We also need a clear sense of how the LLM behaves on those inputs. You cannot read every output it generates, but you still need to recognize the common ways it succeeds and the common ways it fails. Otherwise, it’s easy to be misled by a few good examples and miss the patterns that only show up at scale. In the email agent, for example, the LLM might usually extract the sender and write a decent summary. But when you look closer, you may notice recurring mistakes. The LLM might pull the wrong name when several are mentioned, drop key details in longer messages, or copy boilerplate like confidentiality notices into the summary. These failures may only happen occasionally, but if they occur, the system will feel unreliable to users.
+
+Bridging the Gulf of Comprehension means developing strategies to characterize both your inputs and your outputs at scale, so you know what the data really looks like, and how the system actually behaves, without having to inspect everything by hand.
+
+The Gulf of Specification (Between the Developer and the LLM Agent)
+
+The second gulf is between what we want and what we actually tell the LLM to do. Our intent (the task we have in mind) is often only loosely captured by the prompts or agent logic we write. Natural language is imprecise, and small gaps in how we phrase things can lead to large differences in behavior.
+
+Take the instruction:
+
+Extract the sender’s name and summarize the key requests in this email.
+
+At first glance it looks specific, but important details are left unstated. Should the summary be a paragraph or a bulleted list? Should the sender be the display name, the full email address, or both? Should implicit requests be included, or only explicit ones? How concise should the summary be?
+
+The LLM cannot fill in these choices for you. If you don’t make them explicit, the system will guess, and those guesses will not always line up with what you expect. That’s why two runs of the same agent might produce outputs in different formats, with varying levels of detail, or with inconsistent handling of edge cases.
+
+The Gulf of Specification is this gap between our intent and our instructions. Closing it requires making expectations explicit and aligning them closely with the data the agent will actually see.
+
+Limit agent reach. Record everything. Terminate agent access (Sponsored)
+
+Most enterprises hesitate to connect AI agents to production infrastructure. It feels risky, so they keep agents out of production or approve every step by hand.
+
+Teleport Beams is different:
+
+- Trusted runtimes for AI agents in production
+
+- Agents propose execution plans for human or LLM judgement
+
+- Separate runtime executes with only approved access
+
+- No secrets in the agent’s environment
+
+Trace actions and LLM conversations, flag behavior that drifts from intent, and terminate agents and their connections with a kill switch.
+
+Explore Beams
+
+The Gulf of Generalization (Between the Data and the LLM Agent)
+
+The third gulf is between the data your system sees and how the LLM generalizes to it. Even if you have a solid grasp of your inputs and have written a clear, well-scoped prompt, the LLM is still prone to errors. LLMs are not perfect, and they will make mistakes.
+
+For example, imagine you’ve clearly specified that the system should extract the sender’s name from the email header. Most of the time the LLM follows this instruction. But occasionally, when the body of the email mentions another person (say, a public figure), the LLM will incorrectly return that name instead. Nothing about your understanding of the data or your prompt was wrong. The LLM simply failed to apply the instructions consistently. Maybe the LLM is too biased in favor of names it has seen in its training data.
+
+This is the Gulf of Generalization: the fact that LLMs can behave unpredictably even when comprehension and specification are handled well. These errors usually become visible only when the system is exposed to the full variety of real-world data. And they are unavoidable: no matter how advanced the models become, there will always be cases where they produce the wrong output.
+
+Applying the Three Gulfs to Other Domains
+
+The Three Gulfs apply beyond email processing. For example, in a customer support chatbot, the Gulf of Comprehension is about the full variety of customer queries, including multilingual messages, typos, and multi-part questions. The Gulf of Specification is about defining what a “good” response looks like; a bot that apologizes when it should escalate to a human is following the wrong instructions, and without explicit rules the bot will guess. The Gulf of Generalization shows up when the bot handles billing questions well but fails on product-specific questions it has seen fewer examples of.
+
+In a code generation assistant, the Gulf of Comprehension is about how developers actually describe what they want, which often includes vague requests, incomplete context, and references to undocumented internal APIs. The Gulf of Specification is about defining output format, error handling, and style conventions. The Gulf of Generalization shows up when the model produces correct Python but fails on less common languages or complex multi-file changes.
+
+The evaluation strategy for each application depends on which gulf is the primary source of failure.
+
+Why LLM Agent Evaluation Is Challenging
+
+Evaluating LLM applications is challenging because every application requires bridging all Three Gulfs (Comprehension, Specification, and Generalization) again in its own context. Evaluation is not a one-time check. It is an iterative process where requirements become clear only after you interact with real outputs.
+
+Tip: The Three Gulfs framework provides a shared vocabulary for discussing LLM application failures. When debugging with your team, you can quickly identify whether a problem is a “specification failure” (the prompt didn’t make requirements clear enough) or a “generalization failure” (the LLM isn’t applying instructions consistently). This common language helps teams diagnose issues faster and choose the right fixes, rather than debating vague notions of the model “not working.”
+
+When you start examining outputs (closing the Gulf of Comprehension), you will inevitably find mistakes. The next question is whether these mistakes are due to incomplete specification or to failures of generalization. If the prompt does not make the requirement explicit, you may fix it with better instructions or agent design. If the prompt is already well specified and the LLM still fails, then the issue lies in generalization, and automated evaluations can help measure how often that failure occurs.
+
+Applications also differ in how much they can rely on users to bridge the gulfs on their own. In a coding assistant, maybe we can assume programmers have high agency. They know how to specify requirements precisely, they can read and debug generated code (comprehension), and they can run tests that expose when the LLM has failed to generalize (e.g., generating a working React app in some cases but not others).
+
+In contrast, consider an LLM-powered personal stylist. A user asking for an outfit may not know how to specify requirements clearly. The application itself may need to ask clarifying questions, such as about weather or formality, to reduce specification gaps. Users also cannot easily detect generalization failures: if the LLM produces good suggestions for casual winter wear, they may assume it will also perform well for winter weddings, an assumption that may not hold.
+
+Effective evaluation requires thinking about the stakes in each gulf for your application. Where the stakes are higher, because users cannot easily catch mistakes themselves or because the cost of errors is significant, you will need to design more rigorous processes to close the gaps.
+
+The LLM Evaluation Lifecycle: Bridging the Gulfs with Evaluation
+
+The Three Gulfs (Comprehension, Specification, and Generalization) capture the main ways LLM applications go wrong. In this book, we approach evaluation through the Analyze-Measure-Improve lifecycle (Figure 1-2).
+
+Figure 1-2. The Analyze-Measure-Improve evaluation lifecycle
+
+This iterative framework bridges the Three Gulfs by using evaluation to systematically understand failures (Analyze), quantify them (Measure), and fix them (Improve). This lifecycle is the framework we will use to show how evaluation can make these gulfs visible and help you decide how to address them.
+
+Analyze
+
+The cycle begins with Analyze. At this stage you look at real inputs and outputs to understand how the system actually behaves. The goal is to identify failure modes, not to quantify them yet. While Analyze connects most directly to the Gulf of Comprehension (understanding your data and your system’s behavior), it also surfaces specification gaps and generalization issues; you often discover all three types of problems during the same trace-reading sessions.
+
+In practice, this means reading traces (the full record of what the agent did for each request), talking to users or domain experts about what “correct” looks like, and building up a list of the ways the system fails. Chapter 3 covers this in detail.
+
+Imagine you review a batch of email summaries and notice two recurring problems: the LLM sometimes includes irrelevant text from signatures, and sometimes omits the most important request. These observations tell you where things break down and offer clues about whether the issue is poor specification or a generalization failure.
+
+Measure
+
+After Analyze, you will know the kinds of mistakes the system makes. Some will clearly be specification problems: the prompt did not say enough, so the fix is obvious. Others will look like generalization errors: the prompt was clear, but the LLM still misbehaves.
+
+The Measure step is about quantifying those generalization issues. The key question during Measure is: how often does each failure mode actually occur, and is the rate low enough that the system is usable? Without measurement, you’re relying on impressions from a handful of traces, which can be misleading in either direction (a few bad examples can make a good system look broken, and a few good examples can make a broken system look fine). To measure at scale, you design evaluators (automated checks) that can score traces without human review. These can be code-based rules, or they can use another LLM as a judge (a pattern we cover in Chapter 5).
+
+Imagine you are working with an LLM that sometimes pulls signature blocks into summaries even after you clarified the prompt. You build a rule-based check that flags boilerplate phrases across thousands of outputs and find it happens in 8% of cases. Measurement tells you whether a failure is an occasional annoyance or a systematic problem.
+
+Improve
+
+The final step is Improve: decide how to adjust the system based on what Analyze and Measure have uncovered. The path you follow depends on the source of t...","16","true","true",,"2026-11-18T16:31:02.712Z","224797035","Evals for AI Engineers","newsletter","https://blog.bytebytego.com/p/evals-for-ai-engineers","ByteByteGo Newsletter","https://blog.bytebytego.com","3814","216","substack_post_sponsor_rag","7","evals-for-ai-engineers","bytebytego","In today’s issue, we’re featuring an excerpt that introduces the Three Gulfs of LLM Application Development.","2868"
+"only_paid","Gergely Orosz","A recent trend we’ve covered is of tech companies moving to open models to rein in AI spend: Uber cut its per-token costs by 50%, Pinterest by 90%, and even AT&T has achieved a 56% decrease. But how do you move from a frontier lab’s APIs to using open models? There are two options:
+
+- “Bare metal:” With plenty of time and money, you can go “bare metal” and purchase a few dozen NVIDIA GPUs and use those AI supercomputers, like Revolut has done: running 56 separate B200 units itself to serve its inference needs. This is a lot of work to set it up, but after that, operational costs are as cheap as it gets.
+
+- Inference provider: most companies contract with an inference provider that operates large fleets of GPUs, and makes it easy for customers to onboard and start using open models fast.
+
+Onboarding to an inference provider to run LLM workloads comes with challenges, such as dealing with tail latencies, worrying about cache hit rates, rate limits, and more. Inference engineering is a set of engineering practices that we believe is increasingly beneficial for software engineers to familiarize themselves with. To go deeper into this area, we’ve talked with three leading inference providers to learn more: Modal, Fireworks AI, and Baseten. Today, we cover:
+
+- What are inference providers & how do they differ from AI labs? They have GPU infrastructure similar to frontier labs, don’t train their own frontier models and are experts at hosting open models.
+
+- When to switch from frontier labs? The most common reasons are to reduce costs, have more control over latency, and to fine-tune AI models.
+
+- Choosing a model, provider, and deployment strategy. Use evals to find the right open model for your use case, evaluate vendors, and decide between multi-tenant API usage and dedicated GPUs.
+
+- Stage #1: API replacement using a multi-tenant inference setup. The easiest way to onboard to an inference provider is to “swap” the API of a frontier lab to an API of an inference provider. But there may be latency problems and caching issues at high loads.
+
+- Signs you’ve outgrown multi-tenant inference APIs. Hitting rate limits, performance consistency problems, and overpaying for usage are signs that it might be time to adopt dedicated GPUs.
+
+- Stage #2: Configuring dedicated GPU nodes. With dedicated GPUs, you’ll need to get into the details: size of the model, interactivity versus throughput, KV cache sizing, failover options, and more.
+
+- Speculative decoding. If there’s unused compute during the decode phase, you might consider a Speculator to further boost inference performance.
+
+As usual, we have no affiliation with vendors mentioned in this article, and have not been paid to mention any company. Special thanks to Richard Gong (Inference lead, Modal), Dmytro Dzhulgakov (cofounder and CTO, Fireworks), and Philip Kiely (Special Projects at Baseten) for sharing details about inference engineering challenges.
+
+1. What are inference providers & how do they differ from AI labs?
+
+Inference providers are companies that sell access to LLMs which they run on users’ behalf. From the outside, this isn’t so different to what OpenAI and Anthropic offer: an API endpoint, ability to stream tokens, and pay based on token usage.
+
+But what makes inference providers different from frontier labs is the models running behind the endpoint: inference providers run open-weight models, whereas frontier labs train their own models. In this field, Modal, Fireworks, and Baseten each operate slightly different strategies:
+
+- Modal sees itself as a cloud infrastructure provider that focuses on making its offering programmable via its SDKs. It natively supports inference services through its SDKs, but leans heavily on the open source ecosystem for running its inference workloads efficiently. Performance tweaks to its stack are merged upstream. In the words of Richard Gong, Inference Lead at Modal: “when you run code on Modal, you should be able to see all the code that’s running.”
+
+- Fireworks positions itself as a provider for specialized AI workloads. Most of its business is in dedicated deployments, which often include fine-tuning and provision of latency guarantees. Much fine-tuning and post-training is available for self-service. Fireworks also offers forward-deployed researchers that can help with post-training custom models or components. Dmytro Dzhulgakov, Fireworks’ CTO, says: “our tagline is specialized intelligence, which means we will tune everything from model to infrastructure for your particular use case.”
+
+- Baseten describes itself as an all-in-one place to build agents. It starts with the basic infrastructure layer with uptime guarantees, flexible commercial terms, without vendor lock-in. Baseten builds additional layers for building agentic workloads on top of its inference platform. These additional layers include sandboxes, governance services, and self-serving, post-training functionality.
+
+To customers, inference providers offer LLM APIs that can be used as drop-in replacements for frontier labs’ APIs. However, inference providers are not the same, as suggested above:
+
+- Inference providers don’t pre-train their own foundational models. A single pre-training run for frontier-level LLMs can cost millions of dollars, and only hyperscalers and specialized frontier labs can afford it. Inference providers run post-training on open-weight models because it’s significantly cheaper.
+
+- Competitive pricing. The main business of inference providers is offering open-weight models at competitive rates.
+
+- Dedicated hardware. A big part of the appeal of inference providers is the ability to have dedicated hardware for users to interact with vendors on the infrastructure layer.
+
+- Efficiency & customization. Inference providers offer similar commoditized open models, and compete heavily on efficiency and customization services.
+
+As an example of efficiency, Fireworks announced its Ember-1 model in September 2026, that is post-trained on the Kimi K3 foundation, delivering a similar quality level but with 40% fewer reasoning tokens consumed. Consuming far fewer reasoning tokens gives Fireworks an edge on cost compared to a vanilla Kimi K3 model.
+
+In general, frontier labs have poor uptime, and this helps inference vendors win market share. API Uptime provided by frontier labs isn’t at the levels expected of modern cloud providers: currently, the self-declared uptime of Anthropic is 99.5%, and for OpenAI it’s 99.97% for API, and 99.2% for ChatGPT. These numbers are well below the four nines (99.99%+) uptime expected of cloud providers – which is something that a vendor like AWS is known to uphold.
+
+Frontier labs’ API uptime. Sources: OpenAI, Anthropic.
+
+Imagine you’re a developer aiming to provide a 99.99% uptime guarantee for your application; you can’t rely on a single frontier LLM provider for the service’s critical path. But in the graphs above, degraded performance slots aren’t counted as downtime. As all these APIs are multi-tenant, it means that performance degradations will naturally hit some tenants – with no way to be aware of the degradation, or do anything about it.
+
+Reliability is an ongoing concern with the LLMs of frontier providers and inference providers. Even though many inference vendors offer higher reliability guarantees than frontier models, inference providers can also go down, too. For companies that use inference providers, it’s common to use an LLM gateway with fallback logic to another provider – or to a frontier API. We explored this in a deepdive with Ramp, whose LLM router project started with this exact problem statement.
+
+2. When to switch from frontier labs?
+
+Moving from frontier AI labs to an independent inference provider is often driven by three factors: cost, control, and the need for more customization.
+
+Most common reason: cost
+
+Many companies start considering inference providers because they have pressing cost concerns. In many cases, a frontier model is more capable than necessary for most requests, meaning a “dumber” model is just as good for simpler tasks – and nobody would notice the difference! In such cases, it’s a “no-brainer” for an engineering team to choose to route some requests to a cheaper model hosted by an inference provider.
+
+“Smart routing” is an obvious way to cut costs. An LLM router – the “smart router” – is prompt-aware and can route an LLM request to the most cost-efficient provider that can solve the request. This is an approach that fuelled Uber’s ~50% cut in per-token costs this summer.
+
+Providers offer OpenAI/Anthropic-compatible API endpoints, so switching providers is trivial. All that is needed is to point your app at the new endpoint operated by a “smart router.”
+
+But how to decide which model to serve? Generic benchmarks are often insufficient because they usually do not fully represent a team’s traffic patterns. Most inference providers ask for prompt samples or eval sets in order to gauge which model best serves a customer’s use case. The experience of using a new LLM endpoint resembles using APIs provided by frontier labs, while API calls are still charged per token, and response time SLAs generally don’t exist.
+
+More control over latency
+
+When you use a frontier lab’s endpoint, there is little control over operational issues like response latency and model availability. Opting for a dedicated setup with an inference provider offers full control over both:
+
+- Latency: model response times are more predictable because the app has dedicated capacity that can scale by usage.
+
+- Model availability: Engineers can run the model of their choosing on their dedicated GPUs and keep operating it as long as needed, avoiding the risk of a frontier lab changing models from one day to the next.
+
+Fine-tuning model quality: customization
+
+When an inference stack runs on dedicated hardware with open source models, it’s possible to work with inference providers to finetune a model’s quality as required, which optimizes latency or throughput performance. Richard Gong of Modal says that around 10% of their customers go this far, suggesting that customization is for “power users”.
+
+Fine-tuning a model’s quality is typical in two scenarios:
+
+- Tweaking a smaller model: achieving a similar level of quality with a smaller model, with fewer parameters. This performance gain is achieved via performance tweaks not possible with off-the-shelf models. Inference providers allow you to post-train a smaller model for your specific use case. A post-trained small model can then outperform the original model in those specialized scenarios.
+
+- Fine tuning for niche use cases. Improving quality when general purpose models aren’t good enough, often because the data isn’t publicly available. For example, projects in the legal and medical sectors tend to benefit from this, according to the Fireworks team.
+
+3. Choosing a model, provider, and deployment strategy
+
+Most inference providers offer the exact same models to run, and the differences lie in model performance and quality. For example, model quality can differ by default context length, and some providers cap this to below what the model supports. There’s also quantization to consider, where a model’s weights are compressed to a lower numerical precision, or default temperature aka controlling how random the output is. Here’s a practical approach for selecting a provider:
+
+- Model: Choose an AI model to switch to
+
+- Provider: pick an inference provider to host the model, based on model quality, performance, and cost
+
+- Deployment model: decide whether to use a multi-tenant service, or to move to dedicated GPU nodes
+
+Choosing a model
+
+The most obvious way to decide which model to use is to run an eval set against the various model options. In the latest episode of The Pragmatic Engineer Podcast, Microsoft’s CEO Satya Nadella argues that private evals shall be a big component of tech companies’ intellectual property (IP) in the future. He says:
+
+“Public benchmarks are great, but your private evals will matter more: you need your own eval for the outcome that matters to you. Then you look at performance across all these models and continuously optimize.
+
+Our customers start with a frontier model, then say: ‘I’ve got all those traces. This is a deterministic workflow, so I don’t need the next big model drop. I want to optimize the cost.’ They drop in [another] model, use the traces to fine-tune it – and there you have it.”
+
+An example of public benchmarks is from Artificial Analysis that maintains an eval set to compare costs for generic tasks across different models. Here are the average costs per task, broken down by model:
+
+Artificial Analysis Cost Per Intelligence Index Task. Source: Artificial Analysis
+
+Let’s say you build an app on top of Anthropic’s Sonnet 5.5 model, costing $5.46 on average per task in the index. If Kimi K3 is sufficient for this use case, then that model is ~60% cheaper to run at only $2.00 per task. Note that the cost comparison here is per-task, not per-token. This makes sense because different models require different numbers of tokens to complete a task, which makes it harder to compare model costs without your own private evals!
+
+Having said that, deciding whether a model is good enough requires more than just looking at public benchmark results. Ideally, there’s an eval set to compare models with. In the absence of that, running an A/B experiment is a good alternative. For example, if you want to switch agentic coding workflows to an inference provider, you could simply let some engineers use the new model and give feedback on the results.
+
+Choosing a provider
+
+All providers tweak open models to squeeze out more performance without degrading quality too much. Therefore, model outputs and quality vary among providers. A useful tool for comparing providers’ model accuracy is Artificial Analysis’ endpoint accuracy index. This is a score that benchmarks results from various inference providers against its own, self-hosted version. An index value of 100% means the provider’s results are the same as Artificial Analysis’ own hosted model.
+
+Kimi K3 endpoint accuracy across various providers. Source: Artificial Analysis
+
+Endpoint accuracy is broadly similar and the scores of providers range from 93% to 102%. The variance comes from performance and quality tweaks that inference providers make to their versions of open models. Since LLMs are non-deterministic, this measurement has a 95% confidence interval – which adds another layer of complexity to evaluation. Minor score differences are considered within the same level as Artificial Analysis’ reference model, hence the green coloring of bars that are technically below 100%.
+
+Deployment model: multi-tenant or dedicated?
+
+All providers’ offerings include a multi-tenant API, as well as dedicated GPUs to run LLMs. This deployment progression is typically a graduation path: most deployments start as drop-in API replacements of frontier labs’ APIs, and as usage grows they start switching to dedicated infrastructure.
+
+When switching to an open model hosted by an inference provider, the per-token cost decreases. However, you are still running in a multi-tenant environment, which comes with similar performance bottlenecks, like when using the API endpoint of a frontier model. The difference is that with an inference provider, you can migrate to a dedicated hosting environment and have full control over a deployment’s performance. Having your own deployment (controlling the GPUs with the inference provider) makes it possible to fine-tune a model’s quality with techniques such as post-training.
+
+Typical graduation path from multi-tenant API to dedicated GPUs
+
+The most typical path for a startup using LLMs:
+
+- Use a frontier lab’s API endpoints
+
+- Move over to using an open model, using the API endpoint of an inference provider
+
+- Rent dedicated GPUs from the inference provider
+
+Three-...","4","true","false",,"2026-11-17T16:11:23.724Z","225360725","Inference engineering for software engineers","newsletter","https://newsletter.pragmaticengineer.com/p/inference-engineering-for-software-engineers","The Pragmatic Engineer","https://newsletter.pragmaticengineer.com","11002","157","substack_post_sponsor_rag","14","inference-engineering-for-software-engineers","pragmaticengineer","When is the right time to drop APIs provided by the frontier AI labs, and what about choosing models & providers, caching, dedicated GPUs, KV cache concerns, and more? A practical deepdive","8272"
+

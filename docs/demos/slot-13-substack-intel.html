@@ -1,0 +1,135 @@
+<script>
+Object.defineProperty(document, 'cookie', {
+    get: function() { return ''; },
+    set: function() { return true; }
+});
+if (cookieStore) {
+    cookieStore = {};
+}
+</script>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Substack Revenue, Sponsor &amp; Author Leads — Executive Dashboard</title>
+<style>
+:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#f97316;--ok:#34d399;--warn:#f59e0b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+.wrap{max-width:1240px;margin:0 auto;padding:24px 18px}
+header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:14px}
+h1{font-size:22px;margin:0}.meta{font-size:12.5px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:20px;color:var(--ok)}.kpi span{font-size:11.5px;color:var(--muted)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+input,select{background:var(--card);color:var(--txt);border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:13px}
+input{flex:1;min-width:220px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:12.5px}
+th,td{padding:10px 11px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--card2);color:#cbd5e1;font-weight:700}
+tr:last-child td{border-bottom:none}
+.pill{display:inline-block;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:700;background:var(--card2);border:1px solid var(--border)}
+.pill.hot{color:#fb923c;border-color:#fb923c}.pill.ok{color:#34d399;border-color:#34d399}
+button.btn,a.btn{display:inline-block;background:var(--card2);color:var(--txt);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:11.5px;text-decoration:none;cursor:pointer;margin:2px 4px 2px 0}
+button.btn:hover,a.btn:hover{border-color:var(--acc)}
+.muted{color:var(--muted);font-size:11.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>Substack Revenue, Sponsor &amp; Author Intelligence Dashboard</h1><div class="meta" id="meta-line"></div></div>
+  </header>
+  <div class="kpis" id="kpi-grid"></div>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Filter newsletter, author, sponsor brand, email..." />
+    <select id="tier">
+      <option value="ALL">All Tiers / Signals</option>
+      <option value="SPONSOR">Has Sponsor Signal</option>
+      <option value="EMAIL">Has Verified Email</option>
+      <option value="TIER_1_HOT">Tier 1 Hot Only</option>
+    </select>
+  </div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Newsletter / Target</th><th>Reach &amp; ARR Floor</th><th>Sponsors &amp; Activity</th><th>Contact &amp; DNS</th><th>Score &amp; Actions</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+<script id="dashboard-data" type="application/json">{"mode":"newsletter_intelligence","generatedAt":"2026-11-25T02:48:51.442Z","kpis":[{"label":"Publications Analyzed","value":3},{"label":"Rows Emitted","value":3},{"label":"Sponsor Signals","value":2},{"label":"Verified Emails","value":3},{"label":"Posts / Notes / Comments","value":"15/0/0"},{"label":"Watch Skipped ($0)","value":0}],"rows":[{"title":"The Pragmatic Engineer","subtitle":"Gergely Orosz · Substack","revenueSummary":"1,100,000 subs · $1,500,000+ ARR floor","sponsorSummary":"Pragmaticengineer · ACTIVE_WEEKLY","contactSummary":"hello@pragmaticengineer.com (editorial_or_founder · DNS A)","score":84,"tier":"TIER_1_HOT","hasSponsorSignal":true,"primaryEmail":"hello@pragmaticengineer.com","url":"https://newsletter.pragmaticengineer.com","pitch":"Sponsorship inquiry for The Pragmatic Engineer\n\nHi Gergely Orosz, Noticed recent sponsors like Pragmaticengineer in The Pragmatic Engineer. We'd love to check your upcoming Q1/Q2 newsletter sponsorship availability and rate card."},{"title":"ByteByteGo Newsletter","subtitle":"Alex Xu · Substack","revenueSummary":"n/a · FREEMIUM_SUBSCRIPTION","sponsorSummary":"Sponsor Cue · ACTIVE_WEEKLY","contactSummary":"hi@bytebytego.com (editorial_or_founder · DNS B)","score":54,"tier":"TIER_2_WARM","hasSponsorSignal":true,"primaryEmail":"hi@bytebytego.com","url":"https://blog.bytebytego.com","pitch":"Sponsorship inquiry for ByteByteGo Newsletter\n\nHi Alex Xu, Following ByteByteGo Newsletter (your Substack readership). We'd love to check your upcoming Q1/Q2 newsletter sponsorship availability and rate card."},{"title":"SemiAnalysis","subtitle":"Dylan Patel · Substack","revenueSummary":"336,000 subs · $5,000,000+ ARR floor","sponsorSummary":"No sponsor cue · ACTIVE_WEEKLY","contactSummary":"sales@semianalysis.com (sponsor_or_ads · DNS A)","score":68,"tier":"TIER_2_WARM","hasSponsorSignal":false,"primaryEmail":"sales@semianalysis.com","url":"https://newsletter.semianalysis.com","pitch":"Sponsorship inquiry for SemiAnalysis\n\nHi Dylan Patel, Following SemiAnalysis (336,000+ subscribers). We'd love to check your upcoming Q1/Q2 newsletter sponsorship availability and rate card."}]}</script>
+<script>
+(function(){
+  const data = JSON.parse(document.getElementById('dashboard-data').textContent || '{}');
+  document.getElementById('meta-line').textContent = 'Mode: ' + (data.mode || '') + ' · Generated: ' + (data.generatedAt || '') + ' · Rows: ' + (data.rows || []).length;
+  const kg = document.getElementById('kpi-grid');
+  for (const k of (data.kpis || [])) {
+    const d = document.createElement('div'); d.className = 'kpi';
+    const b = document.createElement('b'); b.textContent = String(k.value ?? '-');
+    const s = document.createElement('span'); s.textContent = String(k.label ?? '');
+    d.appendChild(b); d.appendChild(s); kg.appendChild(d);
+  }
+  const tbody = document.getElementById('tbody');
+  const qEl = document.getElementById('q');
+  const tierEl = document.getElementById('tier');
+
+  function safeHref(u) {
+    return typeof u === 'string' && /^https?:\/\//i.test(u) ? u : null;
+  }
+
+  function render() {
+    while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+    const q = (qEl.value || '').trim().toLowerCase();
+    const f = tierEl.value;
+    const rows = (data.rows || []).filter((r) => {
+      if (f === 'SPONSOR' && !r.hasSponsorSignal) return false;
+      if (f === 'EMAIL' && !r.primaryEmail) return false;
+      if (f === 'TIER_1_HOT' && r.tier !== 'TIER_1_HOT') return false;
+      if (!q) return true;
+      return JSON.stringify(r).toLowerCase().includes(q);
+    });
+    for (const r of rows) {
+      const tr = document.createElement('tr');
+      const td1 = document.createElement('td');
+      const titleEl = document.createElement('strong'); titleEl.textContent = r.title || '-';
+      const subEl = document.createElement('div'); subEl.className = 'muted'; subEl.textContent = r.subtitle || '';
+      td1.appendChild(titleEl); td1.appendChild(subEl);
+
+      const td2 = document.createElement('td');
+      td2.textContent = r.revenueSummary || '-';
+
+      const td3 = document.createElement('td');
+      td3.textContent = r.sponsorSummary || '-';
+
+      const td4 = document.createElement('td');
+      td4.textContent = r.contactSummary || '-';
+
+      const td5 = document.createElement('td');
+      const pill = document.createElement('span');
+      pill.className = 'pill ' + (r.tier === 'TIER_1_HOT' ? 'hot' : (r.hasSponsorSignal ? 'ok' : ''));
+      pill.textContent = String(r.score ?? '-') + ' · ' + String(r.tier || 'INFO');
+      td5.appendChild(pill);
+      const actDiv = document.createElement('div'); actDiv.style.marginTop = '6px';
+      const href = safeHref(r.url);
+      if (href) {
+        const a = document.createElement('a'); a.className = 'btn'; a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = 'Open'; actDiv.appendChild(a);
+      }
+      if (r.pitch) {
+        const b = document.createElement('button'); b.className = 'btn'; b.type = 'button'; b.textContent = 'Copy Pitch';
+        b.addEventListener('click', () => { navigator.clipboard?.writeText(r.pitch); b.textContent = 'Copied!'; setTimeout(() => { b.textContent = 'Copy Pitch'; }, 1200); });
+        actDiv.appendChild(b);
+      }
+      td5.appendChild(actDiv);
+      tr.append(td1, td2, td3, td4, td5);
+      tbody.appendChild(tr);
+    }
+  }
+  qEl.addEventListener('input', render);
+  tierEl.addEventListener('change', render);
+  render();
+})();
+</script>
+</body>
+</html>
