@@ -429,11 +429,21 @@ footer a{color:var(--acc)}
       var res = await fetch(API_BASE + '?handle=' + encodeURIComponent(clean));
       var data = await res.json();
       if (!res.ok) {
-        setStatus(data.message || data.error || 'Lookup failed (HTTP ' + res.status + ')', 'err');
+        if (res.status === 503 && data && data.wafRateLimited) {
+          lastData = data;
+          setStatus(data.message, 'err');
+        } else {
+          setStatus(data.message || data.error || 'Lookup failed (HTTP ' + res.status + ')', 'err');
+        }
         return;
       }
       renderResult(data);
-      setStatus('Live snapshot ready!' + (data.cached ? ' (Served from global edge cache)' : ''), 'ok');
+      var suffix = data.dataSource === 'verified_snapshot'
+        ? ' (Verified AWS snapshot · ' + (data.verifiedDate || 'latest') + ' — run Apify Actor below for real-time AWS refresh)'
+        : data.cached
+          ? ' (Served from global edge cache)'
+          : '';
+      setStatus('Snapshot ready!' + suffix, 'ok');
     } catch (err) {
       setStatus('Network error contacting Substack checker. Please retry.', 'err');
     } finally {
