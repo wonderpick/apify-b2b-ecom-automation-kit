@@ -3,7 +3,7 @@
   "name": "io.github.wonderpick/apify-b2b-ecom-automation-kit",
   "title": "Apify External Business Intelligence MCP Server",
   "description": "14 external-intel tools & 12 prompts: Google News RAG, Substack, Shopify Apps, App Store, ATS & B2B.",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "icons": [
     {
       "src": "https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/icon.png",

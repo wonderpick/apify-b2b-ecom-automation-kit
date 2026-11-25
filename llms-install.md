@@ -1,6 +1,6 @@
 # AI Agent & Cline / Cursor One-Step Install Guide (`llms-install.md`)
 
-This file helps AI coding assistants (Cline, Cursor, Windsurf, Claude Desktop, Antigravity) configure **Apify External Business Intelligence MCP Server (v2.4.0)** automatically.
+This file helps AI coding assistants (Cline, Cursor, Windsurf, Claude Desktop, Antigravity) configure **Apify External Business Intelligence MCP Server (v2.8.1)** automatically.
 
 ## Recommended: Zero-Install Remote Streamable HTTP Endpoint
 

@@ -139,7 +139,7 @@ footer a{color:var(--acc)}
 
   <footer>
     <span>MIT Open-Source <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener">Apify External BI &amp; MCP Suite</a></span>
-    <span><a href="../index.html">All 14 Actors &amp; 5 Free Tools</a></span>
+    <span><a href="../index.html">All 14 Actors &amp; 8 Free Tools</a></span>
   </footer>
 </div>
 
@@ -220,10 +220,17 @@ footer a{color:var(--acc)}
     try {
       var res = await fetch(API_BASE + '?url=' + encodeURIComponent(clean));
       var data = await res.json();
-      if (!res.ok) { setStatus(data.message || data.error || 'Audit failed (HTTP ' + res.status + ')', 'err'); return; }
+      if (!res.ok) {
+        lastData = null;
+        resultCard.classList.add('hidden');
+        setStatus(data.message || data.error || 'Audit failed (HTTP ' + res.status + ')', 'err');
+        return;
+      }
       render(data);
       setStatus('8-point audit + DMARC grade complete!' + (data.cached ? ' (Edge cached)' : ''), 'ok');
     } catch (err) {
+      lastData = null;
+      resultCard.classList.add('hidden');
       setStatus('Network error contacting audit endpoint.', 'err');
     } finally {
       btn.disabled = false;

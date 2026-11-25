@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Apify External Business Intelligence MCP Server (stdio, v2.7.0)
- * Exposes 13 zero-proxy 128MB-256MB Apify Actors + 11 one-click workflow Prompts.
+ * Apify External Business Intelligence MCP Server (stdio, v2.8.1)
+ * Exposes 14 zero-proxy 128MB-256MB Apify Actors + 12 one-click workflow Prompts.
  * Note: initialize, tools/list, prompts/list, prompts/get, and resources/list work with NO APIFY_TOKEN
  * so MCP clients and automated indexers (e.g. Glama.ai, mcptry.com) inspect schemas cleanly.
  */
@@ -10,11 +10,13 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
+  ErrorCode,
   GetPromptRequestSchema,
   ListPromptsRequestSchema,
   ListResourceTemplatesRequestSchema,
   ListResourcesRequestSchema,
   ListToolsRequestSchema,
+  McpError,
 } from '@modelcontextprotocol/sdk/types.js';
 import {
   SERVER_INSTRUCTIONS,
@@ -24,6 +26,7 @@ import {
   executeApifyTool,
   listPromptsResponse,
   listToolsResponse,
+  validateToolArguments,
 } from './mcp-catalog.mjs';
 
 const server = new Server(
@@ -59,8 +62,12 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
 });
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args = {} } = request.params;
-  return executeApifyTool(name, args, process.env.APIFY_TOKEN, 180_000);
+  const { name, arguments: args } = request.params;
+  const validation = validateToolArguments(name, args);
+  if (!validation.ok) {
+    throw new McpError(ErrorCode.InvalidParams, validation.error);
+  }
+  return executeApifyTool(name, validation.args, process.env.APIFY_TOKEN, 180_000);
 });
 
 const transport = new StdioServerTransport();

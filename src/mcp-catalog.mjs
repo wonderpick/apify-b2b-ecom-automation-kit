@@ -1,10 +1,10 @@
 /**
- * Shared MCP Catalog (v2.8.0) — 14 verb_noun External-Intelligence Tools + 12 One-Click Prompts
+ * Shared MCP Catalog (v2.8.1) — 14 verb_noun External-Intelligence Tools + 12 One-Click Prompts
  * Used by the stdio/Docker MCP server (`src/mcp-server.mjs`) and Cloudflare Remote `/mcp`.
  */
 
 export const SERVER_NAME = 'apify-b2b-ecom-mcp-server';
-export const SERVER_VERSION = '2.8.0';
+export const SERVER_VERSION = '2.8.1';
 
 function makeOutputSchema(itemDescription, itemProperties) {
   return {
@@ -1578,7 +1578,7 @@ export const TOOLS = [
           maxItems: 10,
           items: {
             type: 'string',
-            enum: ['TOP', 'WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY', 'ENTERTAINMENT', 'SPORTS', 'SCIENCE', 'HEALTH'],
+            enum: ['WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY', 'ENTERTAINMENT', 'SPORTS', 'SCIENCE', 'HEALTH'],
           },
           description: 'Optional Google News topic feeds (e.g. ["TECHNOLOGY", "BUSINESS"]).',
           default: [],
@@ -1599,7 +1599,7 @@ export const TOOLS = [
         },
         timeframe: {
           type: 'string',
-          enum: ['1h', '6h', '12h', '24h', '7d', '30d', 'any'],
+          enum: ['1h', '6h', '24h', '7d', '30d', 'all'],
           description: 'Recency window applied to search queries (e.g. "24h" for daily cron, "7d" for weekly briefs).',
           default: '7d',
         },
@@ -2271,7 +2271,7 @@ export function buildPromptResult(name, args = {}) {
         .map((l) => l.trim())
         .filter(Boolean);
       const parts = rawVal.split(',').map((s) => s.trim()).filter(Boolean);
-      const validTopics = new Set(['TOP', 'WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY', 'ENTERTAINMENT', 'SPORTS', 'SCIENCE', 'HEALTH']);
+      const validTopics = new Set(['WORLD', 'NATION', 'BUSINESS', 'TECHNOLOGY', 'ENTERTAINMENT', 'SPORTS', 'SCIENCE', 'HEALTH']);
       const isTopics = parts.length > 0 && parts.every((p) => validTopics.has(p.toUpperCase()));
       const argHint = isTopics
         ? `\`topics: ${JSON.stringify(parts.map((p) => p.toUpperCase()))}\`, \`queries: []\``
@@ -2300,7 +2300,7 @@ export function buildPromptResult(name, args = {}) {
 }
 
 export const SERVER_INSTRUCTIONS = [
-  'Apify External Business Intelligence MCP Server (v2.8.0 — 14 zero-proxy tools + 12 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
+  'Apify External Business Intelligence MCP Server (v2.8.1 — 14 zero-proxy tools + 12 ready-to-run workflow prompts; $0 billed on empty, unchanged, or filtered misses).',
   'Tool Routing Guide:',
   '- Google News 5-in-1 URL decoding (Bing News fallback), streaming HTML full-text & 512-token RAG chunks, 3-layer paywall sibling rescue, 10 B2B/PR crisis triggers, EN/KO/JA/DE/ES cross-lingual clustering & $0-skip watchDiff -> monitor_google_news_rag_triggers.',
   '- Substack newsletter paid ARR floor, sponsor brands & media kits, MX/DMARC verified author emails, /api/v1/archive RAG post text, public Substack Notes & nested reader comments -> audit_substack_newsletters_leads.',
@@ -2338,14 +2338,117 @@ export function listPromptsResponse() {
   };
 }
 
-export async function executeApifyTool(name, args, token, timeoutMs = 180_000) {
+function isPlainObject(val) {
+  if (typeof val !== 'object' || val === null || Array.isArray(val)) return false;
+  const proto = Object.getPrototypeOf(val);
+  return proto === Object.prototype || proto === null;
+}
+
+function validatePropValue(val, schema, path) {
+  if (!schema || typeof schema !== 'object') return null;
+  if (schema.type === 'string') {
+    if (typeof val !== 'string') return `Invalid argument "${path}": expected string`;
+  } else if (schema.type === 'boolean') {
+    if (typeof val !== 'boolean') return `Invalid argument "${path}": expected boolean`;
+  } else if (schema.type === 'integer') {
+    if (typeof val !== 'number' || !Number.isInteger(val)) return `Invalid argument "${path}": expected integer`;
+  } else if (schema.type === 'number') {
+    if (typeof val !== 'number' || !Number.isFinite(val)) return `Invalid argument "${path}": expected number`;
+  } else if (schema.type === 'object') {
+    if (!isPlainObject(val)) return `Invalid argument "${path}": expected plain object`;
+    if (schema.additionalProperties === false && isPlainObject(schema.properties)) {
+      for (const k of Object.keys(val)) {
+        if (!Object.prototype.hasOwnProperty.call(schema.properties, k)) {
+          return `Invalid argument "${path}.${k}": unknown property`;
+        }
+      }
+    }
+    if (isPlainObject(schema.properties)) {
+      for (const [k, v] of Object.entries(val)) {
+        if (v !== undefined && schema.properties[k]) {
+          const err = validatePropValue(v, schema.properties[k], `${path}.${k}`);
+          if (err) return err;
+        }
+      }
+    }
+  } else if (schema.type === 'array') {
+    if (!Array.isArray(val)) return `Invalid argument "${path}": expected array`;
+    if (Number.isFinite(schema.minItems) && val.length < schema.minItems) {
+      return `Invalid argument "${path}": must contain at least ${schema.minItems} item(s)`;
+    }
+    if (Number.isFinite(schema.maxItems) && val.length > schema.maxItems) {
+      return `Invalid argument "${path}": must contain at most ${schema.maxItems} item(s)`;
+    }
+    if (schema.items) {
+      for (let i = 0; i < val.length; i += 1) {
+        const err = validatePropValue(val[i], schema.items, `${path}[${i}]`);
+        if (err) return err;
+      }
+    }
+  }
+
+  if (Array.isArray(schema.enum) && !schema.enum.includes(val)) {
+    return `Invalid argument "${path}": must be one of [${schema.enum.join(', ')}]`;
+  }
+  if ((schema.type === 'integer' || schema.type === 'number') && typeof val === 'number') {
+    if (Number.isFinite(schema.minimum) && val < schema.minimum) {
+      return `Invalid argument "${path}": must be >= ${schema.minimum}`;
+    }
+    if (Number.isFinite(schema.maximum) && val > schema.maximum) {
+      return `Invalid argument "${path}": must be <= ${schema.maximum}`;
+    }
+  }
+  return null;
+}
+
+export function validateToolArguments(name, rawArgs) {
   const tool = resolveTool(name);
   if (!tool) {
+    return { ok: false, error: `Unknown tool: ${name}` };
+  }
+  if (rawArgs !== undefined && !isPlainObject(rawArgs)) {
+    return { ok: false, error: 'Invalid params: "arguments" must be a plain object' };
+  }
+  const args = rawArgs ?? {};
+  const schema = tool.inputSchema || {};
+  const props = schema.properties || {};
+
+  if (schema.additionalProperties === false) {
+    for (const key of Object.keys(args)) {
+      if (!Object.prototype.hasOwnProperty.call(props, key)) {
+        return { ok: false, error: `Invalid arguments for ${tool.name}: unknown property "${key}"` };
+      }
+    }
+  }
+
+  if (Array.isArray(schema.required)) {
+    for (const reqKey of schema.required) {
+      if (args[reqKey] === undefined || args[reqKey] === null) {
+        return { ok: false, error: `Invalid arguments for ${tool.name}: missing required property "${reqKey}"` };
+      }
+    }
+  }
+
+  for (const [key, val] of Object.entries(args)) {
+    if (val === undefined) continue;
+    const prop = props[key];
+    if (!prop) continue;
+    const err = validatePropValue(val, prop, key);
+    if (err) return { ok: false, error: err };
+  }
+
+  return { ok: true, tool, args };
+}
+
+export async function executeApifyTool(name, args, token, timeoutMs = 180_000) {
+  const validation = validateToolArguments(name, args);
+  if (!validation.ok) {
     return {
       isError: true,
-      content: [{ type: 'text', text: `Unknown tool: ${name}` }],
+      content: [{ type: 'text', text: validation.error }],
     };
   }
+  const { tool, args: validatedArgs } = validation;
 
   const trimmedToken = typeof token === 'string' ? token.trim() : '';
   if (!trimmedToken) {
@@ -2365,7 +2468,7 @@ export async function executeApifyTool(name, args, token, timeoutMs = 180_000) {
 
   try {
     const endpoint = `https://api.apify.com/v2/acts/${tool.actorSlug}/run-sync-get-dataset-items?memory=256`;
-    const payload = args ?? {};
+    const payload = validatedArgs;
 
     const res = await fetch(endpoint, {
       method: 'POST',

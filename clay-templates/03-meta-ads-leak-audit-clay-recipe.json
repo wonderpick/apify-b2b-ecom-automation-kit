@@ -22,9 +22,9 @@
     "primaryEmail": "$.0.primaryEmail",
     "inboxType": "$.0.inboxType",
     "outreachStatus": "$.0.outreachStatus",
-    "detectedTechStack": "$.0.detectedTechStack",
+    "techStackAll": "$.0.techStackAll",
     "coldEmailSubject": "$.0.coldEmailSubject",
-    "coldEmailIcebreaker": "$.0.coldEmailIcebreaker",
+    "coldEmailOpener": "$.0.coldEmailOpener",
     "linkedinDecisionMakerSearchUrl": "$.0.linkedinDecisionMakerSearchUrl"
   }
 }

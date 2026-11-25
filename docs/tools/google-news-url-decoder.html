@@ -52,6 +52,7 @@ button.sec:hover{border-color:var(--acc)}
 .chip:hover{border-color:var(--acc);color:#fff}
 .status{margin-top:12px;font-size:13px;color:var(--muted);min-height:20px}
 .status.err{color:var(--bad)}
+.status.warn{color:var(--warn)}
 .status.ok{color:var(--ok)}
 .hidden{display:none!important}
 .bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
@@ -439,12 +440,20 @@ footer a{color:var(--acc)}
       });
       var data = await res.json();
       if (!res.ok) {
+        lastData = null;
+        resultsSection.classList.add('hidden');
         setStatus(data.message || data.error || 'Request failed (HTTP ' + res.status + ')', 'err');
         return;
       }
       renderResults(data);
-      setStatus('Done! Decoded ' + data.decodedCount + ' real publisher URLs in seconds.', 'ok');
+      if (Number(data.decodedCount || 0) === 0) {
+        setStatus('Fetched headlines, but 0 publisher URLs could be decoded right now. Try another keyword or run the Apify Actor below for 100% live AWS decoding.', 'warn');
+      } else {
+        setStatus('Done! Decoded ' + data.decodedCount + ' real publisher URLs in seconds.', 'ok');
+      }
     } catch (err) {
+      lastData = null;
+      resultsSection.classList.add('hidden');
       setStatus('Network error contacting decoder endpoint. Please retry in a moment.', 'err');
     } finally {
       runQueryBtn.disabled = false;
@@ -481,12 +490,20 @@ footer a{color:var(--acc)}
       });
       var data = await res.json();
       if (!res.ok) {
+        lastData = null;
+        resultsSection.classList.add('hidden');
         setStatus(data.message || data.error || 'Decode failed (HTTP ' + res.status + ')', 'err');
         return;
       }
       renderResults(data);
-      setStatus('Decoded ' + data.decodedCount + ' of ' + lines.length + ' pasted URL(s).', 'ok');
+      if (Number(data.decodedCount || 0) === 0) {
+        setStatus('Decoded 0 of ' + lines.length + ' pasted URL(s) (consent/rate limit or encrypted token). Run the Apify Actor below for 100% live AWS decoding.', 'warn');
+      } else {
+        setStatus('Decoded ' + data.decodedCount + ' of ' + lines.length + ' pasted URL(s).', 'ok');
+      }
     } catch (err) {
+      lastData = null;
+      resultsSection.classList.add('hidden');
       setStatus('Network error contacting decoder endpoint.', 'err');
     } finally {
       runUrlsBtn.disabled = false;

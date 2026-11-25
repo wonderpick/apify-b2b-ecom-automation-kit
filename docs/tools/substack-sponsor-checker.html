@@ -429,8 +429,9 @@ footer a{color:var(--acc)}
       var res = await fetch(API_BASE + '?handle=' + encodeURIComponent(clean));
       var data = await res.json();
       if (!res.ok) {
+        lastData = null;
+        resultCard.classList.add('hidden');
         if (res.status === 503 && data && data.wafRateLimited) {
-          lastData = data;
           setStatus(data.message, 'err');
         } else {
           setStatus(data.message || data.error || 'Lookup failed (HTTP ' + res.status + ')', 'err');
@@ -445,6 +446,8 @@ footer a{color:var(--acc)}
           : '';
       setStatus('Snapshot ready!' + suffix, 'ok');
     } catch (err) {
+      lastData = null;
+      resultCard.classList.add('hidden');
       setStatus('Network error contacting Substack checker. Please retry.', 'err');
     } finally {
       checkBtn.disabled = false;

@@ -360,6 +360,19 @@
           "name": "RAG Webhook Header Auth"
         }
       }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": { "__rl": true, "value": "#news-crisis-triggers", "mode": "name" },
+        "text": "=*Actor Run Failed* — `{{ $('Workflow Config').first()?.json?.actorSlug || 'google-news-intel' }}` run `{{ $json.data?.id || 'unknown' }}` ended with status *{{ $json.data?.status || 'FAILED' }}* ({{ $json.data?.statusMessage || 'Check Apify Console' }}).",
+        "otherOptions": {}
+      },
+      "id": "node-14-run-failed",
+      "name": "Alert Actor Run Failed",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1200, 420]
     }
   ],
   "connections": {
@@ -379,7 +392,7 @@
       ]
     },
     "Still Running?": {
-      "main": [[{ "node": "Wait 15s", "type": "main", "index": 0 }], []]
+      "main": [[{ "node": "Wait 15s", "type": "main", "index": 0 }], [{ "node": "Alert Actor Run Failed", "type": "main", "index": 0 }]]
     },
     "Wait 15s": {
       "main": [[{ "node": "Poll Actor Run", "type": "main", "index": 0 }]]

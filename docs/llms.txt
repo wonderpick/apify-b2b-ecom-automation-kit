@@ -1,6 +1,6 @@
-# Apify External Business Intelligence MCP Server & 5 Free Web Tools (v2.8.0)
+# Apify External Business Intelligence MCP Server & 8 Free Web Tools (v2.8.1)
 
-> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.8.0) exposing 14 zero-proxy Apify Store Actors, 12 workflow Prompts, and 5 free no-login interactive web utilities (Google News URL Decoder, Substack Revenue & Sponsor Checker, Live ATS Jobs Checker, SaaS SOC 2/AI Subprocessor Checker, and Website 8-Point & DMARC Grader). Pay only for real results — $0 on empty, unchanged, or filtered runs.
+> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.8.1) exposing 14 zero-proxy Apify Store Actors, 12 workflow Prompts, and 8 free no-login interactive web utilities (Google News URL Decoder, Substack Revenue & Sponsor Checker, Live ATS Jobs Checker, SaaS SOC 2/AI Subprocessor Checker, Website 8-Point & DMARC Grader, Shopify Store X-Ray, Creator Bio Checker, and B2B Company Enricher). Pay only for real results — $0 on empty, unchanged, or filtered runs.
 
 ## 8 Free Instant No-Login Web Tools & 3 Live 2026 Directories
 
@@ -43,7 +43,9 @@
 - **South Korea MFDS Cosmetic Recalls & Sales Suspensions**: Call `search_korea_mfds_recalls` — https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls ($3/1K recalls, $0 when clean). English/Korean recall & lot-number safety checks with isActiveRecall flag.
 - **South Korea K-Beauty OEM/ODM Factory & Functional Cosmetic DB (219,000+ Official Filings)**: Call `search_korea_mfds_oem_filings` — https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem ($2/1K records, $0 empty). English-to-Korean auto-search (`Cosmax`, `Kolmar`, `sunscreen`, `retinol cream`) revealing hidden Korean OEM factories and SPF/PA ratings.
 
-## Built-In One-Click Workflow Prompts (11 Prompts)
+## Built-In One-Click Workflow Prompts (12 Prompts)
+
+- `monitor_google_news_rag_and_triggers`: Google News queries OR topics across EN/KO/JA/DE/ES -> 5-in-1 decoded publisher URLs, full-text 512-token RAG chunks with 3-layer paywall sibling rescue, 10 B2B/PR crisis triggers & cross-lingual executive brief.
 
 - `audit_substack_sponsors_and_rag_archive`: Substack categories OR publication URLs/handles -> Stripe USD paid ARR floors, sponsor brands, MX-verified emails, RAG post archives, or public Notes & nested comments + outreach/research brief.
 
@@ -65,5 +67,5 @@
 - GitHub Repository (Stdio + Docker MCP Server): https://github.com/wonderpick/apify-b2b-ecom-automation-kit
 - Glama MCP Directory Listing (Tool Definition Quality A): https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit
 - Official MCP Schema Manifest: https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/server.json
-- n8n Production Workflow Templates (10 Multi-Branch Workflows): https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/n8n-workflows
+- n8n Production Workflow Templates (12 Multi-Branch Workflows): https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/n8n-workflows
 - Clay HTTP Enrichment Recipes: https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/clay-templates

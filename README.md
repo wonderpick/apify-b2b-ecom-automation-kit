@@ -2,22 +2,25 @@
 
 [![Glama MCP Score](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit/badges/score.svg)](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit)
 [![mcptry 100/100 #1 Sales & CRM](https://img.shields.io/badge/mcptry-100%2F100%20(%231%20Sales%20%26%20CRM%20%C2%B7%20Security%20A%20%C2%B7%2023ms)-10B981?style=flat-square)](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit)
-[![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.8.0%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
+[![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.8.1%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
 [![License: MIT](https://img.shields.io/badge/License-MIT-slate?style=flat-square)](./LICENSE)
 
 > **Give your team AND your AI assistants real-time eyes on the outside world — 14 zero-proxy external intelligence tools, 12 one-click workflow Prompts, 12 multi-branch n8n templates, 8 live HTML dashboards, Clay HTTP recipes, Make blueprints, zero monthly SaaS subscriptions, and `$0` billing whenever nothing changed or nothing matched.**
 
-> **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **Grade A (`4.8/5.0` TDQS)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.8.0`)**, and backed by live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
+> **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **Grade A (`4.8/5.0` TDQS)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.8.1`)**, and backed by live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
 
 ---
 
-### 5 Free Instant Web Tools & Live 2026 Directories (Zero Login · Instant CSV)
+### 8 Free Instant Web Tools & Live 2026 Directories (Zero Login · Instant CSV)
 Try our production extraction engines directly in your browser with no account or API key:
 - **[Free Google News URL Decoder & Live Story Extractor](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html)** — Decode `news.google.com/articles/CBMi...` links or pull live headlines in 2 seconds (Excel-safe CSV + Bing News fallback).
 - **[Free Substack Paid Revenue & Active Sponsor Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html)** — Inspect any Substack's Stripe pricing, paid ARR floor, active sponsors, media kit, and cadence live.
 - **[Free Live ATS Job Board Checker (Greenhouse, Ashby & Lever)](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/ats-jobs-checker.html)** — Check real-time open roles (0% ghost jobs), 45+ day hard-to-fill roles, and hiring tech signals.
 - **[Free SaaS Trust Center, SOC 2 & AI Subprocessor Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/saas-soc2-checker.html)** — Probe Vanta/Drata/SafeBase Trust Centers, SOC 2/ISO/HIPAA badges, DNS IAM/SSO, and AI subprocessors.
 - **[Free Website 8-Point Weakness & DMARC A–F Grader](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html)** — Audit HTTPS, mobile, SEO, GA4/Meta pixels, booking/chat widgets, CMS, and DNS DMARC/SPF grade (A–F).
+- **[Free Shopify Store Price & Stock X-Ray](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/shopify-store-xray.html)** — Inspect live Shopify SKUs, price ranges, markdowns, and out-of-stock status in 2 seconds.
+- **[Free Creator Link-in-Bio Email & Brand-Deal Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/creator-bio-checker.html)** — Extract creator business emails, social profiles, shop/media-kit links, and monetization signals.
+- **[Free B2B Company Domain, LinkedIn & Contact Enricher](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/b2b-company-enricher.html)** — Enrich any domain into its verified LinkedIn `/company/` URL, corporate emails, phones, and tech stack.
 - **[Top 55 Paid Substack Newsletters & Active Sponsors Directory (2026)](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/substack-paid-sponsors-directory-2026.html)** — Searchable live-verified directory + [Google News Decoding Guide](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/decode-google-news-urls-2026.html) · [ATS Public API Guide](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/ats-public-job-board-apis-2026.html) · [Shopify Churn Guide](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/shopify-app-store-churn-reviews-guide.html).
 
 ### Quick Navigation
@@ -31,7 +34,7 @@ Try our production extraction engines directly in your browser with no account o
 Think about the moment every agency owner, growth operator, wholesale director, e-commerce lead, and security manager hits today:
 
 You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real business question:
-- **NEW (`v2.8.0`):** *"Decode Google News redirect URLs in 5-in-1 pure HTTP (with automatic Bing News fallback), stream-strip heavy publisher HTML (`72–79%` RAM saved), rescue paywalled stories via cluster siblings, output LLM-ready 512-token RAG chunks + 10 B2B/PR crisis triggers across `EN/KO/JA/DE/ES`, and skip seen stories at `$0` pre-decode (`$0.80/1K` headlines · `$1.50/1K` full-text RAG, up to 50% tiered store discounts)."*
+- **NEW (`v2.8.1`):** *"Decode Google News redirect URLs in 5-in-1 pure HTTP (with automatic Bing News fallback), stream-strip heavy publisher HTML (`72–79%` RAM saved), rescue paywalled stories via cluster siblings, output LLM-ready 512-token RAG chunks + 10 B2B/PR crisis triggers across `EN/KO/JA/DE/ES`, and skip seen stories at `$0` pre-decode (`$0.80/1K` headlines · `$1.50/1K` full-text RAG, up to 50% tiered store discounts)."*
 - *"Find top paid Substack newsletters across 35 categories, compute verified Stripe USD paid ARR floors, detect active sponsor brands & media kits, extract MX/DMARC verified author emails, stream full-text RAG post archives, and pull public Notes & nested reader comments in 128 MB pure HTTP (`$4/1K` newsletters · `$0.40/1K` posts · `$0.25/1K` notes/comments, up to 50% tiered store discounts)."*
 - *"Audit Shopify App Store competitors for `"product reviews"` or extract 1–2★ unhappy merchant leads on `klaviyo-email-marketing` with USD pricing tiers, Built for Shopify status, 14-language silent churn NLP, micro-PE scores, and verified developer contacts at `$5/1K` apps (`$0.30/1K` merchant reviews, `$0` proxy)."*
 - *"Audit iOS App Store and Google Play apps for `"invoice maker"` across `us, de, jp, kr`, measure silent churn & per-store version regressions in 14 languages, verify paid UA/MMP stacks past Cloudflare WAF, pull EU-DSA developer emails & phones, and generate an interactive HTML Dashboard at `$5/1K` apps (`$0.50/1K` streamed reviews)."*
@@ -52,7 +55,7 @@ You open Claude, Cursor, Windsurf, or your weekly spreadsheet and ask a real bus
 
 ### Side-by-Side Comparison vs. Existing Tool Categories
 
-| Real Operator Job-to-Be-Done | **This Open-Source Suite (`v2.8.0`, Pay-As-You-Go)** | Official / Inward-Only MCPs | Monthly Store / Tech Databases (`$49–$995/mo`) | Multi-Step Enrichment Workbenches (`$149–$800/mo`) |
+| Real Operator Job-to-Be-Done | **This Open-Source Suite (`v2.8.1`, Pay-As-You-Go)** | Official / Inward-Only MCPs | Monthly Store / Tech Databases (`$49–$995/mo`) | Multi-Step Enrichment Workbenches (`$149–$800/mo`) |
 |---|---|---|---|---|
 | **Google News Full-Text RAG, URL Decoder, B2B/PR Crisis Triggers & Cross-Lingual Monitor** | **5-in-1 pure-HTTP URL decoding (Bing News fallback), streaming HTML stripper (`72–79%` RAM saved), 3-layer paywall sibling rescue, 512-token RAG chunks, 10 B2B/PR triggers, EN/KO/JA/DE/ES clustering & `$0`-skip `watchDiff` (`$0.80/1K` · `$1.50/1K` RAG, up to 50% off)** | Not available | `$99–$499/mo` news APIs with truncated snippets & no paywall rescue | Obfuscated `news.google.com` URLs or 2–4 GB headless scrapers |
 | **Substack Paid Revenue, Sponsors, Author Emails, RAG Archives & Notes** | **35-category paid/trending/all discovery, Stripe USD paid ARR floors, block & banner sponsor + media-kit detection, MX/DMARC emails, `/api/v1/archive` RAG plain text & public Notes + nested comments (`$4/1K` · `$0.40/1K` posts · `$0.25/1K` notes, up to 50% off)** | Not available | `$99–$399/mo` creator DBs without live sponsor blocks or RAG archives | Single-mode post scrapers with no ARR, sponsors, emails, or Notes/comments |
