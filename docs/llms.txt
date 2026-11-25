@@ -1,0 +1,49 @@
+# Apify External Business Intelligence MCP Server (v2.6.0)
+
+> Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.6.0) exposing 12 zero-proxy Apify Store Actors and 10 ready-to-run workflow Prompts. Built for AI agents (Claude, Cursor, Windsurf, ChatGPT), n8n/Clay/Make workflows, and non-developer Shopify SaaS, mobile, agency, recruiting, sales, e-commerce, security, and K-Beauty teams. Pay only for real results — $0 on empty, unchanged, or filtered runs.
+
+## Instant Connection Endpoints
+
+- **Zero-Install Remote MCP (Streamable HTTP)**: `https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp` (pass `Authorization: Bearer <APIFY_TOKEN>` or `X-Apify-Token: <APIFY_TOKEN>` for `tools/call`; discovery is tokenless).
+- **1-Line Local Stdio MCP (`npx`)**: `npx -y github:wonderpick/apify-b2b-ecom-automation-kit` (with `APIFY_TOKEN` in env).
+
+## When AI Agents Should Use Each Tool (12 verb_noun Tools)
+
+- **Shopify App Store Pricing, Built for Shopify, Churn Intel & Unhappy Merchant Leads**: Call `audit_shopify_app_churn_leads` — https://apify.com/maitreya_buddha/shopify-app-store-churn-intel-merchant-leads ($5/1K analyzed apps or $0.30/1K merchant review leads, $0 on filtered misses, delisted apps, or unchanged `watchDiff` skips). Audits Shopify App Store listings via pure HTTP/Turbo-Frame with USD pricing normalization, 5-star histograms, Built for Shopify badge tracking, 14-language silent churn NLP, micro-PE acquisition scores, developer DNS/email contacts, 1-2 star unhappy merchant review leads, and an interactive HTML Dashboard in 128MB RAM.
+
+- **Unified iOS App Store & Google Play Churn Intel, 14-Language Reviews, ASO Audit & EU-DSA Developer Leads**: Call `audit_app_store_churn_leads` — https://apify.com/maitreya_buddha/app-store-google-play-churn-intel-lead-enricher ($5/1K unified apps or $0.50/1K streamed reviews, $0 on filtered misses or unchanged `watchDiff` skips). Unifies iOS + Android via Tier 0A/0B `.well-known` AASA/assetlinks, extracts deep iOS Catalog reviews + full developer replies, Google Play 199/page + EU-DSA contacts + Data Safety, 14-language negation-aware NLP + TF-IDF emerging topics, per-store version regressions, WAF-resilient Wayback->Live `gtm.js` + CNAME MMP stacks, ASO audits, and an interactive HTML Dashboard in 128MB RAM.
+
+- **Live ATS Jobs, Hiring Intent, 45-120d Hard-to-Fill Roles & 70+ Tech-Stack Monitor**: Call `monitor_ats_hiring_intent` — https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor ($0.99/1K saved rows, $0 on filtered or unchanged watch_diff skips). Searches 13 live ATS engines (Greenhouse US/EU, Lever US/EU, Ashby, Eightfold, Amazon, SmartRecruiters, Personio, Teamtailor, Recruitee, Gem, Workable, Phenom, Rippling) + 7 global feeds via a 71,900+ board O(1) directory and 64-shard live discovery router (0% ghost jobs). Works with company domains/CSV/datasetId OR zero-list keyword/tech queries (e.g. `Snowflake`, `Rust`, `Account Executive`) with Reverse-Pivot, Bulk-Sync De-Clustering, 7 weekly `watch_diff` triggers, and 5 CRM export presets.
+
+- **Meta Ads Advertiser Leak Audit, 110+ Tech Stack, DMARC Grade & DTC Outreach**: Call `audit_meta_ads_advertisers` — https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher ($4.50/1K unique deduplicated brands, $0 on marketplaces, WAF skips, weekly repeats, or filtered misses). Accepts Meta Ad Library `sourceDatasetId`, `sourceRunId`, pasted CSV/Sheets, or up to 2,000 DTC landing URLs; runs 4-layer 110+ tech stack X-Ray (34 Shopify Web Pixels, 30+ OS 2.0 app blocks, CSP/Header/Cookie signals), live 404/OOS/DMARC/SPF deliverability grading (A-F), honest `buyerFitTier`, `inboxType` CS-queue guard, Tier-2 `expansionOpportunities`, 16-shard `watch_diff` triggers, verified brand emails, and zero-AI agency pitches.
+- **Local B2B & Google Maps Website Weakness Audit + DNS Deliverability + Cold Pitch**: Call `audit_local_b2b_websites` — https://apify.com/maitreya_buddha/local-b2b-website-audit-email-pitch-finder ($4.50/1K leads, $0 on optional filtered misses or `skip_seen` repeats). Accepts Google Maps `datasetId`, `sourceRunId`, pasted `rawCsvOrUrls`, up to 2,000 URLs, or 13 live-verified US Chamber presets; runs an 8-point website X-ray, 11-query DNS deliverability grading (A-F) with `deliverability_agency` preset, 16-shard `watch_diff` tracking, Cloudflare owner email recovery, `inboxType`/`outreachStatus` safety gating, CRM export presets, 0-100 `pitchPriorityScore`, and factual cold-email openers.
+- **Wholesale Retail Prospecting (Boutiques + Buyer Emails)**: Call `extract_brand_store_stockists` — https://apify.com/maitreya_buddha/brand-store-locator-stockist-email-enricher ($5/1K stores, $0 when empty/filtered). Extracts physical stockists carrying competitor brands (URLs, CSV, dataset/run IDs) plus buyer/wholesale emails, 11-query DNS deliverability grades (A-F), `inboxType` triage, Instagram/LinkedIn, independent-boutique tags, CRM export presets, and 0-100 `outreachReadinessScore`.
+- **Shopify Competitor Price, Restock & MAP Monitoring**: Call `monitor_shopify_competitor_deltas` — https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor ($2/1K real changes, $0 on baseline or unchanged stores). Tracks up to 50 Shopify stores x 2,500 products with CRITICAL/INVENTORY/CATALOG severity and MAP violation detection.
+- **Third-Party SaaS Security (SOC 2 / AI Subprocessors / TPRM)**: Call `audit_saas_trust_center` — https://apify.com/maitreya_buddha/saas-trust-center-soc2-monitor ($5/1K audits or real changes, $0 unchanged). Audits Vanta/Drata/SafeBase/Conveyor Trust Centers, 12 certs, DNS IAM/SSO, 75+ AI & third-party subprocessors, `complianceScore` (0-100), and `missingSoc2Lead`.
+- **3-in-1 B2B Lead Enrichment (Domain + LinkedIn + Emails + DNS Grade + WhatsApp)**: Call `enrich_b2b_company_leads` — https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher ($2.50/1K enriched, $0 misses/parked domains/onlyWithEmail skips). Accepts arrays, pasted CSV, or Apify dataset/run IDs with Cloudflare email decoding, 11-query DNS deliverability grades (A-F), `inboxType` triage, CRM presets, and 0-100 `leadQualityScore`.
+- **Influencer / Creator Link-in-Bio Outreach Enrichment**: Call `enrich_creator_bio_leads` — https://apify.com/maitreya_buddha/creator-link-in-bio-email-enricher ($2.50/1K creators, $0 misses/filtered). Covers 15+ Link-in-Bio platforms (URLs, CSV, dataset/run IDs) with 1-hop personal site email recovery, 11-query DNS deliverability grades (A-F), monetization signals, CRM presets, and 0-100 `creatorReadinessScore`.
+- **South Korea MFDS Cosmetic Recalls & Sales Suspensions**: Call `search_korea_mfds_recalls` — https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls ($3/1K recalls, $0 when clean). English/Korean recall & lot-number safety checks with isActiveRecall flag.
+- **South Korea K-Beauty OEM/ODM Factory & Functional Cosmetic DB (219,000+ Official Filings)**: Call `search_korea_mfds_oem_filings` — https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem ($2/1K records, $0 empty). English-to-Korean auto-search (`Cosmax`, `Kolmar`, `sunscreen`, `retinol cream`) revealing hidden Korean OEM factories and SPF/PA ratings.
+
+## Built-In One-Click Workflow Prompts (10 Prompts)
+
+- `audit_shopify_app_churn_and_draft_outreach`: Shopify app keywords OR handles -> USD pricing, Built for Shopify status, 14-language silent churn & 1-2 star unhappy merchant leads + prioritized competitive/outreach brief.
+
+- `audit_app_store_churn_and_draft_outreach`: App keywords OR iOS/Android IDs -> unified iOS+Android silent churn & ASO audit + paid UA/MMP stack + verified EU-DSA developer contacts & outreach brief.
+- `monitor_ats_hiring_signals_and_draft_outreach`: Keywords/tech stack (`Snowflake`, `Rust`) OR company domains -> live ATS hiring-intent table + 45-120d hard-to-fill alerts + persona outreach openers (0% ghost jobs).
+
+- `audit_meta_ads_leaks_and_draft_pitches`: Meta Ad Library datasetId/runId or DTC URLs -> deduplicated 4-layer 110+ stack & 404/OOS/DMARC leak audit + CS-queue-safe prioritized DTC outreach brief.
+- `audit_local_leads_and_draft_pitches`: Local business URLs, Google Maps datasetId, or US Chamber cities -> 8-point website audit + owner emails + factual cold-email outreach CSV.
+- `prospect_competitor_retail_stockists`: Competitor brand URL -> independent boutiques + prioritized wholesale buyer email pitch table.
+- `kbeauty_supplier_due_diligence`: Product/OEM keyword -> chains `search_korea_mfds_oem_filings` + `search_korea_mfds_recalls` for full OEM + recall safety report.
+- `audit_vendor_security_and_ai_risk`: Vendor domains -> chains `audit_saas_trust_center` + `enrich_b2b_company_leads` for TPRM risk & contact matrix.
+- `monitor_competitor_shopify_changes`: Competitor Shopify URLs -> CRITICAL/INVENTORY/CATALOG executive pricing & restock brief.
+- `build_creator_sponsorship_shortlist`: Creator Link-in-Bio URLs -> ranked sponsorship shortlist with agency emails & promo codes.
+
+## Repository & Registry Links
+
+- GitHub Repository (Stdio + Docker MCP Server): https://github.com/wonderpick/apify-b2b-ecom-automation-kit
+- Glama MCP Directory Listing (Tool Definition Quality A): https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit
+- Official MCP Schema Manifest: https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/server.json
+- n8n Production Workflow Templates (10 Multi-Branch Workflows): https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/n8n-workflows
+- Clay HTTP Enrichment Recipes: https://github.com/wonderpick/apify-b2b-ecom-automation-kit/tree/main/clay-templates

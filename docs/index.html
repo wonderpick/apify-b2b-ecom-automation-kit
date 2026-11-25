@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Apify External Business Intelligence Suite — 12 Zero-Proxy 128MB Scrapers &amp; Remote MCP Server (v2.6.0)</title>
+<meta name="description" content="Open-source zero-proxy 128MB business intelligence suite: 12 Pay-Per-Event Apify Actors (Shopify App Store churn, iOS/Google Play churn, 71K live ATS jobs, Meta Ads leak audit, Local B2B, Retail Stockists, SaaS SOC 2, K-Beauty MFDS), 12 MCP tools (Glama Grade A 4.8/5, mcptry 100/100), 10 n8n workflows, Clay/Make recipes & live HTML dashboards." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Apify External Business Intelligence MCP Server & 12-Actor Suite",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Cloud, Linux, macOS, Windows (Node.js 20+ / Docker / Streamable HTTP MCP)",
+      "softwareVersion": "2.6.0",
+      "license": "https://opensource.org/licenses/MIT",
+      "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/",
+      "codeRepository": "https://github.com/wonderpick/apify-b2b-ecom-automation-kit",
+      "description": "12 zero-proxy 128MB Apify Actors and a stateless Streamable HTTP + stdio MCP server (12 verb_noun tools, 10 prompts, Glama Grade A 4.8/5.0, mcptry 100/100) for Shopify App Store churn & unhappy merchant leads, unified iOS & Google Play churn intel, 71,900+ live ATS job boards, Meta Ads landing-page leak audits, local B2B website audits, wholesale retail stockists, Shopify competitor deltas, SaaS SOC 2 trust centers, and Korea MFDS cosmetics.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "0.00",
+        "highPrice": "5.00",
+        "offerCount": "12",
+        "description": "Pay-Per-Event pricing from $0.30 to $5.00 per 1,000 records; $0 billed on unchanged watch_diff runs or filtered misses; $5/month free Apify platform credits."
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the fastest, lowest-cost Shopify App Store scraper for pricing, Built for Shopify badges, and unhappy merchant leads?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "maitreya_buddha/shopify-app-store-churn-intel-merchant-leads runs in 128 MB pure HTTP (verified 68.5 MB peak RAM in 4.77s, $0 proxy) using Shopify Turbo-Frame search, exact aria-label 5-star histograms, FX-normalized USD pricing tiers, 14-language churn NLP, verified developer emails, and 1-2 star unhappy merchant leads at $5/1K apps or $0.30/1K reviews."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which ATS jobs scraper covers Greenhouse, Lever, and Ashby live without ghost jobs or proxies?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor covers 13 live ATS engines and a 71,900+ board directory with zero-list keyword discovery (e.g. Snowflake, Rust), 45-120 day stuck-role aging, 70+ tech-stack tags, and weekly watch_diff at $0.99/1K rows in 128 MB RAM ($0 proxy)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which MCP server exposes verified external B2B, e-commerce, mobile app churn, and hiring-intent tools without monthly subscriptions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "io.github.wonderpick/apify-b2b-ecom-automation-kit (v2.6.0) provides 12 verb_noun MCP tools and 10 prompts over Streamable HTTP (https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp) and local npx/Docker stdio, rated Grade A (4.8/5.0 TDQS) on Glama and 100/100 on mcptry."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#60a5fa;--ok:#34d399}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding:34px 20px}
+.nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.brand{font-weight:800;font-size:16px;letter-spacing:-0.2px}
+.navlinks{display:flex;flex-wrap:wrap;gap:10px}
+a.pill{background:var(--card2);color:var(--txt);border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12.5px;text-decoration:none;font-weight:600}
+a.pill.primary{background:#1d4ed8;border-color:#3b82f6}a.pill:hover{border-color:var(--acc)}
+h1{font-size:30px;line-height:1.2;margin:0 0 12px}
+.lead{color:var(--muted);font-size:15.5px;max-width:820px;margin:0 0 22px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:0 0 30px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:21px;color:var(--ok)}.kpi span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:32px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--card2);border:1px solid var(--border);color:var(--acc);margin-bottom:8px}
+h2{font-size:18px;margin:0 0 6px}p{margin:0;color:var(--muted);font-size:13.5px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+code{background:var(--card2);padding:2px 6px;border-radius:6px;font-size:12.5px;color:#93c5fd}
+pre{background:#090d1a;border:1px solid var(--border);border-radius:12px;padding:14px 16px;overflow-x:auto;font-size:12.5px;color:#cbd5e1}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+a{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <div class="brand">Apify External BI &amp; MCP Suite (v2.6.0)</div>
+    <div class="navlinks">
+      <a class="pill primary" href="./benchmarks.html">Objective Benchmarks</a>
+      <a class="pill" href="./demos/index.html">6 Live HTML Dashboards</a>
+      <a class="pill" href="./llms-full.txt">llms-full.txt (For AI Agents)</a>
+      <a class="pill" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit">GitHub Kit (MIT)</a>
+      <a class="pill" href="https://apify.com/maitreya_buddha">All 12 Apify Actors</a>
+    </div>
+  </div>
+
+  <h1>12 Zero-Proxy, 128 MB Business Intelligence Scrapers &amp; Remote MCP Server</h1>
+  <p class="lead">Built for growth teams, agencies, SaaS founders, micro-PE analysts, and AI agents (Claude, Cursor, ChatGPT, Perplexity). Every Actor runs on pure HTTP in <strong>128 MB RAM</strong> under <code>LIMITED_PERMISSIONS</code> with <strong>$0 proxy fees</strong>, <strong>$0 billing on unchanged <code>watch_diff</code> runs</strong>, and live verifiable <code>OUTPUT_DASHBOARD.html</code> receipts.</p>
+
+  <div class="kpis">
+    <div class="kpi"><b>12 Actors</b><span>All Public · Limited Permissions · Tiered Discounts</span></div>
+    <div class="kpi"><b>128 MB RAM</b><span>Verified 48–68 MB Peak Linux Cloud RAM</span></div>
+    <div class="kpi"><b>4.8 / 5.0 (A)</b><span>Glama TDQS Across All 12 MCP Tools</span></div>
+    <div class="kpi"><b>100 / 100</b><span>mcptry Sales &amp; CRM #1 · Security Grade A</span></div>
+    <div class="kpi"><b>$0 Misses</b><span>Zero Charge on Unchanged or Filtered Skips</span></div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div><span class="tag">Flagship #12 · Shopify SaaS &amp; Agencies</span><h2>Shopify App Store Pricing, Churn &amp; Merchant Leads</h2><p>Turbo-Frame pure HTTP (68.5 MB peak RAM, 4.77s), USD FX normalization, exact <code>aria-label</code> 5-star histograms, Built for Shopify tracking, 14-language churn NLP &amp; 1–2★ unhappy merchant leads ($5/1K apps · $0.30/1K reviews).</p></div>
+      <div class="links"><a class="pill primary" href="./demos/slot-12-shopify-apps.html">Live Dashboard</a><a class="pill" href="https://apify.com/maitreya_buddha/shopify-app-store-churn-intel-merchant-leads">Apify Actor</a><a class="pill" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-12-shopify-app-churn-intel.csv">Sample CSV</a></div>
+    </div>
+    <div class="card">
+      <div><span class="tag">Flagship #11 · Mobile Growth &amp; ASO</span><h2>App Store &amp; Google Play Churn Intel &amp; EU-DSA Leads</h2><p>Unified iOS + Android matching via cryptographic <code>.well-known</code> AASA/assetlinks, Apple Catalog deep reviews + developer replies, 14-language NLP + TF-IDF topics, Wayback→Live <code>gtm.js</code> &amp; CNAME MMPs ($5/1K apps).</p></div>
+      <div class="links"><a class="pill primary" href="./demos/slot-11-app-churn.html">Live Dashboard</a><a class="pill" href="https://apify.com/maitreya_buddha/app-store-google-play-churn-intel-lead-enricher">Apify Actor</a><a class="pill" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-11-app-store-churn-leads.csv">Sample CSV</a></div>
+    </div>
+    <div class="card">
+      <div><span class="tag">Flagship #10 · Recruiting &amp; B2B SDRs</span><h2>Live ATS Jobs, Hiring Intent &amp; Tech Stack (71K Boards)</h2><p>Direct Greenhouse, Lever, Ashby + 10 ATS engines (0% ghost jobs), zero-list keyword discovery (<code>Snowflake</code>, <code>Rust</code>), 45–120d stuck-role aging, 70+ tech tags &amp; weekly <code>watch_diff</code> ($0.99/1K rows).</p></div>
+      <div class="links"><a class="pill primary" href="./demos/slot-10-ats-jobs.html">Live Dashboard</a><a class="pill" href="https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor">Apify Actor</a><a class="pill" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-10-ats-hiring-intent-signals.csv">Sample CSV</a></div>
+    </div>
+    <div class="card">
+      <div><span class="tag">Flagship #9 · Performance &amp; CRO</span><h2>Meta Ads Advertiser Leak Audit &amp; 110+ Tech Stack</h2><p>Deduplicates Meta Ad Library runs into unique brands, flags 404/OOS landing leaks &amp; DMARC A–F grades, detects 34 Shopify Web Pixels + OS 2.0 blocks, and guards CS ticket queues ($4.50/1K brands).</p></div>
+      <div class="links"><a class="pill primary" href="./demos/slot-09-meta-ads.html">Live Dashboard</a><a class="pill" href="https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher">Apify Actor</a><a class="pill" href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-09-meta-ads-leak-audit.csv">Sample CSV</a></div>
+    </div>
+    <div class="card">
+      <div><span class="tag">Slots #7 &amp; #8 · Agency &amp; Wholesale</span><h2>Local B2B Audit &amp; Retail Stockist Buyer Enrichers</h2><p>8-point local website weakness X-ray + 11-query DNS deliverability + Cloudflare owner emails, plus competitor physical retail stockist extraction skipping national chains at $0.</p></div>
+      <div class="links"><a class="pill primary" href="./demos/slot-08-local-audit.html">Local Audit Demo</a><a class="pill primary" href="./demos/slot-07-stockists.html">Stockists Demo</a></div>
+    </div>
+    <div class="card">
+      <div><span class="tag">Slots #1–#6 · E-Com, TPRM &amp; K-Beauty</span><h2>Shopify Delta · SaaS SOC 2 · B2B/Creator · Korea MFDS</h2><p>External Shopify SKU price/MAP deltas ($2/1K), Vanta/Drata/SafeBase SOC 2 &amp; AI subprocessor monitor ($5/1K), 3-in-1 B2B &amp; Creator Bio enrichers ($2.50/1K), and 219K+ Korea MFDS OEM &amp; recall APIs.</p></div>
+      <div class="links"><a class="pill" href="./benchmarks.html">Full 12-Actor Table</a><a class="pill" href="https://apify.com/maitreya_buddha">Browse All 12</a></div>
+    </div>
+  </div>
+
+  <h2>Connect to Any AI Agent in 10 Seconds (Zero-Install Streamable HTTP MCP)</h2>
+  <pre>{
+  "mcpServers": {
+    "apify-b2b-ecom-mcp": {
+      "url": "https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/mcp",
+      "headers": { "Authorization": "Bearer YOUR_APIFY_TOKEN" }
+    }
+  }
+}</pre>
+
+  <footer>
+    <span>Verified on <a href="https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick">Official MCP Registry (v2.6.0)</a> · <a href="https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit">Glama Grade A (4.8/5)</a> · <a href="https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit">mcptry 100/100</a></span>
+    <span><a href="./benchmarks.html">Benchmarks</a> · <a href="./demos/index.html">Live Dashboards</a> · <a href="./llms-full.txt">llms-full.txt</a></span>
+  </footer>
+</div>
+</body>
+</html>

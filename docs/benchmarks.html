@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Objective 128MB Cloud Benchmarks — Apify External Business Intelligence Suite (v2.6.0)</title>
+<meta name="description" content="Measured Linux 128MB cloud RAM, execution latency, compute unit cost, and parsing accuracy benchmarks across 12 zero-proxy Apify Actors vs browser-based scrapers and monthly SaaS tools." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/benchmarks.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Objective 128MB Cloud Benchmarks: 12 Zero-Proxy Apify Scrapers vs Legacy Browser Scrapers & Monthly SaaS",
+  "datePublished": "2026-11-25",
+  "dateModified": "2026-11-25",
+  "author": { "@type": "Person", "name": "BoGeun Kim", "url": "https://github.com/wonderpick" },
+  "about": ["Shopify App Store Scraper", "App Store & Google Play Review Churn Intelligence", "Live ATS Jobs Scraper", "Meta Ads Leak Audit", "Model Context Protocol (MCP)"],
+  "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/benchmarks.html"
+}
+</script>
+<style>
+:root{--bg:#0b1020;--card:#131b31;--card2:#192340;--border:#263459;--txt:#e6edf7;--muted:#93a4c3;--acc:#60a5fa;--ok:#34d399}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding:34px 20px}
+a{color:var(--acc)}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+h1{font-size:26px;margin:0 0 8px}h2{font-size:19px;margin:28px 0 12px}
+p.sub{color:var(--muted);margin:0 0 20px;font-size:14.5px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:13px;margin-bottom:24px}
+th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--card2);color:#cbd5e1;font-weight:700}
+tr:last-child td{border-bottom:none}
+.good{color:var(--ok);font-weight:700}
+code{background:var(--card2);padding:2px 5px;border-radius:5px;font-size:12px;color:#93c5fd}
+.box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><strong>Apify External BI Suite — Objective Benchmarks (v2.6.0)</strong></div>
+    <div><a href="./index.html">Home</a> · <a href="./demos/index.html">6 Live HTML Dashboards</a> · <a href="./llms-full.txt">llms-full.txt</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit">GitHub</a></div>
+  </div>
+
+  <h1>Verified 128 MB Cloud Benchmarks &amp; Engineering Proof</h1>
+  <p class="sub">Every number below comes from real Apify Cloud Linux container executions (<code>LIMITED_PERMISSIONS</code>, Node.js 22 pure HTTP, zero Puppeteer/Playwright, $0 residential proxy spend). Zero synthetic mocks.</p>
+
+  <h2>1. Flagship Actors — Measured Linux 128 MB Cloud Telemetry</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Actor &amp; MCP Tool</th>
+        <th>Measured Peak RAM / Time</th>
+        <th>Pay-Per-Event Price (Tiered Discounts)</th>
+        <th>Verified Technical Edge vs Typical Category Tools</th>
+        <th>Live Proof</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Slot #12 · Shopify App Store Churn &amp; Merchant Leads</strong><br/><code>audit_shopify_app_churn_leads</code></td>
+        <td><span class="good">68.50 MB</span> / 4.77s (app intel)<br/><span class="good">56.34 MB</span> / 3.00s (merchant leads)</td>
+        <td><code>$5.00 / 1K</code> apps<br/><code>$0.30 / 1K</code> reviews<br/>Up to 25% Diamond discount</td>
+        <td><code>Turbo-Frame: search_page</code> pure HTTP (vs 4 GB browsers), exact <code>aria-label</code> 5★ histogram (fixes <code>"50K"→0</code> bug), USD FX normalization, Built for Shopify badge tracking, 14-lang churn NLP, 1–2★ veteran merchant leads, dev DNS/email.</td>
+        <td><a href="./demos/slot-12-shopify-apps.html">Dashboard</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-12-shopify-app-churn-intel.csv">CSV</a></td>
+      </tr>
+      <tr>
+        <td><strong>Slot #11 · App Store &amp; Google Play Churn Intel</strong><br/><code>audit_app_store_churn_leads</code></td>
+        <td><span class="good">128 MB Verified</span><br/>Apple Catalog JSON (~33 KB vs 693 KB HTML)</td>
+        <td><code>$5.00 / 1K</code> unified apps<br/><code>$0.50 / 1K</code> reviews<br/>Up to 25% Diamond discount</td>
+        <td>Unified iOS + Android matching via cryptographic <code>.well-known</code> AASA/assetlinks, Apple Catalog deep reviews + developer replies, GP 199/page + EU-DSA trader contacts, 14-lang NLP + TF-IDF emerging topics, Wayback→Live <code>gtm.js</code> &amp; CNAME MMPs.</td>
+        <td><a href="./demos/slot-11-app-churn.html">Dashboard</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-11-app-store-churn-leads.csv">CSV</a></td>
+      </tr>
+      <tr>
+        <td><strong>Slot #10 · Live ATS Jobs &amp; Tech Stack (71K Boards)</strong><br/><code>monitor_ats_hiring_intent</code></td>
+        <td><span class="good">128 MB Verified</span><br/>&lt;20 ms 64-shard lookup</td>
+        <td><code>$0.99 / 1K</code> live rows<br/>$0 unchanged <code>watch_diff</code><br/>Up to 25% Diamond discount</td>
+        <td>13 live ATS APIs (Greenhouse, Lever, Ashby, SmartRecruiters, Workable, etc.) + 71,900+ board directory + zero-list keyword discovery (<code>Snowflake</code>, <code>Rust</code>), 0% ghost jobs, 45–120d stuck-role aging, Bulk-Sync De-Clustering.</td>
+        <td><a href="./demos/slot-10-ats-jobs.html">Dashboard</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-10-ats-hiring-intent-signals.csv">CSV</a></td>
+      </tr>
+      <tr>
+        <td><strong>Slot #9 · Meta Ads Advertiser Leak Audit</strong><br/><code>audit_meta_ads_advertisers</code></td>
+        <td><span class="good">128 MB Verified</span><br/>Pure HTTP + DNS</td>
+        <td><code>$4.50 / 1K</code> unique brands<br/>$0 repeats / WAF / marketplaces</td>
+        <td>Deduplicates Meta Ad Library datasets/Run IDs into unique DTC brands, 4-layer 110+ stack (34 Shopify Web Pixels + OS 2.0 + CSP), live 404/OOS/DMARC A–F leak scoring, <code>cs_ticket_queue</code> safety guard, 16-shard <code>watch_diff</code>.</td>
+        <td><a href="./demos/slot-09-meta-ads.html">Dashboard</a> · <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/samples/sample-09-meta-ads-leak-audit.csv">CSV</a></td>
+      </tr>
+      <tr>
+        <td><strong>Slot #3 · Shopify Competitor Price &amp; MAP Delta</strong><br/><code>monitor_shopify_competitor_deltas</code></td>
+        <td><span class="good">48.32 MB</span> / 1.92s<br/>(50 products baseline)</td>
+        <td><code>$2.00 / 1K</code> real deltas<br/>$0 baseline &amp; unchanged</td>
+        <td>Monitors up to 50 external Shopify stores × 2,500 SKUs, emits deterministic <code>CRITICAL</code> / <code>INVENTORY</code> / <code>CATALOG</code> alerts and MAP violations without billing unchanged catalogs.</td>
+        <td><a href="https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor">Apify Actor</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2. Full 12-Actor Portfolio &amp; Independent Registry Scores</h2>
+  <div class="box">
+    <ul>
+      <li><strong>Glama MCP Directory:</strong> Grade <strong>A (4.8 / 5.0 average TDQS)</strong> across all 12 tools on <code>v2.6.0</code> · 92% Discovery Score · Dockerfile build verified green (<code>14.1s</code>).</li>
+      <li><strong>mcptry.com:</strong> <strong>100 / 100</strong> (#1 in Sales &amp; CRM · Security Grade A · 23 ms edge latency).</li>
+      <li><strong>Official MCP Registry:</strong> <code>io.github.wonderpick/apify-b2b-ecom-automation-kit</code> verified at <code>v2.6.0</code> (Streamable HTTP + stdio + Docker).</li>
+      <li><strong>Security &amp; Hygiene Invariants:</strong> 12/12 Actors run under <code>LIMITED_PERMISSIONS</code>, enforce redirect-hop SSRF IPv4/IPv6 blocking, OWASP CSV formula neutralization, fail-closed batched PPE billing, and XSS-proof <code>OUTPUT_DASHBOARD.html</code>.</li>
+    </ul>
+  </div>
+
+  <h2>3. Complete Actor &amp; MCP Tool Directory (12 Tools · 10 Prompts · 20 Public Store Tasks)</h2>
+  <table>
+    <thead>
+      <tr><th>#</th><th>MCP Tool Name</th><th>Apify Actor</th><th>Primary Pricing</th><th>Zero-Cost Skip Rule</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>12</td><td><code>audit_shopify_app_churn_leads</code></td><td><a href="https://apify.com/maitreya_buddha/shopify-app-store-churn-intel-merchant-leads">shopify-app-store-churn-intel-merchant-leads</a></td><td>$5/1K apps · $0.30/1K reviews</td><td>$0 unchanged <code>watchDiff</code>, delisted, or filtered</td></tr>
+      <tr><td>11</td><td><code>audit_app_store_churn_leads</code></td><td><a href="https://apify.com/maitreya_buddha/app-store-google-play-churn-intel-lead-enricher">app-store-google-play-churn-intel-lead-enricher</a></td><td>$5/1K apps · $0.50/1K reviews</td><td>$0 unchanged <code>watchDiff</code> or filtered</td></tr>
+      <tr><td>10</td><td><code>monitor_ats_hiring_intent</code></td><td><a href="https://apify.com/maitreya_buddha/ats-jobs-hiring-intent-tech-stack-monitor">ats-jobs-hiring-intent-tech-stack-monitor</a></td><td>$0.99/1K jobs/dossiers</td><td>$0 unchanged <code>onlyNewSinceLastRun</code> or filtered</td></tr>
+      <tr><td>9</td><td><code>audit_meta_ads_advertisers</code></td><td><a href="https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher">meta-ads-advertiser-leak-audit-email-enricher</a></td><td>$4.50/1K unique brands</td><td>$0 WAF, marketplaces, repeats, or filtered</td></tr>
+      <tr><td>8</td><td><code>audit_local_b2b_websites</code></td><td><a href="https://apify.com/maitreya_buddha/local-b2b-website-audit-email-pitch-finder">local-b2b-website-audit-email-pitch-finder</a></td><td>$4.50/1K leads</td><td>$0 WAF, repeats, or filtered</td></tr>
+      <tr><td>7</td><td><code>extract_brand_store_stockists</code></td><td><a href="https://apify.com/maitreya_buddha/brand-store-locator-stockist-email-enricher">brand-store-locator-stockist-email-enricher</a></td><td>$5/1K stores</td><td>$0 national chains when <code>onlyIndependentStores</code></td></tr>
+      <tr><td>6</td><td><code>enrich_creator_bio_leads</code></td><td><a href="https://apify.com/maitreya_buddha/creator-link-in-bio-email-enricher">creator-link-in-bio-email-enricher</a></td><td>$2.50/1K creators</td><td>$0 unresolved or below score filter</td></tr>
+      <tr><td>5</td><td><code>enrich_b2b_company_leads</code></td><td><a href="https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher">b2b-company-domain-linkedin-enricher</a></td><td>$2.50/1K companies</td><td>$0 misses, parked domains, or no-email skip</td></tr>
+      <tr><td>4</td><td><code>audit_saas_trust_center</code></td><td><a href="https://apify.com/maitreya_buddha/saas-trust-center-soc2-monitor">saas-trust-center-soc2-monitor</a></td><td>$5/1K audits/changes</td><td>$0 unchanged monitor runs</td></tr>
+      <tr><td>3</td><td><code>monitor_shopify_competitor_deltas</code></td><td><a href="https://apify.com/maitreya_buddha/shopify-competitor-delta-monitor">shopify-competitor-delta-monitor</a></td><td>$2/1K real changes</td><td>$0 baseline &amp; unchanged catalogs</td></tr>
+      <tr><td>2</td><td><code>search_korea_mfds_oem_filings</code></td><td><a href="https://apify.com/maitreya_buddha/korea-mfds-functional-cosmetics-oem">korea-mfds-functional-cosmetics-oem</a></td><td>$2/1K filings</td><td>$0 when query returns empty</td></tr>
+      <tr><td>1</td><td><code>search_korea_mfds_recalls</code></td><td><a href="https://apify.com/maitreya_buddha/korea-mfds-cosmetic-recalls">korea-mfds-cosmetic-recalls</a></td><td>$3/1K recalls</td><td>$0 when product/company is clean</td></tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
