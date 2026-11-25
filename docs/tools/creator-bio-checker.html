@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Free Creator Link-in-Bio Email &amp; Brand-Deal Checker (Linktree, Beacons, Stan — No Login)</title>
+<meta name="description" content="Extract business emails, talent agency contacts, social profiles, media kits, and monetization signals from any Linktree, Beacons, Stan.store, or creator bio URL in 2 seconds." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/creator-bio-checker.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Creator Link-in-Bio Email & Brand-Deal Checker",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/creator-bio-checker.html",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<style>
+:root{--bg:#090e1c;--panel:#111930;--panel2:#172242;--border:#26365e;--txt:#eaf0fa;--muted:#94a6c8;--acc:#60a5fa;--acc2:#2563eb;--ok:#34d399;--bad:#f87171}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:28px 18px 60px}
+.nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.brand{font-weight:800;font-size:15px;color:var(--txt);text-decoration:none}.navlinks{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12.5px;text-decoration:none;font-weight:600}
+.pill.primary{background:var(--acc2);border-color:#3b82f6;color:#fff}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:700;text-transform:uppercase;color:var(--ok);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.28);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.18;margin:0 0 10px}.sub{color:var(--muted);font-size:15px;max-width:780px;margin:0 0 20px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type="text"]{flex:1 1 280px;background:#0b1226;color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14.5px}
+button.cta{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:1px solid #3b82f6;border-radius:10px;padding:12px 20px;font-size:14.5px;font-weight:700;cursor:pointer}
+button.cta:disabled{opacity:.55;cursor:wait}
+button.sec{background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}.presets span{font-size:12.5px;color:var(--muted)}
+.chip{background:#0d152b;color:#cbd5e1;border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer}
+.status{margin-top:12px;font-size:13px;color:var(--muted);min-height:20px}.status.err{color:var(--bad)}.status.ok{color:var(--ok)}.hidden{display:none!important}
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:14px}.kpi .lbl{font-size:11.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}.kpi .val{font-size:18px;font-weight:800}.kpi .val.green{color:var(--ok)}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 14px}
+.tag{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);color:#bfdbfe;border-radius:8px;padding:4px 9px;font-size:12px;font-weight:700}
+.upgrade{background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid #3b82f6;border-radius:16px;padding:22px;margin-top:20px}
+a.big-cta{display:inline-flex;align-items:center;background:#10b981;color:#052e16;font-weight:800;font-size:14.5px;padding:12px 20px;border-radius:10px;text-decoration:none}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a class="brand" href="../index.html">Apify External BI Suite · 8 Free Tools</a>
+    <div class="navlinks">
+      <a class="pill" href="./google-news-url-decoder.html">Google News</a>
+      <a class="pill" href="./substack-sponsor-checker.html">Substack</a>
+      <a class="pill" href="./ats-jobs-checker.html">ATS Jobs</a>
+      <a class="pill" href="./shopify-store-xray.html">Shopify X-Ray</a>
+      <a class="pill" href="./b2b-company-enricher.html">B2B Enricher</a>
+      <a class="pill primary" href="https://apify.com/maitreya_buddha/creator-link-in-bio-email-enricher" target="_blank" rel="noopener">Full Creator Enricher</a>
+    </div>
+  </div>
+
+  <span class="eyebrow">100% Free · Zero Login · 15+ Bio Platforms</span>
+  <h1>Creator Link-in-Bio Email &amp; Brand-Deal Checker</h1>
+  <p class="sub">Inspect any Linktree, Beacons, Stan.store, Komi, Hoo.be, or creator bio page in 2 seconds — extracts public business emails, social handles, media kits, affiliate links, and monetization readiness.</p>
+
+  <div class="card">
+    <form id="bioForm">
+      <div class="row">
+        <input type="text" id="urlInput" maxlength="240" placeholder="Enter bio URL (e.g. https://linktr.ee/linktree or https://linktr.ee/mkbhd)" />
+        <button type="submit" class="cta" id="checkBtn">Inspect Creator Bio</button>
+      </div>
+      <div class="presets">
+        <span>Try 1-click live bios:</span>
+        <button type="button" class="chip" data-u="https://linktr.ee/linktree">linktr.ee/linktree</button>
+        <button type="button" class="chip" data-u="https://linktr.ee/mkbhd">linktr.ee/mkbhd</button>
+      </div>
+    </form>
+    <div id="statusMsg" class="status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div id="resultCard" class="card hidden">
+    <div class="bar">
+      <div><h2 id="bioHead" style="margin:0 0 2px;font-size:21px">Creator Profile</h2><div id="bioSub" style="font-size:13px;color:var(--muted)"></div></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="sec" id="copyShareBtn">Copy Shareable Link</button>
+        <button type="button" class="sec" id="downloadCsvBtn">Download CSV</button>
+      </div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="lbl">Bio Platform</div><div class="val" id="kpiPlat">—</div></div>
+      <div class="kpi"><div class="lbl">Emails Found</div><div class="val green" id="kpiEmails">—</div></div>
+      <div class="kpi"><div class="lbl">Total Links</div><div class="val" id="kpiLinks">—</div></div>
+      <div class="kpi"><div class="lbl">Monetization Signals</div><div class="val" id="kpiMonet">—</div></div>
+    </div>
+    <div><strong style="font-size:13px">Detected Social Profiles</strong><div id="socTags" class="tags"></div></div>
+    <div><strong style="font-size:13px">Top Bio Links</strong><div id="linkTags" class="tags"></div></div>
+    <div class="upgrade">
+      <h2 style="margin:0 0 8px;font-size:20px">Enrich 2,000 Creator Bios + 1-Hop Agency Email Recovery &amp; DNS Grades Free</h2>
+      <p style="margin:0 0 14px;color:#cbd5e1;font-size:14px">Chain directly from an Instagram, TikTok, or YouTube scraper dataset to pull talent-agency emails, 11-query DNS deliverability grades (A–F), and CRM-ready exports on Apify's <strong>$5/month free credits</strong> (~2,000 creators, $0 on misses).</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="big-cta" href="https://console.apify.com/actors/9dFp1G3cD65bnTGNG/input" target="_blank" rel="noopener">Enrich 2,000 Creators Free on Apify &rarr;</a>
+        <button type="button" class="sec" id="copyJsonBtn">Copy Ready JSON for This Creator</button>
+      </div>
+    </div>
+  </div>
+
+  <footer><span>MIT Open-Source <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener">Apify External BI Suite</a></span><span><a href="../index.html">All 14 Actors &amp; 8 Free Tools</a></span></footer>
+</div>
+<script>
+(function () {
+  'use strict';
+  var API = 'https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/public/creator-bio';
+  var lastData = null;
+  var form = document.getElementById('bioForm'), input = document.getElementById('urlInput'), btn = document.getElementById('checkBtn');
+  var statusMsg = document.getElementById('statusMsg'), resultCard = document.getElementById('resultCard');
+
+  function safeHref(raw) { try { var u = new URL(raw); return (u.protocol === 'https:' || u.protocol === 'http:') && !u.username && !u.password ? u.toString() : null; } catch (e) { return null; } }
+  function csvCell(v) { var s = v == null ? '' : String(v); if (/^[\t\r\n]|^\s*[=+\-@]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; }
+  function clearNode(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+  function setStatus(t, c) { statusMsg.textContent = t || ''; statusMsg.className = 'status' + (c ? ' ' + c : ''); }
+
+  function render(d) {
+    lastData = d;
+    resultCard.classList.remove('hidden');
+    document.getElementById('bioHead').textContent = d.displayName || d.handle || 'Creator Bio';
+    document.getElementById('bioSub').textContent = d.bioDescription || d.finalUrl || '';
+    document.getElementById('kpiPlat').textContent = d.platform || 'Bio';
+    var ems = Array.isArray(d.emails) ? d.emails : [];
+    document.getElementById('kpiEmails').textContent = ems.length ? ems.join(', ') : 'None on top page (use 1-hop Actor)';
+    var links = Array.isArray(d.links) ? d.links : [];
+    document.getElementById('kpiLinks').textContent = String(links.length);
+    var mon = Array.isArray(d.monetizationSignals) ? d.monetizationSignals : [];
+    document.getElementById('kpiMonet').textContent = mon.length ? mon.join(', ') : 'Organic';
+
+    var socTags = document.getElementById('socTags'); clearNode(socTags);
+    var soc = d.socials || {};
+    var socKeys = Object.keys(soc).filter(function (k) { return soc[k]; });
+    if (!socKeys.length) { var sp = document.createElement('span'); sp.className = 'tag'; sp.textContent = 'No social links extracted'; socTags.appendChild(sp); }
+    socKeys.forEach(function (k) {
+      var h = safeHref(soc[k]);
+      var el = h ? document.createElement('a') : document.createElement('span');
+      el.className = 'tag';
+      if (h) { el.href = h; el.target = '_blank'; el.rel = 'noopener noreferrer'; el.style.textDecoration = 'none'; }
+      el.textContent = k;
+      socTags.appendChild(el);
+    });
+
+    var linkTags = document.getElementById('linkTags'); clearNode(linkTags);
+    links.slice(0, 10).forEach(function (l) {
+      var h = safeHref(l.url);
+      if (!h) return;
+      var a = document.createElement('a');
+      a.className = 'tag'; a.href = h; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.style.textDecoration = 'none';
+      a.textContent = (l.title || h).slice(0, 50);
+      linkTags.appendChild(a);
+    });
+  }
+
+  async function run(uVal, push) {
+    var clean = String(uVal || '').trim();
+    if (!clean) { setStatus('Enter a creator bio URL like "https://linktr.ee/linktree".', 'err'); return; }
+    btn.disabled = true; setStatus('Extracting bio links, emails & monetization signals...', '');
+    if (push) { try { var n = new URL(location.href); n.searchParams.set('url', clean); history.replaceState(null, '', n.toString()); } catch (e) {} }
+    try {
+      var r = await fetch(API + '?url=' + encodeURIComponent(clean));
+      var d = await r.json();
+      if (!r.ok) { resultCard.classList.add('hidden'); setStatus(d.message || d.error || 'Bio lookup failed', 'err'); return; }
+      render(d); setStatus('Creator bio extracted!' + (d.cached ? ' (Edge cached)' : ''), 'ok');
+    } catch (e) { resultCard.classList.add('hidden'); setStatus('Network error contacting Creator Bio Checker.', 'err'); }
+    finally { btn.disabled = false; }
+  }
+
+  function flashCopy(el, txt, label) {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) { setStatus('Copy directly from address bar / JSON.', 'err'); return; }
+    navigator.clipboard.writeText(txt).then(function () {
+      var prev = el.textContent; el.textContent = label;
+      setTimeout(function () { el.textContent = prev; }, 1800);
+    }).catch(function () {});
+  }
+
+  form.addEventListener('submit', function (e) { e.preventDefault(); run(input.value, true); });
+  document.querySelectorAll('.chip').forEach(function (c) { c.addEventListener('click', function () { var u = c.getAttribute('data-u'); input.value = u; run(u, true); }); });
+  document.getElementById('copyShareBtn').addEventListener('click', function () { flashCopy(this, location.href, 'Copied Share Link!'); });
+  document.getElementById('downloadCsvBtn').addEventListener('click', function () {
+    if (!lastData) return;
+    var hdr = ['Handle', 'Display Name', 'Platform', 'Emails', 'Monetization', 'Socials', 'URL'];
+    var row = [lastData.handle || '', lastData.displayName || '', lastData.platform || '', (lastData.emails || []).join('; '), (lastData.monetizationSignals || []).join('; '), Object.values(lastData.socials || {}).filter(Boolean).join('; '), lastData.finalUrl || lastData.url || ''];
+    var csv = hdr.map(csvCell).join(',') + '\r\n' + row.map(csvCell).join(',');
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var u = URL.createObjectURL(blob); var a = document.createElement('a'); a.href = u; a.download = 'creator-bio-' + String(lastData.handle || 'profile').replace(/[^a-z0-9_-]+/gi, '-') + '.csv'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(u);
+  });
+  document.getElementById('copyJsonBtn').addEventListener('click', function () {
+    var ready = (lastData && lastData.apifyReadyInput) || { urls: ['https://linktr.ee/linktree'], enableDeepContactFollow: true, enableDnsEmailCheck: true };
+    flashCopy(this, JSON.stringify(ready, null, 2), 'Copied Ready JSON!');
+  });
+  try { var q = new URLSearchParams(location.search).get('url'); if (q) { input.value = q; run(q, false); } } catch (e) {}
+})();
+</script>
+</body>
+</html>

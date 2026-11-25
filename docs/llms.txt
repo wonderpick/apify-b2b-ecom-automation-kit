@@ -2,14 +2,19 @@
 
 > Open-source MCP server (Remote Streamable HTTP + `npx`/Stdio/Docker, v2.8.0) exposing 14 zero-proxy Apify Store Actors, 12 workflow Prompts, and 5 free no-login interactive web utilities (Google News URL Decoder, Substack Revenue & Sponsor Checker, Live ATS Jobs Checker, SaaS SOC 2/AI Subprocessor Checker, and Website 8-Point & DMARC Grader). Pay only for real results — $0 on empty, unchanged, or filtered runs.
 
-## 5 Free Instant No-Login Web Tools & Live Directories
+## 8 Free Instant No-Login Web Tools & 3 Live 2026 Directories
 
 - **Free Google News URL Decoder & Live Story Extractor**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html
 - **Free Substack Paid Revenue & Active Sponsor Checker**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html
 - **Free Live ATS Job Board Checker (Greenhouse, Ashby & Lever)**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/ats-jobs-checker.html
 - **Free SaaS Trust Center, SOC 2 & AI Subprocessor Checker**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/saas-soc2-checker.html
 - **Free Website 8-Point Audit & DMARC A–F Grader**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html
-- **Top 55 Paid Substack Newsletters & Active Sponsors Live Directory (2026)**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/substack-paid-sponsors-directory-2026.html
+- **Free Shopify Store Product, Price & Stock X-Ray**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/shopify-store-xray.html
+- **Free Creator Link-in-Bio Email & Brand-Deal Checker**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/creator-bio-checker.html
+- **Free B2B Company Domain, LinkedIn & Contact Enricher**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/b2b-company-enricher.html
+- **Top 55 Paid Substack Newsletters & Active Sponsors Directory (2026)**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/substack-paid-sponsors-directory-2026.html
+- **Top Tech & AI Companies Hiring Live Directory (Greenhouse/Ashby 2026)**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/top-tech-ats-hiring-directory-2026.html
+- **Top Shopify Apps Rating, Built for Shopify & Churn Benchmark (2026)**: https://wonderpick.github.io/apify-b2b-ecom-automation-kit/guides/shopify-app-store-reviews-benchmark-2026.html
 
 ## Instant Connection Endpoints
 
