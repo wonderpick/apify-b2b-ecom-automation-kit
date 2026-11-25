@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Free Substack Paid Revenue &amp; Active Sponsor Checker (No Login, Live Data)</title>
+<meta name="description" content="Check any Substack newsletter's Stripe subscription pricing, verified paid ARR floor, active sponsors, media kit link, and posting cadence live in 2 seconds. Zero login required." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Substack Paid Revenue & Active Sponsor Checker",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free instant Substack newsletter lookup for Stripe paid plans, verified paid ARR floors, active sponsor brands, media kits, and posting cadence."
+}
+</script>
+<style>
+:root{--bg:#090e1c;--panel:#111930;--panel2:#172242;--border:#26365e;--txt:#eaf0fa;--muted:#94a6c8;--acc:#60a5fa;--acc2:#2563eb;--ok:#34d399;--warn:#fbbf24;--bad:#f87171}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 60px}
+.nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.brand{font-weight:800;font-size:15px;color:var(--txt);text-decoration:none}
+.navlinks{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12.5px;text-decoration:none;font-weight:600}
+.pill.primary{background:var(--acc2);border-color:#3b82f6;color:#fff}
+.pill:hover{border-color:var(--acc)}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--ok);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.28);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.18;margin:0 0 10px;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:15px;max-width:780px;margin:0 0 22px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type="text"]{flex:1 1 300px;background:#0b1226;color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14.5px}
+button.cta{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:1px solid #3b82f6;border-radius:10px;padding:12px 20px;font-size:14.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cta:hover{filter:brightness(1.08)}
+button.cta:disabled{opacity:.55;cursor:wait}
+button.sec{background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer}
+button.sec:hover{border-color:var(--acc)}
+.presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.presets span{font-size:12.5px;color:var(--muted)}
+.chip{background:#0d152b;color:#cbd5e1;border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer}
+.chip:hover{border-color:var(--acc);color:#fff}
+.status{margin-top:12px;font-size:13px;color:var(--muted);min-height:20px}
+.status.err{color:var(--bad)}
+.status.ok{color:var(--ok)}
+.hidden{display:none!important}
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:14px}
+.kpi .lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.35px;color:var(--muted);margin-bottom:4px}
+.kpi .val{font-size:17px;font-weight:800;color:var(--txt)}
+.kpi .val.green{color:var(--ok)}
+.kpi .subv{font-size:12px;color:var(--muted);margin-top:4px}
+.chips-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.sponsor-tag{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.32);color:#a7f3d0;border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:700}
+.post-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.post-list li{background:#0c1428;border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px}
+.post-list a{color:var(--acc);text-decoration:none;font-weight:600}
+.post-list a:hover{text-decoration:underline}
+.teaser{margin-top:20px;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.teaser-head{background:#0d152b;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.teaser-head b{font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #1e2b4d}
+th{background:#0c1428;color:#cbd5e1;font-size:11.5px;text-transform:uppercase}
+.blur-txt{filter:blur(4.5px);opacity:.65;user-select:none}
+.upgrade{background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid #3b82f6;border-radius:16px;padding:22px;margin-top:20px}
+.upgrade h2{margin:0 0 8px;font-size:20px}
+.upgrade p{margin:0 0 14px;color:#cbd5e1;font-size:14px}
+.persona-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:14px 0 18px}
+.persona{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:12px}
+.persona b{display:block;font-size:13px;color:#fff;margin-bottom:4px}
+.persona span{font-size:12px;color:var(--muted)}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+a.big-cta{display:inline-flex;align-items:center;gap:8px;background:#10b981;color:#052e16;font-weight:800;font-size:14.5px;padding:12px 20px;border-radius:10px;text-decoration:none}
+a.big-cta:hover{filter:brightness(1.06)}
+.steps{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12.5px;color:#cbd5e1}
+.steps div{background:rgba(9,14,28,.55);border:1px solid var(--border);border-radius:8px;padding:7px 11px}
+details.dev{margin-top:24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 18px}
+details.dev summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--muted)}
+.dev-body{margin-top:12px;font-size:13px;color:var(--muted)}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a class="brand" href="../index.html">Apify External BI Suite · Free Tools</a>
+    <div class="navlinks">
+      <a class="pill" href="./google-news-url-decoder.html">Free Google News URL Decoder</a>
+      <a class="pill" href="../demos/slot-13-substack-intel.html">Sample Substack Dashboard</a>
+      <a class="pill primary" href="https://apify.com/maitreya_buddha/substack-scraper-sponsor-revenue-leads" target="_blank" rel="noopener">Full Apify Actor</a>
+    </div>
+  </div>
+
+  <span class="eyebrow">100% Free · Zero Login · Live Substack Lookup</span>
+  <h1>Substack Paid Revenue &amp; Active Sponsor Checker</h1>
+  <p class="sub">Enter any Substack handle or custom domain to inspect its public Stripe subscription pricing, verified paid ARR floor, active sponsors spotted in recent issues, media kit link, and posting cadence.</p>
+
+  <div class="card">
+    <form id="checkForm">
+      <div class="row">
+        <input type="text" id="handleInput" maxlength="200" placeholder="Enter handle or URL (e.g. aakashgupta, newcomer, newsletter.pragmaticengineer.com)" aria-label="Substack handle or URL" />
+        <button type="submit" class="cta" id="checkBtn">Inspect Newsletter Live</button>
+      </div>
+      <div class="presets">
+        <span>Try 1-click live examples:</span>
+        <button type="button" class="chip" data-h="aakashgupta">Product Growth (Sponsors + Paid)</button>
+        <button type="button" class="chip" data-h="newcomer">Newcomer (Sponsors + Paid)</button>
+        <button type="button" class="chip" data-h="newsletter.pragmaticengineer.com">Pragmatic Engineer (1.1M+)</button>
+        <button type="button" class="chip" data-h="semianalysis">SemiAnalysis (Paid-Only)</button>
+      </div>
+    </form>
+    <div id="statusMsg" class="status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div id="resultCard" class="card hidden">
+    <div class="bar">
+      <div>
+        <h2 id="pubName" style="margin:0 0 4px;font-size:22px">Newsletter</h2>
+        <div id="pubMeta" style="font-size:13px;color:var(--muted)"></div>
+        <div id="pubTagline" style="font-size:13.5px;color:#cbd5e1;margin-top:6px;max-width:740px"></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button type="button" class="sec" id="copyShareBtn">Copy Shareable Report Link</button>
+        <button type="button" class="sec" id="downloadCsvBtn">Download CSV</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="lbl">Verified Paid Floor / Pricing</div>
+        <div class="val green" id="kpiArr">—</div>
+        <div class="subv" id="kpiPlans"></div>
+      </div>
+      <div class="kpi">
+        <div class="lbl">Audience &amp; Cadence</div>
+        <div class="val" id="kpiSubs">—</div>
+        <div class="subv" id="kpiCadence"></div>
+      </div>
+      <div class="kpi">
+        <div class="lbl">Active Sponsors (Last 5 Posts)</div>
+        <div class="val" id="kpiSponsorCount">—</div>
+        <div class="subv" id="kpiMonetization"></div>
+      </div>
+      <div class="kpi">
+        <div class="lbl">Media Kit / Sponsor Page</div>
+        <div class="val" id="kpiMediaKit">—</div>
+        <div class="subv" id="kpiMarketplaces"></div>
+      </div>
+    </div>
+
+    <div id="sponsorsBlock" style="margin-bottom:16px">
+      <strong style="font-size:13.5px">Active External Sponsors Detected in Recent Feed</strong>
+      <div id="sponsorChips" class="chips-list"></div>
+    </div>
+
+    <div>
+      <strong style="font-size:13.5px">Recent Public Posts Scanned</strong>
+      <ul id="recentPosts" class="post-list"></ul>
+    </div>
+
+    <div class="teaser">
+      <div class="teaser-head">
+        <b id="peersHeadline">Top Paid Peers in This Category (Preview — Unlock Full List Free)</b>
+        <span style="font-size:12px;color:#fbbf24;font-weight:700">Includes MX-Verified Author Emails + Full Archive</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Category Peer Newsletter</th>
+            <th>Verified Paid Floor</th>
+            <th>Active Sponsors</th>
+            <th>Verified Contact Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="blur-txt">Top #1 Paid Peer in Category</span></td>
+            <td><span class="blur-txt">$250K+/yr · $15/mo</span></td>
+            <td><span class="blur-txt">Amplitude, WorkOS, Exa</span></td>
+            <td><span class="blur-txt">founder@newsletter.io (MX OK)</span></td>
+          </tr>
+          <tr>
+            <td><span class="blur-txt">Top #2 Paid Peer in Category</span></td>
+            <td><span class="blur-txt">$150K+/yr · $12/mo</span></td>
+            <td><span class="blur-txt">Customer.io, Fingerprint</span></td>
+            <td><span class="blur-txt">sponsors@domain.com (MX OK)</span></td>
+          </tr>
+          <tr>
+            <td><span class="blur-txt">Top #3 Paid Peer in Category</span></td>
+            <td><span class="blur-txt">$100K+/yr · $10/mo</span></td>
+            <td><span class="blur-txt">ElevenLabs, Fireworks</span></td>
+            <td><span class="blur-txt">hello@publication.co (MX OK)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="upgrade">
+      <h2>Discover 100–500 Paid Newsletters + Verified Author Emails Free</h2>
+      <p>Checking one newsletter at a time works for a quick lookup. To pull an entire Substack category (35 categories, paid &amp; trending leaderboards), active sponsor brands, media kits, MX/DMARC-verified contact emails, and full-text post archives, run our Apify Actor with <strong>$5/month free credits</strong> (no credit card required — covers up to 1,250 newsletters).</p>
+
+      <div class="persona-grid">
+        <div class="persona">
+          <b>Sponsor Brands &amp; Media Buyers</b>
+          <span>Find paid newsletters already running ads with verified Passionfroot/media-kit links.</span>
+        </div>
+        <div class="persona">
+          <b>B2B Outbound &amp; Agencies</b>
+          <span>Export clean Instantly/HubSpot CSVs with MX-verified creator emails ($0 on misses).</span>
+        </div>
+        <div class="persona">
+          <b>Micro-PE &amp; AI/RAG Research</b>
+          <span>Benchmark Stripe pricing tiers, ARR floors, and stream full post archives + Notes.</span>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a class="big-cta" href="https://console.apify.com/actors/praCJKYSgXpee0U0H/input" target="_blank" rel="noopener">Unlock 100+ Newsletters Free on Apify &rarr;</a>
+        <button type="button" class="sec" id="copyJsonBtn">Copy Ready JSON for This Newsletter</button>
+      </div>
+
+      <div class="steps">
+        <div><strong>1.</strong> Click <em>Copy Ready JSON</em> above</div>
+        <div><strong>2.</strong> Open Apify (free $5/mo credit, no card)</div>
+        <div><strong>3.</strong> Paste JSON &rarr; click <strong>Start</strong> &rarr; export CSV/Excel</div>
+      </div>
+    </div>
+  </div>
+
+  <details class="dev">
+    <summary>Developer Mode: Run Bulk Category Discovery (25 Newsletters) Directly From Browser</summary>
+    <div class="dev-body">
+      <p style="margin:0 0 10px">Call <code>api.apify.com</code> directly from your browser with your own Apify token — zero Worker hop. Inspect the <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/docs/tools/substack-sponsor-checker.html" target="_blank" rel="noopener" style="color:var(--acc)">open-source HTML on GitHub</a>.</p>
+      <div class="row">
+        <input type="password" id="devToken" placeholder="apify_api_... (kept only in memory, never stored)" autocomplete="off" style="flex:1 1 260px;background:#0b1226;color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:10px 12px" />
+        <button type="button" class="sec" id="devRunBtn">Run 25 Technology Newsletters via Apify API</button>
+      </div>
+      <div id="devStatus" class="status"></div>
+    </div>
+  </details>
+
+  <footer>
+    <span>Part of the MIT Open-Source <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener">Apify External BI &amp; MCP Suite</a> · Verified on Official MCP Registry &amp; Glama (Grade A)</span>
+    <span><a href="../index.html">All 14 Tools</a> · <a href="./google-news-url-decoder.html">Free Google News Decoder</a></span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var API_BASE = 'https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/public/substack-check';
+  var lastData = null;
+
+  var checkForm = document.getElementById('checkForm');
+  var handleInput = document.getElementById('handleInput');
+  var checkBtn = document.getElementById('checkBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var resultCard = document.getElementById('resultCard');
+  var pubName = document.getElementById('pubName');
+  var pubMeta = document.getElementById('pubMeta');
+  var pubTagline = document.getElementById('pubTagline');
+  var kpiArr = document.getElementById('kpiArr');
+  var kpiPlans = document.getElementById('kpiPlans');
+  var kpiSubs = document.getElementById('kpiSubs');
+  var kpiCadence = document.getElementById('kpiCadence');
+  var kpiSponsorCount = document.getElementById('kpiSponsorCount');
+  var kpiMonetization = document.getElementById('kpiMonetization');
+  var kpiMediaKit = document.getElementById('kpiMediaKit');
+  var kpiMarketplaces = document.getElementById('kpiMarketplaces');
+  var sponsorChips = document.getElementById('sponsorChips');
+  var recentPosts = document.getElementById('recentPosts');
+  var peersHeadline = document.getElementById('peersHeadline');
+  var copyShareBtn = document.getElementById('copyShareBtn');
+  var downloadCsvBtn = document.getElementById('downloadCsvBtn');
+  var copyJsonBtn = document.getElementById('copyJsonBtn');
+  var devToken = document.getElementById('devToken');
+  var devRunBtn = document.getElementById('devRunBtn');
+  var devStatus = document.getElementById('devStatus');
+
+  function safeHttpHref(raw) {
+    if (typeof raw !== 'string') return null;
+    try {
+      var u = new URL(raw);
+      if ((u.protocol === 'https:' || u.protocol === 'http:') && !u.username && !u.password) return u.toString();
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function owaspCsvCell(val) {
+    var s = val == null ? '' : String(val);
+    if (/^[\t\r\n]|^\s*[=+\-@]/.test(s)) s = "'" + s;
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+
+  function setStatus(text, kind) {
+    statusMsg.textContent = text || '';
+    statusMsg.className = 'status' + (kind ? ' ' + kind : '');
+  }
+
+  function clearNode(node) {
+    while (node.firstChild) node.removeChild(node.firstChild);
+  }
+
+  function renderResult(data) {
+    lastData = data;
+    resultCard.classList.remove('hidden');
+
+    var pub = data.publication || {};
+    var pricing = data.pricing || {};
+    var spon = data.sponsorship || {};
+
+    pubName.textContent = pub.name || pub.host || 'Substack Publication';
+    clearNode(pubMeta);
+    var metaParts = [];
+    if (pub.authorName) metaParts.push('By ' + pub.authorName);
+    if (pub.category) metaParts.push(pub.category);
+    if (pub.host) metaParts.push(pub.host);
+    pubMeta.textContent = metaParts.join(' · ');
+    pubTagline.textContent = pub.tagline || '';
+
+    kpiArr.textContent = pricing.arrDisplayLabel || 'Free Newsletter';
+    var planBits = [];
+    if (pricing.minMonthlyUsd) planBits.push('$' + pricing.minMonthlyUsd + '/mo');
+    if (pricing.minAnnualUsd) planBits.push('$' + pricing.minAnnualUsd + '/yr');
+    if (pricing.minFoundingUsd) planBits.push('Founding $' + pricing.minFoundingUsd);
+    kpiPlans.textContent = planBits.length ? 'Public Stripe plans: ' + planBits.join(' · ') : 'No public Stripe tiers listed';
+
+    kpiSubs.textContent = pub.subscriberDisplay || 'Public Substack';
+    kpiCadence.textContent = 'Posting cadence: ' + (pub.cadenceLabel || 'Active');
+
+    var sponsors = Array.isArray(spon.activeSponsors) ? spon.activeSponsors : [];
+    kpiSponsorCount.textContent = sponsors.length > 0 ? sponsors.length + ' Active Brand' + (sponsors.length === 1 ? '' : 's') : '0 in Last 5 Posts';
+    kpiMonetization.textContent = spon.monetizationNote || '';
+
+    clearNode(kpiMediaKit);
+    var safeKit = safeHttpHref(spon.mediaKitUrl);
+    if (safeKit) {
+      var kitLink = document.createElement('a');
+      kitLink.href = safeKit;
+      kitLink.target = '_blank';
+      kitLink.rel = 'noopener noreferrer';
+      kitLink.style.color = '#34d399';
+      kitLink.style.textDecoration = 'none';
+      kitLink.textContent = 'Open Media Kit / Sponsor Page →';
+      kpiMediaKit.appendChild(kitLink);
+    } else {
+      kpiMediaKit.textContent = 'Not linked in last 5 posts';
+    }
+    var mps = Array.isArray(spon.adMarketplaces) ? spon.adMarketplaces : [];
+    kpiMarketplaces.textContent = mps.length ? 'Ad platforms: ' + mps.join(', ') : 'Direct / organic sponsorships';
+
+    clearNode(sponsorChips);
+    if (sponsors.length > 0) {
+      sponsors.forEach(function (sp) {
+        var chip = document.createElement('span');
+        chip.className = 'sponsor-tag';
+        chip.textContent = sp.brand + ' (' + sp.domain + ')';
+        sponsorChips.appendChild(chip);
+      });
+    } else {
+      var noneSpan = document.createElement('span');
+      noneSpan.style.fontSize = '13px';
+      noneSpan.style.color = '#94a6c8';
+      noneSpan.textContent = spon.monetizationNote || 'No external sponsor blocks detected in the 5 most recent public posts.';
+      sponsorChips.appendChild(noneSpan);
+    }
+
+    clearNode(recentPosts);
+    var posts = Array.isArray(data.recentPosts) ? data.recentPosts : [];
+    posts.forEach(function (p) {
+      var li = document.createElement('li');
+      var safePostUrl = safeHttpHref(p.url);
+      if (safePostUrl) {
+        var a = document.createElement('a');
+        a.href = safePostUrl;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = p.title || safePostUrl;
+        li.appendChild(a);
+      } else {
+        var sp = document.createElement('span');
+        sp.textContent = p.title || 'Post';
+        li.appendChild(sp);
+      }
+      var dt = document.createElement('span');
+      dt.style.color = '#94a6c8';
+      dt.textContent = (p.publishedAt ? p.publishedAt.slice(0, 10) : 'Recent') + (p.hasSponsorCue ? ' · Sponsor cue' : '');
+      li.appendChild(dt);
+      recentPosts.appendChild(li);
+    });
+
+    if (posts.length === 0) {
+      var emptyLi = document.createElement('li');
+      emptyLi.textContent = 'Public RSS feed unavailable or empty for this publication.';
+      recentPosts.appendChild(emptyLi);
+    }
+
+    peersHeadline.textContent = 'Top Paid Peers in "' + (pub.category || 'Technology & Business') + '" (Unlock Full List Free)';
+  }
+
+  async function runCheck(rawHandle, pushUrl) {
+    var clean = String(rawHandle || '').trim();
+    if (!clean) {
+      setStatus('Enter a Substack handle or click one of the 1-click examples.', 'err');
+      return;
+    }
+    checkBtn.disabled = true;
+    setStatus('Inspecting live Substack pricing, feed & active sponsors...', '');
+
+    if (pushUrl) {
+      try {
+        var next = new URL(window.location.href);
+        next.searchParams.set('handle', clean);
+        window.history.replaceState(null, '', next.toString());
+      } catch (e) {}
+    }
+
+    try {
+      var res = await fetch(API_BASE + '?handle=' + encodeURIComponent(clean));
+      var data = await res.json();
+      if (!res.ok) {
+        setStatus(data.message || data.error || 'Lookup failed (HTTP ' + res.status + ')', 'err');
+        return;
+      }
+      renderResult(data);
+      setStatus('Live snapshot ready!' + (data.cached ? ' (Served from global edge cache)' : ''), 'ok');
+    } catch (err) {
+      setStatus('Network error contacting Substack checker. Please retry.', 'err');
+    } finally {
+      checkBtn.disabled = false;
+    }
+  }
+
+  checkForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    runCheck(handleInput.value, true);
+  });
+
+  document.querySelectorAll('.chip').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var h = btn.getAttribute('data-h') || '';
+      handleInput.value = h;
+      runCheck(h, true);
+    });
+  });
+
+  copyShareBtn.addEventListener('click', async function () {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      copyShareBtn.textContent = 'Copied Share Link!';
+      setTimeout(function () { copyShareBtn.textContent = 'Copy Shareable Report Link'; }, 1800);
+    } catch (e) {
+      setStatus('Copy failed — copy the URL from your address bar.', 'err');
+    }
+  });
+
+  downloadCsvBtn.addEventListener('click', function () {
+    if (!lastData || !lastData.publication) return;
+    var p = lastData.publication;
+    var pr = lastData.pricing || {};
+    var sp = lastData.sponsorship || {};
+    var header = ['Publication', 'URL', 'Author', 'Category', 'Subscribers', 'ARR Display', 'Monthly USD', 'Annual USD', 'Active Sponsors', 'Media Kit', 'Cadence'];
+    var row = [
+      p.name || '',
+      p.url || '',
+      p.authorName || '',
+      p.category || '',
+      p.subscriberDisplay || '',
+      pr.arrDisplayLabel || '',
+      pr.minMonthlyUsd || '',
+      pr.minAnnualUsd || '',
+      (sp.activeSponsors || []).map(function (x) { return x.brand + ' (' + x.domain + ')'; }).join('; '),
+      sp.mediaKitUrl || '',
+      p.cadenceLabel || '',
+    ];
+    var csv = header.map(owaspCsvCell).join(',') + '\r\n' + row.map(owaspCsvCell).join(',');
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'substack-check-' + (p.subdomain || p.host || 'report').replace(/[^a-z0-9_-]+/gi, '-') + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  copyJsonBtn.addEventListener('click', async function () {
+    var ready = (lastData && lastData.apifyReadyInput) || {
+      mode: 'newsletter_intelligence',
+      categories: ['technology'],
+      discoveryBoard: 'paid',
+      maxPublications: 50,
+    };
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(ready, null, 2));
+      copyJsonBtn.textContent = 'Copied Ready JSON!';
+      setTimeout(function () { copyJsonBtn.textContent = 'Copy Ready JSON for This Newsletter'; }, 2000);
+    } catch (e) {
+      setStatus('Clipboard blocked — open Apify directly using the green button.', 'err');
+    }
+  });
+
+  devRunBtn.addEventListener('click', async function () {
+    var tok = devToken.value.trim();
+    if (!tok) {
+      devStatus.textContent = 'Paste your Apify API token first.';
+      devStatus.className = 'status err';
+      return;
+    }
+    var payload = (lastData && lastData.apifyReadyInput) || {
+      mode: 'newsletter_intelligence',
+      categories: ['technology'],
+      discoveryBoard: 'paid',
+      maxPublications: 25,
+    };
+    payload = Object.assign({}, payload, { maxPublications: 25 });
+    devRunBtn.disabled = true;
+    devStatus.textContent = 'Calling api.apify.com directly from your browser...';
+    devStatus.className = 'status';
+    try {
+      var res = await fetch('https://api.apify.com/v2/acts/maitreya_buddha~substack-scraper-sponsor-revenue-leads/runs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + tok,
+        },
+        body: JSON.stringify(payload),
+      });
+      var out = await res.json();
+      if (!res.ok) {
+        devStatus.textContent = (out && out.error && out.error.message) || 'Apify API returned HTTP ' + res.status;
+        devStatus.className = 'status err';
+        return;
+      }
+      var runId = out && out.data && out.data.id;
+      clearNode(devStatus);
+      devStatus.className = 'status ok';
+      if (typeof runId === 'string' && /^[A-Za-z0-9_-]+$/.test(runId)) {
+        devStatus.appendChild(document.createTextNode('Run started! '));
+        var runA = document.createElement('a');
+        runA.href = 'https://console.apify.com/actors/runs/' + encodeURIComponent(runId);
+        runA.target = '_blank';
+        runA.rel = 'noopener noreferrer';
+        runA.style.color = '#34d399';
+        runA.textContent = 'Open Run ' + runId + ' in Apify Console →';
+        devStatus.appendChild(runA);
+      } else {
+        devStatus.textContent = 'Run started! Check your Apify Console Runs tab.';
+      }
+    } catch (err) {
+      devStatus.textContent = 'Direct browser request failed: ' + (err && err.message ? err.message : 'network error');
+      devStatus.className = 'status err';
+    } finally {
+      devRunBtn.disabled = false;
+    }
+  });
+
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    var initH = sp.get('handle') || sp.get('url');
+    if (initH) {
+      handleInput.value = initH;
+      runCheck(initH, false);
+    }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

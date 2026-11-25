@@ -11,6 +11,11 @@
 
 ---
 
+### Free Instant Web Tools (Zero Login · Live Data · Instant CSV)
+Try our production extraction engines directly in your browser with no account or API key:
+- **[Free Google News URL Decoder & Live Story Extractor](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html)** — Decode encrypted `news.google.com/articles/CBMi...` redirect URLs into real publisher links or pull live headlines in 2 seconds (Excel-safe CSV + automatic Bing News fallback).
+- **[Free Substack Paid Revenue & Active Sponsor Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/substack-sponsor-checker.html)** — Inspect any Substack publication's public Stripe pricing, verified paid ARR floor, active sponsors in recent issues, media kit link, and posting cadence live.
+
 ### Quick Navigation
 - **[For Human Operators (Agencies, Founders & Outbound Teams)](#for-human-operators-agencies-founders--outbound-teams):** Plain-English use cases, `$0.25–$5/1K` vs `$49–$995/mo` comparison table, and 1-click n8n/Clay/Make templates.
 - **[For AI Agents & Developers (MCP, Stdio, Docker & Remote HTTP)](#for-ai-agents--developers-mcp-stdio-docker--remote-http):** Zero-install Remote `/mcp` URL, 1-line `npx` / `src/mcp-server.mjs` / `Dockerfile` setup, 14 typed `verb_noun` tools, and 12 built-in Prompts.

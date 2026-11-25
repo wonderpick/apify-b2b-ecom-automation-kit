@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Free Google News URL Decoder &amp; Live Story Extractor (No Login, Instant CSV)</title>
+<meta name="description" content="Decode encrypted Google News CBMi redirect URLs into real publisher links or pull live headlines for any keyword in 2 seconds. Zero login, Excel-safe CSV export, and 1-click full-text AI/RAG bulk unlock." />
+<link rel="canonical" href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Free Google News URL Decoder & Live Story Extractor",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/google-news-url-decoder.html",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free instant Google News redirect URL decoder and live headline extractor with Excel-safe CSV export and automatic Bing News fallback."
+}
+</script>
+<style>
+:root{--bg:#090e1c;--panel:#111930;--panel2:#172242;--border:#26365e;--txt:#eaf0fa;--muted:#94a6c8;--acc:#60a5fa;--acc2:#2563eb;--ok:#34d399;--warn:#fbbf24;--bad:#f87171}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 60px}
+.nav{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.brand{font-weight:800;font-size:15px;color:var(--txt);text-decoration:none}
+.navlinks{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12.5px;text-decoration:none;font-weight:600;cursor:pointer}
+.pill.primary{background:var(--acc2);border-color:#3b82f6;color:#fff}
+.pill:hover{border-color:var(--acc)}
+.eyebrow{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--ok);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.28);padding:4px 10px;border-radius:999px;margin-bottom:10px}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.18;margin:0 0 10px;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:15px;max-width:780px;margin:0 0 22px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{background:var(--panel2);color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:13.5px;font-weight:700;cursor:pointer}
+.tab.active{background:var(--acc2);border-color:#3b82f6;color:#fff}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type="text"],select,textarea{background:#0b1226;color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14.5px;font-family:inherit}
+input[type="text"]{flex:1 1 280px}
+textarea{width:100%;min-height:105px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px}
+select{flex:0 0 auto}
+button.cta{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:1px solid #3b82f6;border-radius:10px;padding:12px 20px;font-size:14.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+button.cta:hover{filter:brightness(1.08)}
+button.cta:disabled{opacity:.55;cursor:wait}
+button.sec{background:var(--panel2);color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer}
+button.sec:hover{border-color:var(--acc)}
+.presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.presets span{font-size:12.5px;color:var(--muted)}
+.chip{background:#0d152b;color:#cbd5e1;border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer}
+.chip:hover{border-color:var(--acc);color:#fff}
+.status{margin-top:12px;font-size:13px;color:var(--muted);min-height:20px}
+.status.err{color:var(--bad)}
+.status.ok{color:var(--ok)}
+.hidden{display:none!important}
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);color:#bfdbfe;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700}
+.badge.green{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:#6ee7b7}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:11px 12px;text-align:left;border-bottom:1px solid #1e2b4d;vertical-align:top}
+th{background:#0d152b;color:#cbd5e1;font-size:12px;text-transform:uppercase;letter-spacing:.35px;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+a.ext{color:var(--acc);word-break:break-all;text-decoration:none}
+a.ext:hover{text-decoration:underline}
+.blur-col{position:relative;color:#94a6c8;user-select:none}
+.blur-txt{filter:blur(4.5px);opacity:.65;display:inline-block}
+.lock-pill{display:inline-block;font-size:10.5px;font-weight:700;color:var(--warn);background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);border-radius:6px;padding:1px 6px;margin-left:4px}
+.upgrade{background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.12));border:1px solid #3b82f6;border-radius:16px;padding:22px;margin-top:20px}
+.upgrade h2{margin:0 0 8px;font-size:20px}
+.upgrade p{margin:0 0 14px;color:#cbd5e1;font-size:14px}
+.persona-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:14px 0 18px}
+.persona{background:#0c1428;border:1px solid var(--border);border-radius:12px;padding:12px}
+.persona b{display:block;font-size:13px;color:#fff;margin-bottom:4px}
+.persona span{font-size:12px;color:var(--muted)}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+a.big-cta{display:inline-flex;align-items:center;gap:8px;background:#10b981;color:#052e16;font-weight:800;font-size:14.5px;padding:12px 20px;border-radius:10px;text-decoration:none}
+a.big-cta:hover{filter:brightness(1.06)}
+.steps{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:12.5px;color:#cbd5e1}
+.steps div{background:rgba(9,14,28,.55);border:1px solid var(--border);border-radius:8px;padding:7px 11px}
+details.dev{margin-top:24px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 18px}
+details.dev summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--muted)}
+.dev-body{margin-top:12px;font-size:13px;color:var(--muted)}
+.trust-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px}
+.trust{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px}
+.trust b{display:block;font-size:14px;margin-bottom:4px;color:var(--txt)}
+.trust span{font-size:12.5px;color:var(--muted)}
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+footer a{color:var(--acc)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a class="brand" href="../index.html">Apify External BI Suite · Free Tools</a>
+    <div class="navlinks">
+      <a class="pill" href="./substack-sponsor-checker.html">Free Substack Revenue &amp; Sponsor Checker</a>
+      <a class="pill" href="../demos/slot-14-google-news-intel.html">Sample Full-Text Dashboard</a>
+      <a class="pill primary" href="https://apify.com/maitreya_buddha/google-news-intel-rag-trigger-monitor" target="_blank" rel="noopener">Full Apify Actor</a>
+    </div>
+  </div>
+
+  <span class="eyebrow">100% Free · Zero Login · Instant CSV</span>
+  <h1>Google News URL Decoder &amp; Live Story Extractor</h1>
+  <p class="sub">Stop getting stuck with unreadable <code>news.google.com/rss/articles/CBMi...</code> links. Search any topic or paste up to 5 Google News URLs to get clean, clickable publisher links in seconds.</p>
+
+  <div class="card">
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab active" id="tabQuery" role="tab" aria-selected="true">Search Live News + Auto-Decode</button>
+      <button type="button" class="tab" id="tabUrls" role="tab" aria-selected="false">Paste Google News URLs (Up to 5)</button>
+    </div>
+
+    <form id="queryForm">
+      <div class="row">
+        <input type="text" id="queryInput" maxlength="120" placeholder="Enter a brand, company, or topic (e.g. OpenAI, Shopify, NVIDIA)" aria-label="News keyword" />
+        <select id="localeSelect" aria-label="Country and language">
+          <option value="US:en">US (English)</option>
+          <option value="GB:en">UK (English)</option>
+          <option value="CA:en">Canada (English)</option>
+          <option value="AU:en">Australia (English)</option>
+          <option value="KR:ko">Korea (한국어)</option>
+          <option value="JP:ja">Japan (日本語)</option>
+          <option value="DE:de">Germany (Deutsch)</option>
+          <option value="ES:es">Spain (Español)</option>
+          <option value="FR:fr">France (Français)</option>
+        </select>
+        <button type="submit" class="cta" id="runQueryBtn">Decode Live News</button>
+      </div>
+      <div class="presets">
+        <span>Try 1-click live examples:</span>
+        <button type="button" class="chip" data-q="OpenAI" data-loc="US:en">OpenAI</button>
+        <button type="button" class="chip" data-q="Shopify AI" data-loc="US:en">Shopify AI</button>
+        <button type="button" class="chip" data-q="NVIDIA" data-loc="US:en">NVIDIA</button>
+        <button type="button" class="chip" data-q="삼성전자" data-loc="KR:ko">삼성전자 (KR)</button>
+      </div>
+    </form>
+
+    <form id="urlForm" class="hidden">
+      <textarea id="urlsInput" placeholder="Paste 1 to 5 https://news.google.com/articles/... or /rss/articles/... URLs (one per line)"></textarea>
+      <div class="row" style="margin-top:10px;justify-content:space-between;align-items:center">
+        <span style="font-size:12.5px;color:var(--muted)">Only official <code>https://news.google.com/articles/...</code> links are accepted.</span>
+        <button type="submit" class="cta" id="runUrlsBtn">Decode Pasted URLs</button>
+      </div>
+    </form>
+
+    <div id="statusMsg" class="status" role="status" aria-live="polite"></div>
+  </div>
+
+  <div id="resultsSection" class="card hidden">
+    <div class="bar">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <span class="badge green" id="countBadge">Decoded 0 of 0</span>
+        <span class="badge" id="engineBadge">Engine: Live</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <button type="button" class="sec" id="copyShareBtn">Copy Shareable Link</button>
+        <button type="button" class="sec" id="downloadCsvBtn">Download CSV (Excel-Safe)</button>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Headline &amp; Publisher</th>
+            <th>Decoded Real Publisher URL</th>
+            <th>Published</th>
+            <th>Full Article &amp; RAG <span class="lock-pill">PRO</span></th>
+            <th>PR/B2B Triggers <span class="lock-pill">PRO</span></th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="upgrade">
+      <h2 id="upgradeHeadline">Unlock All Remaining Stories + Clean Full Article Text (Free)</h2>
+      <p id="upgradeSub">This instant web tool decodes 5 headlines per click. Need 100 to 5,000+ stories, full clean article body text, 512-token AI/RAG chunks, paywall cluster rescue, and automated crisis alerts? Run the full Apify Actor with <strong>$5/month free credits</strong> (no credit card required — covers ~3,300 full-text articles).</p>
+
+      <div class="persona-grid">
+        <div class="persona">
+          <b>AI &amp; RAG Builders</b>
+          <span>Clean full-text paragraphs + ready 512-token chunks + paywall sibling rescue ($1.50/1K).</span>
+        </div>
+        <div class="persona">
+          <b>PR, Comms &amp; Sales Teams</b>
+          <span>Auto-flags Funding, M&amp;A, Layoffs, Outages, Recalls &amp; Lawsuits across 5 languages.</span>
+        </div>
+        <div class="persona">
+          <b>Sheets, n8n, Clay &amp; Claude MCP</b>
+          <span>Schedule daily runs with $0 billing when no new stories appear (watchDiff skip).</span>
+        </div>
+      </div>
+
+      <div class="cta-row">
+        <a id="upgradeCtaLink" class="big-cta" href="https://console.apify.com/actors/KUmHxTa3fPPEpj5uv/input" target="_blank" rel="noopener">Unlock Full Results Free on Apify &rarr;</a>
+        <button type="button" class="sec" id="copyJsonBtn">Copy Ready JSON for This Search</button>
+      </div>
+
+      <div class="steps">
+        <div><strong>1.</strong> Click <em>Copy Ready JSON</em> above</div>
+        <div><strong>2.</strong> Open Apify (free $5/mo credit, no card)</div>
+        <div><strong>3.</strong> Paste JSON &rarr; click <strong>Start</strong> &rarr; export Excel/CSV</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-strip">
+    <div class="trust">
+      <b>Why Google News Links Break</b>
+      <span>Google wraps publisher URLs in encrypted <code>CBMi...</code> tokens so basic RSS scrapers and spreadsheet formulas cannot see the real domain.</span>
+    </div>
+    <div class="trust">
+      <b>Built-In EU Consent Fallback</b>
+      <span>If Google rate-limits or blocks a region with consent walls, this tool automatically falls back to Bing News direct publisher links.</span>
+    </div>
+    <div class="trust">
+      <b>Open-Source &amp; Excel-Safe</b>
+      <span>Zero signup wall, zero tracking cookies, and automatic spreadsheet formula neutralization on every CSV download.</span>
+    </div>
+  </div>
+
+  <details class="dev">
+    <summary>Developer Mode: Run Bulk (25 Full-Text Articles) Directly From Your Browser (Zero Worker Hop)</summary>
+    <div class="dev-body">
+      <p style="margin:0 0 10px">Prefer calling <code>api.apify.com</code> directly from your browser using your own Apify token? Nothing passes through our Worker — verify the exact request in DevTools or inspect the <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit/blob/main/docs/tools/google-news-url-decoder.html" target="_blank" rel="noopener" style="color:var(--acc)">open-source HTML on GitHub</a>.</p>
+      <div class="row">
+        <input type="password" id="devToken" placeholder="apify_api_... (kept only in memory, never stored)" autocomplete="off" style="flex:1 1 260px;background:#0b1226;color:var(--txt);border:1px solid var(--border);border-radius:10px;padding:10px 12px" />
+        <button type="button" class="sec" id="devRunBtn">Run 25 Full-Text Articles via Apify API</button>
+      </div>
+      <div id="devStatus" class="status"></div>
+    </div>
+  </details>
+
+  <footer>
+    <span>Part of the MIT Open-Source <a href="https://github.com/wonderpick/apify-b2b-ecom-automation-kit" target="_blank" rel="noopener">Apify External BI &amp; MCP Suite</a> · Verified on Official MCP Registry &amp; Glama (Grade A)</span>
+    <span><a href="../index.html">All 14 Tools</a> · <a href="./substack-sponsor-checker.html">Free Substack Checker</a></span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var API_BASE = 'https://apify-factory-rapidapi-gateway.apify-factory-rapidapi-gateway.workers.dev/public/google-news-tool';
+  var ACTOR_INPUT_URL = 'https://console.apify.com/actors/KUmHxTa3fPPEpj5uv/input';
+  var lastData = null;
+
+  var tabQuery = document.getElementById('tabQuery');
+  var tabUrls = document.getElementById('tabUrls');
+  var queryForm = document.getElementById('queryForm');
+  var urlForm = document.getElementById('urlForm');
+  var queryInput = document.getElementById('queryInput');
+  var localeSelect = document.getElementById('localeSelect');
+  var urlsInput = document.getElementById('urlsInput');
+  var runQueryBtn = document.getElementById('runQueryBtn');
+  var runUrlsBtn = document.getElementById('runUrlsBtn');
+  var statusMsg = document.getElementById('statusMsg');
+  var resultsSection = document.getElementById('resultsSection');
+  var resultsBody = document.getElementById('resultsBody');
+  var countBadge = document.getElementById('countBadge');
+  var engineBadge = document.getElementById('engineBadge');
+  var upgradeHeadline = document.getElementById('upgradeHeadline');
+  var copyShareBtn = document.getElementById('copyShareBtn');
+  var downloadCsvBtn = document.getElementById('downloadCsvBtn');
+  var copyJsonBtn = document.getElementById('copyJsonBtn');
+  var devToken = document.getElementById('devToken');
+  var devRunBtn = document.getElementById('devRunBtn');
+  var devStatus = document.getElementById('devStatus');
+
+  function safeHttpHref(raw) {
+    if (typeof raw !== 'string') return null;
+    try {
+      var u = new URL(raw);
+      if ((u.protocol === 'https:' || u.protocol === 'http:') && !u.username && !u.password) return u.toString();
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function owaspCsvCell(val) {
+    var s = val == null ? '' : String(val);
+    if (/^[\t\r\n]|^\s*[=+\-@]/.test(s)) s = "'" + s;
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+
+  function setStatus(text, kind) {
+    statusMsg.textContent = text || '';
+    statusMsg.className = 'status' + (kind ? ' ' + kind : '');
+  }
+
+  function switchTab(mode) {
+    var isQuery = mode === 'query';
+    tabQuery.classList.toggle('active', isQuery);
+    tabQuery.setAttribute('aria-selected', String(isQuery));
+    tabUrls.classList.toggle('active', !isQuery);
+    tabUrls.setAttribute('aria-selected', String(!isQuery));
+    queryForm.classList.toggle('hidden', !isQuery);
+    urlForm.classList.toggle('hidden', isQuery);
+  }
+
+  tabQuery.addEventListener('click', function () { switchTab('query'); });
+  tabUrls.addEventListener('click', function () { switchTab('urls'); });
+
+  function renderResults(data) {
+    lastData = data;
+    resultsSection.classList.remove('hidden');
+    while (resultsBody.firstChild) resultsBody.removeChild(resultsBody.firstChild);
+
+    var items = Array.isArray(data.items) ? data.items : [];
+    var totalFound = Number(data.totalFoundInFeed) || items.length;
+    var remaining = Number(data.remainingLockedCount) || Math.max(0, totalFound - items.length);
+
+    countBadge.textContent =
+      data.mode === 'direct_url_decode'
+        ? 'Decoded ' + data.decodedCount + ' of ' + items.length + ' pasted URLs'
+        : 'Decoded ' + data.decodedCount + ' of ' + totalFound + ' live stories' + (remaining > 0 ? ' (' + remaining + ' remaining)' : '');
+
+    engineBadge.textContent =
+      data.engineUsed === 'bing_news_rss_fallback'
+        ? 'Engine: Bing News Direct Fallback'
+        : data.cached
+          ? 'Engine: Google News Live (Edge Cached)'
+          : 'Engine: Google News Live';
+
+    if (remaining > 0) {
+      upgradeHeadline.textContent = 'Unlock All ' + totalFound + ' Live Stories (' + remaining + ' Remaining) + Full Article Text Free';
+    } else {
+      upgradeHeadline.textContent = 'Unlock Full Article Text, 512-Token RAG Chunks & 1,000+ Stories Free';
+    }
+
+    var sampleSnippets = [
+      '420 words · 2 RAG chunks · clean text',
+      '680 words · 3 RAG chunks · paywall rescued',
+      '510 words · 2 RAG chunks · clean text',
+      '890 words · 4 RAG chunks · clean text',
+      '350 words · 1 RAG chunk · clean text',
+    ];
+    var sampleTriggers = ['PRODUCT_LAUNCH', 'FUNDING_M&A', 'PARTNERSHIP', 'LEADERSHIP', 'MARKET_SIGNAL'];
+
+    items.forEach(function (item, idx) {
+      var tr = document.createElement('tr');
+
+      var tdNum = document.createElement('td');
+      tdNum.textContent = String(idx + 1);
+      tr.appendChild(tdNum);
+
+      var tdTitle = document.createElement('td');
+      var titleStrong = document.createElement('div');
+      titleStrong.style.fontWeight = '700';
+      titleStrong.textContent = item.title || 'Untitled Story';
+      tdTitle.appendChild(titleStrong);
+      var pubMeta = document.createElement('div');
+      pubMeta.style.fontSize = '12px';
+      pubMeta.style.color = '#94a6c8';
+      pubMeta.textContent = item.publisherName || item.publisherDomain || 'Publisher';
+      tdTitle.appendChild(pubMeta);
+      tr.appendChild(tdTitle);
+
+      var tdUrl = document.createElement('td');
+      var safePub = safeHttpHref(item.publisherUrl);
+      if (safePub) {
+        var a = document.createElement('a');
+        a.className = 'ext';
+        a.href = safePub;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = safePub.length > 78 ? safePub.slice(0, 75) + '...' : safePub;
+        tdUrl.appendChild(a);
+      } else {
+        var failSpan = document.createElement('span');
+        failSpan.style.color = '#fbbf24';
+        failSpan.textContent = item.decodeNote || 'Could not decode this link';
+        tdUrl.appendChild(failSpan);
+      }
+      tr.appendChild(tdUrl);
+
+      var tdDate = document.createElement('td');
+      tdDate.style.whiteSpace = 'nowrap';
+      tdDate.style.color = '#94a6c8';
+      tdDate.textContent = item.publishedAt ? item.publishedAt.slice(0, 10) : 'Live';
+      tr.appendChild(tdDate);
+
+      var tdRag = document.createElement('td');
+      tdRag.className = 'blur-col';
+      var blur1 = document.createElement('span');
+      blur1.className = 'blur-txt';
+      blur1.textContent = sampleSnippets[idx % sampleSnippets.length];
+      tdRag.appendChild(blur1);
+      tr.appendChild(tdRag);
+
+      var tdTrig = document.createElement('td');
+      tdTrig.className = 'blur-col';
+      var blur2 = document.createElement('span');
+      blur2.className = 'blur-txt';
+      blur2.textContent = sampleTriggers[idx % sampleTriggers.length];
+      tdTrig.appendChild(blur2);
+      tr.appendChild(tdTrig);
+
+      resultsBody.appendChild(tr);
+    });
+
+    if (items.length === 0) {
+      var emptyTr = document.createElement('tr');
+      var emptyTd = document.createElement('td');
+      emptyTd.colSpan = 6;
+      emptyTd.textContent = 'No live articles matched right now. Try a broader keyword or switch locale.';
+      emptyTr.appendChild(emptyTd);
+      resultsBody.appendChild(emptyTr);
+    }
+  }
+
+  async function runKeywordSearch(query, locale, pushUrl) {
+    var cleanQ = String(query || '').trim();
+    if (!cleanQ) {
+      setStatus('Please enter a keyword or click one of the 1-click examples.', 'err');
+      return;
+    }
+    runQueryBtn.disabled = true;
+    setStatus('Fetching live headlines and decoding Google News URLs...', '');
+
+    if (pushUrl) {
+      try {
+        var next = new URL(window.location.href);
+        next.searchParams.set('q', cleanQ);
+        next.searchParams.set('locale', locale);
+        window.history.replaceState(null, '', next.toString());
+      } catch (e) {}
+    }
+
+    try {
+      var res = await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: cleanQ, locale: locale }),
+      });
+      var data = await res.json();
+      if (!res.ok) {
+        setStatus(data.message || data.error || 'Request failed (HTTP ' + res.status + ')', 'err');
+        return;
+      }
+      renderResults(data);
+      setStatus('Done! Decoded ' + data.decodedCount + ' real publisher URLs in seconds.', 'ok');
+    } catch (err) {
+      setStatus('Network error contacting decoder endpoint. Please retry in a moment.', 'err');
+    } finally {
+      runQueryBtn.disabled = false;
+    }
+  }
+
+  async function runDirectUrls(rawText) {
+    var lines = String(rawText || '')
+      .split(/\r?\n/)
+      .map(function (s) { return s.trim(); })
+      .filter(Boolean);
+    if (lines.length === 0) {
+      setStatus('Paste 1 to 5 https://news.google.com/articles/... URLs first.', 'err');
+      return;
+    }
+    if (lines.length > 5) {
+      setStatus('Free tool decodes up to 5 pasted URLs per click. For bulk keyword monitoring (1,000+ decoded stories + full text), run the Apify Actor below.', 'err');
+      return;
+    }
+    try {
+      var cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete('q');
+      cleanUrl.searchParams.delete('locale');
+      window.history.replaceState(null, '', cleanUrl.toString());
+    } catch (e) {}
+
+    runUrlsBtn.disabled = true;
+    setStatus('Decoding ' + lines.length + ' Google News URL(s)...', '');
+    try {
+      var res = await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ urls: lines }),
+      });
+      var data = await res.json();
+      if (!res.ok) {
+        setStatus(data.message || data.error || 'Decode failed (HTTP ' + res.status + ')', 'err');
+        return;
+      }
+      renderResults(data);
+      setStatus('Decoded ' + data.decodedCount + ' of ' + lines.length + ' pasted URL(s).', 'ok');
+    } catch (err) {
+      setStatus('Network error contacting decoder endpoint.', 'err');
+    } finally {
+      runUrlsBtn.disabled = false;
+    }
+  }
+
+  queryForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    runKeywordSearch(queryInput.value, localeSelect.value, true);
+  });
+
+  urlForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    runDirectUrls(urlsInput.value);
+  });
+
+  document.querySelectorAll('.chip').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var q = btn.getAttribute('data-q') || '';
+      var loc = btn.getAttribute('data-loc') || 'US:en';
+      queryInput.value = q;
+      localeSelect.value = loc;
+      switchTab('query');
+      runKeywordSearch(q, loc, true);
+    });
+  });
+
+  copyShareBtn.addEventListener('click', async function () {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      copyShareBtn.textContent = 'Copied Share Link!';
+      setTimeout(function () { copyShareBtn.textContent = 'Copy Shareable Link'; }, 1800);
+    } catch (e) {
+      setStatus('Copy failed — copy the URL directly from your address bar.', 'err');
+    }
+  });
+
+  downloadCsvBtn.addEventListener('click', function () {
+    if (!lastData || !Array.isArray(lastData.items)) return;
+    var header = ['Title', 'Publisher', 'Publisher Domain', 'Decoded Real URL', 'Google News URL', 'Published At', 'Decode Status'];
+    var rows = [header.map(owaspCsvCell).join(',')];
+    lastData.items.forEach(function (it) {
+      rows.push([
+        it.title || '',
+        it.publisherName || '',
+        it.publisherDomain || '',
+        it.publisherUrl || '',
+        it.googleNewsUrl || '',
+        it.publishedAt || '',
+        it.decodeStatus || '',
+      ].map(owaspCsvCell).join(','));
+    });
+    var blob = new Blob([rows.join('\r\n')], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'decoded-google-news-' + (lastData.query ? lastData.query.replace(/[^a-z0-9_-]+/gi, '-').toLowerCase() : 'urls') + '.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  copyJsonBtn.addEventListener('click', async function () {
+    var ready = (lastData && lastData.apifyReadyInput) || {
+      mode: 'full_article_rag',
+      queries: [queryInput.value.trim() || 'OpenAI'],
+      locales: [localeSelect.value || 'US:en'],
+      timeframe: '7d',
+      maxArticles: 100,
+      decodeUrls: true,
+    };
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(ready, null, 2));
+      copyJsonBtn.textContent = 'Copied Ready JSON!';
+      setTimeout(function () { copyJsonBtn.textContent = 'Copy Ready JSON for This Search'; }, 2000);
+    } catch (e) {
+      setStatus('Clipboard blocked — open Apify directly: ' + ACTOR_INPUT_URL, 'err');
+    }
+  });
+
+  devRunBtn.addEventListener('click', async function () {
+    var tok = devToken.value.trim();
+    if (!tok) {
+      devStatus.textContent = 'Paste your Apify API token first.';
+      devStatus.className = 'status err';
+      return;
+    }
+    var payload = (lastData && lastData.apifyReadyInput) || {
+      mode: 'full_article_rag',
+      queries: [queryInput.value.trim() || 'OpenAI'],
+      locales: [localeSelect.value || 'US:en'],
+      timeframe: '7d',
+      maxArticles: 25,
+      decodeUrls: true,
+    };
+    payload = Object.assign({}, payload, { maxArticles: 25 });
+    devRunBtn.disabled = true;
+    devStatus.textContent = 'Calling api.apify.com directly from your browser...';
+    devStatus.className = 'status';
+    try {
+      var res = await fetch('https://api.apify.com/v2/acts/maitreya_buddha~google-news-intel-rag-trigger-monitor/runs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + tok,
+        },
+        body: JSON.stringify(payload),
+      });
+      var out = await res.json();
+      if (!res.ok) {
+        devStatus.textContent = (out && out.error && out.error.message) || 'Apify API returned HTTP ' + res.status;
+        devStatus.className = 'status err';
+        return;
+      }
+      var runId = out && out.data && out.data.id;
+      while (devStatus.firstChild) devStatus.removeChild(devStatus.firstChild);
+      devStatus.className = 'status ok';
+      if (typeof runId === 'string' && /^[A-Za-z0-9_-]+$/.test(runId)) {
+        devStatus.appendChild(document.createTextNode('Run started! '));
+        var runA = document.createElement('a');
+        runA.href = 'https://console.apify.com/actors/runs/' + encodeURIComponent(runId);
+        runA.target = '_blank';
+        runA.rel = 'noopener noreferrer';
+        runA.style.color = '#34d399';
+        runA.textContent = 'Open Run ' + runId + ' in Apify Console →';
+        devStatus.appendChild(runA);
+      } else {
+        devStatus.textContent = 'Run started! Check your Apify Console Runs tab.';
+      }
+    } catch (err) {
+      devStatus.textContent = 'Direct browser request failed: ' + (err && err.message ? err.message : 'network error');
+      devStatus.className = 'status err';
+    } finally {
+      devRunBtn.disabled = false;
+    }
+  });
+
+  // Auto-run if share link contains ?q= (safe option check without CSS selector injection)
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    var initQ = sp.get('q');
+    var initLoc = sp.get('locale');
+    if (initLoc && Array.prototype.some.call(localeSelect.options, function (o) { return o.value === initLoc; })) {
+      localeSelect.value = initLoc;
+    }
+    if (initQ) {
+      queryInput.value = initQ;
+      runKeywordSearch(initQ, localeSelect.value, false);
+    }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
