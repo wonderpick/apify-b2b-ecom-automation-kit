@@ -3,8 +3,8 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## B2B Lead Enrichment & Tiered Sales Routing Pipeline (3-in-1 Pure HTTP)\n\nReads raw company names, domains, or work emails from **Google Sheets**, resolves verified official domains, LinkedIn company URLs, role emails, WhatsApp links, phones, and social profiles in one Apify call, separates unresolved rows (`$0` cost) into an audit tab, scores enriched leads (`HOT`, `WARM`, `RESEARCH`), writes enriched rows to Google Sheets, and routes `HOT` leads to Slack `#sales-hot-leads` + Gmail while sending `WARM`/`RESEARCH` leads to `#sales-pipeline`.\n\n**Actor URL:** https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $2.50 / 1,000 enriched companies · **$0 for unresolved/parked domains** · 128–256 MB RAM · $0 proxy.",
-        "height": 290,
+        "content": "## B2B Lead Enrichment & Tiered Sales Routing Pipeline (3-in-1 Pure HTTP)\n\nReads raw company names, domains, or work emails from **Google Sheets**, resolves verified official domains, LinkedIn company URLs, role emails, WhatsApp links, phones, and social profiles in one Apify call, separates unresolved rows (`$0` cost) into an audit tab, scores enriched leads (`HOT`, `WARM`, `RESEARCH`), writes enriched rows to Google Sheets, and routes `HOT` leads to Slack `#sales-hot-leads` + Gmail while sending `WARM`/`RESEARCH` leads to `#sales-pipeline`.\n\n**Actor URL:** https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $2.50 / 1,000 enriched companies · **$0 for unresolved/parked domains** · 128–256 MB RAM · $0 proxy.\n\n---\n### Quick Start (1-Min Free API Key)\n- **Free Tier**: Apify gives **$5/mo free credit (no credit card required)** -> [Get API Token & Open Actor](https://apify.com/maitreya_buddha/b2b-company-domain-linkedin-enricher)\n- **Test Live First (Zero Login)**: Preview real live output before setup -> [Open Free Web Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/b2b-company-enricher.html)\n- **Preview Output Now**: Click the Apify HTTP Request node to inspect the pinned sample output JSON.",
+        "height": 460,
         "width": 780,
         "color": 4
       },
@@ -429,7 +429,23 @@
       ]
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "Enrich Companies via Apify": [
+      {
+        "json": {
+          "inputCompany": "Acme Cloud Inc",
+          "domain": "acme-cloud.example",
+          "linkedinUrl": "https://www.linkedin.com/company/acme-cloud-example",
+          "primaryEmail": "hello@acme-cloud.example",
+          "whatsappUrl": "https://wa.me/15550100",
+          "confidenceScore": 92,
+          "leadTier": "HOT",
+          "status": "enriched",
+          "enrichedAt": "2026-11-26T00:00:00.000Z"
+        }
+      }
+    ]
+  },
   "connections": {
     "Daily Morning Enrichment": {
       "main": [

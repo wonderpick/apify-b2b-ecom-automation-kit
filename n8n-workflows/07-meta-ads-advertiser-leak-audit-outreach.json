@@ -3,8 +3,8 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Meta Ads Advertiser Leak Audit, Tech Stack X-Ray & Weekly Watch-Diff Pipeline\n\nReads Meta Ad Library Dataset IDs, Run IDs, or DTC landing URLs from **Google Sheets**, runs **4-layer 110+ tech stack detection + live 404/OOS/DMARC (Grade A–F) leak X-Ray + buyer-fit grading + 16-shard `watch_diff` triggers + zero-AI outreach copy**, protects your sender reputation by routing `cs_ticket_queue` / `manual_review_required` rows safely to a review tab, logs clean leads to Google Sheets, and alerts Slack `#agency-leads` + Gmail on `VIP_HOT` or fresh buying triggers.\n\n**Actor URL:** https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $4.50 / 1,000 unique deduplicated brands · **$0 on marketplaces, WAF skips, weekly repeats (`skip_seen`) & filtered misses** · 128–256 MB RAM · $0 proxy.",
-        "height": 300,
+        "content": "## Meta Ads Advertiser Leak Audit, Tech Stack X-Ray & Weekly Watch-Diff Pipeline\n\nReads Meta Ad Library Dataset IDs, Run IDs, or DTC landing URLs from **Google Sheets**, runs **4-layer 110+ tech stack detection + live 404/OOS/DMARC (Grade A–F) leak X-Ray + buyer-fit grading + 16-shard `watch_diff` triggers + zero-AI outreach copy**, protects your sender reputation by routing `cs_ticket_queue` / `manual_review_required` rows safely to a review tab, logs clean leads to Google Sheets, and alerts Slack `#agency-leads` + Gmail on `VIP_HOT` or fresh buying triggers.\n\n**Actor URL:** https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher\n**GitHub MCP & Kit:** https://github.com/wonderpick/apify-b2b-ecom-automation-kit\n**Cost:** $4.50 / 1,000 unique deduplicated brands · **$0 on marketplaces, WAF skips, weekly repeats (`skip_seen`) & filtered misses** · 128–256 MB RAM · $0 proxy.\n\n---\n### Quick Start (1-Min Free API Key)\n- **Free Tier**: Apify gives **$5/mo free credit (no credit card required)** -> [Get API Token & Open Actor](https://apify.com/maitreya_buddha/meta-ads-advertiser-leak-audit-email-enricher)\n- **Test Live First (Zero Login)**: Preview real live output before setup -> [Open Free Web Checker](https://wonderpick.github.io/apify-b2b-ecom-automation-kit/tools/website-dmarc-audit.html)\n- **Preview Output Now**: Click the Apify HTTP Request node to inspect the pinned sample output JSON.",
+        "height": 460,
         "width": 820,
         "color": 4
       },
@@ -614,5 +614,27 @@
   },
   "meta": {
     "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Audit Meta Ads Advertisers via Apify": [
+      {
+        "json": {
+          "brandDomain": "northstar-goods.example",
+          "activeAdsCount": 24,
+          "leakSeverity": "HIGH",
+          "brokenLandingUrls": 3,
+          "dmarcStatus": "MISSING",
+          "detectedStack": [
+            "Shopify",
+            "Klaviyo",
+            "Meta Pixel",
+            "GA4"
+          ],
+          "contactEmail": "growth@northstar-goods.example",
+          "outreachTier": "HOT",
+          "auditedAt": "2026-11-26T00:00:00.000Z"
+        }
+      }
+    ]
   }
 }
