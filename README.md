@@ -3,9 +3,16 @@
 [![Glama MCP Score](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit/badges/score.svg)](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit)
 [![mcptry 100/100 #1 Sales & CRM](https://img.shields.io/badge/mcptry-100%2F100%20(%231%20Sales%20%26%20CRM%20%C2%B7%20Security%20A%20%C2%B7%2023ms)-10B981?style=flat-square)](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit)
 [![Official MCP Registry](https://img.shields.io/badge/Official%20MCP%20Registry-v2.8.1%20Verified-2563EB?style=flat-square)](https://registry.modelcontextprotocol.io/v0/servers?search=wonderpick)
+[![Official n8n Creator](https://img.shields.io/badge/n8n%20Marketplace-Official%20Template%20%2323378-EA4B71?style=flat-square)](https://n8n.io/workflows/23378-send-shopify-competitor-price-and-restock-alerts-with-apify-and-slack/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-slate?style=flat-square)](./LICENSE)
 
-> **Give your team AND your AI assistants real-time eyes on the outside world — 14 zero-proxy external intelligence tools, 12 one-click workflow Prompts, 12 multi-branch n8n templates, 8 live HTML dashboards, Clay HTTP recipes, Make blueprints, zero monthly SaaS subscriptions, and `$0` billing whenever nothing changed or nothing matched.**
+> **Give your team AND your AI assistants real-time eyes on the outside world — 14 zero-proxy external intelligence tools, 12 one-click workflow Prompts, 12 multi-branch n8n templates ([Official n8n Marketplace #23378 Live](https://n8n.io/workflows/23378-send-shopify-competitor-price-and-restock-alerts-with-apify-and-slack/)), 8 live HTML dashboards, Clay HTTP recipes, Make blueprints, zero monthly SaaS subscriptions, and `$0` billing whenever nothing changed or nothing matched.**
+
+<p align="center">
+  <a href="https://wonderpick.github.io/apify-b2b-ecom-automation-kit/">
+    <img src="./docs/demos/demo-live-suite-overview.gif" alt="Live Demo: 8 Free Zero-Login B2B Tools (Stripe ATS, Substack Revenue & Sponsors) and Official n8n Marketplace Template #23378" width="880" />
+  </a>
+</p>
 
 > **Independently Verified Reliability:** Ranked **100/100 (#1 of 1,913 in Sales & CRM · Security Grade A · 23 ms edge latency)** on [mcptry.com](https://mcptry.com/servers/io.github.wonderpick/apify-b2b-ecom-automation-kit), **Grade A (`4.8/5.0` TDQS)** on [Glama](https://glama.ai/mcp/servers/wonderpick/apify-b2b-ecom-automation-kit), published on the **Official MCP Registry (`v2.8.1`)**, and backed by live public REST APIs on [RapidAPI](https://rapidapi.com/BoGeunKim/api/local-b2b-website-audit-email-cold-pitch-api).
 
